@@ -1,0 +1,6 @@
+#!/bin/bash
+
+for f in *
+do
+	convert $f -resize 328x138 ../ie8/$f
+done

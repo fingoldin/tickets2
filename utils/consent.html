@@ -1,0 +1,66 @@
+<script type="text/javascript">
+
+$("#agree1").click(function() {
+	if($("#agree2")[0].disabled == true) {
+		$("#agree1").html("No").css("background-color", "#F44336");
+		$("#agree2").css("opacity", "1")[0].disabled = false;
+		$(".consent-footer p").css("opacity", "1");
+	}
+	else {
+		$("#agree1").html("Continue").css("background-color", "#4CAF50");
+        	$("#agree2").css("opacity", "0")[0].disabled = true;
+        	$(".consent-footer p").css("opacity", "0");
+	}
+});
+
+$(window).resize(resize);
+
+function resize()
+{
+	var height = window.innerHeight;
+
+	$(".consent-main").css("height", height*0.95 + "px");
+}
+
+resize();
+
+</script>
+
+	<div class="consent-main">
+		<h3>General Agreement</h3>
+		<div class="cscroller">
+			<span>Please read this consent agreement carefully before deciding whether or not to participate in this experiment.</span><br><br><br>
+			<p>
+				<b>Purpose of the research:</b> To examine the way people make sequential decisions.
+				<br><br>
+				<b>What you will do in this research:</b> Stimuli (ticket prices) will be presented on the computer and you will be asked to choose the cheapest ticket in order to earn monetary reward.
+				<br><br>
+				<b>Time required:</b> Participation will take 20-30 minutes to complete.
+				<br><br>
+				<b>Risks:</b> There are no anticipated risks associated with participating in this study. The effects of participating should be comparable to those you would experience from viewing a computer monitor for 30 minutes and using a mouse or keyboard.
+				<br><br>
+				<b>Benefits:</b> This study provides no benefits to you individually. The study provides important information about the nature of learning and decision making. This has potential implications for public domains, such as healthcare policy and the justice system, where understanding the processes governing choice (e.g., of insurance, medical care, illegal substances) can lead to more psychologically effective public policy.
+				<br><br>
+				<b>Compensation:</b> You will receive $2.00 - $6.00 on Amazon Mechanical Turk. A minimum of $2.00 will be paid for participation and further you will get a bonus depending on your performance up to a maximum of $4.00.
+				<br><br>
+				<b>Confidentiality:</b> Your participation in this study will remain confidential. No personally identifiable information will be associated with your data. Your de-identified data may be shared with other researchers and used in future projects.
+				<br><br>
+				<b>Participation and withdrawal:</b> Your participation in this study is completely voluntary and you may refuse to participate or you may choose to withdraw at any time without penalty or loss of benefits to which you are otherwise entitled.
+ 				<br><br>
+				<b>How to contact the researcher:</b> If you have questions or concerns about your participation or payment, or want to request a summary of research findings, please contact Sam Gershman, gershman@fas.harvard.edu, (773) 607-9817.
+				<br><br>
+				<b>Whom to contact about your rights in this research:</b> For questions, concerns, suggestions, or complaints that have not been or cannot be addressed by the researcher, or to report research-related harm, please contact the Committee on the Use of Human Subjects in Research at Harvard University, 1414 Massachusetts Avenue, Second Floor, Cambridge, MA 02138. Phone: 617-496-2847. Email: cuhs@fas.harvard.edu Please print or save a copy of this form for your records.
+				<br><br><br>
+			</p>
+			<span>Agreement:</span><br>
+			<p>
+				The nature and purpose of this research have been sufficiently explained and I agree to participate in this study. I understand that I am free to withdraw at any time without incurring any penalty.
+				Please consent by clicking the button below to continue. Otherwise, please exit the study at this time.
+			</p>
+		</div>
+		<div class="consent-footer">
+			<p style="opacity:0;">Are you sure you agree?</p>
+			<button id="agree2" style="opacity:0;" disabled>Yes</button>
+			<button id="agree1">Continue</button>
+		</div>
+	</div>

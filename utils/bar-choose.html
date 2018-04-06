@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+
+<head>
+
+<style>
+
+.trial-main {
+	max-width: 1000px;
+}
+
+#bar-instructions {
+	font-size: 25px;
+	margin: 0;
+}
+
+#bar-subtitle {
+	margin: 20px 0;
+	font-size: 20px;
+	color: #222;
+}
+
+.bar-footer {
+	padding: 20px;
+}
+
+.bar-footer button {
+	font-size: 18px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="trial-main trial-main-loading" onload="this.classList.remove('trial-main-loading');">
+	<div class="bar-header">
+		<div id="bar-instructions"></div>
+		<div id="bar-subtitle"></div>
+	</div>
+	<div id="bar-graph"></div>
+	<div class="bar-footer">
+		<button type="button" id="bar-submit">Continue</button>
+	</div>
+</div>
+
+</body>
+
+</html>

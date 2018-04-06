@@ -1,0 +1,59 @@
+<script type="text/javascript">
+
+$(window).resize(resize);
+
+function resize()
+{
+        var height = window.innerHeight;
+
+        $(".consent-main").css("height", height*0.95 + "px");
+}
+
+resize();
+
+</script>
+
+        <div class="consent-main">
+		<div id="wrong-top" class="top-alert">That was the incorrect answer. Please read the instructions again.</div>
+                <h3>Experiment Instructions</h3>
+		<div class="cscroller">
+                       	<p>
+				Imagine you want to buy an airplane ticket for a trip to Canada. Different providers offer
+				different deals for your trip but you want to find the cheapest ticket from all the offers.
+				<br>
+				And that’s exactly what you will be doing here.
+				<br><br>
+				The experiment is divided into four parts:
+				<br><br>
+				<b>First part: Training phase - Get familiar with possible ticket prices</b>
+				<br>
+				We will show you 50 ticket prices from different providers for your trip. At the end of
+				the training phase we will ask you about the distribution of the ticket prices.
+                       		<br><br>
+				<b>Second part: Test phase - Choose best ticket out of 10 tickets</b>
+				<br>
+				Now you have to choose a ticket.<br>
+				We will show you 10 tickets sequentially, one at the time. Every time you will have to
+				choose either to accept the ticket or to continue. The goal is to find the cheapest ticket.
+				According to your performance you are collecting points that will be turned into money
+				reward at the end of the experiment.
+				<br><br>
+				<b>Third and fourth parts: Equivalent to the first and second parts but with different ticket prices</b>
+				<br>
+				We change the destination for your trip and therefore you will encounter slightly
+				different ticket prices. The procedure remains the same as in the first and second part –
+				after learning about potential ticket prices for your new trip you will have to select the
+				cheapest ticket out of 10 tickets.
+				<br><br>
+				This study lasts at most 40 minutes and you will get $5.00 for participating. Further,
+				you will get a bonus depending on your performance up to a maximum of $5.00.
+				<br><br>
+				You will get detailed instructions and a trial run during the study.
+				<br><br>
+				Please press continue to begin.
+			</p>
+		</div>
+                <div class="consent-footer">
+                        <button id="continue1">Continue</button>
+                </div>
+        </div>

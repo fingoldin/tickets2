@@ -1,0 +1,20 @@
+.start-main {
+        max-width: 1000px;
+}
+
+.ie8 .start-main, .ie9 .start-main, .ie10 .start-main {
+	margin: 80px auto;
+}
+
+.start-header {
+	font-size: 25px;
+	text-align: center;
+	padding: 10px;
+}
+
+.start-text {
+        padding: 30px;
+        font-size: 21px;
+        line-height: 30px;
+        text-align: left;
+}

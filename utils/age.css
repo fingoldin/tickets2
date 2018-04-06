@@ -1,0 +1,41 @@
+.age-main {
+	opacity: 0;
+}
+
+.age-form-element {
+	padding: 15px 5px;
+}
+
+.age-form-element label {
+	font-size: 20px;
+	text-align: center;
+	display: block;
+	font-weight: 400;
+	color: #444;
+}
+
+.age-header {
+	text-align: center;
+	font-size: 25px;
+	color : #111;
+}
+
+.age-form {
+	width: 98%;
+	max-width: 300px;
+	margin: auto;
+	padding: 15px;
+}
+
+.age-main input, .age-main select {
+	width: 100px;
+}
+
+.age-main input {
+	padding: 5px;
+	border: 1px solid #999;
+	border-radius: 3px;
+	font-size: 20px;
+	text-align: center;
+}
+

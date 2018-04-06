@@ -1,0 +1,92 @@
+.consent-main {
+	max-width: 800px;
+        padding: 10px 30px;
+	display: -ms-flexbox;
+	display: -webkit-flex;
+	display: flex;
+	-ms-flex-direction: column;
+	-webkit-flex-direction: column;
+	flex-direction: column;
+	-ms-flex-pack: center;
+	-webkit-justify-content: center;
+	justify-content: center;
+	max-height: 1000px;
+	min-height: 450px;
+}
+
+.ie8 .consent-main, .ie9 .consent-main, .ie10 .consent-main {
+	margin: auto;
+}
+
+.consent-main h3 {
+        text-align: center;
+        font-weight: normal;
+        font-size: 30px;
+        padding: 15px 0;
+        margin: 0;
+        border-bottom: 1px solid #ddd;
+	-ms-flex: 0 0 auto;
+	-webkit-flex: 0 0 auto;
+	flex: 0 0 auto;
+}
+
+.cscroller {
+	margin: 10px 0px;
+        padding: 5px 10px;
+        overflow: auto;
+	-ms-flex: 0 1 auto;
+	-webkit-flex: 0 1 auto;
+	flex: 0 1 auto;
+}
+
+.ie8 .cscroller, .ie9 .cscroller {
+	max-height: 700px;
+}
+
+.cscroller span {
+	font-size: 22px;
+	text-align: center;
+	margin: 0;
+	padding: 0;
+}
+
+.cscroller p {
+	text-align: left;
+	font-size: 18px;
+	margin: 0;
+	padding: 0;
+}
+
+#confirm {
+        position: fixed;
+        left: 50%;
+        top: 50%;
+        width: auto;
+        height: auto;
+        display: none;
+}
+
+#confirm.enabled {
+        display: block;
+}
+
+.consent-footer {
+        text-align: right;
+	-ms-flex: 0 0 auto;
+	-webkit-flex: 0 0 auto;
+	flex: 0 0 auto;
+}
+
+.consent-footer p {
+	font-size: 16px;
+	margin-right: 15px;
+	display: inline-block;
+}
+
+.consent-footer button, .consent-footer p {
+	transition: opacity 0.4s;
+	-webkit-transition: opacity 0.4s;
+	-moz-transition: opacity 0.4s;
+	-ms-transition: opacity 0.4s;
+	-o-transition: opacity 0.4s;
+}

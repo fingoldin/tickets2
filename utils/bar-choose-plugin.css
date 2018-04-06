@@ -1,0 +1,203 @@
+.bar-graph-main, .bar-graph-graph {
+	width: 100%;
+	height: 100%;
+}
+
+.bar-graph-main, .bar-graph-main * {
+	margin: 0;
+	padding: 0;
+	-ms-box-sizing: border-box;
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+}
+
+.bar-graph-graph {
+	display: -webkit-box;
+	display: -moz-box;
+	display: -ms-flexbox;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-direction: column;
+	-moz-box-direction: column;
+	-ms-flex-direction: column;
+	-webkit-flex-direction: column;
+	flex-direction: column;
+	position: relative;
+}
+
+.bar-graph-main {
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+ 	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+.ie9 .bar-graph-main, .ie8 .bar-graph-main, .ie9 .bar-graph-graph, .ie8 .bar-graph-graph {
+	height: 600px;
+}
+
+.bar-graph-columns {
+	-webkit-box-flex: 1;
+	-moz-box-flex: 1;
+	-webkit-flex: 1;
+	-ms-flex: 1;
+	flex: 1;
+	display: -webkit-box;
+        display: -moz-box;
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+	-webkit-box-direction: row;
+        -moz-box-direction: row;
+        -ms-flex-direction: row;
+        -webkit-flex-direction: row;
+        flex-direction: row;
+}
+
+.ie8 .bar-graph-columns, .ie9 .bar-graph-columns {
+	height: 460px;
+}
+
+.bar-graph-labels, .bar-graph-main-remaining {
+	-webkit-box-flex: 0 0 auto;
+        -moz-box-flex: 0 0 auto;
+        -webkit-flex: 0 0 auto;
+        -ms-flex: 0 0 auto;
+        flex: 0 0 auto;
+}
+
+.bar-graph-main-remaining {
+	padding: 5px;
+	font-size: 24px;
+}
+
+.bar-graph-main-remaining span {
+	-moz-transition: color 0.4s;
+	-ms-transition: color 0.4s;
+	-o-transition: color 0.4s;
+	-webkit-transition: color 0.4s;
+	transition: color 0.4s;
+	color: red;
+}
+
+.bar-graph-main-remaining span.highlight {
+	color: red;
+}
+
+.bar-graph-column-wrap {
+	position: relative;
+	-webkit-box-flex: 1;
+        -moz-box-flex: 1;
+        -webkit-flex: 1;
+        -ms-flex: 1;
+        flex: 1;
+}
+
+.ie8 .bar-graph-column-wrap, .ie9 .bar-graph-column-wrap {
+	height: 460px;
+	display: inline-block;
+}
+
+.bar-graph-column, .bar-graph-column-a {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	margin-right: 1px;
+	min-height: 20px;
+	background-color: #008CBA;
+	-moz-transition: opacity 0.2s;
+	-webkit-transition: opacity 0.2s;
+	-ms-transition: opacity 0.2s;
+	-o-transition: opacity 0.2s;
+	transition: opacity 0.2s
+}
+
+.bar-graph-column-a {
+	-moz-transition: height 0.5s;
+        -webkit-transition: height 0.5s;
+        -ms-transition: height 0.5s; 
+        -o-transition: height 0.5s;
+        transition: height 0.5s;
+	height: 0px;
+	min-height: 0px;
+	background-color: #BA8C00;
+}
+
+.bar-graph-column:hover {
+	cursor: pointer
+}
+
+.bar-graph-column-wrap:last-child .bar-graph-column, .bar-graph-column-wrap:last-child .bar-graph-column-a {
+	margin-right: 0px;
+}
+
+.bar-graph-labels-texts p {
+	display: inline-block;
+	padding: 5px;
+        font-size: 16px;
+        line-height: 16px;
+        color: #777;
+	vertical-align: top;
+}
+
+.bar-graph-input {
+	display: inline-block;
+	padding: 5px;
+}
+
+.bar-graph-input input {
+	width: 100%;
+	padding: 5px;
+	font-size: 20px;
+	line-height: 20px;
+	padding: 4px;
+	text-align: center;
+	background-color: white;
+	border: 1px solid #ccc;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	-webkit-border-radius: 0px;
+	-moz-border-radius: none;
+	border-radius: 0px;
+}
+
+.bar-graph-congrats-wrap {
+	transform: scale(0, 0);
+	-moz-transition: transform 0.4s ease-out;
+	-webkit-transition: transform 0.4s ease-out;
+	-ms-transition: transform 0.4s ease-out;
+	-o-transition: transform 0.4s ease-out;
+	transition: transform 0.4s ease-out;
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 20%;
+	text-align: center;
+	display: none;
+}
+
+.bar-graph-congrats {
+	text-align: center;
+	padding: 40px 45px;
+	background-color: rgb(230, 230, 230);
+	background-color: rgba(150, 150, 150, 0.2);
+	border-radius: 12px;
+	display: inline-block;
+}
+
+.bar-graph-congrats-top {
+	font-size: 40px;
+	line-height: 40px;
+	color: #555;
+	margin-bottom: 10px;
+}
+
+.bar-graph-congrats-bottom {
+	font-size: 20px;
+	line-height: 20px;
+	color: #111;
+}

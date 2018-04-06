@@ -1,0 +1,46 @@
+<script type="text/javascript">
+
+$(window).resize(resize);
+
+function resize()
+{
+        var height = window.innerHeight;
+
+        $(".consent-main").css("height", height*0.95 + "px");
+}
+
+resize();
+
+</script>
+
+        <div class="consent-main">
+                <h3>Experiment Instructions</h3>
+		<div class="cscroller">
+                       	<p>
+				Imagine that you are planning a trip abroad and now you are at the point where you want 
+				to buy the airplane ticket. There are various providers that offer tickets for your trip 
+				and they all very (more or less) in prices. Your goal is to find the cheapest ticket from 
+				all the offers. 
+				<br><br>
+				There will be four parts in this experiment: 
+				In the first part we want you to get familiar with the possible prices for tickets. 
+				Therefore we will show you 50 ticket prices, as you would encounter them in you search. 
+				In the second part of the experiment you have to choose a ticket out of ten tickets. 
+				Since the tickets are presented one at the time you have to decide for every offer either 
+				to accept or reject it – with the difficulty that you cannot go back to a ticket once rejected. 
+				In the third and the forth parts you will do the same as in the first and second part but with 
+				different ticket prices. 
+				<br><br>
+				This study lasts at most 40 minutes and you will get 10 Dollars for participating. 
+				Further, you will get a bonus depending on your performance up to a maximum of 5 Dollars. 
+				<br><br>
+				You will get detailed instructions and a trial run during the study.
+				<br><br>
+				Please press continue to begin.
+                       	</p>
+		</div>
+                <div class="consent-footer">
+                        <button id="continue1">Continue</button>
+                </div>
+        </div>
+

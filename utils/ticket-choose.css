@@ -1,0 +1,19 @@
+.ticket-choose-price {
+	text-align: center;
+}
+
+.ticket-choose-price span {
+	font-size: 25px;
+	line-height: 50px;
+}
+
+.ticket-choose-price p {
+	font-size: 50px;
+	line-height: 50px;
+}
+
+.ticket-choose-footer button {
+	text-align: center;
+	margin: 0px 5px;
+}
+
