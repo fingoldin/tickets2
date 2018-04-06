@@ -15,20 +15,14 @@ function checkAnswer($phase, $sequence, $answer)
 		logging("Something not set in checkAnswer");
 	else if(!in_array($sequence, $_SESSION["checked"][$phase]))
 	{
-		$data = [
-			"points" => 0
-		//	"place" => 1
-		];
-
 		$p = get_points($phase, $sequence, $answer);
 
-		$data["points"] = $_SESSION["points"][$phase] + $p;
-		if($data["points"] > 180)
+		$totalp = $_SESSION["points"][$phase] + $p;
+		if($totalp > $_SESSION["max_points"])
 		{
-			logging("checkAnswer has exceeded the max of 180 points, previously " . $_SESSION["points"][$phase] . " and tried to be " . $data["points"]);
+			logging("checkAnswer has exceeded the max of " . $_SESSION["max_points"] . " points, previously " . $_SESSION["points"][$phase] . " and tried to be " . $data["points"]);
 
-			$data["points"] = 180;
-			$_SESSION["points"][$phase] = 180;
+			$_SESSION["points"][$phase] = $_SESSION["max_points"];
 		}
 		else
 			$_SESSION["points"][$phase] += $p;
@@ -38,8 +32,6 @@ function checkAnswer($phase, $sequence, $answer)
 
 		array_push($_SESSION["checked"][$phase], $sequence);
 		$_SESSION["checked_assoc"][$phase][$sequence] = $p;
-
-		echo json_encode($data);
 	}
 }
 

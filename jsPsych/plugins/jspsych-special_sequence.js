@@ -6,7 +6,7 @@ jsPsych.plugins["special_sequence"] = (function()
 	{
 		trial = jsPsych.pluginAPI.evaluateFunctionParameters(trial);
 
-		display_element.empty().load("/tickets/utils/special_sequence.html", function() {
+		display_element.empty().load("/tickets2/utils/special_sequence.html", function() {
 			$(".age-main").css("opacity", "1");
 
 			$("#worker-form").submit(function(e) {

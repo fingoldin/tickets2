@@ -5,20 +5,17 @@ if(!session_id())
 
 require("./includes.php");
 
-if(isset($_SESSION["start_time"]) && isset($_SESSION["finished"]) && $_SESSION["finished"] == 0 && isset($_POST["data"]) && isset($_SESSION["points"]) && isset($_SESSION["phase_order"]) && isset($_POST["worker_id"]) && isset($_POST["assignment_id"]))
+if(isset($_SESSION["start_time"]) && isset($_SESSION["finished"]) && $_SESSION["finished"] == 0 && isset($_POST["data"]) && isset($_SESSION["points"]) && isset($_POST["worker_id"]) && isset($_POST["assignment_id"]))
 {
 	logging("Submit.php called and OK");
 
 	$time = get_time();
-
-	echo "got here";
 
 	$arr = [
 		"start_time" => $_SESSION["start_time"],
 		"end_time" => $time,
 		"points_phase0" => $_SESSION["points"][0],
 		"points_phase1" => $_SESSION["points"][1],
-		"phase_order" => $_SESSION["phase_order"],
 		"age" => 0,
 		"gender" => "m",
 		"tries" => 1,

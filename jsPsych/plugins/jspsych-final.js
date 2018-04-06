@@ -31,11 +31,10 @@ jsPsych.plugins["final"] = (function()
 		tfs(55);
 		bfs(35);
 
-		top.innerHTML = "Congratulations!";
-		bot.innerHTML = "The experiment is now over.";
-
-		$(bot).css("opacity", "0");
-		$(top).css("opacity", "0").animate({ "opacity": "1" }, 1000, function() {
+        $.post("/tickets2/getpoints.php", function(response) {
+        var points = parseInt(response);
+		$(bot).css("opacity", "0").html("The experiment is now over.");
+		$(top).css("opacity", "0").html("Congratulations!").animate({ "opacity": "1" }, 1000, function() {
 			setTimeout(function() {
 				$(bot).animate({ "opacity": "1" }, 1000);
 				setTimeout(function() {
@@ -51,22 +50,10 @@ jsPsych.plugins["final"] = (function()
 						sbot[3] = " = ";
 						sbot[4] = "$" + ((trial.points[0] + trial.points[1]) * 0.025);*/
 
-						var tp = trial.points[0] + trial.points[1];
+                        var money = 0.01 * Math.round(points * 0.1);
 
-						// in decimal (0.3 is 30%);
-						var tpfraction = Math.round(100 * (tp / 300)) / 100;
-
-						// bonus is counted in cents
-						var bonus = parseInt(Math.round(100 * tpfraction * 4));
-
-						// in dollars
-						var totalmoney = 2 + bonus/100;
-
-						// in percent
-						var tppercent = parseInt(tpfraction * 100);
-
-						bot.innerHTML = "$2 + " + tpfraction.toFixed(2) + " * $4 = $" + totalmoney.toFixed(2);
-						top.innerHTML = "You scored " + trial.points[0] + " + " + trial.points[1] + " = " + tp + (tp === 1 ? " point" : " points") + " out of 300 points. <br> This is " + tppercent + " % and you receive <br> ";
+                        top.innerHTML = "Congratulations! You earned $2 + $" + money.toFixed(2) + " =";
+                        bot.innerHTML = "$" + (2 + money).toFixed(2);
 
 						$(wrap).animate({ "opacity": "1" }, 600, function() {
 							setTimeout(function() {
@@ -131,6 +118,7 @@ jsPsych.plugins["final"] = (function()
 				}, 3000);
 			}, 1500);
 		});
+        });
 	}
 
 	return plugin;

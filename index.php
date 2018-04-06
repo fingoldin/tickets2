@@ -74,37 +74,38 @@ logging("Setup done");
 <head>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-<script src="/tickets/jsPsych/jspsych.js"></script>
-<script src="/tickets/jsPsych/plugins/jspsych-text.js"></script>
-<script src="/tickets/jsPsych/plugins/jspsych-html.js"></script>
-<script src="/tickets/jsPsych/plugins/jspsych-animation.js"></script>
-<script src="/tickets/jsPsych/plugins/jspsych-number-animation.js"></script>
-<script src="/tickets/jsPsych/plugins/jspsych-html-animation.js"></script>
-<script src="/tickets/jsPsych/plugins/jspsych-bar-choose.js"></script>
-<script src="/tickets/jsPsych/plugins/jspsych-ticket-choose.js"></script>
-<script src="/tickets/jsPsych/plugins/jspsych-final.js"></script>
-<script src="/tickets/jsPsych/plugins/jspsych-age.js"></script>
-<script src="/tickets/jsPsych/plugins/jspsych-instructions_check.js"></script>
-<script src="/tickets/jsPsych/plugins/jspsych-training_avg.js"></script>
-<script src="/tickets/jsPsych/plugins/jspsych-call-function.js"></script>
-<script src="/tickets/jsPsych/plugins/jspsych-store_order.js"></script>
-<script src="/tickets/jsPsych/plugins/jspsych-workerid.js"></script>
-<script src="/tickets/jsPsych/plugins/jspsych-special_sequence.js"></script>
-<script src="/tickets/utils/general.js"></script>
-<script src="/tickets/utils/bar-choose-plugin.js"></script>
-<script src="/tickets/utils/jquery.transform2d.js"></script>
-<script src="/tickets/utils/json2.js"></script>
-<script src="/tickets/utils/browserdetect.js"></script>
-<script src="/tickets/utils/select2.full.min.js"></script>
-<link href="/tickets/utils/select2.min.css" rel="stylesheet" type="text/css"></link>
-<link href="/tickets/jsPsych/css/jspsych.css" rel="stylesheet" type="text/css"></link>
-<link href="/tickets/utils/general.css" rel="stylesheet" type="text/css"></link>
-<link href="/tickets/utils/bar-choose-plugin.css" rel="stylesheet" type="text/css"></link>
+<script src="/tickets2/jsPsych/jspsych.js"></script>
+<script src="/tickets2/jsPsych/plugins/jspsych-text.js"></script>
+<script src="/tickets2/jsPsych/plugins/jspsych-html.js"></script>
+<script src="/tickets2/jsPsych/plugins/jspsych-animation.js"></script>
+<script src="/tickets2/jsPsych/plugins/jspsych-number-animation.js"></script>
+<script src="/tickets2/jsPsych/plugins/jspsych-html-animation.js"></script>
+<script src="/tickets2/jsPsych/plugins/jspsych-bar-choose.js"></script>
+<script src="/tickets2/jsPsych/plugins/jspsych-ticket-choose.js"></script>
+<script src="/tickets2/jsPsych/plugins/jspsych-final.js"></script>
+<script src="/tickets2/jsPsych/plugins/jspsych-age.js"></script>
+<script src="/tickets2/jsPsych/plugins/jspsych-instructions_check.js"></script>
+<script src="/tickets2/jsPsych/plugins/jspsych-training_avg.js"></script>
+<script src="/tickets2/jsPsych/plugins/jspsych-call-function.js"></script>
+<script src="/tickets2/jsPsych/plugins/jspsych-store_order.js"></script>
+<script src="/tickets2/jsPsych/plugins/jspsych-workerid.js"></script>
+<script src="/tickets2/jsPsych/plugins/jspsych-special_sequence.js"></script>
+<script src="/tickets2/jsPsych/plugins/jspsych-points-update.js"></script>
+<script src="/tickets2/utils/general.js"></script>
+<script src="/tickets2/utils/bar-choose-plugin.js"></script>
+<script src="/tickets2/utils/jquery.transform2d.js"></script>
+<script src="/tickets2/utils/json2.js"></script>
+<script src="/tickets2/utils/browserdetect.js"></script>
+<script src="/tickets2/utils/select2.full.min.js"></script>
+<link href="/tickets2/utils/select2.min.css" rel="stylesheet" type="text/css"></link>
+<link href="/tickets2/jsPsych/css/jspsych.css" rel="stylesheet" type="text/css"></link>
+<link href="/tickets2/utils/general.css" rel="stylesheet" type="text/css"></link>
+<link href="/tickets2/utils/bar-choose-plugin.css" rel="stylesheet" type="text/css"></link>
 <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
-<link href="/tickets/utils/age.css" rel="stylesheet" type="text/css"></link>
-<link href="/tickets/utils/consent.css" rel="stylesheet" type="text/css"></link>
-<link href="/tickets/utils/start.css" rel="stylesheet" type="text/css"></link>
-<link href="/tickets/utils/points.css" rel="stylesheet" type="text/css"></link>
+<link href="/tickets2/utils/age.css" rel="stylesheet" type="text/css"></link>
+<link href="/tickets2/utils/consent.css" rel="stylesheet" type="text/css"></link>
+<link href="/tickets2/utils/start.css" rel="stylesheet" type="text/css"></link>
+<link href="/tickets2/utils/points.css" rel="stylesheet" type="text/css"></link>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=0.5, user-scalable=no">
@@ -113,13 +114,9 @@ logging("Setup done");
 
 <script type="text/javascript">
 
-var points_counter = {
-	p: [0, 0]
-}
-
 var consent_trial = {
 	type: "html",
-	url: "/tickets/utils/consent.html",
+	url: "/tickets2/utils/consent.html",
 	cont_btn: "agree2"
 }
 
@@ -137,7 +134,7 @@ var special_sequence_trial = {
 
 var instructions_trial = {
 	type: "instructions_check",
-	url: "/tickets/utils/instructions.html",
+	url: "/tickets2/utils/instructions.html",
 	instructions: "id-int",
 	check: "id-check",
 	right: "c-right",
@@ -147,7 +144,7 @@ var instructions_trial = {
 
 var start_trial = {
 	type: "html",
-	url: "/tickets/utils/start.html",
+	url: "/tickets2/utils/start.html",
 	cont_btn: "start1"
 }
 
@@ -164,7 +161,7 @@ var training_trial = {
 	subtitle: "Please drag the bar or type in the input field to determine the amount of tickets <br> that are in the equivalent price range for this trip. <br><br>Press continue when you are sure of your answers.",
 //	categories: ["$135 - $150", "$151 - $165", "$166 - 180", "$181 - $195", "$196 - $210", "$211 - $225", "$226 - $240"],
 	min_val: 0,
-	max_val: 20,
+	max_val: 100,
 	phase: 0,
 	number: 0
 	//answers: animanswers
@@ -172,7 +169,7 @@ var training_trial = {
 
 var testing_instructions_trial = {
 	type: "html",
-        url: "/tickets//utils/testing.html",
+        url: "/tickets2/utils/testing.html",
         cont_btn: "testingstart"
 }
 
@@ -185,7 +182,7 @@ var testing_order_trial = {
 // Second testing instructions (after example sequence)
 var testing_instructions2_trial = {
 	type: "html",
-	url: "/tickets/utils/testing_after.html",
+	url: "/tickets2/utils/testing_after.html",
 	cont_btn: "testingstart"
 }
 
@@ -196,16 +193,28 @@ var training_trial2 = {
         subtitle: "Please drag the bar or type in the input field to determine the amount of tickets <br> that are in the equivalent price range for this trip. Press continue when you are sure of your answers.",
 //        categories: ["$135 - $150", "$151 - $165", "$166 - 180", "$181 - $195", "$196 - $210", "$211 - $225", "$226 - $240"],
         min_val: 0,
-        max_val: 20,
+        max_val: 100,
 	phase: 0,
 	number: 1
+	//answers: animanswers
+}
+
+var training_trial3 = {
+	type: "bar-choose",
+        instructions: "Imagine you would see yet another 20 tickets to Canada.",
+        subtitle: "Please drag the bar or type in the input field to determine the amount of tickets <br> that are in the equivalent price range for this trip. Press continue when you are sure of your answers.",
+//        categories: ["$135 - $150", "$151 - $165", "$166 - 180", "$181 - $195", "$196 - $210", "$211 - $225", "$226 - $240"],
+        min_val: 0,
+        max_val: 100,
+	phase: 0,
+	number: 2
 	//answers: animanswers
 }
 
 // Second training phase instructions
 var p2_start_trial = {
 	type: "html",
-	url: "/tickets/utils/start2.html",
+	url: "/tickets2/utils/start2.html",
 	cont_btn: "start2"
 }
 
@@ -223,7 +232,7 @@ var p2_training_trial = {
         subtitle: "Please drag the bar or type in the input field to determine the amount of tickets <br> that are in the equivalent price range for this trip. Press continue when you are sure of your answers.",
 //        categories: ["$105 - $130", "$131 - $155", "$156 - $180", "$181 - $205", "$206 - $230", "$231 - $255", "$256 - $280"],
         min_val: 0,
-        max_val: 20,
+        max_val: 100,
 	phase: 1,
 	number: 0
 	//answers: animanswers2
@@ -231,14 +240,8 @@ var p2_training_trial = {
 
 var p2_testing_instructions_trial = {
         type: "html",
-        url: "/tickets/utils/testing2.html",
+        url: "/tickets2/utils/testing2.html",
         cont_btn: "testingstart"
-}
-
-var p2_testing_order_trial = {
-        type: "store_order",
-        phase: 1,
-        order: []
 }
 
 // Second bar graph to see learning
@@ -248,15 +251,34 @@ var p2_training_trial2 = {
         subtitle: "Please drag the bar or type in the input field to determine the amount of tickets <br> that are in the equivalent price range for this trip. Press continue when you are sure of your answers.",
 //        categories: ["$105 - $130", "$131 - $155", "$156 - $180", "$181 - $205", "$206 - $230", "$231 - $255", "$256 - $280"],
         min_val: 0,
-        max_val: 20,
+        max_val: 100,
 	phase: 1,
 	number: 1
 	//answers: animanswers2
 }
 
+var p2_training_trial3 = {
+        type: "bar-choose",
+        instructions: "Imagine you would see yet another 20 tickets to Mexico City.",
+        subtitle: "Please drag the bar or type in the input field to determine the amount of tickets <br> that are in the equivalent price range for this trip. Press continue when you are sure of your answers.",
+//        categories: ["$105 - $130", "$131 - $155", "$156 - $180", "$181 - $205", "$206 - $230", "$231 - $255", "$256 - $280"],
+        min_val: 0,
+        max_val: 100,
+	phase: 1,
+	number: 2
+	//answers: animanswers2
+}
+
+var points_update_trial = {
+    type: "points-update"
+}
+
+var p2_points_update_trial = {
+    type: "points-update
+}
+
 var final_trial = {
-	type: "final",
-	points: function() { return points_counter; }
+	type: "final"
 }
 
 function preload()
@@ -264,11 +286,11 @@ function preload()
 	for(var i = 0; i < NUM_TICKETS; i++)
 	{
 		TICKET_IMAGES[0][i] = new Image();
-		TICKET_IMAGES[0][i].src = "/tickets/utils/tickets/" + window.ticketprefix + "/ticket" + (i+1) + ".jpg";
+		TICKET_IMAGES[0][i].src = "/tickets2/utils/tickets/" + window.ticketprefix + "/ticket" + (i+1) + ".jpg";
 		TICKET_IMAGES[0][i].classList += " ticket-img";
 
 		TICKET_IMAGES[1][i] = new Image();
-                TICKET_IMAGES[1][i].src = "/tickets/utils/tickets/" + window.ticketprefix + "/2ticket" + (i+1) + ".jpg";
+                TICKET_IMAGES[1][i].src = "/tickets2/utils/tickets/" + window.ticketprefix + "/2ticket" + (i+1) + ".jpg";
                 TICKET_IMAGES[1][i].classList += " ticket-img";
 	}
 }
@@ -325,20 +347,17 @@ function init_exp()
 	//p2_animation_trial.prices = animdata2;
 	training_trial.answers = animanswers;
 	training_trial2.answers = animanswers;
-	p2_training_trial.answers = animanswers2;
+	training_trial3.answers = animanswers;
+    p2_training_trial.answers = animanswers2;
 	p2_training_trial2.answers = animanswers2;
+    p2_training_trial3.answers = animanswers2;
 
 	training_trial.categories = da["categories"][0];
 	training_trial2.categories = da["categories"][0];
+    training_trial3.categories = da["categories"][0];
 	p2_training_trial.categories = da["categories"][1];
-  p2_training_trial2.categories = da["categories"][1];
-
-	testing_orders = da["orders"][0];
-	p2_testing_orders = da["orders"][1];
-
-	testing_order_trial.order = testing_orders;
-	p2_testing_order_trial.order = p2_testing_orders;
-
+    p2_training_trial2.categories = da["categories"][1];
+    p2_training_trial3.categorires = da["categories"][1];
 
 	var worker_id = "";
 	var assignment_id = "<?= $_SESSION['assignmentId'] ?>";
@@ -351,7 +370,7 @@ function init_exp()
 	workerid_trial.on_finish = function(data) {
 		worker_id = data.worker_id;
 
-		$.post("/tickets/setworkerid.php", { id : data.worker_id }, function(d) { console.log(d); });
+		$.post("/tickets2/setworkerid.php", { id : data.worker_id }, function(d) { console.log(d); });
 	};
   	timeline.push(workerid_trial);
 
@@ -380,7 +399,6 @@ function init_exp()
 
 	timeline.push(training_trial);
         timeline.push(testing_instructions_trial);
-	timeline.push(testing_order_trial);
 
 	// example testing sequence
 	timeline.push({ type: "ticket-choose",
@@ -393,7 +411,7 @@ function init_exp()
 
 	timeline.push(testing_instructions2_trial);
 
-	for(var i = 0; i < p2_testing_data.length; i++)
+	for(var i = 0; i < testing_data.length; i++)
 	{
         	timeline.push({ type: "ticket-choose",
 				prices: testing_data[i],
@@ -404,24 +422,21 @@ function init_exp()
 			//	points: function() { return points_counter.p[0]; },
 				showpoints: false,
 				on_finish: function(data) {
-					$.post("/tickets2/check.php", { phase: 0, sequence: data.sequence, answer: data.result }, function(d) {
-						//console.log(d);
-						var da = JSON.parse(d);
-						points_counter.p[0] = da.points;
-					});
+					$.post("/tickets2/check.php", { phase: 0, sequence: data.sequence, answer: data.result });
 				}
 		});
+
+        if(i == Math.floor((testing_data.length - 1) / 2)) {
+            timeline.push(points_update_trial);
+            timeline.push(training_trial2);
+        }
 	}
 	timeline[timeline.length-1].continue_message = "Finish";
 	timeline[timeline.length-1].on_finish = function(data) {
-		$.post("/tickets2/check.php", { phase: 0, sequence: data.sequence, answer: data.result }, function(d) {
-                        //console.log(d);
-                        var da = JSON.parse(d);
-			points_counter.p[0] = da.points;
-                });
+		$.post("/tickets2/check.php", { phase: 0, sequence: data.sequence, answer: data.result });
 	};
 
-	timeline.push(training_trial2);
+	timeline.push(training_trial3);
 
 	timeline.push(p2_start_trial);
 
@@ -460,24 +475,20 @@ function init_exp()
                         //      points: function() { return points_counter.p[1]; },
                                 showpoints: false,
                                 on_finish: function(data) {
-					$.post("/tickets/check.php", { phase: 1, sequence: data.sequence, answer: data.result }, function(d) {
-						//console.log(d);
-                                                var da = JSON.parse(d);
-						points_counter.p[1] = da.points;
-                                        });
-                                }
+					$.post("/tickets2/check.php", { phase: 1, sequence: data.sequence, answer: data.result });
                 });
+
+                if(i == Math.floor((p2_testing_data.length - 1) / 2)) {
+                    timeline.push(p2_points_update_trial);
+                    timeline.push(p2_training_trial2);
+                }
         }
         timeline[timeline.length-1].continue_message = "Finish";
         timeline[timeline.length-1].on_finish = function(data) {
-                $.post("/tickets/check.php", { phase: 1, sequence: data.sequence, answer: data.result }, function(d) {
-                        //console.log(d);
-                        var da = JSON.parse(d);
-                        points_counter.p[1] = da.points;
-                });
+                $.post("/tickets2/check.php", { phase: 1, sequence: data.sequence, answer: data.result });
         };
 
-	timeline.push(p2_training_trial2);
+	timeline.push(p2_training_trial3);
 
 	timeline.push(special_sequence_trial);
 
@@ -499,7 +510,7 @@ function init_exp()
 				$.ajax({
 					type:'post',
 					cache: false,
-					url: '/tickets/save_data.php', // this is the path to the above PHP script
+					url: '/tickets2/save_data.php', // this is the path to the above PHP script
 					data: {filename: filename, filedata: filedata},
 				// complete: function() {
 				// 				window.location.href = "confirmation_code.html";
@@ -531,9 +542,9 @@ function init_exp()
 		timeline: timeline,
 		display_element: $("#jspsych-main"),
 		on_finish: function(data) {
-			$("#jspsych-main").empty().load("/tickets/confirmation_code.html");
+			$("#jspsych-main").empty().load("/tickets2/confirmation_code.html");
 			//console.log(worker_id);
-			$.post("/tickets/submit.php", { data: JSON.stringify(data), worker_id: worker_id, assignment_id: assignment_id }, function(r) {
+			$.post("/tickets2/submit.php", { data: JSON.stringify(data), worker_id: worker_id, assignment_id: assignment_id }, function(r) {
 				console.log(r);
 			});
 		}
@@ -554,12 +565,12 @@ function init_preview(tri)
 
 var accept_trial = {
 	type: "html",
-	url: "/tickets/utils/accept.html"
+	url: "/tickets2/utils/accept.html"
 };
 
 var outside_trial = {
 	type: "html",
-	url: "/tickets/utils/outside.html"
+	url: "/tickets2/utils/outside.html"
 };
 
 function init()

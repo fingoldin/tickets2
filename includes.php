@@ -284,6 +284,9 @@ function startSession() {
     // Number of tickets in one test sequence
     $ntest_tickets = 10;
 
+    // The max number of points in a phase
+    $_SESSION["max_points"] = 25 * $ntest_sequences;
+
     // Generate test data
     $_SESSION["testing_data"] = array();
     for($h = 0; $h < $nphases; $h++) {
