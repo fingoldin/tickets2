@@ -5,7 +5,7 @@ if(!session_id())
 
 require("./includes.php");
 
-if(isset($_SESSION["start_time"]) && isset($_SESSION["finished"]) && $_SESSION["finished"] == 0 && isset($_POST["data"]) && isset($_SESSION["points"]) && isset($_POST["worker_id"]) && isset($_POST["assignment_id"]))
+if(isset($_SESSION["start_time"]) && isset($_SESSION["finished"]) && $_SESSION["finished"] == 0 && isset($_POST["data"]) && isset($_SESSION["points"]) && isset($_SESSION["workerId"]) && isset($_POST["assignment_id"]))
 {
 	logging("Submit.php called and OK");
 
@@ -20,7 +20,7 @@ if(isset($_SESSION["start_time"]) && isset($_SESSION["finished"]) && $_SESSION["
 		"gender" => "m",
 		"tries" => 1,
 		"during" => "Nothing",
-		"worker_id" => $_POST["worker_id"],
+		"worker_id" => $_SESSION["workerId"],
 		"assignment_id" => $_POST["assignment_id"],
 		"data" => json_decode($_POST["data"], true),
 		"bonus" => 0
@@ -55,7 +55,7 @@ if(isset($_SESSION["start_time"]) && isset($_SESSION["finished"]) && $_SESSION["
 
 			$b = intval($trial["bonus"]);
 			$gb = get_bonus(intval($arr["points_phase0"]) + intval($arr["points_phase1"]));
-			if($gb !== $b)
+			if($gb != $b)
 			{
 				logging("The total points don't match up: the trial says " . $b . " while get_bonus says " . $gb);
 				exit;

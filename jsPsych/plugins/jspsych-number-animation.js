@@ -18,7 +18,7 @@ jsPsych.plugins["number-animation"] = (function()
     		trial = jsPsych.pluginAPI.evaluateFunctionParameters(trial);
 
 		display_element.html("");
-		display_element.load("/tickets/utils/number-animation.html", function()
+		display_element.load("/tickets2/utils/number-animation.html", function()
 		{
 			//window.viewportUnitsBuggyfill.refresh();
 
@@ -56,7 +56,7 @@ jsPsych.plugins["number-animation"] = (function()
 
 			function next_price()
 			{
-				console.log("next");
+				//console.log("next");
 //				if(selected)
 //					end_trial();
 				if(price.is(":animated"))

@@ -1,6 +1,6 @@
 <?php
 
-//ini_set('display_errors', 1);
+ini_set('display_errors', 1);
 //error_reporting(E_ALL);
 
 session_start();
@@ -12,8 +12,6 @@ startSession();
 //echo get_bonus(227);
 
 store_url();
-
-//var_dump($_SESSION["testing_data_order"]);
 
 //phpinfo();
 
@@ -87,7 +85,6 @@ logging("Setup done");
 <script src="/tickets2/jsPsych/plugins/jspsych-instructions_check.js"></script>
 <script src="/tickets2/jsPsych/plugins/jspsych-training_avg.js"></script>
 <script src="/tickets2/jsPsych/plugins/jspsych-call-function.js"></script>
-<script src="/tickets2/jsPsych/plugins/jspsych-store_order.js"></script>
 <script src="/tickets2/jsPsych/plugins/jspsych-workerid.js"></script>
 <script src="/tickets2/jsPsych/plugins/jspsych-special_sequence.js"></script>
 <script src="/tickets2/jsPsych/plugins/jspsych-points-update.js"></script>
@@ -110,7 +107,7 @@ logging("Setup done");
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=0.5, user-scalable=no">
 
-<title>Psychology experiment</title>
+<title>Ticket prices</title>
 
 <script type="text/javascript">
 
@@ -171,12 +168,6 @@ var testing_instructions_trial = {
 	type: "html",
         url: "/tickets2/utils/testing.html",
         cont_btn: "testingstart"
-}
-
-var testing_order_trial = {
-	type: "store_order",
-	phase: 0,
-	order: []
 }
 
 // Second testing instructions (after example sequence)
@@ -274,7 +265,7 @@ var points_update_trial = {
 }
 
 var p2_points_update_trial = {
-    type: "points-update
+    type: "points-update"
 }
 
 var final_trial = {
@@ -324,6 +315,8 @@ function init_exp()
 
 	$.post("/tickets2/get.php", { f7g12d: "y" }, function(d) {
 
+    console.log(d);
+
 	var animdata = [];
 	var animanswers = [];
 	var animdata2 = [];
@@ -331,8 +324,6 @@ function init_exp()
 	var testing_data = [];
 	var p2_testing_data = [];
 	var training_ranges = [];
-	var testing_orders = [];
-	var p2_testing_orders = [];
 
 	var da = JSON.parse(d);
 	testing_data = da["testing"][0];
@@ -357,20 +348,19 @@ function init_exp()
     training_trial3.categories = da["categories"][0];
 	p2_training_trial.categories = da["categories"][1];
     p2_training_trial2.categories = da["categories"][1];
-    p2_training_trial3.categorires = da["categories"][1];
+    p2_training_trial3.categories = da["categories"][1];
 
-	var worker_id = "";
 	var assignment_id = "<?= $_SESSION['assignmentId'] ?>";
 
 	//timeline.push(special_sequence_trial);
 
-	timeline.push(consent_trial);
+/*	timeline.push(consent_trial);
 	timeline.push(age_trial);
 
 	workerid_trial.on_finish = function(data) {
-		worker_id = data.worker_id;
+        console.log("id: " + data.worker_id);
 
-		$.post("/tickets2/setworkerid.php", { id : data.worker_id }, function(d) { console.log(d); });
+		$.post("/tickets2/setworkerid.php", { id : data.worker_id });//, function(d) { console.log(d); });
 	};
   	timeline.push(workerid_trial);
 
@@ -410,6 +400,8 @@ function init_exp()
 	});
 
 	timeline.push(testing_instructions2_trial);
+
+    testing_data.length = 4;
 
 	for(var i = 0; i < testing_data.length; i++)
 	{
@@ -461,7 +453,8 @@ function init_exp()
 
 	timeline.push(p2_training_trial);
         timeline.push(p2_testing_instructions_trial);
-	timeline.push(p2_testing_order_trial);
+
+    p2_testing_data.length = 4;
 
 	//for(var i = 0; i < 2; i++)
 	for(var i = 0; i < p2_testing_data.length; i++)
@@ -476,7 +469,7 @@ function init_exp()
                                 showpoints: false,
                                 on_finish: function(data) {
 					$.post("/tickets2/check.php", { phase: 1, sequence: data.sequence, answer: data.result });
-                });
+                } });
 
                 if(i == Math.floor((p2_testing_data.length - 1) / 2)) {
                     timeline.push(p2_points_update_trial);
@@ -491,7 +484,7 @@ function init_exp()
 	timeline.push(p2_training_trial3);
 
 	timeline.push(special_sequence_trial);
-
+*/
 	timeline.push(final_trial);
 
 /*	var completion_code = {
@@ -544,7 +537,7 @@ function init_exp()
 		on_finish: function(data) {
 			$("#jspsych-main").empty().load("/tickets2/confirmation_code.html");
 			//console.log(worker_id);
-			$.post("/tickets2/submit.php", { data: JSON.stringify(data), worker_id: worker_id, assignment_id: assignment_id }, function(r) {
+			$.post("/tickets2/submit.php", { data: JSON.stringify(data), assignment_id: assignment_id }, function(r) {
 				console.log(r);
 			});
 		}

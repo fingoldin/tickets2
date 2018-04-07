@@ -96,7 +96,7 @@ jsPsych.plugins["ticket-choose"] = (function()
 					    below.html("");
                     }
                     else {
-                        points = Math.round(25 * (prices[prices.length - 1] - trial.prices[price_num]) / (prices[prices.length - 1] - prices[0])));
+                        points = Math.round(25 * (prices[prices.length - 1] - trial.prices[price_num]) / (prices[prices.length - 1] - prices[0]));
                         
                         if(trial.showpoints) {
                             diff = (25 - points) * 0.01;
@@ -104,7 +104,7 @@ jsPsych.plugins["ticket-choose"] = (function()
                             below.html("You could have earned an additional $" + diff.toFixed(3) + " had you chosen a different ticket");
                         }
                         else {
-                            above.html("Nice! Unfortunately, you didn't choose the best ticket");
+                            above.html("Nice! Unfortunately, you didn't choose the best ticket.");
                             below.html("");
                         }
                     }

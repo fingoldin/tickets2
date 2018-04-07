@@ -17,7 +17,7 @@ jsPsych.plugins["training_avg"] = (function()
 			avg += trial.sequence[i];
 		avg = Math.round(avg / trial.sequence.length);
 
-		display_element.empty().load("/tickets/utils/training_avg.html", function() {
+		display_element.empty().load("/tickets2/utils/training_avg.html", function() {
 			for(var i = trial.min_val; i <= trial.max_val; i++)
 				$("#avg-drop").append("<option value='" + i + "'>" + i + "</option>");
 

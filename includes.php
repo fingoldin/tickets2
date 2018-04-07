@@ -4,7 +4,7 @@ require("./repos/mturk-php/mturk.php");
 
 function logging($mes)
 {
-	$f = fopen("./logging.txt", "w");
+	$f = fopen("./logging.txt", "a");
 	fwrite($f, "[" . date("Y-m-d H:i:s") . "] " . $mes . "\n");
 	fclose($f);
 }
@@ -44,7 +44,7 @@ function get_points($phase, $sequence, $answer)
 	$arr = $_SESSION["testing_data"][$phase][$sequence];
         sort($arr);
 
-    $p = intval(25 * round(($arr[count($arr) - 1] - $answer) / ($arr[count($arr - 1] - $arr[0])));
+    $p = intval(25 * round(($arr[count($arr) - 1] - $answer) / ($arr[count($arr) - 1] - $arr[0])));
 
 	return $p;
 }
@@ -257,7 +257,7 @@ function startSession() {
                 $v = (int)round(generate_deviate($mean, $stddev));
         
                 if($v > $max)
-                    $v = $max)
+                    $v = $max;
                 else if($v < $min)
                     $v = $min;
 
@@ -278,6 +278,8 @@ function startSession() {
     ["$120 - $137","$138 - $154","$155 - $171", "$172 - $188", "$189 - $205", "$206 - $222", "$223 - $240"]
     ];
 
+    $_SESSION["training_avg_ranges"] = [[120, 240], [120, 240]];
+
     // Number of sequences in each test phase
     $ntest_sequences = 200;
 
@@ -297,7 +299,7 @@ function startSession() {
                 $v = (int)round(generate_deviate($mean, $stddev));
         
                 if($v > $max)
-                    $v = $max)
+                    $v = $max;
                 else if($v < $min)
                     $v = $min;
 
