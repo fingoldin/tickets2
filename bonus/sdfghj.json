@@ -1,0 +1,1 @@
+{"bonus":0.08,"worker_id":"sdfghj","assignment_id":"664460","result":{"OperationRequest":{"RequestId":"a85198cc-007d-401f-8267-b7c879f375f1","Errors":{"Error":{"Code":"AWS.NotAuthorized","Message":"The identity contained in the request is not authorized to use this AWSAccessKeyId (1523068032810)"}}}}}

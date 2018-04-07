@@ -6,10 +6,7 @@ jsPsych.plugins["final"] = (function()
 	{
 		trial = jsPsych.pluginAPI.evaluateFunctionParameters(trial);
 
-		trial.points = trial.points.p;
-
 		display_element.empty();
-
 
 		var wrap = document.createElement("DIV")
 		var top = document.createElement("DIV");
@@ -33,7 +30,7 @@ jsPsych.plugins["final"] = (function()
 
         $.post("/tickets2/getpoints.php", function(response) {
         var points = parseInt(response);
-		$(bot).css("opacity", "0").html("The experiment is now over.");
+        $(bot).css("opacity", "0").html("The experiment is now over.");
 		$(top).css("opacity", "0").html("Congratulations!").animate({ "opacity": "1" }, 1000, function() {
 			setTimeout(function() {
 				$(bot).animate({ "opacity": "1" }, 1000);
@@ -52,7 +49,7 @@ jsPsych.plugins["final"] = (function()
 
                         var money = 0.01 * Math.round(points * 0.1);
 
-                        top.innerHTML = "Congratulations! You earned $2 + $" + money.toFixed(2) + " =";
+                        top.innerHTML = "You earned $2 + $" + money.toFixed(2) + " =";
                         bot.innerHTML = "$" + (2 + money).toFixed(2);
 
 						$(wrap).animate({ "opacity": "1" }, 600, function() {
@@ -97,6 +94,8 @@ jsPsych.plugins["final"] = (function()
 												d.appendChild(s);
 												wrap.insertBefore(d, cont);
 												$(s).select2({ minimumResultsForSearch: -1 });
+
+                                                var bonus = Math.round(points * 0.1);
 
 												$(cont).off("click").click(function() {
 													var data = {

@@ -4,7 +4,7 @@ require("./repos/mturk-php/mturk.php");
 
 function logging($mes)
 {
-	$f = fopen("./logging.txt", "w");
+	$f = fopen("./logging.txt", "a");
 	fwrite($f, "[" . date("Y-m-d H:i:s") . "] " . $mes . "\n");
 	fclose($f);
 }
@@ -44,7 +44,7 @@ function get_points($phase, $sequence, $answer)
 	$arr = $_SESSION["testing_data"][$phase][$sequence];
         sort($arr);
 
-    $p = intval(25 * round(($arr[count($arr) - 1] - $answer) / ($arr[count($arr - 1] - $arr[0])));
+    $p = intval(round(25 * ($arr[count($arr) - 1] - $answer) / ($arr[count($arr) - 1] - $arr[0])));
 
 	return $p;
 }
@@ -55,8 +55,8 @@ function get_bonus($points)
 {
 	$b = round($points * 0.1);
 
-	if($b > 1000)
-		return 1000;
+	if($b > 500)
+		return 500;
 	else if($b < 0)
 		return 0;
 	else
@@ -87,8 +87,8 @@ function grant_bonus($b, $worker_id, $assignment_id)
 	// b is inputted as an int of cents
 	$bonus = $b / 100;
 
-	if($bonus > 10)
-		$bonus = 10;
+	if($bonus > 5)
+		$bonus = 5;
 	else if($bonus < 0)
 		$bonus = 0;
 
@@ -212,7 +212,12 @@ function dbQuery($conn, $query, $values = array()) {
 
 function generate_deviate($mean, $stddev)
 {
-    return $mean;
+    $max = mt_getrandmax();
+    $x1 = mt_rand() / $max;
+    $x2 = mt_rand() / $max;
+    $y = sqrt(-2 * log($x1)) * cos(2 * M_PI * $x2);
+
+    return ($y * $stddev + $mean);
 }
 
 function startSession() {
@@ -257,7 +262,7 @@ function startSession() {
                 $v = (int)round(generate_deviate($mean, $stddev));
         
                 if($v > $max)
-                    $v = $max)
+                    $v = $max;
                 else if($v < $min)
                     $v = $min;
 
@@ -278,6 +283,8 @@ function startSession() {
     ["$120 - $137","$138 - $154","$155 - $171", "$172 - $188", "$189 - $205", "$206 - $222", "$223 - $240"]
     ];
 
+    $_SESSION["training_avg_ranges"] = [[120, 240], [120, 240]];
+
     // Number of sequences in each test phase
     $ntest_sequences = 200;
 
@@ -297,7 +304,7 @@ function startSession() {
                 $v = (int)round(generate_deviate($mean, $stddev));
         
                 if($v > $max)
-                    $v = $max)
+                    $v = $max;
                 else if($v < $min)
                     $v = $min;
 

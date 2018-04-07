@@ -15,7 +15,7 @@ function checkAnswer($phase, $sequence, $answer)
 		logging("Something not set in checkAnswer");
 	else if(!in_array($sequence, $_SESSION["checked"][$phase]))
 	{
-		$p = get_points($phase, $sequence, $answer);
+		$p = get_points($phase, $sequence, intval($answer));
 
 		$totalp = $_SESSION["points"][$phase] + $p;
 		if($totalp > $_SESSION["max_points"])
