@@ -90,23 +90,18 @@ jsPsych.plugins["ticket-choose"] = (function()
 
 					//console.log(points);
 
+                    below.html("");
+
 					if(r === 0) {
                         points = 25;
-						above.html("You chose the best ticket!");
-					    below.html("");
+						above.html("Congratulations! Your ticket is the cheapest ticket!");
                     }
                     else {
                         points = Math.round(25 * (prices[prices.length - 1] - trial.prices[price_num]) / (prices[prices.length - 1] - prices[0]));
                         
-                        if(trial.showpoints) {
-                            diff = (25 - points) * 0.001;
-					        above.html("Nice!");
-                            below.html("You could have earned an additional $" + diff.toFixed(3) + " had you chosen a different ticket");
-                        }
-                        else {
-                            above.html("Nice! Unfortunately, you didn't choose the best ticket.");
-                            below.html("");
-                        }
+                        var diff = trial.prices[price_num] - prices[0];
+
+                        above.html("You could have saved  $" + diff.toFixed(0) + " if had you chosen a different ticket");
                     }
 
 					price.hide();

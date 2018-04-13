@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 5.7.21, for Linux (x86_64)
 --
--- Host: localhost    Database: tickets2_responses
+-- Host: localhost    Database: tickets_responses
 -- ------------------------------------------------------
 -- Server version	5.7.21-0ubuntu0.17.10.1
 
@@ -55,7 +55,7 @@ CREATE TABLE `responses` (
   `bonus` int(11) NOT NULL DEFAULT '0',
   `bonus_paid` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`RID`)
-) ENGINE=InnoDB AUTO_INCREMENT=583 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=584 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -72,7 +72,8 @@ CREATE TABLE `test_responses` (
   `response` int(11) NOT NULL,
   `place` int(11) NOT NULL,
   `points` int(11) NOT NULL,
-  `next_num` int(11) NOT NULL DEFAULT '0'
+  `next_num` int(11) NOT NULL DEFAULT '0',
+  `prices` varchar(256) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -117,4 +118,4 @@ CREATE TABLE `training_responses` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-04-07  5:48:40
+-- Dump completed on 2018-04-13 18:05:53

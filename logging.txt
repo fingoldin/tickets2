@@ -147,3 +147,27 @@
 [2018-04-06 22:23:53] Finished submitting
 [2018-04-06 22:27:12] Setup done
 [2018-04-07 05:27:13] Get.php OK
+[2018-04-12 16:27:57] Setup done
+[2018-04-12 23:27:58] Get.php OK
+[2018-04-13 10:35:01] Setup done
+[2018-04-13 10:35:11] Setup done
+[2018-04-13 10:35:43] Setup done
+[2018-04-13 17:35:43] Get.php OK
+[2018-04-13 17:35:51] setworkerid.php called with asdfgf
+[2018-04-13 17:37:35] checkAnswer called with 0 0 167
+[2018-04-13 17:37:35] checkAnswers called successfully, phase 0 gained 19 points and now has 19 points
+[2018-04-13 17:37:44] checkAnswer called with 0 1 131
+[2018-04-13 17:37:44] checkAnswers called successfully, phase 0 gained 25 points and now has 44 points
+[2018-04-13 17:38:39] checkAnswer called with 0 2 166
+[2018-04-13 17:38:39] checkAnswers called successfully, phase 0 gained 11 points and now has 55 points
+[2018-04-13 17:38:42] checkAnswer called with 0 3 201
+[2018-04-13 17:38:42] checkAnswers called successfully, phase 0 gained 7 points and now has 62 points
+[2018-04-13 17:39:02] Submit.php called and OK
+[2018-04-13 10:39:02] Finished submitting
+[2018-04-13 10:39:45] Setup done
+[2018-04-13 17:39:46] Get.php OK
+[2018-04-13 17:39:54] setworkerid.php called with asdfgh
+[2018-04-13 17:41:52] checkAnswer called with 0 0 175
+[2018-04-13 17:41:52] checkAnswers called successfully, phase 0 gained 7 points and now has 7 points
+[2018-04-13 17:41:56] checkAnswer called with 0 1 145
+[2018-04-13 17:41:56] checkAnswers called successfully, phase 0 gained 25 points and now has 32 points

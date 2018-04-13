@@ -14,8 +14,7 @@ if(isset($_POST["f7g12d"]) && isset($_SESSION["testing_data"]) && isset($_SESSIO
 		"training" => $_SESSION["training_data"],
 		"training_ranges" => $_SESSION["training_avg_ranges"],
 		"answers" => $_SESSION["training_answers"],
-		"categories" => $_SESSION["training_categories"],
-		"orders" => $_SESSION["testing_data_order"]
+		"categories" => $_SESSION["training_categories"]
 	];
 
 	echo json_encode($arr);

@@ -157,13 +157,14 @@ function mysql_save_response($arr)
 		else if($trial["trial_type"] == "ticket-choose" && $trial["sequence"] > -1)
 		{
 //			var_dump($trial);
-			dbQuery($conn, "INSERT INTO test_responses SET response=:result, points=:points, phase=:phase, sequence=:sequence, place=:place, RID=$id, next_num=:next_num", [
+			dbQuery($conn, "INSERT INTO test_responses SET response=:result, points=:points, phase=:phase, sequence=:sequence, place=:place, RID=$id, next_num=:next_num, prices=:prices", [
 					"result" => $trial["result"],
 					"points" => $trial["points"],
 					"phase" => $trial["phase"],
 					"sequence" => $trial["sequence"],
 					"place" => $trial["place"],
-					"next_num" => $trial["next_num"]
+					"next_num" => $trial["next_num"],
+                    "prices" => json_encode($trial["prices"])
 			]);
 
 			for($i = 0; $i < count($trial["times"]); $i++)
@@ -189,7 +190,7 @@ function mysql_save_response($arr)
 }
 
 function dbConnect() {
-    $dsn = "mysql:host=localhost;dbname=tickets2_responses;charset=utf8";
+    $dsn = "mysql:host=localhost;dbname=tickets_responses;charset=utf8";
     $opts = [
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
         PDO::ATTR_ERRMODE => PDO::FETCH_ASSOC,

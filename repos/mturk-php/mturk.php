@@ -22,8 +22,8 @@ class MechanicalTurk {
         $this->config = (object) array(
                         'use_sandbox' => false,
                         'verify_mturk_ssl' => true,
-                        'aws_key' => "INSERT_KEY_HERE",
-                        'aws_secret_key' => "INSERT_PASSWORD_HERE"
+                        'aws_key' => "KEYYY",
+                        'aws_secret_key' => "PASSWORD"
         );
     }
 

@@ -1,6 +1,5 @@
 <?php
 
-ini_set('display_errors', 1);
 //error_reporting(E_ALL);
 
 session_start();
@@ -190,6 +189,12 @@ var training_trial2 = {
 	//answers: animanswers
 }
 
+var mid_test_trial = {
+    type: "html",
+    url: "/tickets2/utils/mid_test.html",
+    cont_btn: "continue"
+}
+
 var training_trial3 = {
 	type: "bar-choose",
         instructions: "Imagine you would see yet another 20 tickets to Canada.",
@@ -246,6 +251,12 @@ var p2_training_trial2 = {
 	phase: 1,
 	number: 1
 	//answers: animanswers2
+}
+
+var p2_mid_test_trial = {
+    type: "html",
+    url: "/tickets2/utils/mid_test.html",
+    cont_btn: "continue"
 }
 
 var p2_training_trial3 = {
@@ -422,6 +433,7 @@ function init_exp()
         if(i == Math.floor((testing_data.length - 1) / 2)) {
             timeline.push(points_update_trial);
             timeline.push(training_trial2);
+            timeline.push(mid_test_trial);
         }
 	}
 	timeline[timeline.length-1].continue_message = "Finish";
@@ -475,6 +487,7 @@ function init_exp()
                 if(i == Math.floor((p2_testing_data.length - 1) / 2)) {
                     timeline.push(p2_points_update_trial);
                     timeline.push(p2_training_trial2);
+                    timeline.push(p2_mid_test_trial);
                 }
         }
         timeline[timeline.length-1].continue_message = "Finish";
