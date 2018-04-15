@@ -413,7 +413,7 @@ function init_exp()
 
 	timeline.push(testing_instructions2_trial);
 
-    testing_data.length = 4;
+    //testing_data.length = 4;
 
 	for(var i = 0; i < testing_data.length; i++)
 	{
@@ -467,7 +467,7 @@ function init_exp()
 	timeline.push(p2_training_trial);
         timeline.push(p2_testing_instructions_trial);
 
-    p2_testing_data.length = 4;
+    //p2_testing_data.length = 4;
 
 	//for(var i = 0; i < 2; i++)
 	for(var i = 0; i < p2_testing_data.length; i++)
