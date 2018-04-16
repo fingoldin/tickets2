@@ -97,11 +97,11 @@ jsPsych.plugins["ticket-choose"] = (function()
 						above.html("Congratulations! Your ticket is the cheapest ticket!");
                     }
                     else {
-                        points = Math.round(25 * (prices[prices.length - 1] - trial.prices[price_num]) / (prices[prices.length - 1] - prices[0]));
+                        points = Math.round(20 * (prices[prices.length - 1] - trial.prices[price_num]) / (prices[prices.length - 1] - prices[0]));
                         
                         var diff = trial.prices[price_num] - prices[0];
 
-                        above.html("You could have saved  $" + diff.toFixed(0) + " if had you chosen a different ticket");
+                        above.html("You could have saved $" + diff.toFixed(0) + " if had you chosen a different ticket");
                     }
 
 					price.hide();

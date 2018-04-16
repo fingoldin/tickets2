@@ -44,7 +44,7 @@ function get_points($phase, $sequence, $answer)
 	$arr = $_SESSION["testing_data"][$phase][$sequence];
         sort($arr);
 
-    $p = intval(round(25 * ($arr[count($arr) - 1] - $answer) / ($arr[count($arr) - 1] - $arr[0])));
+    $p = intval(round(20 * ($arr[count($arr) - 1] - $answer) / ($arr[count($arr) - 1] - $arr[0])));
 
 	return $p;
 }
@@ -55,8 +55,8 @@ function get_bonus($points)
 {
 	$b = round($points * 0.1);
 
-	if($b > 500)
-		return 500;
+	if($b > 400)
+		return 400;
 	else if($b < 0)
 		return 0;
 	else
@@ -87,8 +87,8 @@ function grant_bonus($b, $worker_id, $assignment_id)
 	// b is inputted as an int of cents
 	$bonus = $b / 100;
 
-	if($bonus > 5)
-		$bonus = 5;
+	if($bonus > 4)
+		$bonus = 4;
 	else if($bonus < 0)
 		$bonus = 0;
 
@@ -293,7 +293,7 @@ function startSession() {
     $ntest_tickets = 10;
 
     // The max number of points in a phase
-    $_SESSION["max_points"] = 25 * $ntest_sequences;
+    $_SESSION["max_points"] = 20 * $ntest_sequences;
 
     // Generate test data
     $_SESSION["testing_data"] = array();
