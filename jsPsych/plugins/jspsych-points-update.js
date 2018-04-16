@@ -12,7 +12,7 @@ jsPsych.plugins["points-update"] = (function()
             var points = parseInt(d);
 
             display_element.load("/tickets2/utils/points-update.html", function() {
-                $("#points-update-text").html("So far, you have earned $" + (0.001 * points).toFixed(3));
+                $("#points-update-text").html("Great! You are done with the first 100 sequencese and so far, you have earned $" + (0.001 * points).toFixed(3));
                 $("#points-update-button").click(function() {
                     display_element.empty();
                     jsPsych.finishTrial({});
