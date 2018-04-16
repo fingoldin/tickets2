@@ -274,9 +274,9 @@ function startSession() {
 
     $_SESSION["training_answers"] = [
     // First training phase
-    [2, 8, 23, 34, 23, 8, 2],
+    [0, 2, 5, 6, 5, 2, 0],
     // Second training phase
-    [2, 8, 23, 34, 23, 8, 2]
+    [0, 2, 5, 6, 5, 2, 0]
     ];
 
     $_SESSION["training_categories"] = [

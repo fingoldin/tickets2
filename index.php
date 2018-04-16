@@ -157,7 +157,7 @@ var training_trial = {
 	subtitle: "Please drag the bar or type in the input field to determine the amount of tickets <br> that are in the equivalent price range for this trip. <br><br>Press continue when you are sure of your answers.",
 //	categories: ["$135 - $150", "$151 - $165", "$166 - 180", "$181 - $195", "$196 - $210", "$211 - $225", "$226 - $240"],
 	min_val: 0,
-	max_val: 100,
+	max_val: 20,
 	phase: 0,
 	number: 0
 	//answers: animanswers
@@ -183,7 +183,7 @@ var training_trial2 = {
         subtitle: "Please drag the bar or type in the input field to determine the amount of tickets <br> that are in the equivalent price range for this trip. Press continue when you are sure of your answers.",
 //        categories: ["$135 - $150", "$151 - $165", "$166 - 180", "$181 - $195", "$196 - $210", "$211 - $225", "$226 - $240"],
         min_val: 0,
-        max_val: 100,
+        max_val: 20,
 	phase: 0,
 	number: 1
 	//answers: animanswers
@@ -201,7 +201,7 @@ var training_trial3 = {
         subtitle: "Please drag the bar or type in the input field to determine the amount of tickets <br> that are in the equivalent price range for this trip. Press continue when you are sure of your answers.",
 //        categories: ["$135 - $150", "$151 - $165", "$166 - 180", "$181 - $195", "$196 - $210", "$211 - $225", "$226 - $240"],
         min_val: 0,
-        max_val: 100,
+        max_val: 20,
 	phase: 0,
 	number: 2
 	//answers: animanswers
@@ -228,7 +228,7 @@ var p2_training_trial = {
         subtitle: "Please drag the bar or type in the input field to determine the amount of tickets <br> that are in the equivalent price range for this trip. Press continue when you are sure of your answers.",
 //        categories: ["$105 - $130", "$131 - $155", "$156 - $180", "$181 - $205", "$206 - $230", "$231 - $255", "$256 - $280"],
         min_val: 0,
-        max_val: 100,
+        max_val: 20,
 	phase: 1,
 	number: 0
 	//answers: animanswers2
@@ -247,7 +247,7 @@ var p2_training_trial2 = {
         subtitle: "Please drag the bar or type in the input field to determine the amount of tickets <br> that are in the equivalent price range for this trip. Press continue when you are sure of your answers.",
 //        categories: ["$105 - $130", "$131 - $155", "$156 - $180", "$181 - $205", "$206 - $230", "$231 - $255", "$256 - $280"],
         min_val: 0,
-        max_val: 100,
+        max_val: 20,
 	phase: 1,
 	number: 1
 	//answers: animanswers2
@@ -265,7 +265,7 @@ var p2_training_trial3 = {
         subtitle: "Please drag the bar or type in the input field to determine the amount of tickets <br> that are in the equivalent price range for this trip. Press continue when you are sure of your answers.",
 //        categories: ["$105 - $130", "$131 - $155", "$156 - $180", "$181 - $205", "$206 - $230", "$231 - $255", "$256 - $280"],
         min_val: 0,
-        max_val: 100,
+        max_val: 20,
 	phase: 1,
 	number: 2
 	//answers: animanswers2
