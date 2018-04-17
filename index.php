@@ -326,8 +326,6 @@ function init_exp()
 
 	$.post("/tickets2/get.php", { f7g12d: "y" }, function(d) {
 
-    console.log(d);
-
 	var animdata = [];
 	var animanswers = [];
 	var animdata2 = [];
@@ -369,8 +367,6 @@ function init_exp()
 	timeline.push(age_trial);
 
 	workerid_trial.on_finish = function(data) {
-        console.log("id: " + data.worker_id);
-
 		$.post("/tickets2/setworkerid.php", { id : data.worker_id });//, function(d) { console.log(d); });
 	};
   	timeline.push(workerid_trial);
