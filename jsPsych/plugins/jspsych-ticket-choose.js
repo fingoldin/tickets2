@@ -93,7 +93,7 @@ jsPsych.plugins["ticket-choose"] = (function()
                     below.html("");
 
 					if(r === 0) {
-                        points = 25;
+                        points = 20;
 						above.html("Congratulations! Your ticket is the cheapest ticket!");
                     }
                     else {

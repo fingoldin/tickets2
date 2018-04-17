@@ -171,3 +171,16 @@
 [2018-04-13 17:41:52] checkAnswers called successfully, phase 0 gained 7 points and now has 7 points
 [2018-04-13 17:41:56] checkAnswer called with 0 1 145
 [2018-04-13 17:41:56] checkAnswers called successfully, phase 0 gained 25 points and now has 32 points
+[2018-04-17 08:02:15] Setup done
+[2018-04-17 15:02:15] Get.php OK
+[2018-04-17 15:02:37] setworkerid.php called with hello
+[2018-04-17 15:03:40] checkAnswer called with 0 0 165
+[2018-04-17 15:03:40] checkAnswers called successfully, phase 0 gained 20 points and now has 20 points
+[2018-04-17 15:03:43] checkAnswer called with 0 1 178
+[2018-04-17 15:03:43] checkAnswers called successfully, phase 0 gained 12 points and now has 32 points
+[2018-04-17 15:03:52] checkAnswer called with 0 2 224
+[2018-04-17 15:03:52] checkAnswers called successfully, phase 0 gained 0 points and now has 32 points
+[2018-04-17 15:03:55] checkAnswer called with 0 3 164
+[2018-04-17 15:03:55] checkAnswers called successfully, phase 0 gained 20 points and now has 52 points
+[2018-04-17 15:04:13] Submit.php called and OK
+[2018-04-17 08:04:13] Finished submitting

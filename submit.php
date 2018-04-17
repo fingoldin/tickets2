@@ -35,11 +35,14 @@ if(isset($_SESSION["start_time"]) && isset($_SESSION["finished"]) && $_SESSION["
 			sort($arr2);
 
 			//echo "tp: " . $trial["points"] . " arr: " . $_SESSION["checked_assoc"][$trial["phase"]][$trial["sequence"]];
-			if($trial["points"] !== $_SESSION["checked_assoc"][$trial["phase"]][$trial["sequence"]] ||
-			   $trial["place"] !== array_search($trial["result"], $arr2))
+			$place = array_search($trial["result"], $arr2);
+            $points = $_SESSION["checked_assoc"][$trial["phase"]][$trial["sequence"]];
+
+            if($trial["points"] != $points || $trial["place"] != $place)
 			{
-				logging("The trial with sequence " . $trial["sequence"] . " in phase " . $trial["phase"] . " doesn't have the correct points");
-				exit;
+				logging("The trial with sequence " . $trial["sequence"] . " in phase " . $trial["phase"] . " doesn't have the correct points or place, (points = " . $trial["points"] . " when it should be " . $points . "; place = " . $trial["place"] . " when it should be " . $place . ")");
+				$trial["points"] = $points;
+                $trial["place"] = $place;
 			}
 		}
 		else if($trial["trial_type"] == "age")
@@ -58,9 +61,8 @@ if(isset($_SESSION["start_time"]) && isset($_SESSION["finished"]) && $_SESSION["
 			if($gb != $b)
 			{
 				logging("The total points don't match up: the trial says " . $b . " while get_bonus says " . $gb);
-				exit;
 			}
-			$arr["bonus"] = $b;
+			$arr["bonus"] = $gb;
 		}
 	}
 

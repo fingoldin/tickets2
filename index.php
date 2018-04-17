@@ -413,7 +413,7 @@ function init_exp()
 
 	timeline.push(testing_instructions2_trial);
 
-    //testing_data.length = 4;
+//    testing_data.length = 4;
 
 	for(var i = 0; i < testing_data.length; i++)
 	{
