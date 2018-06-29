@@ -337,6 +337,9 @@ function init_exp()
 	var da = JSON.parse(d);
 	testing_data = da["testing"][0];
 	p2_testing_data = da["testing"][1];
+    
+    console.log(testing_data);
+
 	animdata = da["training"][0];
 	animdata2 = da["training"][1];
 	animanswers = da["answers"][0];

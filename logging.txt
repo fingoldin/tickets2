@@ -184,3 +184,12 @@
 [2018-04-17 15:03:55] checkAnswers called successfully, phase 0 gained 20 points and now has 52 points
 [2018-04-17 15:04:13] Submit.php called and OK
 [2018-04-17 08:04:13] Finished submitting
+[2018-06-29 09:28:06] Setup done
+[2018-06-29 09:28:18] Setup done
+[2018-06-29 09:28:19] Setup done
+[2018-06-29 09:28:21] Setup done
+[2018-06-29 16:28:21] Get.php OK
+[2018-06-29 16:28:29] setworkerid.php called with asdasd
+[2018-06-29 11:07:11] Setup done
+[2018-06-29 11:07:15] Setup done
+[2018-06-29 18:07:15] Get.php OK

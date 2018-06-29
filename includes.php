@@ -211,12 +211,17 @@ function dbQuery($conn, $query, $values = array()) {
     }
 }
 
-function generate_deviate($mean, $stddev)
+function generate_deviate($mean, $stddev, $a)
 {
     $max = mt_getrandmax();
     $x1 = mt_rand() / $max;
     $x2 = mt_rand() / $max;
-    $y = sqrt(-2 * log($x1)) * cos(2 * M_PI * $x2);
+    
+    $sq = sqrt(-2 * log($x1));
+    $y1 = $sq * cos(2 * M_PI * $x2);
+    $y2 = $sq * sin(2 * M_PI * $x2);
+
+    $y = ($a * abs($y1) + $y2) / sqrt(1 + $a * $a);
 
     return ($y * $stddev + $mean);
 }
@@ -246,8 +251,9 @@ function startSession() {
     $ntraining_tickets = 10;
 
     // Parameters of normal distribution
-    $mean = 180;
-    $stddev = 20;
+    $a = 20;
+    $mean = 150;
+    $stddev = 30;
 
     // Minimum and maximum values for the deviates in case we get a really unlikely one
     $min = 120;
@@ -260,7 +266,7 @@ function startSession() {
         for($i = 0; $i < $ntraining_sequences; $i++) {
             $_SESSION["trainin_data"][$h][$i] = array();
             for($j = 0; $j < $ntraining_tickets; $j++) {
-                $v = (int)round(generate_deviate($mean, $stddev));
+                $v = (int)round(generate_deviate($mean, $stddev, $a));
         
                 if($v > $max)
                     $v = $max;
@@ -302,7 +308,7 @@ function startSession() {
         for($i = 0; $i < $ntest_sequences; $i++) {
             $_SESSION["testing_data"][$h][$i] = array();
             for($j = 0; $j < $ntest_tickets; $j++) {
-                $v = (int)round(generate_deviate($mean, $stddev));
+                $v = (int)round(generate_deviate($mean, $stddev, $a));
         
                 if($v > $max)
                     $v = $max;
