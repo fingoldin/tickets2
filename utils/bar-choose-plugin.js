@@ -184,12 +184,16 @@
 
 			var vals = $(root).find(".bar-graph-column");
 			var cats = $(root).data("categories");
-			var res = [];
+			var res = {};
 //console.log($(vals[0]).data("value"));
-			for(var i = 0; i < vals.length && i < cats.length; i++)
-				res.push({ value: parseInt($(vals[i]).data("value")), offby: parseInt($(vals[i]).data("offby")), category: cats[i], category_index: i });
-//console.log(res);
-			return res;
+			res.total_offby = 0;
+            res.categories = [];
+            for(var i = 0; i < vals.length && i < cats.length; i++) {
+                var off = parseInt($(vals[i]).data("offby"));
+				res.categories.push({ value: parseInt($(vals[i]).data("value")), offby: off, category: cats[i], category_index: i });
+			    res.total_offby += Math.abs(off);
+            }
+            return res;
 		}
 		else if(type == "show")
 		{

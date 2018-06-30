@@ -1,54 +1,3 @@
-<?php
-
-//error_reporting(E_ALL);
-
-session_start();
-
-require("./includes.php");
-
-startSession();
-
-//echo get_bonus(227);
-
-store_url();
-
-//phpinfo();
-
-grant_bonuses();
-//grant_bonus(1, "A3UEJQ4EJB9DBD", "3180JW2OT55Z5VXVLET9XPRFURAJ50");
-
-
-//startSession();
-
-$preview = true;
-
-// CHANGE THIS TO EITHER GET THE WORKER AND ASSIGNMENT IDS FROM $_GET OR GENERATE RANDOM ONES
-$use_random = !isset($_GET["assignmentID"]);
-
-if($use_random)
-{
-	$assignmentid = rand(1, 1000000);
-
-	$preview = false;
-	//startSession();
-	$_SESSION["assignmentId"] = $assignmentid;
-	$_SESSION["workerId"] = "NOT_SET";
-}
-else
-{
-	if(isset($_GET["assignmentID"]) && $_GET["assignmentID"] != "ASSIGNMENT_ID_NOT_AVAILABLE")
-	{
-		$preview = false;
-
-		//startSession();
-		$_SESSION["assignmentId"] = htmlspecialchars($_GET["assignmentID"]);
-		$_SESSION["workerId"] = "NOT_SET";
-	}
-}
-
-logging("Setup done");
-
-?>
 
 <!DOCTYPE html>
 
@@ -166,10 +115,7 @@ var training_trial = {
 var testing_instructions_trial = {
 	type: "html",
         url: "/tickets2/utils/testing.html",
-        cont_btn: "testingstart",
-    on_start: function(trial) {
-        $("#wheel").css("display", "none");
-    }
+        cont_btn: "testingstart"
 }
 
 // Second testing instructions (after example sequence)
@@ -240,10 +186,7 @@ var p2_training_trial = {
 var p2_testing_instructions_trial = {
         type: "html",
         url: "/tickets2/utils/testing2.html",
-        cont_btn: "testingstart",
-    on_start: function(trial) {
-        $("#wheel").css("display", "none");
-    }
+        cont_btn: "testingstart"
 }
 
 // Second bar graph to see learning
@@ -381,7 +324,7 @@ function init_exp()
     training_trial.pass_threshold = threshold;
     p2_training_trial.pass_threshold = threshold;
 	
-    var assignment_id = "<?= $_SESSION['assignmentId'] ?>";
+    var assignment_id = "921994";
 
 	//timeline.push(special_sequence_trial);
 
@@ -418,7 +361,7 @@ function init_exp()
                 phase: 0,
                 sequence_num: j,
                 repeat_num: i,
-                passed: function() { return passed; },
+                passed: function() { return passed; }
                 sequence: animdata[i][j],
                 min_val: training_ranges[0][0],
                 max_val: training_ranges[0][1]
@@ -428,10 +371,8 @@ function init_exp()
     	timeline.push(Object.assign({ repeat_num: i,
                     passed: function() { return passed; },
                     on_finish: function(data) {
-                        if(data.passed) {
-                            passed = true;
-	                        $("#wheel").css("display", "block");
-                        }
+                        if(data.passed)
+                            passed = true;  
                     }                  
         }, training_trial));
     }
@@ -513,10 +454,8 @@ function init_exp()
     	timeline.push(Object.assign({ repeat_num: i,
                     passed: function() { return passed2; },
                     on_finish: function(data) {
-                        if(data.passed) {
+                        if(data.passed)
                             passed2 = true;  
-	                        $("#wheel").css("display", "block");
-                        }
                     }                  
         }, p2_training_trial));
     }
@@ -595,8 +534,8 @@ function init_exp()
 
 	// save data end
 
-	//var worker_id = "<?= $_SESSION['workerId']; ?>";
-	//var assignment_id = "<?= $_SESSION['assignmentId']; ?>";
+	//var worker_id = "NOT_SET";
+	//var assignment_id = "921994";
 
 
 	$("#wheel").css("display", "none");
@@ -647,10 +586,7 @@ function init()
 	else
 		init_exp(tinfo.workerId, tinfo.assignmentId);*/
 
-	var prev = <?php if($preview)
-				echo('true');
-			else
-				echo('false'); ?>;
+	var prev = false;
 
 	if(prev)
 		init_preview(accept_trial);

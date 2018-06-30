@@ -4,18 +4,27 @@ jsPsych.plugins["number-animation"] = (function()
 
 	plugin.trial = function(display_element, trial)
 	{
-		trial.prices = trial.prices || [];
+    	trial = jsPsych.pluginAPI.evaluateFunctionParameters(trial);
+
+        if(trial.passed) {
+            jsPsych.finishTrial({ repeat_num: trial.repeat_num, result: "passed" });
+            return;
+        }
+		
+        trial.prices = trial.prices || [];
 		trial.continue_message = trial.continue_message || "Continue";
 		trial.phase = trial.phase || 0;
+        trial.repeat_num = trial.repeat_num || 0;
+        trial.sequence_num = trial.sequence_num || 0;
 
 		//console.log(trial.prices);
 
 		var num_prices = trial.prices.length;
 		//xxvar num_prices = 2;
-		if(!num_prices)
-			jsPsych.finishTrial({ "result": "error" });
-
-    		trial = jsPsych.pluginAPI.evaluateFunctionParameters(trial);
+		if(!num_prices) {
+			jsPsych.finishTrial({ result: "error" });
+            return;
+        }
 
 		display_element.html("");
 		display_element.load("/tickets2/utils/number-animation.html", function()

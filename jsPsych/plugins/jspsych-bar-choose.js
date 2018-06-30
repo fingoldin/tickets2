@@ -4,7 +4,14 @@ jsPsych.plugins["bar-choose"] = (function()
 
 	plugin.trial = function(display_element, trial)
 	{
-		trial.instructions = trial.instructions || "No instructions given";
+		trial = jsPsych.pluginAPI.evaluateFunctionParameters(trial);
+
+        if(trial.passed) {
+            jsPsych.finishTrial({ repeat_num: trial.repeat_num, result: "passed" });
+            return;
+        }
+		
+        trial.instructions = trial.instructions || "No instructions given";
 		trial.subtitle = trial.subtitle || "";
 		trial.categories = trial.categories || [];
 		trial.min_val = trial.min_val || 0;
@@ -12,11 +19,12 @@ jsPsych.plugins["bar-choose"] = (function()
 		trial.answers = trial.answers || [];
 		trial.phase = trial.phase || 0;
 		trial.number = trial.number || 0;
+        trial.repeat_num = trial.repeat_num || 0;
 //		trial.points = trial.points || { points: 0, subtitle: "" };
-
-		trial = jsPsych.pluginAPI.evaluateFunctionParameters(trial);
-
-		display_element.empty();
+		
+        trial.instructions = trial.instructions.replace("MAXVAL", trial.max_val);
+        
+        display_element.empty();
 
 		display_element.load("/tickets2/utils/bar-choose.html", function()
 		{
@@ -37,12 +45,18 @@ jsPsych.plugins["bar-choose"] = (function()
 
 				display_element.find("#bar-submit").off("click").click(function() {
 
-					var data = {
-						responses: display_element.find("#bar-graph").barChooseGraph("get")
-					}
+			        var results = display_element.find("#bar-graph").barChooseGraph("get");
 
-					data["phase"] = trial.phase;
-					data["number"] = trial.number;
+                    var data = {};
+
+                    if(trial.pass_threshold)
+                        data.passed = (results.total_offby / trial.max_val) <= trial.pass_threshold;
+
+                    data.responses = results.categories;
+					data.phase = trial.phase;
+					data.number = trial.number;
+                    data.repeat_num = trial.repeat_num;
+                    data.max_val = trial.max_val;
 
 					display_element.html("");
 

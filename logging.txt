@@ -193,3 +193,47 @@
 [2018-06-29 11:07:11] Setup done
 [2018-06-29 11:07:15] Setup done
 [2018-06-29 18:07:15] Get.php OK
+[2018-06-29 14:07:59] Setup done
+[2018-06-29 14:08:01] Setup done
+[2018-06-29 21:08:02] Get.php OK
+[2018-06-29 14:08:59] Setup done
+[2018-06-29 21:09:00] Get.php OK
+[2018-06-29 14:09:36] Setup done
+[2018-06-29 21:09:37] Get.php OK
+[2018-06-29 21:09:46] setworkerid.php called with Sdfg
+[2018-06-29 14:11:11] Setup done
+[2018-06-29 21:11:12] Get.php OK
+[2018-06-29 14:12:04] Setup done
+[2018-06-29 21:12:04] Get.php OK
+[2018-06-29 14:17:54] Setup done
+[2018-06-29 21:17:55] Get.php OK
+[2018-06-29 14:18:23] Setup done
+[2018-06-29 21:18:24] Get.php OK
+[2018-06-29 21:18:32] setworkerid.php called with asdfghjk
+[2018-06-29 14:20:07] Setup done
+[2018-06-29 21:20:08] Get.php OK
+[2018-06-29 21:20:20] setworkerid.php called with asdfg
+[2018-06-29 14:21:42] Setup done
+[2018-06-29 21:21:43] Get.php OK
+[2018-06-29 21:23:04] setworkerid.php called with asdfghj
+[2018-06-30 10:16:37] Setup done
+[2018-06-30 10:16:44] Setup done
+[2018-06-30 10:16:58] Setup done
+[2018-06-30 10:18:47] Setup done
+[2018-06-30 10:19:03] Setup done
+[2018-06-30 10:19:07] Setup done
+[2018-06-30 10:19:52] Setup done
+[2018-06-30 17:19:53] Get.php OK
+[2018-06-30 17:20:58] setworkerid.php called with 23456789
+[2018-06-30 10:22:21] Setup done
+[2018-06-30 17:22:22] Get.php OK
+[2018-06-30 17:22:54] setworkerid.php called with 234567890
+[2018-06-30 10:43:52] Setup done
+[2018-06-30 17:43:53] Get.php OK
+[2018-06-30 17:44:00] setworkerid.php called with asdfghj
+[2018-06-30 10:49:26] Setup done
+[2018-06-30 17:49:27] Get.php OK
+[2018-06-30 17:49:36] setworkerid.php called with asdfghjk
+[2018-06-30 10:56:54] Setup done
+[2018-06-30 17:56:54] Get.php OK
+[2018-06-30 17:57:01] setworkerid.php called with asdfghj

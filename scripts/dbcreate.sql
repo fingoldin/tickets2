@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.7.21, for Linux (x86_64)
+-- MySQL dump 10.13  Distrib 5.7.22, for Linux (x86_64)
 --
 -- Host: localhost    Database: tickets_responses
 -- ------------------------------------------------------
--- Server version	5.7.21-0ubuntu0.17.10.1
+-- Server version	5.7.22-0ubuntu0.17.10.1
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -29,7 +29,8 @@ CREATE TABLE `bar_responses` (
   `category_index` int(11) NOT NULL DEFAULT '0',
   `response` int(11) NOT NULL,
   `phase` int(11) NOT NULL,
-  `number` int(11) NOT NULL
+  `number` int(11) NOT NULL,
+  `repeat_num` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -54,8 +55,9 @@ CREATE TABLE `responses` (
   `assignment_id` varchar(256) DEFAULT NULL,
   `bonus` int(11) NOT NULL DEFAULT '0',
   `bonus_paid` tinyint(1) NOT NULL DEFAULT '1',
+  `training_sort` int(11) NOT NULL,
   PRIMARY KEY (`RID`)
-) ENGINE=InnoDB AUTO_INCREMENT=584 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=586 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -105,7 +107,8 @@ CREATE TABLE `training_responses` (
   `sequence` int(11) NOT NULL,
   `response` int(11) NOT NULL,
   `avg` int(11) NOT NULL,
-  `phase` int(11) NOT NULL DEFAULT '0'
+  `phase` int(11) NOT NULL DEFAULT '0',
+  `repeat_num` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -118,4 +121,4 @@ CREATE TABLE `training_responses` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-04-13 18:05:53
+-- Dump completed on 2018-06-30 17:42:40
