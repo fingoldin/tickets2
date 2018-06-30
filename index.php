@@ -437,7 +437,7 @@ function init_exp()
     }
 
     timeline.push(testing_instructions_trial);
-	
+/*	
     // example testing sequence
 	timeline.push({ type: "ticket-choose",
 			phase: 0,
@@ -478,7 +478,7 @@ function init_exp()
 		$.post("/tickets2/check.php", { phase: 0, sequence: data.sequence, answer: data.result });
 	};
 
-	timeline.push(training_trial3);
+	timeline.push(training_trial3);*/
 /*
 	timeline.push(p2_start_trial);
 	

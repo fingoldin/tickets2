@@ -46,7 +46,14 @@ jsPsych.plugins["number-animation"] = (function()
       $(number).stop().animate({ transform: "translateX(0px)", opacity: "1" }, interval_time / 2, function() {
         $(number).stop().animate({ transform: "translateX(0px)", opacity: "0" }, interval_time / 2);
       });*/
-
+		
+            if(trial.repeat_num > 0 && trial.sequence_num == 0)
+            {
+				$("#wrong-top").animate({ top: "0px" });
+				setTimeout(function() {
+					$("#wrong-top").animate({ top: "-40px" });
+				}, 5000);
+            }
 
 			var price = display_element.find(".number-animation");
 			next_price();

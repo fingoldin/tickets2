@@ -237,3 +237,121 @@
 [2018-06-30 10:56:54] Setup done
 [2018-06-30 17:56:54] Get.php OK
 [2018-06-30 17:57:01] setworkerid.php called with asdfghj
+[2018-06-30 11:18:10] Setup done
+[2018-06-30 18:18:11] Get.php OK
+[2018-06-30 18:18:17] setworkerid.php called with asd
+[2018-06-30 11:19:12] Setup done
+[2018-06-30 18:19:12] Get.php OK
+[2018-06-30 18:19:19] setworkerid.php called with asdfghjk
+[2018-06-30 11:22:44] Setup done
+[2018-06-30 18:22:45] Get.php OK
+[2018-06-30 18:22:52] setworkerid.php called with asdfghj
+[2018-06-30 11:24:48] Setup done
+[2018-06-30 18:24:49] Get.php OK
+[2018-06-30 18:24:57] setworkerid.php called with fdsg
+[2018-06-30 11:31:57] Setup done
+[2018-06-30 18:31:57] Get.php OK
+[2018-06-30 18:32:04] setworkerid.php called with xcjkl
+[2018-06-30 18:42:21] checkAnswer called with 0 0 162
+[2018-06-30 18:42:21] checkAnswers called successfully, phase 0 gained 14 points and now has 14 points
+[2018-06-30 18:42:34] checkAnswer called with 0 1 199
+[2018-06-30 18:42:34] checkAnswers called successfully, phase 0 gained 0 points and now has 14 points
+[2018-06-30 18:42:36] checkAnswer called with 0 2 151
+[2018-06-30 18:42:36] checkAnswers called successfully, phase 0 gained 20 points and now has 34 points
+[2018-06-30 18:42:37] checkAnswer called with 0 3 160
+[2018-06-30 18:42:37] checkAnswers called successfully, phase 0 gained 17 points and now has 51 points
+[2018-06-30 18:42:39] checkAnswer called with 0 4 162
+[2018-06-30 18:42:39] checkAnswers called successfully, phase 0 gained 16 points and now has 67 points
+[2018-06-30 18:42:40] checkAnswer called with 0 5 199
+[2018-06-30 18:42:40] checkAnswers called successfully, phase 0 gained 4 points and now has 71 points
+[2018-06-30 18:42:42] checkAnswer called with 0 6 152
+[2018-06-30 18:42:42] checkAnswers called successfully, phase 0 gained 20 points and now has 91 points
+[2018-06-30 18:42:43] checkAnswer called with 0 7 209
+[2018-06-30 18:42:43] checkAnswers called successfully, phase 0 gained 2 points and now has 93 points
+[2018-06-30 18:42:45] checkAnswer called with 0 8 198
+[2018-06-30 18:42:45] checkAnswers called successfully, phase 0 gained 6 points and now has 99 points
+[2018-06-30 18:42:46] checkAnswer called with 0 9 189
+[2018-06-30 18:42:46] checkAnswers called successfully, phase 0 gained 6 points and now has 105 points
+[2018-06-30 18:42:47] checkAnswer called with 0 10 181
+[2018-06-30 18:42:47] checkAnswers called successfully, phase 0 gained 9 points and now has 114 points
+[2018-06-30 18:42:49] checkAnswer called with 0 11 169
+[2018-06-30 18:42:49] checkAnswers called successfully, phase 0 gained 15 points and now has 129 points
+[2018-06-30 18:42:50] checkAnswer called with 0 12 160
+[2018-06-30 18:42:50] checkAnswers called successfully, phase 0 gained 17 points and now has 146 points
+[2018-06-30 18:42:52] checkAnswer called with 0 13 172
+[2018-06-30 18:42:52] checkAnswers called successfully, phase 0 gained 12 points and now has 158 points
+[2018-06-30 18:42:53] checkAnswer called with 0 14 155
+[2018-06-30 18:42:53] checkAnswers called successfully, phase 0 gained 18 points and now has 176 points
+[2018-06-30 18:42:55] checkAnswer called with 0 15 184
+[2018-06-30 18:42:55] checkAnswers called successfully, phase 0 gained 10 points and now has 186 points
+[2018-06-30 18:42:56] checkAnswer called with 0 16 191
+[2018-06-30 18:42:56] checkAnswers called successfully, phase 0 gained 0 points and now has 186 points
+[2018-06-30 18:42:58] checkAnswer called with 0 17 170
+[2018-06-30 18:42:58] checkAnswers called successfully, phase 0 gained 12 points and now has 198 points
+[2018-06-30 18:42:59] checkAnswer called with 0 18 187
+[2018-06-30 18:42:59] checkAnswers called successfully, phase 0 gained 2 points and now has 200 points
+[2018-06-30 18:43:01] checkAnswer called with 0 19 154
+[2018-06-30 18:43:01] checkAnswers called successfully, phase 0 gained 19 points and now has 219 points
+[2018-06-30 18:43:02] checkAnswer called with 0 20 180
+[2018-06-30 18:43:02] checkAnswers called successfully, phase 0 gained 9 points and now has 228 points
+[2018-06-30 18:43:04] checkAnswer called with 0 21 198
+[2018-06-30 18:43:04] checkAnswers called successfully, phase 0 gained 0 points and now has 228 points
+[2018-06-30 18:43:05] checkAnswer called with 0 22 161
+[2018-06-30 18:43:05] checkAnswers called successfully, phase 0 gained 19 points and now has 247 points
+[2018-06-30 18:43:07] checkAnswer called with 0 23 156
+[2018-06-30 18:43:07] checkAnswers called successfully, phase 0 gained 19 points and now has 266 points
+[2018-06-30 18:43:08] checkAnswer called with 0 24 193
+[2018-06-30 18:43:08] checkAnswers called successfully, phase 0 gained 7 points and now has 273 points
+[2018-06-30 18:43:10] checkAnswer called with 0 25 167
+[2018-06-30 18:43:10] checkAnswers called successfully, phase 0 gained 17 points and now has 290 points
+[2018-06-30 18:43:11] checkAnswer called with 0 26 152
+[2018-06-30 18:43:11] checkAnswers called successfully, phase 0 gained 20 points and now has 310 points
+[2018-06-30 18:43:13] checkAnswer called with 0 27 153
+[2018-06-30 18:43:13] checkAnswers called successfully, phase 0 gained 20 points and now has 330 points
+[2018-06-30 18:43:15] checkAnswer called with 0 28 152
+[2018-06-30 18:43:15] checkAnswers called successfully, phase 0 gained 20 points and now has 350 points
+[2018-06-30 18:43:16] checkAnswer called with 0 29 167
+[2018-06-30 18:43:16] checkAnswers called successfully, phase 0 gained 16 points and now has 366 points
+[2018-06-30 18:43:18] checkAnswer called with 0 30 176
+[2018-06-30 18:43:18] checkAnswers called successfully, phase 0 gained 14 points and now has 380 points
+[2018-06-30 18:43:19] checkAnswer called with 0 31 183
+[2018-06-30 18:43:19] checkAnswers called successfully, phase 0 gained 3 points and now has 383 points
+[2018-06-30 18:43:20] checkAnswer called with 0 32 151
+[2018-06-30 18:43:20] checkAnswers called successfully, phase 0 gained 20 points and now has 403 points
+[2018-06-30 18:43:22] checkAnswer called with 0 33 182
+[2018-06-30 18:43:22] checkAnswers called successfully, phase 0 gained 9 points and now has 412 points
+[2018-06-30 18:43:23] checkAnswer called with 0 34 156
+[2018-06-30 18:43:23] checkAnswers called successfully, phase 0 gained 20 points and now has 432 points
+[2018-06-30 18:43:57] checkAnswer called with 0 35 184
+[2018-06-30 18:43:57] checkAnswers called successfully, phase 0 gained 10 points and now has 442 points
+[2018-06-30 18:43:58] checkAnswer called with 0 36 176
+[2018-06-30 18:43:58] checkAnswers called successfully, phase 0 gained 9 points and now has 451 points
+[2018-06-30 18:44:00] checkAnswer called with 0 37 182
+[2018-06-30 18:44:00] checkAnswers called successfully, phase 0 gained 8 points and now has 459 points
+[2018-06-30 18:44:01] checkAnswer called with 0 38 167
+[2018-06-30 18:44:01] checkAnswers called successfully, phase 0 gained 11 points and now has 470 points
+[2018-06-30 18:44:02] checkAnswer called with 0 39 171
+[2018-06-30 18:44:02] checkAnswers called successfully, phase 0 gained 9 points and now has 479 points
+[2018-06-30 18:44:04] checkAnswer called with 0 40 178
+[2018-06-30 18:44:04] checkAnswers called successfully, phase 0 gained 1 points and now has 480 points
+[2018-06-30 18:44:05] checkAnswer called with 0 41 154
+[2018-06-30 18:44:05] checkAnswers called successfully, phase 0 gained 19 points and now has 499 points
+[2018-06-30 18:44:06] checkAnswer called with 0 42 162
+[2018-06-30 18:44:06] checkAnswers called successfully, phase 0 gained 14 points and now has 513 points
+[2018-06-30 18:44:08] checkAnswer called with 0 43 169
+[2018-06-30 18:44:08] checkAnswers called successfully, phase 0 gained 18 points and now has 531 points
+[2018-06-30 18:44:11] checkAnswer called with 0 44 154
+[2018-06-30 18:44:11] checkAnswers called successfully, phase 0 gained 19 points and now has 550 points
+[2018-06-30 18:44:13] checkAnswer called with 0 45 169
+[2018-06-30 18:44:13] checkAnswers called successfully, phase 0 gained 16 points and now has 566 points
+[2018-06-30 11:44:41] Setup done
+[2018-06-30 18:44:41] Get.php OK
+[2018-06-30 18:44:48] setworkerid.php called with sdfghjkl
+[2018-06-30 18:45:25] Submit.php called and OK
+[2018-06-30 11:45:25] Finished submitting
+[2018-06-30 11:46:23] Setup done
+[2018-06-30 11:46:23] Setup done
+[2018-06-30 18:46:24] Get.php OK
+[2018-06-30 18:46:51] setworkerid.php called with asdfghjkl
+[2018-06-30 18:49:15] Submit.php called and OK
+[2018-06-30 11:49:15] Finished submitting
