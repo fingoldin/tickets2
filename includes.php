@@ -219,6 +219,8 @@ function dbQuery($conn, $query, $values = array()) {
     }
 }
 
+// This function generates a random number within the skewed normal distribution with parameters
+// location, scale and shape. **THIS IS THE TICKET GENERATION FUNCTION**
 function generate_deviate($location, $scale, $shape)
 {
     // Generate two random uniformly distributed numbers between 0 and 1
