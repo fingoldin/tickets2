@@ -221,19 +221,25 @@ function dbQuery($conn, $query, $values = array()) {
 
 function generate_deviate($location, $scale, $shape)
 {
+    // Generate two random uniformly distributed numbers between 0 and 1
     $max = mt_getrandmax();
     $x1 = mt_rand() / $max;
     $x2 = mt_rand() / $max;
     
+    // Generate two random numbers on the standard normal distribution using the Box-Muller transform
     $sq = sqrt(-2 * log($x1));
     $y1 = $sq * cos(2 * M_PI * $x2);
     $y2 = $sq * sin(2 * M_PI * $x2);
 
+    // Generate one random number on the standard skewed normal distribution using Henze's formula
     $y = ($shape * abs($y1) + $y2) / sqrt(1 + $shape * $shape);
 
+    // Multiply by the scale and add the location to transform the distribution
     return ($y * $scale + $location);
 }
 
+// This estimates the error function (erf(x)) with maximum error 1.5 * 10^(-7). This approximation was
+// given by Abramowitz and Stegun, and is described on the Wikepedia page for the error function.
 function erf($x)
 {
     $p = 0.3275911;
@@ -249,30 +255,42 @@ function erf($x)
     return (1 - $v * exp(-$x*$x));
 }
 
+// This estimates Owen's T function by numerically integrating, based on the definition of the function.
 function t_func($h, $a)
 {
+    // step = dx
     $step = 0.0001;
+
+    // Holds the total integral
     $sum = 0.0;
 
+    // If a is greater than 0, the we are integrating from 0 to a
     $x = 0;
     $max = $a;
 
+    // If a is less than 0, then we are integrating from a to 0, but afterwards the value is multiplied
+    // by -1
     if($a < 0.0) {
         $x = $a;
         $max = 0;
     }
 
+    // Integrate, using the defition of Owen's T function and updating x by step with each iteration
     while($x <= $max) {
         $sum += (exp(-0.5 * $h * $h * (1 + $x * $x)) / (1 + $x * $x)) * $step;
         $x += $step;
     }
 
+    // Multiply the integral by -1 if a is smaller than 0
     if($a < 0.0)
         $sum = -$sum;
 
     return $sum / (2 * M_PI);
 }
 
+// This function estimates the CDF of the skewed normal distribution evaluated at the given point (x) 
+// and with the given properties (location, scale, shape). This formula for the CDF of the skewed normal
+// distribution was taken from the Wikipedia page for the skewed normal distribution
 function distrib_cdf($x, $location, $scale, $shape)
 {
     $f = 0.5 * (1 + erf(($x - $location) / ($scale * M_SQRT2)));
