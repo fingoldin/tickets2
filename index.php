@@ -71,37 +71,37 @@ logging("Setup done");
 <head>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-<script src="/tickets2/jsPsych/jspsych.js"></script>
-<script src="/tickets2/jsPsych/plugins/jspsych-text.js"></script>
-<script src="/tickets2/jsPsych/plugins/jspsych-html.js"></script>
-<script src="/tickets2/jsPsych/plugins/jspsych-animation.js"></script>
-<script src="/tickets2/jsPsych/plugins/jspsych-number-animation.js"></script>
-<script src="/tickets2/jsPsych/plugins/jspsych-html-animation.js"></script>
-<script src="/tickets2/jsPsych/plugins/jspsych-bar-choose.js"></script>
-<script src="/tickets2/jsPsych/plugins/jspsych-ticket-choose.js"></script>
-<script src="/tickets2/jsPsych/plugins/jspsych-final.js"></script>
-<script src="/tickets2/jsPsych/plugins/jspsych-age.js"></script>
-<script src="/tickets2/jsPsych/plugins/jspsych-instructions_check.js"></script>
-<script src="/tickets2/jsPsych/plugins/jspsych-training_avg.js"></script>
-<script src="/tickets2/jsPsych/plugins/jspsych-call-function.js"></script>
-<script src="/tickets2/jsPsych/plugins/jspsych-workerid.js"></script>
-<script src="/tickets2/jsPsych/plugins/jspsych-special_sequence.js"></script>
-<script src="/tickets2/jsPsych/plugins/jspsych-points-update.js"></script>
-<script src="/tickets2/utils/general.js"></script>
-<script src="/tickets2/utils/bar-choose-plugin.js"></script>
-<script src="/tickets2/utils/jquery.transform2d.js"></script>
-<script src="/tickets2/utils/json2.js"></script>
-<script src="/tickets2/utils/browserdetect.js"></script>
-<script src="/tickets2/utils/select2.full.min.js"></script>
-<link href="/tickets2/utils/select2.min.css" rel="stylesheet" type="text/css"></link>
-<link href="/tickets2/jsPsych/css/jspsych.css" rel="stylesheet" type="text/css"></link>
-<link href="/tickets2/utils/general.css" rel="stylesheet" type="text/css"></link>
-<link href="/tickets2/utils/bar-choose-plugin.css" rel="stylesheet" type="text/css"></link>
+<script src="/christiane/tickets3/jsPsych/jspsych.js"></script>
+<script src="/christiane/tickets3/jsPsych/plugins/jspsych-text.js"></script>
+<script src="/christiane/tickets3/jsPsych/plugins/jspsych-html.js"></script>
+<script src="/christiane/tickets3/jsPsych/plugins/jspsych-animation.js"></script>
+<script src="/christiane/tickets3/jsPsych/plugins/jspsych-number-animation.js"></script>
+<script src="/christiane/tickets3/jsPsych/plugins/jspsych-html-animation.js"></script>
+<script src="/christiane/tickets3/jsPsych/plugins/jspsych-bar-choose.js"></script>
+<script src="/christiane/tickets3/jsPsych/plugins/jspsych-ticket-choose.js"></script>
+<script src="/christiane/tickets3/jsPsych/plugins/jspsych-final.js"></script>
+<script src="/christiane/tickets3/jsPsych/plugins/jspsych-age.js"></script>
+<script src="/christiane/tickets3/jsPsych/plugins/jspsych-instructions_check.js"></script>
+<script src="/christiane/tickets3/jsPsych/plugins/jspsych-training_avg.js"></script>
+<script src="/christiane/tickets3/jsPsych/plugins/jspsych-call-function.js"></script>
+<script src="/christiane/tickets3/jsPsych/plugins/jspsych-workerid.js"></script>
+<script src="/christiane/tickets3/jsPsych/plugins/jspsych-special_sequence.js"></script>
+<script src="/christiane/tickets3/jsPsych/plugins/jspsych-points-update.js"></script>
+<script src="/christiane/tickets3/utils/general.js"></script>
+<script src="/christiane/tickets3/utils/bar-choose-plugin.js"></script>
+<script src="/christiane/tickets3/utils/jquery.transform2d.js"></script>
+<script src="/christiane/tickets3/utils/json2.js"></script>
+<script src="/christiane/tickets3/utils/browserdetect.js"></script>
+<script src="/christiane/tickets3/utils/select2.full.min.js"></script>
+<link href="/christiane/tickets3/utils/select2.min.css" rel="stylesheet" type="text/css"></link>
+<link href="/christiane/tickets3/jsPsych/css/jspsych.css" rel="stylesheet" type="text/css"></link>
+<link href="/christiane/tickets3/utils/general.css" rel="stylesheet" type="text/css"></link>
+<link href="/christiane/tickets3/utils/bar-choose-plugin.css" rel="stylesheet" type="text/css"></link>
 <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
-<link href="/tickets2/utils/age.css" rel="stylesheet" type="text/css"></link>
-<link href="/tickets2/utils/consent.css" rel="stylesheet" type="text/css"></link>
-<link href="/tickets2/utils/start.css" rel="stylesheet" type="text/css"></link>
-<link href="/tickets2/utils/points.css" rel="stylesheet" type="text/css"></link>
+<link href="/christiane/tickets3/utils/age.css" rel="stylesheet" type="text/css"></link>
+<link href="/christiane/tickets3/utils/consent.css" rel="stylesheet" type="text/css"></link>
+<link href="/christiane/tickets3/utils/start.css" rel="stylesheet" type="text/css"></link>
+<link href="/christiane/tickets3/utils/points.css" rel="stylesheet" type="text/css"></link>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=0.5, user-scalable=no">
@@ -112,7 +112,7 @@ logging("Setup done");
 
 var consent_trial = {
 	type: "html",
-	url: "/tickets2/utils/consent.html",
+	url: "/christiane/tickets3/utils/consent.html",
 	cont_btn: "agree2"
 }
 
@@ -130,7 +130,7 @@ var special_sequence_trial = {
 
 var instructions_trial = {
 	type: "instructions_check",
-	url: "/tickets2/utils/instructions.html",
+	url: "/christiane/tickets3/utils/instructions.html",
 	instructions: "id-int",
 	check: "id-check",
 	right: "c-right",
@@ -140,7 +140,7 @@ var instructions_trial = {
 
 var start_trial = {
 	type: "html",
-	url: "/tickets2/utils/start.html",
+	url: "/christiane/tickets3/utils/start.html",
 	cont_btn: "start1"
 }
 
@@ -165,7 +165,7 @@ var training_trial = {
 
 var testing_instructions_trial = {
 	type: "html",
-        url: "/tickets2/utils/testing.html",
+        url: "/christiane/tickets3/utils/testing.html",
         cont_btn: "testingstart",
     on_start: function(trial) {
         $("#wheel").css("display", "none");
@@ -175,7 +175,7 @@ var testing_instructions_trial = {
 // Second testing instructions (after example sequence)
 var testing_instructions2_trial = {
 	type: "html",
-	url: "/tickets2/utils/testing_after.html",
+	url: "/christiane/tickets3/utils/testing_after.html",
 	cont_btn: "testingstart"
 }
 
@@ -194,7 +194,7 @@ var training_trial2 = {
 
 var mid_test_trial = {
     type: "html",
-    url: "/tickets2/utils/mid_test.html",
+    url: "/christiane/tickets3/utils/mid_test.html",
     cont_btn: "continue"
 }
 
@@ -213,7 +213,7 @@ var training_trial3 = {
 // Second training phase instructions
 var p2_start_trial = {
 	type: "html",
-	url: "/tickets2/utils/start2.html",
+	url: "/christiane/tickets3/utils/start2.html",
 	cont_btn: "start2"
 }
 
@@ -239,7 +239,7 @@ var p2_training_trial = {
 
 var p2_testing_instructions_trial = {
         type: "html",
-        url: "/tickets2/utils/testing2.html",
+        url: "/christiane/tickets3/utils/testing2.html",
         cont_btn: "testingstart",
     on_start: function(trial) {
         $("#wheel").css("display", "none");
@@ -261,7 +261,7 @@ var p2_training_trial2 = {
 
 var p2_mid_test_trial = {
     type: "html",
-    url: "/tickets2/utils/mid_test.html",
+    url: "/christiane/tickets3/utils/mid_test.html",
     cont_btn: "continue"
 }
 
@@ -294,11 +294,11 @@ function preload()
 	for(var i = 0; i < NUM_TICKETS; i++)
 	{
 		TICKET_IMAGES[0][i] = new Image();
-		TICKET_IMAGES[0][i].src = "/tickets2/utils/tickets/" + window.ticketprefix + "/ticket" + (i+1) + ".jpg";
+		TICKET_IMAGES[0][i].src = "/christiane/tickets3/utils/tickets/" + window.ticketprefix + "/ticket" + (i+1) + ".jpg";
 		TICKET_IMAGES[0][i].classList += " ticket-img";
 
 		TICKET_IMAGES[1][i] = new Image();
-                TICKET_IMAGES[1][i].src = "/tickets2/utils/tickets/" + window.ticketprefix + "/2ticket" + (i+1) + ".jpg";
+                TICKET_IMAGES[1][i].src = "/christiane/tickets3/utils/tickets/" + window.ticketprefix + "/2ticket" + (i+1) + ".jpg";
                 TICKET_IMAGES[1][i].classList += " ticket-img";
 	}
 }
@@ -330,7 +330,7 @@ function init_exp()
 
 	var timeline = [];
 
-	$.post("/tickets2/get.php", { f7g12d: "y" }, function(d) {
+	$.post("/christiane/tickets3/get.php", { f7g12d: "y" }, function(d) {
 
 	var animdata = [];
 	var animanswers = [];
@@ -389,7 +389,7 @@ function init_exp()
 	timeline.push(age_trial);
 
 	workerid_trial.on_finish = function(data) {
-		$.post("/tickets2/setworkerid.php", { id : data.worker_id });//, function(d) { console.log(d); });
+		$.post("/christiane/tickets3/setworkerid.php", { id : data.worker_id });//, function(d) { console.log(d); });
 	};
   	timeline.push(workerid_trial);
 
@@ -463,7 +463,7 @@ function init_exp()
 			//	points: function() { return points_counter.p[0]; },
 				showpoints: true,
 				on_finish: function(data) {
-					$.post("/tickets2/check.php", { phase: 0, sequence: data.sequence, answer: data.result });
+					$.post("/christiane/tickets3/check.php", { phase: 0, sequence: data.sequence, answer: data.result });
 				}
 		});
 
@@ -475,7 +475,7 @@ function init_exp()
 	}
 	timeline[timeline.length-1].continue_message = "Finish";
 	timeline[timeline.length-1].on_finish = function(data) {
-		$.post("/tickets2/check.php", { phase: 0, sequence: data.sequence, answer: data.result });
+		$.post("/christiane/tickets3/check.php", { phase: 0, sequence: data.sequence, answer: data.result });
 	};
 
 	timeline.push(training_trial3);*/
@@ -537,7 +537,7 @@ function init_exp()
                         //      points: function() { return points_counter.p[1]; },
                                 showpoints: true,
                                 on_finish: function(data) {
-					$.post("/tickets2/check.php", { phase: 1, sequence: data.sequence, answer: data.result });
+					$.post("/christiane/tickets3/check.php", { phase: 1, sequence: data.sequence, answer: data.result });
                 } });
 
                 if(i == Math.floor((p2_testing_data.length - 1) / 2)) {
@@ -548,7 +548,7 @@ function init_exp()
         }
         timeline[timeline.length-1].continue_message = "Finish";
         timeline[timeline.length-1].on_finish = function(data) {
-                $.post("/tickets2/check.php", { phase: 1, sequence: data.sequence, answer: data.result });
+                $.post("/christiane/tickets3/check.php", { phase: 1, sequence: data.sequence, answer: data.result });
         };
 
 	timeline.push(p2_training_trial3);
@@ -573,7 +573,7 @@ function init_exp()
 				$.ajax({
 					type:'post',
 					cache: false,
-					url: '/tickets2/save_data.php', // this is the path to the above PHP script
+					url: '/christiane/tickets3/save_data.php', // this is the path to the above PHP script
 					data: {filename: filename, filedata: filedata},
 				// complete: function() {
 				// 				window.location.href = "confirmation_code.html";
@@ -605,9 +605,9 @@ function init_exp()
 		timeline: timeline,
 		display_element: $("#jspsych-main"),
 		on_finish: function(data) {
-			$("#jspsych-main").empty().load("/tickets2/confirmation_code.html");
+			$("#jspsych-main").empty().load("/christiane/tickets3/confirmation_code.html");
 			//console.log(worker_id);
-			$.post("/tickets2/submit.php", { data: JSON.stringify(data), assignment_id: assignment_id }, function(r) {
+			$.post("/christiane/tickets3/submit.php", { data: JSON.stringify(data), assignment_id: assignment_id }, function(r) {
 				console.log(r);
 			});
 		}
@@ -628,12 +628,12 @@ function init_preview(tri)
 
 var accept_trial = {
 	type: "html",
-	url: "/tickets2/utils/accept.html"
+	url: "/christiane/tickets3/utils/accept.html"
 };
 
 var outside_trial = {
 	type: "html",
-	url: "/tickets2/utils/outside.html"
+	url: "/christiane/tickets3/utils/outside.html"
 };
 
 function init()

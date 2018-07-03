@@ -30,7 +30,7 @@ jsPsych.plugins["ticket-choose"] = (function()
 
 		display_element.html("");
 
-		display_element.load("/tickets2/utils/ticket-choose.html", function()
+		display_element.load("/christiane/tickets3/utils/ticket-choose.html", function()
 		{
 			//window.viewportUnitsBuggyfill.refresh();
 

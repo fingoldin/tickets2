@@ -27,7 +27,7 @@ jsPsych.plugins["number-animation"] = (function()
         }
 
 		display_element.html("");
-		display_element.load("/tickets2/utils/number-animation.html", function()
+		display_element.load("/christiane/tickets3/utils/number-animation.html", function()
 		{
 			//window.viewportUnitsBuggyfill.refresh();
 

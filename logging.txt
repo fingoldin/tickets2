@@ -355,3 +355,6 @@
 [2018-06-30 18:46:51] setworkerid.php called with asdfghjkl
 [2018-06-30 18:49:15] Submit.php called and OK
 [2018-06-30 11:49:15] Finished submitting
+[2018-07-03 06:39:51] Setup done
+[2018-07-03 13:39:52] Get.php OK
+[2018-07-03 13:39:59] setworkerid.php called with dasfg

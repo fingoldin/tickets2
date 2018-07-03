@@ -6,7 +6,7 @@ jsPsych.plugins["age"] = (function()
 	{
 		trial = jsPsych.pluginAPI.evaluateFunctionParameters(trial);
 
-		display_element.empty().load("/tickets2/utils/age.html", function() {
+		display_element.empty().load("/christiane/tickets3/utils/age.html", function() {
 			$("#gender-drop").select2({ minimumResultsForSearch: -1 });
 			$(".age-main").css("opacity", "1");
 
