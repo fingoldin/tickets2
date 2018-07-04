@@ -361,7 +361,7 @@ function startSession() {
     $stddev = 0.2;
 
     // Use the log-normal distribution instead of the skewed normal distribution
-    $use_ln_over_sn = false;
+    $use_ln_over_sn = true;
 
     // Minimum and maximum values for the deviates in case we get a really unlikely one
     $min = 120;
