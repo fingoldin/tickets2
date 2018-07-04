@@ -221,23 +221,34 @@ function dbQuery($conn, $query, $values = array()) {
 
 // This function generates a random number within the skewed normal distribution with parameters
 // location, scale and shape. **THIS IS THE TICKET GENERATION FUNCTION**
-function generate_deviate($location, $scale, $shape)
+function sn_generate_deviate($location, $scale, $shape)
 {
     // Generate two random uniformly distributed numbers between 0 and 1
     $max = mt_getrandmax();
     $x1 = mt_rand() / $max;
     $x2 = mt_rand() / $max;
     
-    // Generate two random numbers on the standard normal distribution using the Box-Muller transform
+    // Generate two random numbers on the normal distribution using the Box-Muller transform
     $sq = sqrt(-2 * log($x1));
-    $y1 = $sq * cos(2 * M_PI * $x2);
-    $y2 = $sq * sin(2 * M_PI * $x2);
+    $y1 = $scale * $sq * cos(2 * M_PI * $x2) + $location;
 
-    // Generate one random number on the standard skewed normal distribution using Henze's formula
-    $y = ($shape * abs($y1) + $y2) / sqrt(1 + $shape * $shape);
+    if($shape == 0.0)
+        return $y1;
 
-    // Multiply by the scale and add the location to transform the distribution
-    return ($y * $scale + $location);
+    $y2 = $scale * $sq * sin(2 * M_PI * $x2) + $location;
+    
+    $u = max($y1, $y2);
+    $v = min($y1, $y2);
+
+    $sq2 = sqrt(2 * (1 + $shape * $shape));
+    $l1 = (1 + $shape) / $sq2;
+    $l2 = (1 - $shape) / $sq2;
+
+    // Generate one random number on the skewed normal distribution using the min-max method
+    $y = $l1 * $u + $l2 * v;
+    //$y = $scale * ($shape * abs($y1) + $y2) / sqrt(1 + $shape * $shape) + $location;  // Henze's formula
+
+    return $y;
 }
 
 // This estimates the error function (erf(x)) with maximum error 1.5 * 10^(-7). This approximation was
@@ -293,7 +304,7 @@ function t_func($h, $a)
 // This function estimates the CDF of the skewed normal distribution evaluated at the given point (x) 
 // and with the given properties (location, scale, shape). This formula for the CDF of the skewed normal
 // distribution was taken from the Wikipedia page for the skewed normal distribution
-function distrib_cdf($x, $location, $scale, $shape)
+function sn_cdf($x, $location, $scale, $shape)
 {
     $f = 0.5 * (1 + erf(($x - $location) / ($scale * M_SQRT2)));
     
@@ -302,8 +313,80 @@ function distrib_cdf($x, $location, $scale, $shape)
     return ($f - 2 * $t);
 }
 
+// This function generates a number on the log-normal distribution
+function ln_generate_deviate($mean, $stddev)
+{
+    // Generate two random uniformly distributed numbers between 0 and 1
+    $max = mt_getrandmax();
+    $x1 = mt_rand() / $max;
+    $x2 = mt_rand() / $max;
+    
+    // Generate one random number on the normal distribution using the Box-Muller transform
+    $y1 = $stddev * sqrt(-2 * log($x1)) * cos(2 * M_PI * $x2) + $mean;
+
+    // Generate a number on the standard log-normal distribution
+    $y = exp($y1);
+
+    return $y;
+}
+
+// Estiamte the CDF of the log-normal distribution evaluated at $x
+function ln_cdf($x, $mean, $stddev)
+{
+    return (0.5 + 0.5 * erf((log($x) - $mean) / (M_SQRT2 * $stddev)));
+}
+
 function startSession() {
     $_SESSION = array();
+
+
+    /****                   PARAMETERS                  ****/ 
+
+    // The number of phases
+    $nphases = 2;
+
+    // The number of sequences in one training phase
+    $ntraining_sequences = 1;
+
+    // The number of tickets in one sequence in the training phase
+    $ntraining_tickets = 30;
+
+    // Parameters of skewed normal distribution
+    $location = 150;
+    $scale = 30;
+    $shape = 20;
+
+    // Parameters of log-normal distribution
+    $mean = 5.2;
+    $stddev = 0.2;
+
+    // Use the log-normal distribution instead of the skewed normal distribution
+    $use_ln_over_sn = false;
+
+    // Minimum and maximum values for the deviates in case we get a really unlikely one
+    $min = 120;
+    $max = 240;
+
+    $_SESSION["training_max_repeats"] = 3;
+    $_SESSION["training_threshold"] = 0.25;
+    
+    $training_divisions = [120, 137.5, 154.5, 171.5, 188.5, 205.5, 222.5, 240];
+
+    $_SESSION["training_sort_total"] = 1000;
+    
+    //$_SESSION["training_avg_ranges"] = [[120, 240], [120, 240]];
+    
+    // Number of sequences in each test phase
+    $ntest_sequences = 200;
+
+    // Number of tickets in one test sequence
+    $ntest_tickets = 10;
+
+    // The max number of points in a phase
+    $_SESSION["max_points"] = 20 * $ntest_sequences;
+    
+    /****               END PARAMETERS                 ****/
+
 
     $_SESSION["points"] = [];
     $_SESSION["points"][0] = 0;
@@ -317,27 +400,6 @@ function startSession() {
 
     $_SESSION["start_time"] = get_time();
 
-    // The number of phases
-    $nphases = 2;
-
-    // The number of sequences in one training phase
-    $ntraining_sequences = 5;
-
-    // The number of tickets in one sequence in the training phase
-    $ntraining_tickets = 10;
-
-    // Parameters of (skewed) normal distribution
-    $location = 150;
-    $scale = 30;
-    $shape = 20;
-
-    // Minimum and maximum values for the deviates in case we get a really unlikely one
-    $min = 120;
-    $max = 240;
-
-    $_SESSION["training_max_repeats"] = 3;
-    $_SESSION["training_threshold"] = 0.25;
-
     // Generate training data
     $_SESSION["training_data"] = [];
     for($h = 0; $h < $nphases; $h++) {
@@ -347,7 +409,11 @@ function startSession() {
             for($i = 0; $i < $ntraining_sequences; $i++) {
                 $_SESSION["trainin_data"][$h][$l][$i] = [];
                 for($j = 0; $j < $ntraining_tickets; $j++) {
-                    $v = (int)round(generate_deviate($location, $scale, $shape));
+                    $v = 0;
+                    if($use_ln_over_sn)
+                        $v = (int)round(ln_generate_deviate($mean, $stddev));
+                    else
+                        $v = (int)round(sn_generate_deviate($location, $scale, $shape));
             
                     if($v > $max)
                         $v = $max;
@@ -359,53 +425,42 @@ function startSession() {
             }
         }
     }
-
-    $training_divisions = [120, 137.5, 154.5, 171.5, 188.5, 205.5, 222.5, 240];
-
+    
     $_SESSION["training_answers"] = [];
     $_SESSION["training_answers"][0] = [];
     $_SESSION["training_answers"][1] = [];
+    $_SESSION["training_categories"] = [];
+    $_SESSION["training_categories"][0] = [];
+    $_SESSION["training_categories"][1] = [];
 
-    $_SESSION["training_sort_total"] = 1000;
     $total_n = 0;
 
-    $prev_cdf = distrib_cdf($training_divisions[0], $location, $scale, $shape);
+    $prev_cdf = 0;
+    if($use_ln_over_sn)
+        $prev_cdf = ln_cdf($training_divisions[0], $mean, $stddev);
+    else
+        $prev_cdf = sn_cdf($training_divisions[0], $location, $scale, $shape);
+
     for($i = 1; $i < count($training_divisions); $i++) {
-        $cdf = distrib_cdf($training_divisions[$i], $location, $scale, $shape);
+        $cdf = 0;
+        if($use_ln_over_sn)
+            $cdf = ln_cdf($training_divisions[$i], $mean, $stddev);
+        else
+            $cdf = sn_cdf($training_divisions[$i], $location, $scale, $shape);
+        
         $frac = $cdf - $prev_cdf;
         $prev_cdf = $cdf;
 
         $n = intval(round($_SESSION["training_sort_total"] * $frac));
         $total_n += $n;
 
-        $_SESSION["training_answers"][0][$i - 1] = $n;
-        $_SESSION["training_answers"][1][$i - 1] = $n;
+        $_SESSION["training_answers"][0][$i - 1] = $_SESSION["training_answers"][1][$i - 1] = $n;
+
+        $_SESSION["training_categories"][0][$i - 1] = $_SESSION["training_categories"][1][$i - 1] = 
+            "$" . (int)ceil($training_divisions[$i - 1]) . " - $" . (int)floor($training_divisions[$i]);
     }
 
     $_SESSION["training_sort_total"] = $total_n;
-
-    /*$_SESSION["training_answers"] = [
-    // First training phase
-    [0, 2, 5, 6, 5, 2, 0],
-    // Second training phase
-    [0, 2, 5, 6, 5, 2, 0]
-    ];*/
-
-    $_SESSION["training_categories"] = [
-    ["$120 - $137","$138 - $154","$155 - $171", "$172 - $188", "$189 - $205", "$206 - $222", "$223 - $240"],
-    ["$120 - $137","$138 - $154","$155 - $171", "$172 - $188", "$189 - $205", "$206 - $222", "$223 - $240"]
-    ];
-
-    $_SESSION["training_avg_ranges"] = [[120, 240], [120, 240]];
-
-    // Number of sequences in each test phase
-    $ntest_sequences = 200;
-
-    // Number of tickets in one test sequence
-    $ntest_tickets = 10;
-
-    // The max number of points in a phase
-    $_SESSION["max_points"] = 20 * $ntest_sequences;
 
     // Generate test data
     $_SESSION["testing_data"] = array();
@@ -414,7 +469,11 @@ function startSession() {
         for($i = 0; $i < $ntest_sequences; $i++) {
             $_SESSION["testing_data"][$h][$i] = array();
             for($j = 0; $j < $ntest_tickets; $j++) {
-                $v = (int)round(generate_deviate($location, $scale, $shape));
+                $v = 0;
+                if($use_ln_over_sn)
+                    $v = (int)round(ln_generate_deviate($mean, $stddev));
+                else
+                    $v = (int)round(sn_generate_deviate($location, $scale, $shape));
         
                 if($v > $max)
                     $v = $max;

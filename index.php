@@ -338,7 +338,7 @@ function init_exp()
 	var animanswers2 = [];
 	var testing_data = [];
 	var p2_testing_data = [];
-	var training_ranges = [];
+	//var training_ranges = [];
 
 	var da = JSON.parse(d);
 	testing_data = da["testing"][0];
@@ -348,7 +348,7 @@ function init_exp()
 	animdata2 = da["training"][1];
 	animanswers = da["answers"][0];
 	animanswers2 = da["answers"][1];
-	training_ranges = da["training_ranges"];
+	//training_ranges = da["training_ranges"];
     
     var training_sort = parseInt(da["training_sort"]);
     var threshold = parseFloat(da["training_threshold"]);
@@ -413,7 +413,7 @@ function init_exp()
                     passed: function() { return passed; }
             });
 
-            timeline.push({
+/*            timeline.push({
                 type: "training_avg",
                 phase: 0,
                 sequence_num: j,
@@ -422,13 +422,13 @@ function init_exp()
                 sequence: animdata[i][j],
                 min_val: training_ranges[0][0],
                 max_val: training_ranges[0][1]
-            });
+            });*/
         }
 
     	timeline.push(Object.assign({ repeat_num: i,
                     passed: function() { return passed; },
                     on_finish: function(data) {
-                        if(data.passed) {
+                        if(data.passed && data.repeat_num > 0) {
                             passed = true;
 	                        $("#wheel").css("display", "block");
                         }

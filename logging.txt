@@ -358,3 +358,28 @@
 [2018-07-03 06:39:51] Setup done
 [2018-07-03 13:39:52] Get.php OK
 [2018-07-03 13:39:59] setworkerid.php called with dasfg
+[2018-07-03 07:51:46] Setup done
+[2018-07-03 14:51:46] Get.php OK
+[2018-07-03 14:51:54] setworkerid.php called with asdfghjkl;
+[2018-07-04 11:42:29] Setup done
+[2018-07-04 11:42:30] Setup done
+[2018-07-04 18:42:31] Something not set in get.php
+[2018-07-04 11:43:59] Setup done
+[2018-07-04 18:44:00] Get.php OK
+[2018-07-04 18:44:18] setworkerid.php called with 2345678
+[2018-07-04 12:43:57] Setup done
+[2018-07-04 19:43:58] Get.php OK
+[2018-07-04 19:44:07] setworkerid.php called with asdf
+[2018-07-04 12:44:16] Setup done
+[2018-07-04 19:44:17] Get.php OK
+[2018-07-04 12:44:35] Setup done
+[2018-07-04 19:44:36] Get.php OK
+[2018-07-04 12:45:51] Setup done
+[2018-07-04 19:45:51] Get.php OK
+[2018-07-04 12:47:08] Setup done
+[2018-07-04 19:47:09] Get.php OK
+[2018-07-04 12:47:30] Setup done
+[2018-07-04 19:47:31] Get.php OK
+[2018-07-04 12:49:35] Setup done
+[2018-07-04 19:49:36] Get.php OK
+[2018-07-04 19:49:42] setworkerid.php called with fgh
