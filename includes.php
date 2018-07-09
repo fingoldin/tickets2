@@ -355,7 +355,7 @@ function beta_inner($x, $params)
 // Approximation of incomplete beta function
 function betainc($z, $a, $b)
 {
-    return integrate('beta_inner', 0, $z, 0.00005, ['a' => $a, 'b' => $b]);
+    return integrate('beta_inner', 0, $z, 0.00002, ['a' => $a, 'b' => $b]);
 }
 
 // Approximates the root of a function $func, with derivative $deriv, with Newton's method, with
@@ -446,7 +446,13 @@ function pert_cdf($x, $min, $max, $mode)
     $a2 = (5 * $max - $min - 4 * $mode) / ($max - $min);
     $z = ($x - $min) / ($max - $min);
 
-    return betaincreg($z, ['a' => $a1, 'b' => $a2]);
+    //echo 'x: ' . $x . '  max: ' . $max . '  min: ' . $min . "\n";
+
+    $v = betaincreg($z, ['a' => $a1, 'b' => $a2]);
+
+    //echo 'betaincreg(' . $z . ', ' . $a1 . ', ' . $a2 . ') = ' . $v . "\n";
+
+    return $v;
 }
 
 function startSession() {
@@ -474,9 +480,9 @@ function startSession() {
     $stddev = 0.2;
 
     // Parameters for PERT distribution
-    $min = 172;
-    $max = 200;
-    $mode = 177;
+    $p_min = 172;
+    $p_max = 200;
+    $p_mode = 177;
 
     // Which distribution to use, set to 'pert', 'ln' (log-normal), or 'sn' (skew-normal)
     $dist = 'pert';
@@ -488,7 +494,7 @@ function startSession() {
     $_SESSION["training_max_repeats"] = 3;
     $_SESSION["training_threshold"] = 0.25;
     
-    $training_divisions = [120, 137.5, 154.5, 171.5, 188.5, 205.5, 222.5, 240];
+    $training_divisions = [172, 176.5, 180.5, 184.5, 188.5, 192.5, 196.5, 200];
 
     $_SESSION["training_sort_total"] = 1000;
     
@@ -564,7 +570,7 @@ function startSession() {
 
     $prev_cdf = 0;
     if($dist == 'pert')
-        $prev_cdf = pert_cdf($training_divisions[0], $min, $max, $mode);
+        $prev_cdf = pert_cdf($training_divisions[0], $p_min, $p_max, $p_mode);
     else if($dist == 'ln')
         $prev_cdf = ln_cdf($training_divisions[0], $mean, $stddev);
     else
@@ -573,7 +579,7 @@ function startSession() {
     for($i = 1; $i < count($training_divisions); $i++) {
         $cdf = 0;
         if($dist == 'pert')
-            $cdf = pert_cdf($training_divisions[$i], $min, $max, $mode);
+            $cdf = pert_cdf($training_divisions[$i], $p_min, $p_max, $p_mode);
         else if($dist == 'ln')
             $cdf = ln_cdf($training_divisions[$i], $mean, $stddev);
         else

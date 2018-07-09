@@ -444,3 +444,18 @@
 [2018-07-09 12:52:41] checkAnswers called successfully, phase 0 gained 20 points and now has 35 points
 [2018-07-09 12:52:45] checkAnswer called with 0 2 185
 [2018-07-09 12:52:45] checkAnswers called successfully, phase 0 gained 8 points and now has 43 points
+[2018-07-09 05:59:16] Setup done
+[2018-07-09 12:59:16] Get.php OK
+[2018-07-09 12:59:22] setworkerid.php called with dfg
+[2018-07-09 06:00:30] Setup done
+[2018-07-09 06:03:06] Setup done
+[2018-07-09 06:03:46] Setup done
+[2018-07-09 06:04:43] Setup done
+[2018-07-09 06:04:44] Setup done
+[2018-07-09 06:05:00] Setup done
+[2018-07-09 06:05:02] Setup done
+[2018-07-09 06:05:57] Setup done
+[2018-07-09 06:06:06] Setup done
+[2018-07-09 06:07:19] Setup done
+[2018-07-09 13:07:19] Get.php OK
+[2018-07-09 13:07:25] setworkerid.php called with adfs
