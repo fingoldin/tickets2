@@ -245,7 +245,7 @@ function sn_generate_deviate($location, $scale, $shape)
     $l2 = (1 - $shape) / $sq2;
 
     // Generate one random number on the skewed normal distribution using the min-max method
-    $y = $l1 * $u + $l2 * v;
+    $y = $l1 * $u + $l2 * $v;
     //$y = $scale * ($shape * abs($y1) + $y2) / sqrt(1 + $shape * $shape) + $location;  // Henze's formula
 
     return $y;
@@ -268,37 +268,47 @@ function erf($x)
     return (1 - $v * exp(-$x*$x));
 }
 
-// This estimates Owen's T function by numerically integrating, based on the definition of the function.
-function t_func($h, $a)
+// Estimate an integral by performing a sum from $l to $u of $func, with steps dx = $step, and
+// additional parameters passed to $func $params
+function integrate($func, $l, $u, $step, $params)
 {
-    // step = dx
-    $step = 0.0001;
-
     // Holds the total integral
     $sum = 0.0;
 
-    // If a is greater than 0, the we are integrating from 0 to a
-    $x = 0;
-    $max = $a;
+    // If u is greater than l, the we are integrating from l to u
+    $x = $l;
+    $max = $u;
 
-    // If a is less than 0, then we are integrating from a to 0, but afterwards the value is multiplied
+    // If u is less than l, then we are integrating from u to l, but afterwards the value is multiplied
     // by -1
-    if($a < 0.0) {
-        $x = $a;
-        $max = 0;
+    if($u < $l) {
+        $x = $u;
+        $max = $l;
     }
 
-    // Integrate, using the defition of Owen's T function and updating x by step with each iteration
+    // Integrate, using the function and updating x by step with each iteration
     while($x <= $max) {
-        $sum += (exp(-0.5 * $h * $h * (1 + $x * $x)) / (1 + $x * $x)) * $step;
+        $sum += $func($x, $params) * $step;
         $x += $step;
     }
 
     // Multiply the integral by -1 if a is smaller than 0
-    if($a < 0.0)
+    if($u < $l)
         $sum = -$sum;
 
-    return $sum / (2 * M_PI);
+    return $sum;
+}
+
+// Function within integral of Owen's T function
+function t_func_inner($x, $params)
+{
+    return exp(-0.5 * $params['h'] * $params['h'] * (1 + $x * $x)) / ((1 + $x * $x) * 2 * M_PI);
+}
+
+// This estimates Owen's T function by numerically integrating, based on the definition of the function.
+function t_func($h, $a)
+{
+    return integrate('t_func_inner', 0, $a, 0.001, ['h' => $h]);
 }
 
 // This function estimates the CDF of the skewed normal distribution evaluated at the given point (x) 
@@ -336,6 +346,109 @@ function ln_cdf($x, $mean, $stddev)
     return (0.5 + 0.5 * erf((log($x) - $mean) / (M_SQRT2 * $stddev)));
 }
 
+// Function within integral of beta function
+function beta_inner($x, $params)
+{
+    return pow($x, $params['a'] - 1) * pow(1 - $x, $params['b'] - 1);
+}
+
+// Approximation of incomplete beta function
+function betainc($z, $a, $b)
+{
+    return integrate('beta_inner', 0, $z, 0.00005, ['a' => $a, 'b' => $b]);
+}
+
+// Approximates the root of a function $func, with derivative $deriv, with Newton's method, with
+// initial guess $guess, performing the loop $iters times, and passing additional parameters
+// $params to $func and $deriv
+/*function newtons($func, $deriv, $guess, $iters, $params)
+{
+    $x = $guess;
+
+    for($i = 0; $i < $iters; $i++) {
+        $x = $x - $func($x, $params) / $deriv($x, $params);
+    }
+
+    return $x;
+}*/
+
+// Approximation of regularized incomplete beta function
+function betaincreg($x, $params)
+{
+    $v = betainc($x, $params['a'], $params['b']) / betainc(1, $params['a'], $params['b']);
+
+    /*echo 'B(';
+    echo $x;
+    echo ', ';
+    echo $params['a'];
+    echo ', ';
+    echo $params['b'];
+    echo '): ';
+    echo $v;
+    echo '   ';
+*/
+    return $v;
+}
+
+// Approximation of the digamma function
+/*function digamma($x)
+{
+    $x2 = $x * $x;
+    $x4 = $x2 * x2;
+    $x6 = $x4 * $x2;
+    $x8 = $x6 * $x2;
+    $x10 = $x8 * $x2;
+    $x12 = $x10 * $x2;
+    $x14 = $x12 * $x2;
+
+    $g = log($x) - 1 / (2 * $x) - 1 / (12 * $x2) + 1 / (120 * $x4) - 1 / (252 * $x6) + 1 / (240 * $x8)
+                 - 5 / (660 * $x10) + 691 / (32760 * $x12) - 1 / (12 * $x14);
+
+    return $g;
+}
+
+// Approximation of the derivative of the regularized incomplete beta function
+function betaincregderiv($x, $params)
+{
+    $v = pow(1 - $x, $params['b'] - 1) * pow($x, $params['a'] - 1) / betainc(1, $params['a'], $params['b']);
+
+    return $v;
+}
+
+// Approximation of inverse of regularized incomplete beta function with respect to $x
+function betaincreginv($x, $a, $b)
+{
+    $v = newtons('betaincreg', 'betaincregderiv', 0.9, 1000, ['a' => $a, 'b' => $b]);
+
+    return $v;
+}
+
+// Generate a random number on the PERT distribution
+function pert_generate_deviate($min, $max, $mode)
+{
+    $u = mt_rand() / mt_getrandmax();
+
+    $a1 = (4 * $mode + $max - 5 * $min) / ($max - $min);
+    $a2 = (5 * $max - $min - 4 * $mode) / ($max - $min);
+
+    $x = ($max - $min) * betaincreginv($u, $a1, $a2) + $min;
+    
+    echo $x;
+    echo ' ';
+
+    return $x;
+}*/
+
+// Approximate the CDF of the PERT distribution at $x
+function pert_cdf($x, $min, $max, $mode)
+{
+    $a1 = (4 * $mode + $max - 5 * $min) / ($max - $min);
+    $a2 = (5 * $max - $min - 4 * $mode) / ($max - $min);
+    $z = ($x - $min) / ($max - $min);
+
+    return betaincreg($z, ['a' => $a1, 'b' => $a2]);
+}
+
 function startSession() {
     $_SESSION = array();
 
@@ -360,8 +473,13 @@ function startSession() {
     $mean = 5.2;
     $stddev = 0.2;
 
-    // Use the log-normal distribution instead of the skewed normal distribution
-    $use_ln_over_sn = true;
+    // Parameters for PERT distribution
+    $min = 172;
+    $max = 200;
+    $mode = 177;
+
+    // Which distribution to use, set to 'pert', 'ln' (log-normal), or 'sn' (skew-normal)
+    $dist = 'pert';
 
     // Minimum and maximum values for the deviates in case we get a really unlikely one
     $min = 120;
@@ -387,7 +505,6 @@ function startSession() {
     
     /****               END PARAMETERS                 ****/
 
-
     $_SESSION["points"] = [];
     $_SESSION["points"][0] = 0;
     $_SESSION["points"][1] = 0;
@@ -400,6 +517,13 @@ function startSession() {
 
     $_SESSION["start_time"] = get_time();
 
+    $pert_tickets = [];
+    $ticket_counter = 0;
+    if($dist == 'pert') {
+        $pert_tickets = file('pertdata.csv', FILE_IGNORE_NEW_LINES);
+        shuffle($pert_tickets);
+    }
+
     // Generate training data
     $_SESSION["training_data"] = [];
     for($h = 0; $h < $nphases; $h++) {
@@ -407,10 +531,13 @@ function startSession() {
         for($l = 0; $l < $_SESSION["training_max_repeats"]; $l++) {
             $_SESSION["training_data"][$h][$l] = [];
             for($i = 0; $i < $ntraining_sequences; $i++) {
-                $_SESSION["trainin_data"][$h][$l][$i] = [];
-                for($j = 0; $j < $ntraining_tickets; $j++) {
+                $_SESSION["training_data"][$h][$l][$i] = [172, 172, 172, 172, 173, 173, 174, 174, 174, 175, 175, 176, 176, 177, 177, 178, 178, 179, 179, 180, 180, 181, 182, 185, 187, 190, 191, 199, 210, 200];
+                shuffle($_SESSION["training_data"][$h][$l][$i]);
+                /*for($j = 0; $j < $ntraining_tickets; $j++) {
                     $v = 0;
-                    if($use_ln_over_sn)
+                    if($dist == 'pert')
+                        $v = (int)round(pert_generate_deviate($min, $max, $mode));
+                    else if($dist == 'ln')
                         $v = (int)round(ln_generate_deviate($mean, $stddev));
                     else
                         $v = (int)round(sn_generate_deviate($location, $scale, $shape));
@@ -421,11 +548,11 @@ function startSession() {
                         $v = $min;
 
                     $_SESSION["training_data"][$h][$l][$i][$j] = $v;
-                }
+                }*/
             }
         }
     }
-    
+
     $_SESSION["training_answers"] = [];
     $_SESSION["training_answers"][0] = [];
     $_SESSION["training_answers"][1] = [];
@@ -436,14 +563,18 @@ function startSession() {
     $total_n = 0;
 
     $prev_cdf = 0;
-    if($use_ln_over_sn)
+    if($dist == 'pert')
+        $prev_cdf = pert_cdf($training_divisions[0], $min, $max, $mode);
+    else if($dist == 'ln')
         $prev_cdf = ln_cdf($training_divisions[0], $mean, $stddev);
     else
         $prev_cdf = sn_cdf($training_divisions[0], $location, $scale, $shape);
 
     for($i = 1; $i < count($training_divisions); $i++) {
         $cdf = 0;
-        if($use_ln_over_sn)
+        if($dist == 'pert')
+            $cdf = pert_cdf($training_divisions[$i], $min, $max, $mode);
+        else if($dist == 'ln')
             $cdf = ln_cdf($training_divisions[$i], $mean, $stddev);
         else
             $cdf = sn_cdf($training_divisions[$i], $location, $scale, $shape);
@@ -470,11 +601,13 @@ function startSession() {
             $_SESSION["testing_data"][$h][$i] = array();
             for($j = 0; $j < $ntest_tickets; $j++) {
                 $v = 0;
-                if($use_ln_over_sn)
+                if($dist == 'pert')
+                    $v = (int)$pert_tickets[$ticket_counter++ % count($pert_tickets)];
+                else if($dist == 'ln')
                     $v = (int)round(ln_generate_deviate($mean, $stddev));
                 else
                     $v = (int)round(sn_generate_deviate($location, $scale, $shape));
-        
+                
                 if($v > $max)
                     $v = $max;
                 else if($v < $min)

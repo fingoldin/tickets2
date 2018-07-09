@@ -383,3 +383,64 @@
 [2018-07-04 12:49:35] Setup done
 [2018-07-04 19:49:36] Get.php OK
 [2018-07-04 19:49:42] setworkerid.php called with fgh
+[2018-07-04 12:54:48] Setup done
+[2018-07-04 19:54:49] Get.php OK
+[2018-07-04 19:54:58] setworkerid.php called with dfghjk
+[2018-07-09 03:17:59] Setup done
+[2018-07-09 03:18:23] Setup done
+[2018-07-09 03:22:08] Setup done
+[2018-07-09 03:23:58] Setup done
+[2018-07-09 03:24:08] Setup done
+[2018-07-09 10:24:09] Get.php OK
+[2018-07-09 10:24:16] setworkerid.php called with asdgf
+[2018-07-09 03:25:12] Setup done
+[2018-07-09 10:25:13] Get.php OK
+[2018-07-09 10:25:20] setworkerid.php called with sfg
+[2018-07-09 05:29:26] Setup done
+[2018-07-09 05:29:38] Setup done
+[2018-07-09 05:29:39] Setup done
+[2018-07-09 05:29:51] Setup done
+[2018-07-09 12:29:51] Get.php OK
+[2018-07-09 12:29:58] setworkerid.php called with ewardfg
+[2018-07-09 05:31:31] Setup done
+[2018-07-09 12:31:31] Get.php OK
+[2018-07-09 12:31:38] setworkerid.php called with sdfghj
+[2018-07-09 05:34:13] Setup done
+[2018-07-09 12:34:14] Get.php OK
+[2018-07-09 12:34:20] setworkerid.php called with wfgh
+[2018-07-09 12:34:48] checkAnswer called with 0 0 120
+[2018-07-09 12:34:48] checkAnswers called successfully, phase 0 gained 0 points and now has 0 points
+[2018-07-09 05:36:30] Setup done
+[2018-07-09 05:36:45] Setup done
+[2018-07-09 05:37:20] Setup done
+[2018-07-09 05:38:54] Setup done
+[2018-07-09 05:39:22] Setup done
+[2018-07-09 05:39:38] Setup done
+[2018-07-09 05:39:56] Setup done
+[2018-07-09 05:40:11] Setup done
+[2018-07-09 05:41:04] Setup done
+[2018-07-09 05:41:24] Setup done
+[2018-07-09 05:41:36] Setup done
+[2018-07-09 05:42:56] Setup done
+[2018-07-09 05:44:09] Setup done
+[2018-07-09 05:44:55] Setup done
+[2018-07-09 05:45:05] Setup done
+[2018-07-09 05:46:02] Setup done
+[2018-07-09 05:46:56] Setup done
+[2018-07-09 05:47:10] Setup done
+[2018-07-09 05:47:33] Setup done
+[2018-07-09 05:47:55] Setup done
+[2018-07-09 05:48:24] Setup done
+[2018-07-09 05:49:24] Setup done
+[2018-07-09 05:50:57] Setup done
+[2018-07-09 05:50:58] Setup done
+[2018-07-09 05:50:59] Setup done
+[2018-07-09 05:51:55] Setup done
+[2018-07-09 12:51:56] Get.php OK
+[2018-07-09 12:52:05] setworkerid.php called with sdfsd
+[2018-07-09 12:52:33] checkAnswer called with 0 0 178
+[2018-07-09 12:52:33] checkAnswers called successfully, phase 0 gained 15 points and now has 15 points
+[2018-07-09 12:52:41] checkAnswer called with 0 1 174
+[2018-07-09 12:52:41] checkAnswers called successfully, phase 0 gained 20 points and now has 35 points
+[2018-07-09 12:52:45] checkAnswer called with 0 2 185
+[2018-07-09 12:52:45] checkAnswers called successfully, phase 0 gained 8 points and now has 43 points
