@@ -442,6 +442,11 @@ function pert_generate_deviate($min, $max, $mode)
 // Approximate the CDF of the PERT distribution at $x
 function pert_cdf($x, $min, $max, $mode)
 {
+    if($x <= $min)
+        return 0;
+    else if($x >= $max)
+        return 1;
+
     $a1 = (4 * $mode + $max - 5 * $min) / ($max - $min);
     $a2 = (5 * $max - $min - 4 * $mode) / ($max - $min);
     $z = ($x - $min) / ($max - $min);
@@ -494,7 +499,7 @@ function startSession() {
     $_SESSION["training_max_repeats"] = 3;
     $_SESSION["training_threshold"] = 0.25;
     
-    $training_divisions = [172, 176.5, 180.5, 184.5, 188.5, 192.5, 196.5, 200];
+    $training_divisions = [165, 169.5, 174.5, 179.5, 184.5, 189.5, 194.5, 199.5, 204];
 
     $_SESSION["training_sort_total"] = 1000;
     
