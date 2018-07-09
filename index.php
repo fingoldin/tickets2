@@ -403,7 +403,7 @@ function init_exp()
 	{
         for(var j = 0; j < animdata[i].length; j++)
         {
-/*            timeline.push({
+            timeline.push({
                     type: "number-animation",
                     prices: animdata[i][j],
                     phase: 0,
@@ -413,7 +413,7 @@ function init_exp()
                     passed: function() { return passed; }
             });
 
-            timeline.push({
+/*            timeline.push({
                 type: "training_avg",
                 phase: 0,
                 sequence_num: j,

@@ -469,3 +469,6 @@
 [2018-07-09 06:13:46] Setup done
 [2018-07-09 13:13:46] Get.php OK
 [2018-07-09 13:13:52] setworkerid.php called with sdfgh
+[2018-07-09 06:16:21] Setup done
+[2018-07-09 13:16:22] Get.php OK
+[2018-07-09 13:16:28] setworkerid.php called with dsfg

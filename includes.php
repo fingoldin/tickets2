@@ -501,7 +501,7 @@ function startSession() {
     
     $training_divisions = [165, 169.5, 174.5, 179.5, 184.5, 189.5, 194.5, 199.5, 204];
 
-    $_SESSION["training_sort_total"] = 1000;
+    $_SESSION["training_sort_total"] = 100;
     
     //$_SESSION["training_avg_ranges"] = [[120, 240], [120, 240]];
     
