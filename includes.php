@@ -485,9 +485,9 @@ function startSession() {
     $stddev = 0.2;
 
     // Parameters for PERT distribution
-    $p_min = 172;
-    $p_max = 200;
-    $p_mode = 177;
+    $p_min = 120;
+    $p_max = 220;
+    $p_mode = 125;
 
     // Which distribution to use, set to 'pert', 'ln' (log-normal), or 'sn' (skew-normal)
     $dist = 'pert';
@@ -499,7 +499,7 @@ function startSession() {
     $_SESSION["training_max_repeats"] = 3;
     $_SESSION["training_threshold"] = 0.25;
     
-    $training_divisions = [165, 169.5, 174.5, 179.5, 184.5, 189.5, 194.5, 199.5, 204];
+    $training_divisions = [110, 120.5, 130.5, 140.5, 150.5, 160.5, 170.5, 180.5, 190.5, 200];
 
     $_SESSION["training_sort_total"] = 100;
     
@@ -529,10 +529,17 @@ function startSession() {
     $_SESSION["start_time"] = get_time();
 
     $pert_tickets = [];
+    $pert_training = [];
     $ticket_counter = 0;
     if($dist == 'pert') {
-        $pert_tickets = file('pertdata.csv', FILE_IGNORE_NEW_LINES);
+        $pert_tickets = file('vec_test_right.csv', FILE_IGNORE_NEW_LINES);
+        array_splice($pert_tickets, 0, 1);
         shuffle($pert_tickets);
+    
+        $training = file('vec_train_right.csv');
+
+        for($i = 1; $i < count($training); $i++)
+            $pert_training[$i - 1] = str_getcsv($training[$i]);
     }
 
     // Generate training data
@@ -542,24 +549,26 @@ function startSession() {
         for($l = 0; $l < $_SESSION["training_max_repeats"]; $l++) {
             $_SESSION["training_data"][$h][$l] = [];
             for($i = 0; $i < $ntraining_sequences; $i++) {
-                $_SESSION["training_data"][$h][$l][$i] = [172, 172, 172, 172, 173, 173, 174, 174, 174, 175, 175, 176, 176, 177, 177, 178, 178, 179, 179, 180, 180, 181, 182, 185, 187, 190, 191, 199, 210, 200];
-                shuffle($_SESSION["training_data"][$h][$l][$i]);
-                /*for($j = 0; $j < $ntraining_tickets; $j++) {
-                    $v = 0;
-                    if($dist == 'pert')
-                        $v = (int)round(pert_generate_deviate($min, $max, $mode));
-                    else if($dist == 'ln')
-                        $v = (int)round(ln_generate_deviate($mean, $stddev));
-                    else
-                        $v = (int)round(sn_generate_deviate($location, $scale, $shape));
-            
-                    if($v > $max)
-                        $v = $max;
-                    else if($v < $min)
-                        $v = $min;
+                if($dist == 'pert') {
+                    $_SESSION["training_data"][$h][$l][$i] = $pert_training[$l];
+                    shuffle($_SESSION["training_data"][$h][$l][$i]);
+                }
+                else {
+                    for($j = 0; $j < $ntraining_tickets; $j++) {
+                        $v = 0;
+                        if($dist == 'ln')
+                            $v = (int)round(ln_generate_deviate($mean, $stddev));
+                        else
+                            $v = (int)round(sn_generate_deviate($location, $scale, $shape));
+                
+                        if($v > $max)
+                            $v = $max;
+                        else if($v < $min)
+                            $v = $min;
 
-                    $_SESSION["training_data"][$h][$l][$i][$j] = $v;
-                }*/
+                        $_SESSION["training_data"][$h][$l][$i][$j] = $v;
+                    }
+                }
             }
         }
     }

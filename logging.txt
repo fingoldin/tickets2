@@ -472,3 +472,38 @@
 [2018-07-09 06:16:21] Setup done
 [2018-07-09 13:16:22] Get.php OK
 [2018-07-09 13:16:28] setworkerid.php called with dsfg
+[2018-07-09 06:19:15] Setup done
+[2018-07-09 13:19:15] Get.php OK
+[2018-07-09 13:19:21] setworkerid.php called with sdafg
+[2018-07-09 13:22:25] checkAnswer called with 0 0 184
+[2018-07-09 13:22:25] checkAnswers called successfully, phase 0 gained 5 points and now has 5 points
+[2018-07-09 13:22:30] checkAnswer called with 0 1 183
+[2018-07-09 13:22:30] checkAnswers called successfully, phase 0 gained 8 points and now has 13 points
+[2018-07-09 13:22:35] checkAnswer called with 0 2 174
+[2018-07-09 13:22:35] checkAnswers called successfully, phase 0 gained 20 points and now has 33 points
+[2018-07-09 13:22:40] checkAnswer called with 0 3 176
+[2018-07-09 13:22:40] checkAnswers called successfully, phase 0 gained 19 points and now has 52 points
+[2018-07-09 13:22:46] checkAnswer called with 0 4 181
+[2018-07-09 13:22:46] checkAnswers called successfully, phase 0 gained 12 points and now has 64 points
+[2018-07-11 06:42:53] Setup done
+[2018-07-11 06:43:33] Setup done
+[2018-07-11 06:43:57] Setup done
+[2018-07-11 06:46:18] Setup done
+[2018-07-11 06:47:48] Setup done
+[2018-07-11 06:48:09] Setup done
+[2018-07-11 07:21:23] Setup done
+[2018-07-11 07:21:23] Setup done
+[2018-07-11 14:21:24] Get.php OK
+[2018-07-11 14:21:31] setworkerid.php called with aesdgf
+[2018-07-11 14:23:14] checkAnswer called with 0 0 153
+[2018-07-11 14:23:14] checkAnswers called successfully, phase 0 gained 10 points and now has 10 points
+[2018-07-11 14:23:21] checkAnswer called with 0 1 120
+[2018-07-11 14:23:21] checkAnswers called successfully, phase 0 gained 20 points and now has 30 points
+[2018-07-11 14:23:24] checkAnswer called with 0 2 122
+[2018-07-11 14:23:24] checkAnswers called successfully, phase 0 gained 20 points and now has 50 points
+[2018-07-11 14:23:26] checkAnswer called with 0 3 123
+[2018-07-11 14:23:26] checkAnswers called successfully, phase 0 gained 20 points and now has 70 points
+[2018-07-11 14:23:29] checkAnswer called with 0 4 133
+[2018-07-11 14:23:29] checkAnswers called successfully, phase 0 gained 16 points and now has 86 points
+[2018-07-11 14:23:31] checkAnswer called with 0 5 157
+[2018-07-11 14:23:31] checkAnswers called successfully, phase 0 gained 8 points and now has 94 points
