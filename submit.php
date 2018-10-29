@@ -5,25 +5,27 @@ if(!session_id())
 
 require("./includes.php");
 
-if(isset($_SESSION["start_time"]) && isset($_SESSION["finished"]) && $_SESSION["finished"] == 0 && isset($_POST["data"]) && isset($_SESSION["points"]) && isset($_SESSION["workerId"]) && isset($_POST["assignment_id"]) && isset($_SESSION["training_sort_total"]))
+if(isset($_SESSION["start_time"]) && isset($_SESSION["finished"]) && $_SESSION["finished"] == 0 && isset($_POST["data"]) && isset($_SESSION["points"]) && isset($_SESSION["phase_order"]) && isset($_POST["worker_id"]) && isset($_POST["assignment_id"]))
 {
 	logging("Submit.php called and OK");
 
 	$time = get_time();
+
+	echo "got here";
 
 	$arr = [
 		"start_time" => $_SESSION["start_time"],
 		"end_time" => $time,
 		"points_phase0" => $_SESSION["points"][0],
 		"points_phase1" => $_SESSION["points"][1],
+		"phase_order" => $_SESSION["phase_order"],
 		"age" => 0,
 		"gender" => "m",
 		"tries" => 1,
 		"during" => "Nothing",
-		"worker_id" => $_SESSION["workerId"],
+		"worker_id" => $_POST["worker_id"],
 		"assignment_id" => $_POST["assignment_id"],
 		"data" => json_decode($_POST["data"], true),
-        "training_sort" => $_SESSION["training_sort_total"],
 		"bonus" => 0
 	];
 
@@ -36,14 +38,11 @@ if(isset($_SESSION["start_time"]) && isset($_SESSION["finished"]) && $_SESSION["
 			sort($arr2);
 
 			//echo "tp: " . $trial["points"] . " arr: " . $_SESSION["checked_assoc"][$trial["phase"]][$trial["sequence"]];
-			$place = array_search($trial["result"], $arr2);
-            $points = $_SESSION["checked_assoc"][$trial["phase"]][$trial["sequence"]];
-
-            if($trial["points"] != $points || $trial["place"] != $place)
+			if($trial["points"] !== $_SESSION["checked_assoc"][$trial["phase"]][$trial["sequence"]] ||
+			   $trial["place"] !== array_search($trial["result"], $arr2))
 			{
-				logging("The trial with sequence " . $trial["sequence"] . " in phase " . $trial["phase"] . " doesn't have the correct points or place, (points = " . $trial["points"] . " when it should be " . $points . "; place = " . $trial["place"] . " when it should be " . $place . ")");
-				$trial["points"] = $points;
-                $trial["place"] = $place;
+				logging("The trial with sequence " . $trial["sequence"] . " in phase " . $trial["phase"] . " doesn't have the correct points");
+				exit;
 			}
 		}
 		else if($trial["trial_type"] == "age")
@@ -59,11 +58,12 @@ if(isset($_SESSION["start_time"]) && isset($_SESSION["finished"]) && $_SESSION["
 
 			$b = intval($trial["bonus"]);
 			$gb = get_bonus(intval($arr["points_phase0"]) + intval($arr["points_phase1"]));
-			if($gb != $b)
+			if($gb !== $b)
 			{
 				logging("The total points don't match up: the trial says " . $b . " while get_bonus says " . $gb);
+				exit;
 			}
-			$arr["bonus"] = $gb;
+			$arr["bonus"] = $b;
 		}
 	}
 

@@ -1,5 +1,6 @@
 <?php
 
+//ini_set('display_errors', 1);
 //error_reporting(E_ALL);
 
 session_start();
@@ -11,6 +12,8 @@ startSession();
 //echo get_bonus(227);
 
 store_url();
+
+//var_dump($_SESSION["testing_data_order"]);
 
 //phpinfo();
 
@@ -71,48 +74,52 @@ logging("Setup done");
 <head>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-<script src="/christiane/tickets3/jsPsych/jspsych.js"></script>
-<script src="/christiane/tickets3/jsPsych/plugins/jspsych-text.js"></script>
-<script src="/christiane/tickets3/jsPsych/plugins/jspsych-html.js"></script>
-<script src="/christiane/tickets3/jsPsych/plugins/jspsych-animation.js"></script>
-<script src="/christiane/tickets3/jsPsych/plugins/jspsych-number-animation.js"></script>
-<script src="/christiane/tickets3/jsPsych/plugins/jspsych-html-animation.js"></script>
-<script src="/christiane/tickets3/jsPsych/plugins/jspsych-bar-choose.js"></script>
-<script src="/christiane/tickets3/jsPsych/plugins/jspsych-ticket-choose.js"></script>
-<script src="/christiane/tickets3/jsPsych/plugins/jspsych-final.js"></script>
-<script src="/christiane/tickets3/jsPsych/plugins/jspsych-age.js"></script>
-<script src="/christiane/tickets3/jsPsych/plugins/jspsych-instructions_check.js"></script>
-<script src="/christiane/tickets3/jsPsych/plugins/jspsych-training_avg.js"></script>
-<script src="/christiane/tickets3/jsPsych/plugins/jspsych-call-function.js"></script>
-<script src="/christiane/tickets3/jsPsych/plugins/jspsych-workerid.js"></script>
-<script src="/christiane/tickets3/jsPsych/plugins/jspsych-special_sequence.js"></script>
-<script src="/christiane/tickets3/jsPsych/plugins/jspsych-points-update.js"></script>
-<script src="/christiane/tickets3/utils/general.js"></script>
-<script src="/christiane/tickets3/utils/bar-choose-plugin.js"></script>
-<script src="/christiane/tickets3/utils/jquery.transform2d.js"></script>
-<script src="/christiane/tickets3/utils/json2.js"></script>
-<script src="/christiane/tickets3/utils/browserdetect.js"></script>
-<script src="/christiane/tickets3/utils/select2.full.min.js"></script>
-<link href="/christiane/tickets3/utils/select2.min.css" rel="stylesheet" type="text/css"></link>
-<link href="/christiane/tickets3/jsPsych/css/jspsych.css" rel="stylesheet" type="text/css"></link>
-<link href="/christiane/tickets3/utils/general.css" rel="stylesheet" type="text/css"></link>
-<link href="/christiane/tickets3/utils/bar-choose-plugin.css" rel="stylesheet" type="text/css"></link>
+<script src="/tickets/jsPsych/jspsych.js"></script>
+<script src="/tickets/jsPsych/plugins/jspsych-text.js"></script>
+<script src="/tickets/jsPsych/plugins/jspsych-html.js"></script>
+<script src="/tickets/jsPsych/plugins/jspsych-animation.js"></script>
+<script src="/tickets/jsPsych/plugins/jspsych-number-animation.js"></script>
+<script src="/tickets/jsPsych/plugins/jspsych-html-animation.js"></script>
+<script src="/tickets/jsPsych/plugins/jspsych-bar-choose.js"></script>
+<script src="/tickets/jsPsych/plugins/jspsych-ticket-choose.js"></script>
+<script src="/tickets/jsPsych/plugins/jspsych-final.js"></script>
+<script src="/tickets/jsPsych/plugins/jspsych-age.js"></script>
+<script src="/tickets/jsPsych/plugins/jspsych-instructions_check.js"></script>
+<script src="/tickets/jsPsych/plugins/jspsych-training_avg.js"></script>
+<script src="/tickets/jsPsych/plugins/jspsych-call-function.js"></script>
+<script src="/tickets/jsPsych/plugins/jspsych-store_order.js"></script>
+<script src="/tickets/jsPsych/plugins/jspsych-workerid.js"></script>
+<script src="/tickets/jsPsych/plugins/jspsych-special_sequence.js"></script>
+<script src="/tickets/utils/general.js"></script>
+<script src="/tickets/utils/bar-choose-plugin.js"></script>
+<script src="/tickets/utils/jquery.transform2d.js"></script>
+<script src="/tickets/utils/json2.js"></script>
+<script src="/tickets/utils/browserdetect.js"></script>
+<script src="/tickets/utils/select2.full.min.js"></script>
+<link href="/tickets/utils/select2.min.css" rel="stylesheet" type="text/css"></link>
+<link href="/tickets/jsPsych/css/jspsych.css" rel="stylesheet" type="text/css"></link>
+<link href="/tickets/utils/general.css" rel="stylesheet" type="text/css"></link>
+<link href="/tickets/utils/bar-choose-plugin.css" rel="stylesheet" type="text/css"></link>
 <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
-<link href="/christiane/tickets3/utils/age.css" rel="stylesheet" type="text/css"></link>
-<link href="/christiane/tickets3/utils/consent.css" rel="stylesheet" type="text/css"></link>
-<link href="/christiane/tickets3/utils/start.css" rel="stylesheet" type="text/css"></link>
-<link href="/christiane/tickets3/utils/points.css" rel="stylesheet" type="text/css"></link>
+<link href="/tickets/utils/age.css" rel="stylesheet" type="text/css"></link>
+<link href="/tickets/utils/consent.css" rel="stylesheet" type="text/css"></link>
+<link href="/tickets/utils/start.css" rel="stylesheet" type="text/css"></link>
+<link href="/tickets/utils/points.css" rel="stylesheet" type="text/css"></link>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=0.5, user-scalable=no">
 
-<title>Ticket prices</title>
+<title>Psychology experiment</title>
 
 <script type="text/javascript">
 
+var points_counter = {
+	p: [0, 0]
+}
+
 var consent_trial = {
 	type: "html",
-	url: "/christiane/tickets3/utils/consent.html",
+	url: "/tickets/utils/consent.html",
 	cont_btn: "agree2"
 }
 
@@ -130,7 +137,7 @@ var special_sequence_trial = {
 
 var instructions_trial = {
 	type: "instructions_check",
-	url: "/christiane/tickets3/utils/instructions.html",
+	url: "/tickets/utils/instructions.html",
 	instructions: "id-int",
 	check: "id-check",
 	right: "c-right",
@@ -140,7 +147,7 @@ var instructions_trial = {
 
 var start_trial = {
 	type: "html",
-	url: "/christiane/tickets3/utils/start.html",
+	url: "/tickets/utils/start.html",
 	cont_btn: "start1"
 }
 
@@ -153,7 +160,7 @@ var animation_trial = {
 
 var training_trial = {
 	type: "bar-choose",
-	instructions: "Imagine you would see MAXVAL more tickets for your trip to Canada.",
+	instructions: "Imagine you would see 20 more tickets for your trip to Canada.",
 	subtitle: "Please drag the bar or type in the input field to determine the amount of tickets <br> that are in the equivalent price range for this trip. <br><br>Press continue when you are sure of your answers.",
 //	categories: ["$135 - $150", "$151 - $165", "$166 - 180", "$181 - $195", "$196 - $210", "$211 - $225", "$226 - $240"],
 	min_val: 0,
@@ -165,24 +172,28 @@ var training_trial = {
 
 var testing_instructions_trial = {
 	type: "html",
-        url: "/christiane/tickets3/utils/testing.html",
-        cont_btn: "testingstart",
-    on_start: function(trial) {
-        $("#wheel").css("display", "none");
-    }
+        url: "/tickets//utils/testing.html",
+        cont_btn: "testingstart"
+}
+
+var testing_order_trial = {
+	type: "store_order",
+	phase: 0,
+	order: []
 }
 
 // Second testing instructions (after example sequence)
 var testing_instructions2_trial = {
 	type: "html",
-	url: "/christiane/tickets3/utils/testing_after.html",
-	cont_btn: "testingstart"
+	url: "/tickets/utils/testing_after.html",
+	cont_btn: "testingstart",
+	on_finish: function() { $("#jspsych-points").css("display", "block"); }
 }
 
 // Second bar graph to see learning
 var training_trial2 = {
 	type: "bar-choose",
-        instructions: "Imagine you would see yet another MAXVAL tickets to Canada.",
+        instructions: "Imagine you would see yet another 20 tickets to Canada.",
         subtitle: "Please drag the bar or type in the input field to determine the amount of tickets <br> that are in the equivalent price range for this trip. Press continue when you are sure of your answers.",
 //        categories: ["$135 - $150", "$151 - $165", "$166 - 180", "$181 - $195", "$196 - $210", "$211 - $225", "$226 - $240"],
         min_val: 0,
@@ -192,28 +203,10 @@ var training_trial2 = {
 	//answers: animanswers
 }
 
-var mid_test_trial = {
-    type: "html",
-    url: "/christiane/tickets3/utils/mid_test.html",
-    cont_btn: "continue"
-}
-
-var training_trial3 = {
-	type: "bar-choose",
-        instructions: "Imagine you would see yet another MAXVAL tickets to Canada.",
-        subtitle: "Please drag the bar or type in the input field to determine the amount of tickets <br> that are in the equivalent price range for this trip. Press continue when you are sure of your answers.",
-//        categories: ["$135 - $150", "$151 - $165", "$166 - 180", "$181 - $195", "$196 - $210", "$211 - $225", "$226 - $240"],
-        min_val: 0,
-        max_val: 20,
-	phase: 0,
-	number: 2
-	//answers: animanswers
-}
-
 // Second training phase instructions
 var p2_start_trial = {
 	type: "html",
-	url: "/christiane/tickets3/utils/start2.html",
+	url: "/tickets/utils/start2.html",
 	cont_btn: "start2"
 }
 
@@ -227,7 +220,7 @@ var p2_animation_trial = {
 
 var p2_training_trial = {
         type: "bar-choose",
-        instructions: "Imagine you would see MAXVAL more tickets for your trip to Mexico City.",
+        instructions: "Imagine you would see 20 more tickets for your trip to Mexico City.",
         subtitle: "Please drag the bar or type in the input field to determine the amount of tickets <br> that are in the equivalent price range for this trip. Press continue when you are sure of your answers.",
 //        categories: ["$105 - $130", "$131 - $155", "$156 - $180", "$181 - $205", "$206 - $230", "$231 - $255", "$256 - $280"],
         min_val: 0,
@@ -239,17 +232,24 @@ var p2_training_trial = {
 
 var p2_testing_instructions_trial = {
         type: "html",
-        url: "/christiane/tickets3/utils/testing2.html",
+        url: "/tickets/utils/testing2.html",
         cont_btn: "testingstart",
-    on_start: function(trial) {
-        $("#wheel").css("display", "none");
-    }
+	on_finish: function() {
+		$("#jspsych-points").css("display", "block");
+		$("#points-s").html("In sequence 1 out of 50");
+	}
+}
+
+var p2_testing_order_trial = {
+        type: "store_order",
+        phase: 1,
+        order: []
 }
 
 // Second bar graph to see learning
 var p2_training_trial2 = {
         type: "bar-choose",
-        instructions: "Imagine you would see yet another MAXVAL tickets to Mexico City.",
+        instructions: "Imagine you would see yet another 20 tickets to Mexico City.",
         subtitle: "Please drag the bar or type in the input field to determine the amount of tickets <br> that are in the equivalent price range for this trip. Press continue when you are sure of your answers.",
 //        categories: ["$105 - $130", "$131 - $155", "$156 - $180", "$181 - $205", "$206 - $230", "$231 - $255", "$256 - $280"],
         min_val: 0,
@@ -259,34 +259,9 @@ var p2_training_trial2 = {
 	//answers: animanswers2
 }
 
-var p2_mid_test_trial = {
-    type: "html",
-    url: "/christiane/tickets3/utils/mid_test.html",
-    cont_btn: "continue"
-}
-
-var p2_training_trial3 = {
-        type: "bar-choose",
-        instructions: "Imagine you would see yet another MAXVAL tickets to Mexico City.",
-        subtitle: "Please drag the bar or type in the input field to determine the amount of tickets <br> that are in the equivalent price range for this trip. Press continue when you are sure of your answers.",
-//        categories: ["$105 - $130", "$131 - $155", "$156 - $180", "$181 - $205", "$206 - $230", "$231 - $255", "$256 - $280"],
-        min_val: 0,
-        max_val: 20,
-	phase: 1,
-	number: 2
-	//answers: animanswers2
-}
-
-var points_update_trial = {
-    type: "points-update"
-}
-
-var p2_points_update_trial = {
-    type: "points-update"
-}
-
 var final_trial = {
-	type: "final"
+	type: "final",
+	points: function() { return points_counter; }
 }
 
 function preload()
@@ -294,11 +269,11 @@ function preload()
 	for(var i = 0; i < NUM_TICKETS; i++)
 	{
 		TICKET_IMAGES[0][i] = new Image();
-		TICKET_IMAGES[0][i].src = "/christiane/tickets3/utils/tickets/" + window.ticketprefix + "/ticket" + (i+1) + ".jpg";
+		TICKET_IMAGES[0][i].src = "/tickets/utils/tickets/" + window.ticketprefix + "/ticket" + (i+1) + ".jpg";
 		TICKET_IMAGES[0][i].classList += " ticket-img";
 
 		TICKET_IMAGES[1][i] = new Image();
-                TICKET_IMAGES[1][i].src = "/christiane/tickets3/utils/tickets/" + window.ticketprefix + "/2ticket" + (i+1) + ".jpg";
+                TICKET_IMAGES[1][i].src = "/tickets/utils/tickets/" + window.ticketprefix + "/2ticket" + (i+1) + ".jpg";
                 TICKET_IMAGES[1][i].classList += " ticket-img";
 	}
 }
@@ -330,7 +305,7 @@ function init_exp()
 
 	var timeline = [];
 
-	$.post("/christiane/tickets3/get.php", { f7g12d: "y" }, function(d) {
+	$.post("/tickets/get.php", { f7g12d: "y" }, function(d) {
 
 	var animdata = [];
 	var animanswers = [];
@@ -338,50 +313,40 @@ function init_exp()
 	var animanswers2 = [];
 	var testing_data = [];
 	var p2_testing_data = [];
-	//var training_ranges = [];
+	var training_ranges = [];
+	var testing_orders = [];
+	var p2_testing_orders = [];
 
 	var da = JSON.parse(d);
 	testing_data = da["testing"][0];
 	p2_testing_data = da["testing"][1];
-    
 	animdata = da["training"][0];
 	animdata2 = da["training"][1];
 	animanswers = da["answers"][0];
 	animanswers2 = da["answers"][1];
-	//training_ranges = da["training_ranges"];
-    
-    var training_sort = parseInt(da["training_sort"]);
-    var threshold = parseFloat(da["training_threshold"]);
-
-    console.log(animanswers);
+	training_ranges = da["training_ranges"];
 
 	//animation_trial.prices = animdata;
 	//p2_animation_trial.prices = animdata2;
 	training_trial.answers = animanswers;
 	training_trial2.answers = animanswers;
-	training_trial3.answers = animanswers;
-    p2_training_trial.answers = animanswers2;
+	p2_training_trial.answers = animanswers2;
 	p2_training_trial2.answers = animanswers2;
-    p2_training_trial3.answers = animanswers2;
 
 	training_trial.categories = da["categories"][0];
 	training_trial2.categories = da["categories"][0];
-    training_trial3.categories = da["categories"][0];
 	p2_training_trial.categories = da["categories"][1];
-    p2_training_trial2.categories = da["categories"][1];
-    p2_training_trial3.categories = da["categories"][1];
-	
-    training_trial.max_val = training_sort;
-	training_trial2.max_val = training_sort;
-	training_trial3.max_val = training_sort;
-    p2_training_trial.max_val = training_sort;
-	p2_training_trial2.max_val = training_sort;
-    p2_training_trial3.max_val = training_sort;
+  p2_training_trial2.categories = da["categories"][1];
 
-    training_trial.pass_threshold = threshold;
-    p2_training_trial.pass_threshold = threshold;
-	
-    var assignment_id = "<?= $_SESSION['assignmentId'] ?>";
+	testing_orders = da["orders"][0];
+	p2_testing_orders = da["orders"][1];
+
+	testing_order_trial.order = testing_orders;
+	p2_testing_order_trial.order = p2_testing_orders;
+
+
+	var worker_id = "";
+	var assignment_id = "<?= $_SESSION['assignmentId'] ?>";
 
 	//timeline.push(special_sequence_trial);
 
@@ -389,7 +354,9 @@ function init_exp()
 	timeline.push(age_trial);
 
 	workerid_trial.on_finish = function(data) {
-		$.post("/christiane/tickets3/setworkerid.php", { id : data.worker_id });//, function(d) { console.log(d); });
+		worker_id = data.worker_id;
+
+		$.post("/tickets/setworkerid.php", { id : data.worker_id }, function(d) { console.log(d); });
 	};
   	timeline.push(workerid_trial);
 
@@ -397,52 +364,33 @@ function init_exp()
 	timeline.push(instructions_trial);
   	timeline.push(start_trial);
 
-    var passed = false;
-
 	for(var i = 0; i < animdata.length; i++)
 	{
-        for(var j = 0; j < animdata[i].length; j++)
-        {
-            timeline.push({
-                    type: "number-animation",
-                    prices: animdata[i][j],
-                    phase: 0,
-                    continue_message: "Next",
-                    repeat_num: i,
-                    sequence_num: j,
-                    passed: function() { return passed; }
-            });
+		timeline.push({
+        		type: "number-animation",
+        		prices: animdata[i],
+        		phase: 0,
+       			continue_message: "Next"
+		});
 
-/*            timeline.push({
-                type: "training_avg",
-                phase: 0,
-                sequence_num: j,
-                repeat_num: i,
-                passed: function() { return passed; },
-                sequence: animdata[i][j],
-                min_val: training_ranges[0][0],
-                max_val: training_ranges[0][1]
-            });*/
-        }
+		timeline.push({
+			type: "training_avg",
+			phase: 0,
+			sequence_num: i,
+			sequence: animdata[i],
+			min_val: training_ranges[0][0],
+			max_val: training_ranges[0][1]
+		});
+	}
 
-    	timeline.push(Object.assign({ repeat_num: i,
-                    passed: function() { return passed; },
-                    on_finish: function(data) {
-                        if(data.passed && data.repeat_num > 0) {
-                            passed = true;
-	                        $("#wheel").css("display", "block");
-                        }
-                    }                  
-        }, training_trial));
-    }
+	timeline.push(training_trial);
+        timeline.push(testing_instructions_trial);
+	timeline.push(testing_order_trial);
 
-    timeline.push(testing_instructions_trial);
-	
-    // example testing sequence
+	// example testing sequence
 	timeline.push({ type: "ticket-choose",
 			phase: 0,
 			row: -1,
-            showpoints: false,
 			prices: [184, 180, 224, 165, 181, 199, 185, 193, 218, 126],
 			continue_mesage: "Finish",
 			sequence: ""
@@ -450,9 +398,7 @@ function init_exp()
 
 	timeline.push(testing_instructions2_trial);
 
-//    testing_data.length = 4;
-
-	for(var i = 0; i < testing_data.length; i++)
+	for(var i = 0; i < p2_testing_data.length; i++)
 	{
         	timeline.push({ type: "ticket-choose",
 				prices: testing_data[i],
@@ -463,67 +409,54 @@ function init_exp()
 			//	points: function() { return points_counter.p[0]; },
 				showpoints: true,
 				on_finish: function(data) {
-					$.post("/christiane/tickets3/check.php", { phase: 0, sequence: data.sequence, answer: data.result });
+					$.post("/tickets/check.php", { phase: 0, sequence: data.sequence, answer: data.result }, function(d) {
+						//console.log(d);
+						var da = JSON.parse(d);
+						points_counter.p[0] = da.points;
+						$("#points-p").html(da.points);
+					});
 				}
 		});
-
-        if(i == Math.floor((testing_data.length - 1) / 2)) {
-            timeline.push(points_update_trial);
-            timeline.push(training_trial2);
-            timeline.push(mid_test_trial);
-        }
 	}
 	timeline[timeline.length-1].continue_message = "Finish";
 	timeline[timeline.length-1].on_finish = function(data) {
-		$.post("/christiane/tickets3/check.php", { phase: 0, sequence: data.sequence, answer: data.result });
+		$.post("/tickets/check.php", { phase: 0, sequence: data.sequence, answer: data.result }, function(d) {
+                        //console.log(d);
+                        var da = JSON.parse(d);
+			points_counter.p[0] = da.points;
+                });
+
+                $("#points-p").html("0");
+
+		$("#jspsych-points").css("display", "none");
 	};
 
-	timeline.push(training_trial3);
-/*
+	timeline.push(training_trial2);
+
 	timeline.push(p2_start_trial);
-	
-    var passed2 = false;
 
-    for(var i = 0; i < animdata2.length; i++)
+	for(var i = 0; i < animdata2.length; i++)
 	{
-        for(var j = 0; j < animdata2[i].length; j++)
-        {
-            timeline.push({
-                    type: "number-animation",
-                    prices: animdata2[i][j],
-                    phase: 1,
-                    continue_message: "Next",
-                    repeat_num: i,
-                    sequence_num: j,
-                    passed: function() { return passed2; }
-            });
+                timeline.push({
+                        type: "number-animation",
+                        prices: animdata2[i],
+                        phase: 1,
+                        continue_message: "Next"
+                });
 
-            timeline.push({
-                type: "training_avg",
-                phase: 1,
-                sequence_num: j,
-                repeat_num: i,
-                passed: function() { return passed2; }
-                sequence: animdata2[i][j],
-                min_val: training_ranges[1][0],
-                max_val: training_ranges[1][1]
-            });
+                timeline.push({
+                        type: "training_avg",
+                        phase: 1,
+                        sequence_num: i,
+                        sequence: animdata2[i],
+                        min_val: training_ranges[1][0],
+                        max_val: training_ranges[1][1]
+                });
         }
 
-    	timeline.push(Object.assign({ repeat_num: i,
-                    passed: function() { return passed2; },
-                    on_finish: function(data) {
-                        if(data.passed) {
-                            passed2 = true;  
-	                        $("#wheel").css("display", "block");
-                        }
-                    }                  
-        }, p2_training_trial));
-    }
-
+	timeline.push(p2_training_trial);
         timeline.push(p2_testing_instructions_trial);
-
-    //p2_testing_data.length = 4;
+	timeline.push(p2_testing_order_trial);
 
 	//for(var i = 0; i < 2; i++)
 	for(var i = 0; i < p2_testing_data.length; i++)
@@ -537,22 +470,29 @@ function init_exp()
                         //      points: function() { return points_counter.p[1]; },
                                 showpoints: true,
                                 on_finish: function(data) {
-					$.post("/christiane/tickets3/check.php", { phase: 1, sequence: data.sequence, answer: data.result });
-                } });
-
-                if(i == Math.floor((p2_testing_data.length - 1) / 2)) {
-                    timeline.push(p2_points_update_trial);
-                    timeline.push(p2_training_trial2);
-                    timeline.push(p2_mid_test_trial);
-                }
+					$.post("/tickets/check.php", { phase: 1, sequence: data.sequence, answer: data.result }, function(d) {
+						//console.log(d);
+                                                var da = JSON.parse(d);
+						points_counter.p[1] = da.points;
+                                                $("#points-p").html(da.points);
+                                        });
+                                }
+                });
         }
         timeline[timeline.length-1].continue_message = "Finish";
         timeline[timeline.length-1].on_finish = function(data) {
-                $.post("/christiane/tickets3/check.php", { phase: 1, sequence: data.sequence, answer: data.result });
+                $.post("/tickets/check.php", { phase: 1, sequence: data.sequence, answer: data.result }, function(d) {
+                        //console.log(d);
+                        var da = JSON.parse(d);
+                        points_counter.p[1] = da.points;
+                        $("#points-p").html(da.points);
+                });
+
+                $("#jspsych-points").css("display", "none");
         };
 
-	timeline.push(p2_training_trial3);
-*/
+	timeline.push(p2_training_trial2);
+
 	timeline.push(special_sequence_trial);
 
 	timeline.push(final_trial);
@@ -573,7 +513,7 @@ function init_exp()
 				$.ajax({
 					type:'post',
 					cache: false,
-					url: '/christiane/tickets3/save_data.php', // this is the path to the above PHP script
+					url: '/tickets/save_data.php', // this is the path to the above PHP script
 					data: {filename: filename, filedata: filedata},
 				// complete: function() {
 				// 				window.location.href = "confirmation_code.html";
@@ -605,9 +545,9 @@ function init_exp()
 		timeline: timeline,
 		display_element: $("#jspsych-main"),
 		on_finish: function(data) {
-			$("#jspsych-main").empty().load("/christiane/tickets3/confirmation_code.html");
+			$("#jspsych-main").empty().load("/tickets/confirmation_code.html");
 			//console.log(worker_id);
-			$.post("/christiane/tickets3/submit.php", { data: JSON.stringify(data), assignment_id: assignment_id }, function(r) {
+			$.post("/tickets/submit.php", { data: JSON.stringify(data), worker_id: worker_id, assignment_id: assignment_id }, function(r) {
 				console.log(r);
 			});
 		}
@@ -628,12 +568,12 @@ function init_preview(tri)
 
 var accept_trial = {
 	type: "html",
-	url: "/christiane/tickets3/utils/accept.html"
+	url: "/tickets/utils/accept.html"
 };
 
 var outside_trial = {
 	type: "html",
-	url: "/christiane/tickets3/utils/outside.html"
+	url: "/tickets/utils/outside.html"
 };
 
 function init()
@@ -664,6 +604,19 @@ function init()
 
 <body onload="init()">
 	<div class="wheel-loader-wrap" id="wheel"><div class="wheel-loader"></div></div>
+	<div id="jspsych-points" style="display:none">
+		<div class="points-main">
+        		<div class="points-header">
+               			<h2>Your Points:</h2>
+        		</div>
+                	<div class="points-points">
+                       		<h2 id="points-p">0</h2>
+                	</div>
+                	<div class="points-subtitle">
+                       		<p id="points-s">In sequence 1 out of 50</p>
+                	</div>
+		</div>
+	</div>
 	<div id="jspsych-main"></div>
 </body>
 

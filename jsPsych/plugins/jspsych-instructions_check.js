@@ -38,7 +38,7 @@ jsPsych.plugins["instructions_check"] = (function()
 						$("#" + trial.check).animate({ opacity: 1 }, 100);
 
 						$("#" + trial.right).off("click").click(function() {
-//							console.log(count);
+							console.log(count);
 							display_element.empty();
 							jsPsych.finishTrial({ tries: count });
 						});

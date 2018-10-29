@@ -30,7 +30,7 @@ jsPsych.plugins["ticket-choose"] = (function()
 
 		display_element.html("");
 
-		display_element.load("/christiane/tickets3/utils/ticket-choose.html", function()
+		display_element.load("/tickets/utils/ticket-choose.html", function()
 		{
 			//window.viewportUnitsBuggyfill.refresh();
 
@@ -87,24 +87,51 @@ jsPsych.plugins["ticket-choose"] = (function()
 					var points = 0;
 
 					var r = prices.indexOf(trial.prices[price_num]);
+                                	if(r == 0)
+                                        	points = 3;
+					else if (r == 1)
+						points = 2;
+																	else if (r == 2 || r == 3 || r ==4)
+																					points = 1;
+
+
 
 					//console.log(points);
 
-                    below.html("");
+					var pr = parseInt($("#points-p").html());
+					if(trial.showpoints && points)
+					{
+						$("#points-p").fadeOut(150, function() {
+							$("#points-p").html(pr + points).fadeIn(150);
+						});
+					}
 
-					if(r === 0) {
-                        points = 20;
-						above.html("Congratulations! Your ticket is the cheapest ticket!");
-                    }
-                    else {
-                        points = Math.round(20 * (prices[prices.length - 1] - trial.prices[price_num]) / (prices[prices.length - 1] - prices[0]));
-                        
-                        var diff = trial.prices[price_num] - prices[0];
+					var am = "";
+					if(r === 0)
+						am = "You chose the best ticket!";
+					else if(r === 1)
+						am = "You chose the 2nd best ticket!";
+					else if(r === 2)
+						am = "You chose the 3rd best ticket.";
+					else
+						am = "You chose the " + r + "th best ticket.";
 
-                        above.html("You could have saved $" + diff.toFixed(0) + " if had you chosen a different ticket");
-                    }
+					if(trial.showpoints)
+					{
+						if(points == 1)
+							am = am.slice(0, -1).concat(" and get 1 point.");
+						/*else if(points == 2)
+							am = am.slice(0, -1).concat(" and get 2 points.");
+						else if(points == 3)
+							am = am.slice(0, -1).concat(" and get 3 points.");*/
+						else
+							am = am.slice(0, -1).concat(" and get " + points + " points.");
+					}
 
 					price.hide();
+                                        above.html(am);
+					if(trial.showpoints)
+						below.html("You now have a total of " + (pr + points) + ((pr+points) === 1 ? " point." : " points."));
 
 					$("#ticket-wrap").hide();
 

@@ -4,8 +4,8 @@ require("./repos/mturk-php/mturk.php");
 
 function logging($mes)
 {
-	$f = fopen("./logging.txt", "a");
-	fwrite($f, "[" . date("Y-m-d H:i:s") . "] " . $mes . "\n");
+	$f = fopen("./logging.txt", "w");
+	fwrite($f, $mes);
 	fclose($f);
 }
 
@@ -44,7 +44,16 @@ function get_points($phase, $sequence, $answer)
 	$arr = $_SESSION["testing_data"][$phase][$sequence];
         sort($arr);
 
-    $p = intval(round(20 * ($arr[count($arr) - 1] - $answer) / ($arr[count($arr) - 1] - $arr[0])));
+        $a = intval($answer);
+
+        $p = 0;
+
+        if($arr[0] == $a)
+                $p = 3;
+	else if($arr[1] == $a)
+	        $p = 2;
+	else if($arr[2] == $a || $arr[3] ==$a || $arr[4] ==$a)
+		$p = 1;
 
 	return $p;
 }
@@ -53,7 +62,10 @@ function get_points($phase, $sequence, $answer)
 // returns an integer for the number of cents
 function get_bonus($points)
 {
-	$b = round($points * 0.1);
+	//exp4
+  $percent = round(100 * ($points / 360));
+	//$percent = round(100 * ($points / 300));
+	$b = intval(round(4 * $percent));
 
 	if($b > 400)
 		return 400;
@@ -129,9 +141,10 @@ function mysql_save_response($arr)
 {
 	$conn = dbConnect();
 
-	$result = dbQuery($conn, "INSERT INTO responses SET bonus_paid=FALSE, start_time=:start_time, end_time=:end_time, age=:age, gender=:gender, tries=:tries, during=:during, points_phase0=:points_phase0, points_phase1=:points_phase1, worker_id=:worker_id, assignment_id=:assignment_id, bonus=:bonus, training_sort=:training_sort", [
+	$result = dbQuery($conn, "INSERT INTO responses SET bonus_paid=FALSE, start_time=:start_time, end_time=:end_time, phase_order=:phase_order, age=:age, gender=:gender, tries=:tries, during=:during, points_phase0=:points_phase0, points_phase1=:points_phase1, worker_id=:worker_id, assignment_id=:assignment_id, bonus=:bonus", [
 			"start_time" => $arr["start_time"],
 			"end_time" => $arr["end_time"],
+			"phase_order" => $_SESSION["phase_order"],
                 	"age" => $arr["age"],
                 	"gender" => $arr["gender"],
                 	"tries" => $arr["tries"],
@@ -140,7 +153,6 @@ function mysql_save_response($arr)
 			"points_phase1" => $arr["points_phase1"],
 			"worker_id" => $arr["worker_id"],
 			"assignment_id" => $arr["assignment_id"],
-            "training_sort" => $arr["training_sort"],
 			"bonus" => $arr["bonus"]
 	]);
 
@@ -150,25 +162,21 @@ function mysql_save_response($arr)
 	{
 		if($trial["trial_type"] == "bar-choose")
 		{
-			if(!isset($trial["result"]) || $trial["result"] != "passed")
-            {
-                foreach($trial["responses"] as $bar_response)
-                {
-                    dbQuery($conn, "INSERT INTO bar_responses SET response=:value, offby=:offby, category=:category, category_index=:category_index, RID=$id, phase=" . $trial["phase"] . ", number=" . $trial["number"] . ", repeat_num=" . $trial["repeat_num"], $bar_response);
-                }
-		    }
-        }
+			foreach($trial["responses"] as $bar_response)
+			{
+				dbQuery($conn, "INSERT INTO bar_responses SET response=:value, offby=:offby, category=:category, category_index=:category_index, RID=$id, phase=" . $trial["phase"] . ", number=" . $trial["number"], $bar_response);
+			}
+		}
 		else if($trial["trial_type"] == "ticket-choose" && $trial["sequence"] > -1)
 		{
 //			var_dump($trial);
-			dbQuery($conn, "INSERT INTO test_responses SET response=:result, points=:points, phase=:phase, sequence=:sequence, place=:place, RID=$id, next_num=:next_num, prices=:prices", [
+			dbQuery($conn, "INSERT INTO test_responses SET response=:result, points=:points, phase=:phase, sequence=:sequence, place=:place, RID=$id, next_num=:next_num", [
 					"result" => $trial["result"],
 					"points" => $trial["points"],
 					"phase" => $trial["phase"],
 					"sequence" => $trial["sequence"],
 					"place" => $trial["place"],
-					"next_num" => $trial["next_num"],
-                    "prices" => json_encode($trial["prices"])
+					"next_num" => $trial["next_num"]
 			]);
 
 			for($i = 0; $i < count($trial["times"]); $i++)
@@ -183,17 +191,24 @@ function mysql_save_response($arr)
 		}
 		else if($trial["trial_type"] == "training_avg")
 		{
-			if(!isset($trial["result"]) || $trial["result"] != "passed")
-            {
-                dbQuery($conn, "INSERT INTO training_responses SET sequence=:sequence, RID=$id, avg=:avg, response=:response, phase=:phase, repeat_num=:repeat_num", [
-                        "sequence" => $trial["sequence"],
-                        "avg" => $trial["avg"],
-                        "response" => $trial["response"],
-                        "phase" => $trial["phase"],
-                        "repeat_num" => $trial["repeat_num"]
-                ]);
-		    }
-        }
+			dbQuery($conn, "INSERT INTO training_responses SET sequence=:sequence, RID=$id, avg=:avg, response=:response, phase=:phase", [
+					"sequence" => $trial["sequence"],
+					"avg" => $trial["avg"],
+					"response" => $trial["response"],
+					"phase" => $trial["phase"]
+			]);
+		}
+		else if($trial["trial_type"] == "store_order")
+		{
+			for($i = 0; $i < count($trial["order"]); $i++)
+			{
+				dbQuery($conn, "INSERT INTO testing_orders SET phase=:phase, sequence=:sequence, order_index=:order, RID=$id", [
+					"phase" => $trial["phase"],
+					"sequence" => $i,
+					"order" => $trial["order"][$i]
+				]);
+			}
+		}
 	}
 }
 
@@ -219,424 +234,459 @@ function dbQuery($conn, $query, $values = array()) {
     }
 }
 
-// This function generates a random number within the skewed normal distribution with parameters
-// location, scale and shape. **THIS IS THE TICKET GENERATION FUNCTION**
-function sn_generate_deviate($location, $scale, $shape)
-{
-    // Generate two random uniformly distributed numbers between 0 and 1
-    $max = mt_getrandmax();
-    $x1 = mt_rand() / $max;
-    $x2 = mt_rand() / $max;
-    
-    // Generate two random numbers on the normal distribution using the Box-Muller transform
-    $sq = sqrt(-2 * log($x1));
-    $y1 = $scale * $sq * cos(2 * M_PI * $x2) + $location;
-
-    if($shape == 0.0)
-        return $y1;
-
-    $y2 = $scale * $sq * sin(2 * M_PI * $x2) + $location;
-    
-    $u = max($y1, $y2);
-    $v = min($y1, $y2);
-
-    $sq2 = sqrt(2 * (1 + $shape * $shape));
-    $l1 = (1 + $shape) / $sq2;
-    $l2 = (1 - $shape) / $sq2;
-
-    // Generate one random number on the skewed normal distribution using the min-max method
-    $y = $l1 * $u + $l2 * $v;
-    //$y = $scale * ($shape * abs($y1) + $y2) / sqrt(1 + $shape * $shape) + $location;  // Henze's formula
-
-    return $y;
-}
-
-// This estimates the error function (erf(x)) with maximum error 1.5 * 10^(-7). This approximation was
-// given by Abramowitz and Stegun, and is described on the Wikepedia page for the error function.
-function erf($x)
-{
-    $p = 0.3275911;
-    $t = 1 / (1 + $p * $x);
-    $a1 = 0.254829592;
-    $a2 = -0.284496736;
-    $a3 = 1.421413741;
-    $a4 = -1.453152027;
-    $a5 = 1.061405429;
-
-    $v = $a1*$t + $a2*$t*$t + $a3*$t*$t*$t + $a4*$t*$t*$t*$t + $a5*$t*$t*$t*$t*$t;
-
-    return (1 - $v * exp(-$x*$x));
-}
-
-// Estimate an integral by performing a sum from $l to $u of $func, with steps dx = $step, and
-// additional parameters passed to $func $params
-function integrate($func, $l, $u, $step, $params)
-{
-    // Holds the total integral
-    $sum = 0.0;
-
-    // If u is greater than l, the we are integrating from l to u
-    $x = $l;
-    $max = $u;
-
-    // If u is less than l, then we are integrating from u to l, but afterwards the value is multiplied
-    // by -1
-    if($u < $l) {
-        $x = $u;
-        $max = $l;
-    }
-
-    // Integrate, using the function and updating x by step with each iteration
-    while($x <= $max) {
-        $sum += $func($x, $params) * $step;
-        $x += $step;
-    }
-
-    // Multiply the integral by -1 if a is smaller than 0
-    if($u < $l)
-        $sum = -$sum;
-
-    return $sum;
-}
-
-// Function within integral of Owen's T function
-function t_func_inner($x, $params)
-{
-    return exp(-0.5 * $params['h'] * $params['h'] * (1 + $x * $x)) / ((1 + $x * $x) * 2 * M_PI);
-}
-
-// This estimates Owen's T function by numerically integrating, based on the definition of the function.
-function t_func($h, $a)
-{
-    return integrate('t_func_inner', 0, $a, 0.001, ['h' => $h]);
-}
-
-// This function estimates the CDF of the skewed normal distribution evaluated at the given point (x) 
-// and with the given properties (location, scale, shape). This formula for the CDF of the skewed normal
-// distribution was taken from the Wikipedia page for the skewed normal distribution
-function sn_cdf($x, $location, $scale, $shape)
-{
-    $f = 0.5 * (1 + erf(($x - $location) / ($scale * M_SQRT2)));
-    
-    $t = t_func(($x - $location) / $scale, $shape);
-
-    return ($f - 2 * $t);
-}
-
-// This function generates a number on the log-normal distribution
-function ln_generate_deviate($mean, $stddev)
-{
-    // Generate two random uniformly distributed numbers between 0 and 1
-    $max = mt_getrandmax();
-    $x1 = mt_rand() / $max;
-    $x2 = mt_rand() / $max;
-    
-    // Generate one random number on the normal distribution using the Box-Muller transform
-    $y1 = $stddev * sqrt(-2 * log($x1)) * cos(2 * M_PI * $x2) + $mean;
-
-    // Generate a number on the standard log-normal distribution
-    $y = exp($y1);
-
-    return $y;
-}
-
-// Estiamte the CDF of the log-normal distribution evaluated at $x
-function ln_cdf($x, $mean, $stddev)
-{
-    return (0.5 + 0.5 * erf((log($x) - $mean) / (M_SQRT2 * $stddev)));
-}
-
-// Function within integral of beta function
-function beta_inner($x, $params)
-{
-    return pow($x, $params['a'] - 1) * pow(1 - $x, $params['b'] - 1);
-}
-
-// Approximation of incomplete beta function
-function betainc($z, $a, $b)
-{
-    return integrate('beta_inner', 0, $z, 0.00002, ['a' => $a, 'b' => $b]);
-}
-
-// Approximates the root of a function $func, with derivative $deriv, with Newton's method, with
-// initial guess $guess, performing the loop $iters times, and passing additional parameters
-// $params to $func and $deriv
-/*function newtons($func, $deriv, $guess, $iters, $params)
-{
-    $x = $guess;
-
-    for($i = 0; $i < $iters; $i++) {
-        $x = $x - $func($x, $params) / $deriv($x, $params);
-    }
-
-    return $x;
-}*/
-
-// Approximation of regularized incomplete beta function
-function betaincreg($x, $params)
-{
-    $v = betainc($x, $params['a'], $params['b']) / betainc(1, $params['a'], $params['b']);
-
-    /*echo 'B(';
-    echo $x;
-    echo ', ';
-    echo $params['a'];
-    echo ', ';
-    echo $params['b'];
-    echo '): ';
-    echo $v;
-    echo '   ';
-*/
-    return $v;
-}
-
-// Approximation of the digamma function
-/*function digamma($x)
-{
-    $x2 = $x * $x;
-    $x4 = $x2 * x2;
-    $x6 = $x4 * $x2;
-    $x8 = $x6 * $x2;
-    $x10 = $x8 * $x2;
-    $x12 = $x10 * $x2;
-    $x14 = $x12 * $x2;
-
-    $g = log($x) - 1 / (2 * $x) - 1 / (12 * $x2) + 1 / (120 * $x4) - 1 / (252 * $x6) + 1 / (240 * $x8)
-                 - 5 / (660 * $x10) + 691 / (32760 * $x12) - 1 / (12 * $x14);
-
-    return $g;
-}
-
-// Approximation of the derivative of the regularized incomplete beta function
-function betaincregderiv($x, $params)
-{
-    $v = pow(1 - $x, $params['b'] - 1) * pow($x, $params['a'] - 1) / betainc(1, $params['a'], $params['b']);
-
-    return $v;
-}
-
-// Approximation of inverse of regularized incomplete beta function with respect to $x
-function betaincreginv($x, $a, $b)
-{
-    $v = newtons('betaincreg', 'betaincregderiv', 0.9, 1000, ['a' => $a, 'b' => $b]);
-
-    return $v;
-}
-
-// Generate a random number on the PERT distribution
-function pert_generate_deviate($min, $max, $mode)
-{
-    $u = mt_rand() / mt_getrandmax();
-
-    $a1 = (4 * $mode + $max - 5 * $min) / ($max - $min);
-    $a2 = (5 * $max - $min - 4 * $mode) / ($max - $min);
-
-    $x = ($max - $min) * betaincreginv($u, $a1, $a2) + $min;
-    
-    echo $x;
-    echo ' ';
-
-    return $x;
-}*/
-
-// Approximate the CDF of the PERT distribution at $x
-function pert_cdf($x, $min, $max, $mode)
-{
-    if($x <= $min)
-        return 0;
-    else if($x >= $max)
-        return 1;
-
-    $a1 = (4 * $mode + $max - 5 * $min) / ($max - $min);
-    $a2 = (5 * $max - $min - 4 * $mode) / ($max - $min);
-    $z = ($x - $min) / ($max - $min);
-
-    //echo 'x: ' . $x . '  max: ' . $max . '  min: ' . $min . "\n";
-
-    $v = betaincreg($z, ['a' => $a1, 'b' => $a2]);
-
-    //echo 'betaincreg(' . $z . ', ' . $a1 . ', ' . $a2 . ') = ' . $v . "\n";
-
-    return $v;
-}
 
 function startSession() {
-    $_SESSION = array();
+
+$_SESSION = array();
+
+$_SESSION["points"] = [];
+$_SESSION["points"][0] = 0;
+$_SESSION["points"][1] = 0;
+$_SESSION["checked"] = [];
+$_SESSION["checked"][0] = $_SESSION["checked"][1] = [];
+$_SESSION["got_data"] = 0;
+$_SESSION["finished"] = 0;
+$_SESSION["checked_assoc"] = [];
+$_SESSION["checked_assoc"][0] = $_SESSION["checked_assoc"][1] = [];
+
+$_SESSION["start_time"] = get_time();
+
+/*
+$_SESSION["training_data"] = [[
+[196, 169, 184, 177, 166, 182, 182, 186, 181, 178],
+[183, 176, 177, 190, 169, 182, 177, 187, 162, 177],
+[175, 171, 168, 174, 186, 161, 180, 181, 196, 167],
+[189, 182, 186, 190, 176, 175, 168, 158, 190, 165],
+[181, 190, 165, 185, 179, 177, 181, 164, 177, 187]
+],[
+[214, 179, 215, 206, 108, 129, 121, 102, 188, 194],
+[184, 235, 246, 195, 211, 266, 118, 110, 239, 174],
+[229, 156, 218, 165, 189, 207, 59, 109, 202, 240],
+[281, 230, 266, 170, 132, 228, 129, 142, 182, 140],
+[127, 217, 232, 215, 170, 208, 284, 199, 154, 203]
+]	];
+*/
 
 
-    /****                   PARAMETERS                  ****/ 
+//training data for N(180,20)
+$_SESSION["training_data"] = [[
+[168, 210, 158, 176, 182, 192, 174, 186, 178, 181],
+[185, 237, 191, 177, 201, 154, 181, 196, 162, 195],
+[182, 161, 190, 159, 197, 229, 184, 197, 174, 208],
+[183, 154, 186, 177, 193, 185, 221, 174, 168, 132],
+[185, 168, 194, 203, 198, 140, 172, 168, 188, 199]
+],[
+[172, 130, 199, 204, 177, 182, 166, 193, 184, 184],
+[175, 141, 199, 172, 198, 197, 198, 184, 178, 187],
+[193, 178, 208, 198, 203, 145, 164, 175, 165, 187],
+[210, 156, 177, 202, 222, 214, 152, 189, 226, 199],
+[206, 181, 210, 153, 181, 216, 200, 108, 193, 185]]
+];
 
-    // The number of phases
-    $nphases = 2;
+$_SESSION["training_answers"] = [
+// First training phase
+[0, 0, 4, 6, 7, 3, 0], //[3, 7, 20, 10, 7, 2, 1]
+// Second training phase
+[1, 2, 4, 6, 6, 1, 0] // [4, 4, 6, 12, 13, 7, 4]
+];
 
-    // The number of sequences in one training phase
-    $ntraining_sequences = 1;
+$_SESSION["training_categories"] = [
+["$140 - $150","$151 - $160","$161 - $170", "$171 - $180", "$181 - $190", "$191 - $200", "$201 - $210"],
+["$140 - $150","$151 - $160","$161 - $170", "$171 - $180", "$181 - $190", "$191 - $200", "$201 - $210"]
+];
+$_SESSION["testing_data"] = [[
+[174, 186, 165, 151, 164, 160, 199, 168, 226, 175],	//1
+[175, 185, 165, 175, 204, 207, 187, 180, 173, 236],
+[175, 186, 165, 196, 182, 187, 170, 215, 168, 179],
+[174, 186, 165, 179, 175, 207, 170, 188, 166, 156],
+[175, 185, 165, 171, 184, 160, 192, 165, 190, 200],
+[175, 186, 165, 156, 178, 184, 159, 190, 146, 178],	//6
+[174, 186, 165, 160, 173, 164, 169, 210, 134, 158],
+[175, 185, 165, 207, 200, 180, 246, 192, 181, 121],
+[175, 186, 165, 186, 157, 183, 166, 172, 200, 191],
+[174, 186, 165, 179, 186, 197, 196, 195, 196, 157],
+[175, 186, 176, 210, 165, 174, 186, 197, 177, 193],	//11
+[175, 187, 176, 209, 165, 175, 186, 162, 200, 159],
+[174, 186, 176, 217, 165, 160, 177, 191, 177, 181],
+[175, 186, 176, 210, 165, 181, 180, 148, 177, 173],
+[175, 187, 176, 209, 165, 168, 184, 174, 167, 170],
+[174, 186, 176, 217, 165, 210, 189, 198, 187, 194],	//16
+[175, 186, 176, 210, 165, 157, 182, 195, 179, 181],
+[175, 186, 176, 209, 165, 211, 201, 178, 185, 177],
+[174, 186, 176, 217, 165, 190, 192, 141, 187, 186],
+[175, 186, 176, 210, 165, 201, 211, 186, 193, 170],
+[175, 186, 176, 210, 179, 187, 165, 206, 164, 161],	//21
+[175, 187, 176, 209, 180, 188, 165, 157, 207, 196],
+[174, 186, 176, 217, 181, 187, 165, 219, 194, 225],
+[175, 186, 176, 210, 179, 187, 165, 183, 186, 153],
+[175, 187, 176, 209, 180, 188, 165, 199, 164, 195],
+[174, 186, 176, 217, 181, 187, 165, 170, 176, 174],	//26
+[175, 186, 176, 210, 179, 187, 165, 179, 184, 154],
+[175, 186, 176, 209, 180, 188, 165, 214, 177, 163],
+[174, 186, 176, 217, 181, 187, 165, 168, 209, 229],
+[175, 186, 176, 210, 179, 187, 165, 189, 133, 170],
+[175, 186, 176, 210, 179, 187, 172, 208, 165, 156],	//31
+[175, 187, 176, 209, 180, 188, 170, 208, 165, 154],
+[174, 186, 176, 217, 181, 187, 171, 209, 165, 178],
+[175, 186, 176, 210, 179, 187, 172, 208, 165, 153],
+[175, 187, 176, 209, 180, 188, 170, 208, 165, 121],
+[174, 186, 176, 217, 181, 187, 171, 209, 165, 153],	//36
+[175, 186, 176, 210, 179, 187, 172, 208, 165, 182],
+[175, 186, 176, 209, 180, 188, 170, 208, 165, 194],
+[174, 186, 176, 217, 181, 187, 171, 209, 165, 153],
+[175, 186, 176, 210, 179, 187, 172, 208, 165, 153],
+[194, 201, 165, 185, 225, 203, 202, 174, 172, 185], //41
+[180, 196, 197, 190, 169, 145, 185, 139, 155, 140],
+[194, 183, 184, 157, 176, 181, 188, 209, 193, 219],
+[164, 161, 181, 197, 199, 155, 168, 205, 193, 197],
+[147, 187, 166, 206, 206, 204, 191, 202, 164, 170],
+[163, 186, 179, 196, 191, 211, 166, 194, 214, 201], //46
+[194, 181, 162, 195, 201, 169, 148, 156, 180, 218],
+[157, 159, 202, 179, 171, 176, 213, 164, 209, 157],
+[175, 166, 182, 156, 190, 171, 192, 182, 175, 170],
+[203, 188, 172, 186, 172, 158, 173, 221, 187, 206],
+[187, 224, 174, 180, 157, 168, 225, 178, 169, 176], //51
+[188, 178, 154, 200, 161, 141, 158, 209, 174, 153],
+[156, 168, 210, 135, 226, 166, 223, 161, 176, 176],
+[180, 224, 219, 140, 188, 180, 211, 189, 146, 190],
+[179, 185, 177, 180, 186, 171, 202, 172, 191, 175],
+[188, 168, 202, 178, 203, 190, 153, 161, 144, 180], //56
+[204, 174, 176, 160, 165, 174, 201, 169, 175, 203],
+[174, 159, 179, 188, 198, 153, 176, 204, 201, 177],
+[155, 164, 164, 217, 193, 193, 181, 186, 159, 194],
+[166, 154, 170, 148, 165, 175, 232, 149, 186, 182]
+],[]
+[175, 185, 165, 206, 178, 215, 159, 189, 163, 181],	//1
+[175, 186, 165, 180, 207, 162, 200, 168, 141, 177],
+[174, 186, 165, 171, 169, 177, 187, 178, 213, 214],
+[175, 185, 165, 217, 173, 171, 180, 202, 231, 177],
+[175, 186, 165, 122, 239, 168, 217, 188, 179, 184],
+[174, 186, 165, 181, 194, 195, 163, 170, 162, 188],	//6
+[175, 185, 165, 188, 193, 181, 209, 209, 176, 176],
+[175, 186, 165, 158, 185, 211, 177, 184, 200, 197],
+[174, 186, 165, 180, 162, 146, 160, 155, 180, 200],
+[175, 185, 165, 174, 199, 176, 172, 151, 190, 175],
+[175, 186, 176, 210, 165, 153, 190, 135, 173, 177],	//11
+[175, 187, 176, 209, 165, 199, 183, 174, 189, 167],
+[174, 186, 176, 217, 165, 195, 177, 212, 163, 176],
+[175, 186, 176, 210, 165, 163, 163, 227, 207, 156],
+[175, 187, 176, 209, 165, 181, 212, 177, 166, 203],
+[174, 186, 176, 217, 165, 204, 166, 201, 165, 146],	//16
+[175, 186, 176, 210, 165, 191, 198, 165, 185, 167],
+[175, 186, 176, 209, 165, 160, 156, 160, 151, 166],
+[174, 186, 176, 217, 165, 193, 147, 191, 194, 177],
+[175, 186, 176, 210, 165, 156, 168, 217, 169, 183],
+[175, 186, 176, 210, 179, 187, 165, 182, 194, 200],	//21
+[175, 187, 176, 209, 180, 188, 165, 165, 166, 203],
+[174, 186, 176, 217, 181, 187, 165, 200, 142, 158],
+[175, 186, 176, 210, 179, 187, 165, 192, 179, 164],
+[175, 187, 176, 209, 180, 188, 165, 218, 182, 212],
+[174, 186, 176, 217, 181, 187, 165, 167, 185, 182],	//26
+[175, 186, 176, 210, 179, 187, 165, 195, 173, 178],
+[175, 186, 176, 209, 180, 188, 165, 159, 232, 199],
+[174, 186, 176, 217, 181, 187, 165, 173, 150, 200],
+[175, 186, 176, 210, 179, 187, 165, 192, 237, 205],
+[175, 176, 187, 209, 180, 188, 170, 208, 165, 188],	//31
+[174, 176, 186, 217, 181, 187, 171, 209, 165, 153],
+[175, 176, 186, 210, 179, 187, 172, 208, 165, 181],
+[175, 176, 187, 209, 180, 188, 170, 208, 165, 154],
+[174, 176, 186, 217, 181, 187, 171, 209, 165, 178],
+[175, 176, 186, 210, 179, 187, 172, 208, 165, 153],	//36
+[175, 176, 187, 209, 180, 188, 170, 208, 165, 154],
+[174, 176, 186, 217, 181, 187, 171, 209, 165, 123],
+[175, 176, 186, 210, 179, 187, 172, 208, 165, 153],
+[175, 176, 187, 209, 180, 188, 170, 208, 165, 199],
+[207, 185, 163, 179, 171, 203, 178, 198, 181, 165], //41
+[239, 149, 162, 199, 215, 174, 205, 180, 180, 150],
+[205, 223, 161, 160, 162, 193, 174, 172, 194, 168],
+[190, 183, 160, 167, 195, 184, 166, 180, 174, 159],
+[182, 184, 167, 179, 174, 188, 157, 167, 181, 166],
+[153, 192, 201, 186, 165, 196, 182, 191, 168, 197], //46
+[160, 168, 196, 176, 167, 145, 210, 217, 180, 186],
+[207, 177, 198, 177, 170, 186, 212, 161, 178, 204],
+[151, 160, 172, 178, 189, 210, 179, 200, 173, 152],
+[203, 183, 201, 180, 184, 173, 227, 189, 192, 165],
+[194, 184, 197, 177, 146, 188, 171, 215, 162, 167], //51
+[159, 204, 167, 164, 154, 168, 164, 193, 179, 202],
+[176, 173, 166, 190, 167, 198, 185, 223, 176, 227],
+[180, 210, 185, 201, 143, 172, 191, 166, 161, 194],
+[163, 178, 170, 182, 172, 171, 185, 190, 155, 205],
+[147, 209, 189, 159, 164, 140, 174, 204, 182, 153], //56
+[185, 156, 158, 182, 170, 172, 189, 175, 169, 200],
+[164, 149, 211, 183, 182, 183, 163, 198, 144, 160],
+[207, 190, 172, 231, 192, 189, 189, 182, 166, 188],
+[187, 179, 188, 184, 210, 174, 167, 200, 184, 206]
+]];
 
-    // The number of tickets in one sequence in the training phase
-    $ntraining_tickets = 30;
 
-    // Parameters of skewed normal distribution
-    $location = 150;
-    $scale = 30;
-    $shape = 20;
 
-    // Parameters of log-normal distribution
-    $mean = 5.2;
-    $stddev = 0.2;
 
-    // Parameters for PERT distribution
-    $p_min = 120;
-    $p_max = 220;
-    $p_mode = 125;
 
-    // Which distribution to use, set to 'pert', 'ln' (log-normal), or 'sn' (skew-normal)
-    $dist = 'pert';
 
-    // Minimum and maximum values for the deviates in case we get a really unlikely one
-    $min = 120;
-    $max = 240;
 
-    $_SESSION["training_max_repeats"] = 3;
-    $_SESSION["training_threshold"] = 0.25;
-    
-    $training_divisions = [110, 120.5, 130.5, 140.5, 150.5, 160.5, 170.5, 180.5, 190.5, 200];
+/*
+$_SESSION["testing_data"] = [[
+[175, 179, 169, 193, 178, 182, 177, 172, 164, 183],
+[175, 179, 169, 193, 178, 182, 177, 172, 164, 183],
+[174, 179, 169, 194, 178, 183, 177, 173, 165, 184],
+[174, 179, 169, 194, 178, 183, 177, 173, 165, 184],
+[175, 179, 177, 193, 178, 182, 169, 172, 164, 183],
+[175, 179, 177, 193, 178, 182, 169, 172, 164, 183],
+[174, 179, 177, 194, 178, 183, 169, 173, 165, 184],
+[174, 179, 177, 194, 178, 183, 169, 173, 165, 184],
+[176, 180, 170, 194, 179, 183, 178, 173, 165, 184],
+[176, 180, 170, 194, 179, 183, 178, 173, 165, 184],
+[175, 180, 170, 195, 179, 184, 178, 174, 166, 185],
+[175, 180, 170, 195, 179, 184, 178, 174, 166, 185],
+[176, 180, 178, 194, 179, 183, 170, 173, 165, 184],
+[176, 180, 178, 194, 179, 183, 170, 173, 165, 184],
+[175, 180, 178, 195, 179, 184, 170, 174, 166, 185],
+[175, 180, 178, 195, 179, 184, 170, 174, 166, 185],
+[174, 178, 168, 192, 177, 181, 176, 171, 163, 182],
+[174, 178, 168, 192, 177, 181, 176, 171, 163, 182],
+[173, 178, 168, 193, 177, 182, 176, 172, 164, 183],
+[173, 178, 168, 193, 177, 182, 176, 172, 164, 183],
+[174, 178, 176, 192, 177, 181, 168, 171, 163, 182],
+[174, 178, 176, 192, 177, 181, 168, 171, 163, 182],
+[173, 178, 176, 193, 177, 182, 168, 172, 164, 183],
+[173, 178, 176, 193, 177, 182, 168, 172, 164, 183],
+[161, 180, 170, 174, 178, 198, 173, 182, 188, 176],
+[163, 185, 165, 174, 181, 198, 173, 186, 187, 180],
+[165, 187, 173, 177, 186, 196, 176, 191, 192, 181],
+[168, 188, 171, 181, 184, 196, 180, 194, 195, 183],
+[159, 178, 170, 174, 176, 194, 173, 182, 185, 175],
+[166, 190, 170, 173, 178, 203, 172, 192, 198, 174],
+[160, 185, 170, 174, 182, 196, 173, 186, 194, 177],
+[157, 184, 163, 174, 181, 190, 168, 187, 189, 177],
+[171, 180, 172, 174, 179, 188, 173, 183, 186, 175],
+[170, 183, 172, 175, 180, 189, 174, 187, 188, 179],
+[181, 180, 191, 186, 165, 197, 159, 167, 194, 185],
+[188, 179, 154, 183, 173, 170, 177, 160, 169, 175],
+[189, 185, 169, 168, 167, 171, 180, 173, 174, 188],
+[181, 175, 182, 168, 183, 173, 153, 170, 193, 179],
+[181, 179, 199, 188, 170, 172, 178, 187, 191, 177],
+[195, 177, 197, 179, 171, 173, 175, 156, 163, 204],
+[179, 174, 199, 178, 196, 167, 170, 184, 177, 190],
+[180, 165, 177, 193, 186, 196, 187, 169, 171, 182],
+[175, 193, 175, 160, 180, 170, 175, 205, 177, 167],
+[188, 191, 179, 157, 181, 164, 166, 156, 175, 182],
+[175, 150, 164, 155, 171, 199, 158, 180, 184, 196],
+[179, 174, 172, 162, 202, 184, 165, 197, 185, 169],
+[179, 186, 197, 201, 166, 187, 188, 193, 190, 177],
+[180, 175, 173, 177, 191, 190, 184, 196, 174, 181],
+[193, 173, 175, 182, 179, 198, 181, 171, 176, 187],
+[175, 189, 193, 170, 179, 165, 180, 186, 177, 184]
+],[
+	[156, 175, 126, 246, 170, 190, 165, 140, 100, 196],
+	[156, 175, 125, 245, 170, 190, 165, 140, 101, 196],
+	[151, 176, 126, 251, 170, 196, 165, 145, 105, 201],
+	[150, 176, 126, 251, 171, 195, 165, 145, 105, 200],
+	[155, 175, 166, 245, 171, 190, 125, 140, 101, 196],
+	[156, 176, 165, 246, 171, 190, 126, 141, 101, 196],
+	[150, 175, 166, 251, 170, 196, 126, 145, 105, 201],
+	[151, 175, 166, 251, 170, 195, 126, 146, 105, 201],
+	[161, 180, 131, 251, 175, 196, 171, 146, 105, 201],
+	[160, 180, 130, 251, 176, 195, 170, 146, 105, 200],
+	[156, 181, 131, 256, 176, 200, 171, 151, 111, 206],
+	[156, 181, 130, 255, 175, 200, 170, 150, 111, 205],
+	[161, 180, 171, 250, 176, 195, 131, 146, 105, 201],
+	[160, 180, 170, 251, 176, 195, 131, 146, 105, 200],
+	[155, 181, 170, 255, 176, 200, 130, 150, 110, 205],
+	[156, 181, 171, 256, 175, 200, 131, 150, 110, 206],
+	[150, 171, 121, 241, 165, 185, 160, 136, 95, 191],
+	[150, 171, 120, 241, 165, 185, 160, 135, 96, 190],
+	[146, 171, 120, 245, 165, 191, 160, 140, 100, 196],
+	[146, 170, 121, 245, 166, 190, 161, 141, 100, 195],
+	[150, 170, 160, 240, 166, 185, 121, 136, 95, 191],
+	[150, 170, 160, 241, 166, 186, 120, 136, 96, 191],
+	[145, 171, 161, 245, 165, 191, 120, 140, 100, 196],
+	[145, 170, 160, 245, 165, 190, 120, 141, 100, 195],
+	[86, 180, 130, 151, 170, 271, 145, 191, 220, 160],
+	[95, 205, 106, 151, 186, 271, 145, 210, 215, 181],
+	[105, 216, 146, 165, 210, 260, 161, 235, 241, 185],
+	[120, 221, 135, 185, 200, 261, 181, 251, 255, 196],
+	[75, 171, 131, 151, 161, 250, 145, 190, 206, 156],
+	[111, 231, 131, 146, 171, 295, 141, 241, 271, 150],
+	[81, 205, 130, 151, 191, 261, 145, 210, 250, 165],
+	[66, 201, 96, 150, 185, 230, 121, 216, 225, 165],
+	[135, 180, 141, 151, 175, 220, 145, 196, 211, 155],
+	[130, 195, 141, 155, 181, 226, 150, 216, 221, 175],
+	[185, 180, 235, 210, 106, 266, 76, 115, 250, 205],
+	[221, 175, 51, 196, 146, 130, 166, 80, 126, 156],
+	[226, 205, 125, 120, 115, 135, 180, 145, 150, 220],
+	[186, 156, 191, 120, 195, 145, 45, 130, 246, 176],
+	[185, 175, 276, 221, 130, 141, 171, 216, 235, 165],
+	[255, 166, 266, 175, 136, 145, 155, 61, 96, 301],
+	[176, 150, 276, 171, 261, 116, 130, 201, 166, 231],
+	[180, 106, 166, 245, 211, 261, 215, 125, 135, 190],
+	[155, 245, 155, 81, 180, 130, 156, 306, 166, 115],
+	[220, 236, 176, 65, 185, 101, 110, 61, 156, 191],
+	[155, 30, 101, 55, 136, 276, 70, 181, 200, 261],
+	[176, 150, 141, 91, 290, 201, 106, 266, 206, 126],
+	[175, 211, 266, 286, 111, 216, 220, 245, 230, 165],
+	[181, 156, 145, 165, 236, 231, 201, 260, 150, 185],
+	[246, 145, 155, 191, 176, 270, 185, 136, 160, 215],
+	[155, 225, 245, 130, 176, 106, 180, 211, 165, 200]
+	]];
+*/
+	/*
+$_SESSION["testing_data"] = [[
+[176, 186, 163, 214, 179, 187, 176, 166, 153, 208], // 0
+[175, 187, 163, 209, 180, 188, 176, 165, 154, 208], // 1
+[174, 186, 163, 212, 181, 187, 176, 166, 153, 209],
+[175, 186, 163, 211, 179, 187, 176, 165, 153, 210],
+[176, 186, 176, 210, 179, 187, 163, 166, 153, 208],
+[175, 187, 176, 209, 180, 188, 163, 165, 154, 208],
+[174, 186, 176, 217, 181, 187, 163, 166, 153, 209],
+[175, 186, 176, 224, 179, 187, 163, 165, 153, 210],
+[174, 186, 167, 211, 181, 188, 178, 168, 208, 156],
+[175, 185, 167, 224, 181, 186, 178, 168, 208, 156],
+[175, 186, 167, 225, 179, 187, 178, 169, 209, 153], // 10
+[175, 187, 167, 212, 179, 187, 178, 169, 208, 153],
+[174, 186, 178, 217, 181, 188, 167, 168, 208, 156],
+[175, 185, 178, 215, 181, 186, 167, 168, 208, 156],
+[175, 186, 178, 212, 179, 187, 167, 169, 209, 153],
+[175, 187, 178, 209, 179, 187, 167, 169, 208, 153],
+[175, 186, 158, 211, 180, 187, 177, 166, 209, 153],
+[175, 186, 158, 209, 181, 188, 177, 167, 208, 154],
+[176, 187, 158, 210, 181, 187, 177, 165, 208, 153],
+[176, 185, 158, 217, 180, 186, 177, 166, 209, 154],
+[175, 186, 177, 221, 180, 187, 158, 166, 209, 153], // 20
+[175, 186, 177, 209, 181, 188, 158, 167, 208, 154],
+[176, 187, 177, 225, 181, 187, 158, 165, 208, 153],
+[176, 185, 177, 218, 180, 186, 158, 166, 209, 154],
+[161, 193, 175, 181, 185, 224, 180, 199, 218, 184],
+[156, 201, 162, 166, 185, 214, 165, 202, 204, 179],
+[152, 200, 158, 173, 182, 207, 161, 202, 204, 180],
+[168, 192, 171, 178, 188, 217, 172, 195, 197, 186],
+[169, 196, 170, 184, 187, 211, 171, 201, 202, 185],
+[150, 185, 154, 161, 173, 199, 155, 188, 191, 168],
+[157, 191, 165, 175, 182, 203, 170, 195, 200, 176], // 30
+[148, 171, 150, 163, 167, 220, 162, 186, 187, 165],
+[161, 193, 167, 187, 190, 224, 174, 194, 195, 188],
+[159, 183, 166, 168, 173, 205, 167, 187, 191, 170],
+[181, 155, 148, 161, 168, 187, 172, 199, 176, 194],
+[168, 154, 172, 185, 195, 144, 184, 211, 177, 227],
+[188, 200, 165, 172, 198, 174, 177, 154, 177, 180],
+[198, 193, 169, 163, 202, 182, 152, 164, 177, 171],
+[168, 199, 196, 198, 185, 195, 227, 163, 177, 166],
+[189, 167, 180, 197, 165, 168, 172, 213, 178, 171],
+[189, 150, 175, 160, 188, 207, 158, 194, 178, 199], // 40
+[201, 207, 155, 158, 156, 165, 167, 135, 178, 177],
+[222, 173, 202, 197, 143, 205, 198, 183, 178, 186],
+[201, 187, 157, 184, 198, 179, 188, 185, 178, 170],
+[180, 159, 149, 175, 185, 141, 163, 174, 178, 207],
+[212, 192, 188, 184, 167, 193, 189, 164, 176, 170],
+[210, 184, 226, 193, 215, 158, 199, 175, 176, 208],
+[200, 181, 203, 152, 175, 171, 160, 154, 176, 191],
+[181, 215, 169, 147, 182, 193, 177, 184, 176, 179], // 48
+[183, 163, 185, 180, 166, 148, 160, 186, 176, 184]
+],[
+[173, 191, 146, 242, 178, 194, 172, 152, 126, 235], // 0
+[169, 193, 146, 237, 180, 196, 172, 150, 129, 236], // 1
+[168, 191, 146, 252, 183, 193, 172, 153, 126, 238],
+[170, 193, 146, 268, 178, 195, 172, 149, 126, 241],
+[172, 191, 176, 272, 179, 194, 146, 152, 126, 235],
+[171, 195, 172, 242, 179, 196, 146, 150, 128, 235],
+[168, 191, 172, 240, 183, 193, 146, 151, 125, 238],
+[171, 191, 172, 268, 179, 194, 146, 150, 127, 239],
+[168, 192, 154, 237, 182, 196, 176, 156, 235, 133],
+[169, 191, 154, 268, 183, 197, 176, 155, 236, 133],
+[169, 193, 154, 255, 178, 194, 176, 158, 239, 126], // 10
+[169, 194, 154, 271, 178, 201, 176, 158, 236, 127],
+[168, 192, 176, 242, 183, 197, 154, 156, 237, 132],
+[170, 190, 176, 251, 183, 192, 154, 157, 236, 131],
+[169, 192, 176, 244, 178, 194, 154, 159, 237, 125],
+[170, 193, 176, 245, 178, 194, 154, 159, 236, 126],
+[171, 192, 136, 265, 180, 194, 174, 152, 239, 127],
+[171, 192, 136, 243, 182, 195, 174, 154, 236, 128],
+[173, 194, 136, 239, 182, 200, 174, 150, 236, 127],
+[172, 190, 136, 270, 179, 192, 174, 152, 237, 129],
+[169, 192, 174, 246, 180, 195, 136, 152, 238, 126], // 20
+[170, 192, 174, 242, 181, 196, 136, 153, 236, 128],
+[172, 194, 174, 243, 182, 193, 136, 150, 237, 126],
+[173, 191, 174, 270, 180, 193, 136, 153, 239, 129],
+[142, 207, 171, 182, 190, 269, 180, 218, 256, 188],
+[132, 222, 144, 153, 190, 248, 151, 224, 228, 179],
+[124, 220, 136, 165, 185, 234, 143, 225, 228, 179],
+[157, 205, 161, 175, 197, 254, 165, 210, 214, 192],
+[157, 213, 159, 187, 194, 242, 161, 222, 225, 189],
+[121, 191, 128, 141, 166, 217, 129, 196, 202, 157],
+[135, 202, 150, 169, 183, 225, 160, 211, 220, 172], // 30
+[117, 161, 120, 147, 153, 259, 144, 191, 195, 149],
+[143, 206, 153, 194, 201, 267, 168, 208, 210, 196],
+[137, 187, 152, 156, 166, 231, 155, 194, 202, 160],
+[181, 130, 116, 142, 157, 193, 165, 218, 173, 207],
+[155, 129, 164, 189, 210, 108, 187, 241, 174, 275],
+[196, 221, 149, 164, 216, 167, 175, 128, 176, 181],
+[216, 206, 158, 145, 224, 185, 124, 149, 175, 162], // 37
+[156, 218, 212, 216, 191, 210, 275, 146, 174, 152],
+[197, 153, 181, 215, 150, 155, 164, 247, 177, 162],
+[198, 119, 169, 141, 195, 233, 136, 208, 177, 217], // 40
+[221, 234, 131, 136, 132, 149, 154, 90, 176, 173],
+[263, 165, 224, 214, 105, 230, 215, 185, 177, 193],
+[221, 193, 135, 188, 217, 179, 196, 190, 175, 159],
+[181, 138, 118, 170, 190, 101, 146, 169, 175, 233],
+[244, 203, 196, 189, 154, 206, 197, 149, 171, 159],
+[240, 188, 273, 207, 250, 136, 217, 170, 171, 236],
+[219, 183, 227, 124, 176, 161, 140, 129, 171, 201],
+[182, 249, 159, 114, 184, 205, 175, 189, 172, 178], // 48
+[186, 146, 191, 179, 152, 116, 140, 201, 172, 187]
+]];
+*/
 
-    $_SESSION["training_sort_total"] = 100;
-    
-    //$_SESSION["training_avg_ranges"] = [[120, 240], [120, 240]];
-    
-    // Number of sequences in each test phase
-    $ntest_sequences = 200;
 
-    // Number of tickets in one test sequence
-    $ntest_tickets = 10;
+$_SESSION["training_avg_ranges"] = [[170, 190], [130, 230]];
 
-    // The max number of points in a phase
-    $_SESSION["max_points"] = 20 * $ntest_sequences;
-    
-    /****               END PARAMETERS                 ****/
+// Random test sequence order
+$_SESSION["testing_data_order"] = [];
 
-    $_SESSION["points"] = [];
-    $_SESSION["points"][0] = 0;
-    $_SESSION["points"][1] = 0;
-    $_SESSION["checked"] = [];
-    $_SESSION["checked"][0] = $_SESSION["checked"][1] = [];
-    $_SESSION["got_data"] = 0;
-    $_SESSION["finished"] = 0;
-    $_SESSION["checked_assoc"] = [];
-    $_SESSION["checked_assoc"][0] = $_SESSION["checked_assoc"][1] = [];
+// loop through phases
+for($i = 0; $i < count($_SESSION["testing_data"]); $i++)
+{
+	$_SESSION["testing_data_order"][$i] = [];
 
-    $_SESSION["start_time"] = get_time();
+	for($j = 0; $j < count($_SESSION["testing_data"][$i]); $j++)
+		$_SESSION["testing_data_order"][$i][$j] = $j;
 
-    $pert_tickets = [];
-    $pert_training = [];
-    $ticket_counter = 0;
-    if($dist == 'pert') {
-        $pert_tickets = file('vec_test_right.csv', FILE_IGNORE_NEW_LINES);
-        array_splice($pert_tickets, 0, 1);
-        shuffle($pert_tickets);
-    
-        $training = file('vec_train_right.csv');
+	// shuffle sequence order
+	shuffle($_SESSION["testing_data_order"][$i]);
 
-        for($i = 1; $i < count($training); $i++)
-            $pert_training[$i - 1] = str_getcsv($training[$i]);
-    }
+	// shuffle sequences (apply sequence order)
+	$temp = $_SESSION["testing_data"][$i];
 
-    // Generate training data
-    $_SESSION["training_data"] = [];
-    for($h = 0; $h < $nphases; $h++) {
-        $_SESSION["training_data"][$h] = [];
-        for($l = 0; $l < $_SESSION["training_max_repeats"]; $l++) {
-            $_SESSION["training_data"][$h][$l] = [];
-            for($i = 0; $i < $ntraining_sequences; $i++) {
-                if($dist == 'pert') {
-                    $_SESSION["training_data"][$h][$l][$i] = $pert_training[$l];
-                    shuffle($_SESSION["training_data"][$h][$l][$i]);
-                }
-                else {
-                    for($j = 0; $j < $ntraining_tickets; $j++) {
-                        $v = 0;
-                        if($dist == 'ln')
-                            $v = (int)round(ln_generate_deviate($mean, $stddev));
-                        else
-                            $v = (int)round(sn_generate_deviate($location, $scale, $shape));
-                
-                        if($v > $max)
-                            $v = $max;
-                        else if($v < $min)
-                            $v = $min;
+	// loop through all sequences in this phase
+	for($j = 0; $j < count($_SESSION["testing_data"][$i]); $j++)
+		$_SESSION["testing_data"][$i][$j] = $temp[$_SESSION["testing_data_order"][$i][$j]];
+}
 
-                        $_SESSION["training_data"][$h][$l][$i][$j] = $v;
-                    }
-                }
-            }
-        }
-    }
+$v = mt_rand(1, 2);
 
-    $_SESSION["training_answers"] = [];
-    $_SESSION["training_answers"][0] = [];
-    $_SESSION["training_answers"][1] = [];
-    $_SESSION["training_categories"] = [];
-    $_SESSION["training_categories"][0] = [];
-    $_SESSION["training_categories"][1] = [];
+$_SESSION["phase_order"] = $v - 1;
 
-    $total_n = 0;
+if($v === 2)
+{
+	$temp = $_SESSION["training_data"][0];
+	$_SESSION["training_data"][0] = $_SESSION["training_data"][1];
+	$_SESSION["training_data"][1] = $temp;
 
-    $prev_cdf = 0;
-    if($dist == 'pert')
-        $prev_cdf = pert_cdf($training_divisions[0], $p_min, $p_max, $p_mode);
-    else if($dist == 'ln')
-        $prev_cdf = ln_cdf($training_divisions[0], $mean, $stddev);
-    else
-        $prev_cdf = sn_cdf($training_divisions[0], $location, $scale, $shape);
+	$temp = $_SESSION["training_answers"][0];
+        $_SESSION["training_answers"][0] = $_SESSION["training_answers"][1];
+        $_SESSION["training_answers"][1] = $temp;
 
-    for($i = 1; $i < count($training_divisions); $i++) {
-        $cdf = 0;
-        if($dist == 'pert')
-            $cdf = pert_cdf($training_divisions[$i], $p_min, $p_max, $p_mode);
-        else if($dist == 'ln')
-            $cdf = ln_cdf($training_divisions[$i], $mean, $stddev);
-        else
-            $cdf = sn_cdf($training_divisions[$i], $location, $scale, $shape);
-        
-        $frac = $cdf - $prev_cdf;
-        $prev_cdf = $cdf;
+	$temp = $_SESSION["testing_data"][0];
+        $_SESSION["testing_data"][0] = $_SESSION["testing_data"][1];
+        $_SESSION["testing_data"][1] = $temp;
 
-        $n = intval(round($_SESSION["training_sort_total"] * $frac));
-        $total_n += $n;
+	$temp = $_SESSION["training_categories"][0];
+        $_SESSION["training_categories"][0] = $_SESSION["training_categories"][1];
+        $_SESSION["training_categories"][1] = $temp;
 
-        $_SESSION["training_answers"][0][$i - 1] = $_SESSION["training_answers"][1][$i - 1] = $n;
+	$temp = $_SESSION["training_avg_ranges"][0];
+        $_SESSION["training_avg_ranges"][0] = $_SESSION["training_avg_ranges"][1];
+        $_SESSION["training_avg_ranges"][1] = $temp;
+}
 
-        $_SESSION["training_categories"][0][$i - 1] = $_SESSION["training_categories"][1][$i - 1] = 
-            "$" . (int)ceil($training_divisions[$i - 1]) . " - $" . (int)floor($training_divisions[$i]);
-    }
-
-    $_SESSION["training_sort_total"] = $total_n;
-
-    // Generate test data
-    $_SESSION["testing_data"] = array();
-    for($h = 0; $h < $nphases; $h++) {
-        $_SESSION["testing_data"][$h] = array();
-        for($i = 0; $i < $ntest_sequences; $i++) {
-            $_SESSION["testing_data"][$h][$i] = array();
-            for($j = 0; $j < $ntest_tickets; $j++) {
-                $v = 0;
-                if($dist == 'pert')
-                    $v = (int)$pert_tickets[$ticket_counter++ % count($pert_tickets)];
-                else if($dist == 'ln')
-                    $v = (int)round(ln_generate_deviate($mean, $stddev));
-                else
-                    $v = (int)round(sn_generate_deviate($location, $scale, $shape));
-                
-                if($v > $max)
-                    $v = $max;
-                else if($v < $min)
-                    $v = $min;
-
-                $_SESSION["testing_data"][$h][$i][$j] = $v;
-            }
-        }
-    }
 }
 
 ?>

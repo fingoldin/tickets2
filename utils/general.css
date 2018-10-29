@@ -283,10 +283,5 @@ button:focus {
 }
 
 .top-alert.green {
-	background-color: #3b9e40;
-}
-
-.top-alert.grey {
-    background-color: #eee;
-    color: black;
+	background-color: #45e734;
 }
