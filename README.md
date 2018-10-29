@@ -21,3 +21,6 @@ Here, participants are exposed to the ticket price distribution
 Participants then demonstrate what they think the distribution looks like using an interactive bar graph
 
 ![Bar graph phase](https://www.github.com/fingoldin/tickets2/raw/master/graph.png "Bar graph phase")
+
+
+Further pages test their ability to choose the best ticket while clicking through a list.
