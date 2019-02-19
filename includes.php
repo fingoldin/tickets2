@@ -255,6 +255,11 @@ function sn_generate_deviate($location, $scale, $shape)
 // given by Abramowitz and Stegun, and is described on the Wikepedia page for the error function.
 function erf($x)
 {
+    $f = 1;
+    if($x < 0) {
+        $x = -$x;
+        $f = -1;
+    }
     $p = 0.3275911;
     $t = 1 / (1 + $p * $x);
     $a1 = 0.254829592;
@@ -265,7 +270,7 @@ function erf($x)
 
     $v = $a1*$t + $a2*$t*$t + $a3*$t*$t*$t + $a4*$t*$t*$t*$t + $a5*$t*$t*$t*$t*$t;
 
-    return (1 - $v * exp(-$x*$x));
+    return $f * (1 - $v * exp(-$x*$x));
 }
 
 // Estimate an integral by performing a sum from $l to $u of $func, with steps dx = $step, and
@@ -323,6 +328,19 @@ function sn_cdf($x, $location, $scale, $shape)
     return ($f - 2 * $t);
 }
 
+function normal_generate_deviate($mean, $stddev)
+{
+    // Generate two random uniformly distributed numbers between 0 and 1
+    $max = mt_getrandmax();
+    $x1 = mt_rand() / $max;
+    $x2 = mt_rand() / $max;
+    
+    // Generate one random number on the normal distribution using the Box-Muller transform
+    $y = $stddev * sqrt(-2 * log($x1)) * cos(2 * M_PI * $x2) + $mean;
+
+    return $y;
+}
+
 // This function generates a number on the log-normal distribution
 function ln_generate_deviate($mean, $stddev)
 {
@@ -344,6 +362,12 @@ function ln_generate_deviate($mean, $stddev)
 function ln_cdf($x, $mean, $stddev)
 {
     return (0.5 + 0.5 * erf((log($x) - $mean) / (M_SQRT2 * $stddev)));
+}
+
+// Estiamte the CDF of the normal distribution evaluated at $x
+function normal_cdf($x, $mean, $stddev)
+{
+    return (0.5 + 0.5 * erf(($x - $mean) / (M_SQRT2 * $stddev)));
 }
 
 // Function within integral of beta function
@@ -470,27 +494,27 @@ function startSession() {
     $nphases = 2;
 
     // The number of sequences in one training phase
-    $ntraining_sequences = 1;
+    $ntraining_sequences = 5;
 
     // The number of tickets in one sequence in the training phase
-    $ntraining_tickets = 30;
+    $ntraining_tickets = 10;
 
     // Parameters of skewed normal distribution
     $location = 150;
     $scale = 30;
     $shape = 20;
 
-    // Parameters of log-normal distribution
-    $mean = 5.2;
-    $stddev = 0.2;
+    // Parameters of log-normal distribution, or of normal distribution
+    $mean = 180;
+    $stddev = 20;
 
     // Parameters for PERT distribution
     $p_min = 120;
     $p_max = 220;
     $p_mode = 125;
 
-    // Which distribution to use, set to 'pert', 'ln' (log-normal), or 'sn' (skew-normal)
-    $dist = 'pert';
+    // Which distribution to use, set to 'normal', 'pert', 'ln' (log-normal), or 'sn' (skew-normal)
+    $dist = 'normal';
 
     // Minimum and maximum values for the deviates in case we get a really unlikely one
     $min = 120;
@@ -499,17 +523,22 @@ function startSession() {
     $_SESSION["training_max_repeats"] = 3;
     $_SESSION["training_threshold"] = 0.25;
     
-    $training_divisions = [110, 120.5, 130.5, 140.5, 150.5, 160.5, 170.5, 180.5, 190.5, 200];
+    $training_divisions = [100, 120, 140, 160, 180, 200, 220, 240, 260];
+    /*$training_divisions = [];
+    $n = 15;
+    for($i = 0; $i < $n; $i++) {
+        $training_divisions[$i] = intval(120 + 120 * floatval($i) / floatval($n));
+    }*/
 
     $_SESSION["training_sort_total"] = 100;
     
-    //$_SESSION["training_avg_ranges"] = [[120, 240], [120, 240]];
-    
-    // Number of sequences in each test phase
-    $ntest_sequences = 200;
+    $_SESSION["training_avg_ranges"] = [[120, 240], [120, 240]];
 
-    // Number of tickets in one test sequence
-    $ntest_tickets = 10;
+    // Number of tickets in each sequence in each test block. Will be shuffled
+    $test_blocks = [5, 10, 20, 5, 10, 20];
+
+    // Number of sequences in each block
+    $ntest_sequences = 30;
 
     // The max number of points in a phase
     $_SESSION["max_points"] = 20 * $ntest_sequences;
@@ -517,14 +546,15 @@ function startSession() {
     /****               END PARAMETERS                 ****/
 
     $_SESSION["points"] = [];
-    $_SESSION["points"][0] = 0;
-    $_SESSION["points"][1] = 0;
     $_SESSION["checked"] = [];
-    $_SESSION["checked"][0] = $_SESSION["checked"][1] = [];
     $_SESSION["got_data"] = 0;
     $_SESSION["finished"] = 0;
     $_SESSION["checked_assoc"] = [];
-    $_SESSION["checked_assoc"][0] = $_SESSION["checked_assoc"][1] = [];
+    for($i = 0; $i < $nphases; $i++) {
+        $_SESSION["points"][$i] = 0;
+        $_SESSION["checked"][$i] = [];
+        $_SESSION["checked_assoc"][$i] = [];
+    }
 
     $_SESSION["start_time"] = get_time();
 
@@ -558,6 +588,8 @@ function startSession() {
                         $v = 0;
                         if($dist == 'ln')
                             $v = (int)round(ln_generate_deviate($mean, $stddev));
+                        else if($dist == 'normal')
+                            $v = (int)round(normal_generate_deviate($mean, $stddev));
                         else
                             $v = (int)round(sn_generate_deviate($location, $scale, $shape));
                 
@@ -587,6 +619,8 @@ function startSession() {
         $prev_cdf = pert_cdf($training_divisions[0], $p_min, $p_max, $p_mode);
     else if($dist == 'ln')
         $prev_cdf = ln_cdf($training_divisions[0], $mean, $stddev);
+    else if($dist == 'normal')
+        $prev_cdf = normal_cdf($training_divisions[0], $mean, $stddev);
     else
         $prev_cdf = sn_cdf($training_divisions[0], $location, $scale, $shape);
 
@@ -596,6 +630,8 @@ function startSession() {
             $cdf = pert_cdf($training_divisions[$i], $p_min, $p_max, $p_mode);
         else if($dist == 'ln')
             $cdf = ln_cdf($training_divisions[$i], $mean, $stddev);
+        else if($dist == 'normal')
+            $cdf = normal_cdf($training_divisions[$i], $mean, $stddev);
         else
             $cdf = sn_cdf($training_divisions[$i], $location, $scale, $shape);
         
@@ -613,30 +649,53 @@ function startSession() {
 
     $_SESSION["training_sort_total"] = $total_n;
 
+    while(true) {
+        shuffle($test_blocks);
+        $ex = true;
+    
+        for($i = 1; $i < count($test_blocks); $i++) {
+            if($test_blocks[$i] == $test_blocks[$i - 1]) {
+                $ex = false;
+                break;
+            }
+        }
+        
+        if($ex)
+            break;
+    }
+
     // Generate test data
     $_SESSION["testing_data"] = array();
-    for($h = 0; $h < $nphases; $h++) {
-        $_SESSION["testing_data"][$h] = array();
-        for($i = 0; $i < $ntest_sequences; $i++) {
-            $_SESSION["testing_data"][$h][$i] = array();
-            for($j = 0; $j < $ntest_tickets; $j++) {
-                $v = 0;
-                if($dist == 'pert')
-                    $v = (int)$pert_tickets[$ticket_counter++ % count($pert_tickets)];
-                else if($dist == 'ln')
-                    $v = (int)round(ln_generate_deviate($mean, $stddev));
-                else
-                    $v = (int)round(sn_generate_deviate($location, $scale, $shape));
-                
-                if($v > $max)
-                    $v = $max;
-                else if($v < $min)
-                    $v = $min;
+    for($p = 0; $p < $nphases; $p++) {
+        $_SESSION["testing_data"][$p] = array();
+        for($h = 0; $h < count($test_blocks); $h++) {
+            $_SESSION["testing_data"][$p][$h] = array();
+            for($i = 0; $i < $ntest_sequences; $i++) {
+                $_SESSION["testing_data"][$p][$h][$i] = array();
+                for($j = 0; $j < $test_blocks[$h]; $j++) {
+                    $v = 0;
+                    if($dist == 'pert')
+                        $v = (int)$pert_tickets[$ticket_counter++ % count($pert_tickets)];
+                    else if($dist == 'ln')
+                        $v = (int)round(ln_generate_deviate($mean, $stddev));
+                    else if($dist == 'normal')
+                        $v = (int)round(normal_generate_deviate($mean, $stddev));
+                    else
+                        $v = (int)round(sn_generate_deviate($location, $scale, $shape));
+                    
+                    if($v > $max)
+                        $v = $max;
+                    else if($v < $min)
+                        $v = $min;
 
-                $_SESSION["testing_data"][$h][$i][$j] = $v;
+                    $_SESSION["testing_data"][$p][$h][$i][$j] = $v;
+                }
             }
         }
     }
 }
+
+
+$site_prefix = "/christiane/tickets3"
 
 ?>

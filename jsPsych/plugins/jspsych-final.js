@@ -28,7 +28,7 @@ jsPsych.plugins["final"] = (function()
 		tfs(55);
 		bfs(35);
 
-        $.post("/christiane/tickets3/getpoints.php", function(response) {
+        $.post(SITE_PREFIX + "/getpoints.php", function(response) {
         var points = parseInt(response);
         $(bot).css("opacity", "0").html("The experiment is now over.");
 		$(top).css("opacity", "0").html("Congratulations!").animate({ "opacity": "1" }, 1000, function() {

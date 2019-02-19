@@ -19,9 +19,9 @@ function showTicket(p, e)
 		$(e).append(TICKET_IMAGES[p][n]);
 	}
 	else if(!p)
-		$(e).append("<img src='/tickets/utils/tickets/" + window.ticketprefix + "/ticket" + (n+1) + ".jpg' class='ticket-img'></img>");
+		$(e).append("<img src='" + SITE_PREFIX + "/utils/tickets/" + window.ticketprefix + "/ticket" + (n+1) + ".jpg' class='ticket-img'></img>");
 	else
-		$(e).append("<img src='/tickets/utils/tickets/" + window.ticketprefix + "/2ticket" + (n+1) + ".jpg' class='ticket-img'></img>");
+		$(e).append("<img src='" + SITE_PREFIX + "/utils/tickets/" + window.ticketprefix + "/2ticket" + (n+1) + ".jpg' class='ticket-img'></img>");
 
 /*	window.setTimeout(function() {
 		window.viewportUnitsBuggyfill.refresh();
@@ -33,7 +33,7 @@ function showPoints(e, p)
 {
 	var e2 = document.createElement("DIV");
 
-	$(e2).load("/tickets/utils/points.html", function()
+	$(e2).load(SITE_PREFIX + "/utils/points.html", function()
 	{
 		$(e2).find("#points-p").html(p.p);
 

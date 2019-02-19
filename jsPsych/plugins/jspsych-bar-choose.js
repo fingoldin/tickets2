@@ -26,7 +26,7 @@ jsPsych.plugins["bar-choose"] = (function()
         
         display_element.empty();
 
-		display_element.load("/christiane/tickets3/utils/bar-choose.html", function()
+		display_element.load(SITE_PREFIX + "/utils/bar-choose.html", function()
 		{
 //			showPoints(display_element, trial.points);
 

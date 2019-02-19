@@ -6,7 +6,7 @@ jsPsych.plugins["workerid"] = (function()
 	{
 		trial = jsPsych.pluginAPI.evaluateFunctionParameters(trial);
 
-		display_element.empty().load("/christiane/tickets3/utils/workerid.html", function() {
+		display_element.empty().load(SITE_PREFIX + "/utils/workerid.html", function() {
 			$(".age-main").css("opacity", "1");
 
 			$("#worker-form").submit(function(e) {

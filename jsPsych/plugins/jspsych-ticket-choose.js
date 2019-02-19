@@ -30,10 +30,22 @@ jsPsych.plugins["ticket-choose"] = (function()
 
 		display_element.html("");
 
-		display_element.load("/christiane/tickets3/utils/ticket-choose.html", function()
+		display_element.load(SITE_PREFIX + "/utils/ticket-choose.html", function()
 		{
 			//window.viewportUnitsBuggyfill.refresh();
+            var b_w = 50 / num_prices;
+            var m_w = 25 / num_prices;
+            var but_wrap = display_element.find("#ticket-choose-but-wrap");
+            var n_d = document.createElement("DIV");
+            n_d.classList = "ticket-choose-but ticket-choose-but-sel";
 
+            but_wrap.append(n_d);
+            for (var i = 1; i < num_prices; i++) {
+				var n_d2 = document.createElement("DIV");
+                n_d2.classList = "ticket-choose-but";
+                //n_d2.style = "width: " + x
+                but_wrap.append(n_d2);
+            }
 			var price_num = -1;
 			var next_num = 0;
 
@@ -52,6 +64,8 @@ jsPsych.plugins["ticket-choose"] = (function()
 
 			var above = display_element.find(".number-animation-above");
 			var below = display_element.find(".number-animation-below");
+			
+            above.html("Ticket <span>1</span> of <span>" + num_prices + "</span>:");
 
 			var listener = jsPsych.pluginAPI.getKeyboardResponse({
 				callback_function: next_price,
@@ -67,6 +81,7 @@ jsPsych.plugins["ticket-choose"] = (function()
 			{
 				if(price_num < num_prices)
 				{
+                    but_wrap.remove()
 					select.off("click");
 					next.off("click");
 	
@@ -138,7 +153,8 @@ jsPsych.plugins["ticket-choose"] = (function()
 				else
 				{
 					next_num++;
-					if(++price_num >= num_prices) {
+                    price_num++;
+					if(price_num >= num_prices) {
 						price_num = num_prices - 1;
 
 						times[num_prices - 1] = gt() - next_price.startTime;
@@ -147,8 +163,8 @@ jsPsych.plugins["ticket-choose"] = (function()
 					}
 					else if(price_num === 0) {
 						price.html("<span>$</span>" + trial.prices[price_num]).css("transform", "translateX(-30px)");
-               	                        	showTicket(trial.phase, $("#ticket-wrap"));
-               	                        	price.animate({ transform: "translateX(0px)", opacity: "1" }, 200);
+               	        showTicket(trial.phase, $("#ticket-wrap"));
+               	        price.animate({ transform: "translateX(0px)", opacity: "1" }, 200);
 						next_price.startTime = gt();
 						display_element.find(".ticket-choose-main").css("opacity", "1");
 					}
@@ -157,9 +173,12 @@ jsPsych.plugins["ticket-choose"] = (function()
 
 						price.animate({ transform: "translateX(30px)", opacity: "0" }, 200, function() {
 							price.html("<span>$</span>" + trial.prices[price_num]).css("transform", "translateX(-30px)");
-							price.animate({ transform: "translateX(0px)", opacity: "1" }, 200);
+							price.animate({ transform: "translateX(0px)", opacity: "1" }, 200, function() {
+                                but_wrap.children().eq(price_num-1).removeClass("ticket-choose-but-sel");
+                                but_wrap.children().eq(price_num).addClass("ticket-choose-but-sel");
+                            });
 							showTicket(trial.phase, $("#ticket-wrap"));
-							above.html("Ticket <span>" + (price_num + 1) + "</span> of <span>10</span>:");
+							above.html("Ticket <span>" + (price_num + 1) + "</span> of <span>" + num_prices + "</span>:");
 								next_price.startTime = gt();
 						});
 					}
