@@ -48,6 +48,8 @@ else
 
 logging("Setup done");
 
+$site_prefix = $_SESSION["site_prefix"];
+
 ?>
 
 <!DOCTYPE html>
@@ -74,7 +76,9 @@ logging("Setup done");
 SITE_PREFIX = "<?= $site_prefix ?>"
 </script>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="<?= $site_prefix ?>/utils/jquery.min.js"></script>
+<script src="<?= $site_prefix ?>/utils/jquery-ui.min.js"></script>
+<script src="<?= $site_prefix ?>/utils/jquery.transform2d.js"></script>
 <script src="<?= $site_prefix ?>/jsPsych/jspsych.js"></script>
 <script src="<?= $site_prefix ?>/jsPsych/plugins/jspsych-text.js"></script>
 <script src="<?= $site_prefix ?>/jsPsych/plugins/jspsych-html.js"></script>
@@ -91,9 +95,9 @@ SITE_PREFIX = "<?= $site_prefix ?>"
 <script src="<?= $site_prefix ?>/jsPsych/plugins/jspsych-workerid.js"></script>
 <script src="<?= $site_prefix ?>/jsPsych/plugins/jspsych-special_sequence.js"></script>
 <script src="<?= $site_prefix ?>/jsPsych/plugins/jspsych-points-update.js"></script>
+<script src="<?= $site_prefix ?>/jsPsych/plugins/jspsych-risk-check.js"></script>
 <script src="<?= $site_prefix ?>/utils/general.js"></script>
 <script src="<?= $site_prefix ?>/utils/bar-choose-plugin.js"></script>
-<script src="<?= $site_prefix ?>/utils/jquery.transform2d.js"></script>
 <script src="<?= $site_prefix ?>/utils/json2.js"></script>
 <script src="<?= $site_prefix ?>/utils/browserdetect.js"></script>
 <script src="<?= $site_prefix ?>/utils/select2.full.min.js"></script>
@@ -186,7 +190,7 @@ var testing_instructions2_trial = {
 // Second bar graph to see learning
 var training_trial2 = {
 	type: "bar-choose",
-        instructions: "Imagine you would see yet another MAXVAL tickets to Canada.",
+        instructions: "Imagine you would see another MAXVAL tickets to Canada.",
         subtitle: "Please drag the bar or type in the input field to determine the amount of tickets <br> that are in the equivalent price range for this trip. Press continue when you are sure of your answers.",
 //        categories: ["$135 - $150", "$151 - $165", "$166 - 180", "$181 - $195", "$196 - $210", "$211 - $225", "$226 - $240"],
         min_val: 0,
@@ -204,7 +208,7 @@ var mid_test_trial = {
 
 var training_trial3 = {
 	type: "bar-choose",
-        instructions: "Imagine you would see yet another MAXVAL tickets to Canada.",
+        instructions: "Imagine you would see another MAXVAL tickets to Canada.",
         subtitle: "Please drag the bar or type in the input field to determine the amount of tickets <br> that are in the equivalent price range for this trip. Press continue when you are sure of your answers.",
 //        categories: ["$135 - $150", "$151 - $165", "$166 - 180", "$181 - $195", "$196 - $210", "$211 - $225", "$226 - $240"],
         min_val: 0,
@@ -287,6 +291,10 @@ var points_update_trial = {
 
 var p2_points_update_trial = {
     type: "points-update"
+}
+
+var risk_trial = {
+    type: "risk-check"
 }
 
 var final_trial = {
@@ -387,10 +395,8 @@ function init_exp()
     p2_training_trial.pass_threshold = threshold;
 	
     var assignment_id = "<?= $_SESSION['assignmentId'] ?>";
-
-	//timeline.push(special_sequence_trial);
-
-/*	timeline.push(consent_trial);
+	
+    timeline.push(consent_trial);
 	timeline.push(age_trial);
 
 	workerid_trial.on_finish = function(data) {
@@ -456,7 +462,7 @@ function init_exp()
 	timeline.push(testing_instructions2_trial);
 
 //    testing_data.length = 4;
-*/
+
 	for(var i = 0; i < testing_data.length; i++)
 	{
         for(var j = 0; j < testing_data[i].length; j++)
@@ -559,6 +565,8 @@ function init_exp()
 
 	timeline.push(p2_training_trial3);
 */
+    timeline.push(risk_trial);
+
 	timeline.push(special_sequence_trial);
 
 	timeline.push(final_trial);

@@ -693,9 +693,8 @@ function startSession() {
             }
         }
     }
+    
+    $_SESSION["site_prefix"] = "/christiane/tickets3";
 }
-
-
-$site_prefix = "/christiane/tickets3"
 
 ?>

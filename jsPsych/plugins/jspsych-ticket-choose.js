@@ -30,12 +30,10 @@ jsPsych.plugins["ticket-choose"] = (function()
 
 		display_element.html("");
 
-		display_element.load(SITE_PREFIX + "/utils/ticket-choose.html", function()
+		display_element.load(SITE_PREFIX + "/utils/ticket-choose.php", function()
 		{
 			//window.viewportUnitsBuggyfill.refresh();
-            var b_w = 50 / num_prices;
-            var m_w = 25 / num_prices;
-            var but_wrap = display_element.find("#ticket-choose-but-wrap");
+            /*var but_wrap = display_element.find("#ticket-choose-but-wrap");
             var n_d = document.createElement("DIV");
             n_d.classList = "ticket-choose-but ticket-choose-but-sel";
 
@@ -45,8 +43,12 @@ jsPsych.plugins["ticket-choose"] = (function()
                 n_d2.classList = "ticket-choose-but";
                 //n_d2.style = "width: " + x
                 but_wrap.append(n_d2);
-            }
-			var price_num = -1;
+            }*/
+            var progress_bar = display_element.find("#ticket-choose-progress"); 
+            progress_bar.css("width", (100 / num_prices).toFixed(0) + "%");
+            progress_bar.html("1/" + num_prices);
+            
+            var price_num = -1;
 			var next_num = 0;
 
 			if(trial.showpoints)
@@ -81,64 +83,60 @@ jsPsych.plugins["ticket-choose"] = (function()
 			{
 				if(price_num < num_prices)
 				{
-                    but_wrap.remove()
 					select.off("click");
 					next.off("click");
-	
-					display_element.find(".ticket-choose-main").css("opacity", "0");
-
-					jsPsych.pluginAPI.cancelKeyboardResponse(listener);
+                    jsPsych.pluginAPI.cancelKeyboardResponse(listener);
 
 					times[price_num] = gt() - next_price.startTime;
-
-					setTimeout(function() {
-
-					var prices = trial.prices.slice(0);
-	                                prices.sort(function(a, b){return a - b});
-
-					//console.log(prices);
-					//console.log(trial.prices[price_num]);
-
-					var points = 0;
-
-					var r = prices.indexOf(trial.prices[price_num]);
-
-					//console.log(points);
-
-                    below.html("");
-
-					if(r === 0) {
-                        points = 20;
-						above.html("Congratulations! Your ticket is the cheapest ticket!");
-                    }
-                    else {
-                        points = Math.round(20 * (prices[prices.length - 1] - trial.prices[price_num]) / (prices[prices.length - 1] - prices[0]));
+	
+					display_element.find(".ticket-choose-main").animate({ opacity: "0" }, 200, function() {
+                        display_element.find("#ticket-choose-progress-wrap").remove();
                         
-                        var diff = trial.prices[price_num] - prices[0];
+                        var prices = trial.prices.slice(0);
+                                        prices.sort(function(a, b){return a - b});
 
-                        above.html("You could have saved $" + diff.toFixed(0) + " if had you chosen a different ticket");
-                    }
+                        //console.log(prices);
+                        //console.log(trial.prices[price_num]);
 
-					price.hide();
+                        var points = 0;
 
-					$("#ticket-wrap").hide();
+                        var r = prices.indexOf(trial.prices[price_num]);
 
-					listener = jsPsych.pluginAPI.getKeyboardResponse({
-                                		callback_function: function() { end_trial(points, r, times); },
-                                		valid_responses: [32],
-                                		rt_method: "date",
-                                		persist: true,
-                                		allow_held_key: false
-                        		});
+                        //console.log(points);
 
-					select.hide();
-					next.html(trial.continue_message).addClass("big-btn").off("click").click(function() { end_trial(points, r, times); });
+                        below.html("");
 
-					selected = true;
+                        if(r === 0) {
+                            points = 20;
+                            above.html("Congratulations! Your ticket is the cheapest ticket!");
+                        }
+                        else {
+                            points = Math.round(20 * (prices[prices.length - 1] - trial.prices[price_num]) / (prices[prices.length - 1] - prices[0]));
+                            
+                            var diff = trial.prices[price_num] - prices[0];
 
-					display_element.find(".ticket-choose-main").css("opacity", "1");
+                            above.html("You could have saved $" + diff.toFixed(0) + " if had you chosen a different ticket");
+                        }
 
-					}, 200);
+                        price.hide();
+
+                        $("#ticket-wrap").hide();
+
+                        listener = jsPsych.pluginAPI.getKeyboardResponse({
+                                            callback_function: function() { end_trial(points, r, times); },
+                                            valid_responses: [32],
+                                            rt_method: "date",
+                                            persist: true,
+                                            allow_held_key: false
+                                    });
+
+                        select.hide();
+                        next.html(trial.continue_message).addClass("big-btn").off("click").click(function() { end_trial(points, r, times); });
+
+                        selected = true;
+
+                        display_element.find(".ticket-choose-main").animate({ opacity: "1" }, 200);
+					});
 				}
 				else
 					end_trial(0, -1);
@@ -171,11 +169,13 @@ jsPsych.plugins["ticket-choose"] = (function()
 					else {
 						times[price_num-1] = gt() - next_price.startTime;
 
+                        progress_bar.html((price_num + 1) + "/" + num_prices);
+                        progress_bar.css("width", (100 * (price_num + 1) / num_prices).toFixed(0) + "%");
 						price.animate({ transform: "translateX(30px)", opacity: "0" }, 200, function() {
 							price.html("<span>$</span>" + trial.prices[price_num]).css("transform", "translateX(-30px)");
 							price.animate({ transform: "translateX(0px)", opacity: "1" }, 200, function() {
-                                but_wrap.children().eq(price_num-1).removeClass("ticket-choose-but-sel");
-                                but_wrap.children().eq(price_num).addClass("ticket-choose-but-sel");
+                                //but_wrap.children().eq(price_num-1).removeClass("ticket-choose-but-sel");
+                                //but_wrap.children().eq(price_num).addClass("ticket-choose-but-sel");
                             });
 							showTicket(trial.phase, $("#ticket-wrap"));
 							above.html("Ticket <span>" + (price_num + 1) + "</span> of <span>" + num_prices + "</span>:");
