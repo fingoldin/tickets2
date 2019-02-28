@@ -497,7 +497,7 @@ function startSession() {
     $ntraining_sequences = 5;
 
     // The number of tickets in one sequence in the training phase
-    $ntraining_tickets = 1; //10;
+    $ntraining_tickets = 10;
 
     // Parameters of skewed normal distribution
     $location = 150;
@@ -538,7 +538,7 @@ function startSession() {
     $test_blocks = [5, 10, 20, 5, 10, 20];
 
     // Number of sequences in each block
-    $ntest_sequences = 1; //30;
+    $ntest_sequences = 30;
 
     // The max number of points in a phase
     $_SESSION["max_points_per_seq"] = 20; // in tenths of a cent
