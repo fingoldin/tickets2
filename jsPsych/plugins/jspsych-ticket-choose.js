@@ -17,6 +17,7 @@ jsPsych.plugins["ticket-choose"] = (function()
 		trial.sequence = trial.sequence || "";
 		trial.showpoints = trial.showpoints || false;
 		trial.phase = trial.phase || 0;
+		trial.group = trial.group || 0;
 
 		//console.log("Trial: " + trial.prices);
 
@@ -204,7 +205,8 @@ jsPsych.plugins["ticket-choose"] = (function()
 					"sequence": trial.row,
 					"prices": trial.prices,
 					"times": ti,
-					"next_num": next_num
+					"next_num": next_num,
+                    "group": trial.group
                         	};
 
 				//console.log("Prices for this sequence: " + trial.prices);

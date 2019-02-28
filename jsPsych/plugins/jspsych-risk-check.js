@@ -29,7 +29,7 @@ jsPsych.plugins["risk-check"] = (function()
             canvas.height = 2 * hw;
 
             function choose() {
-                money.html("You won $" + result.toFixed(0) + "!");
+                money.html("Your ticket will cost $" + result.toFixed(0) + ".");
                 result_cont.css("display", "block").animate({ "opacity": "1" }, 500);
             }
             

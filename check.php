@@ -9,13 +9,13 @@ require("./includes.php");
 
 function checkAnswer($phase, $sequence, $answer)
 {
-	logging("checkAnswer called with " . $phase . " " . $sequence . " " . $answer);
+	logging("checkAnswer called with " . $phase . " " . $group . " " . $sequence . " " . $answer);
 
 	if(!isset($_SESSION["points"]) || !isset($_SESSION["checked"]) || !isset($_SESSION["checked_assoc"]) || !isset($_SESSION["testing_data"]))
 		logging("Something not set in checkAnswer");
 	else if(!in_array($sequence, $_SESSION["checked"][$phase]))
 	{
-		$p = get_points($phase, $sequence, intval($answer));
+		$p = get_points($phase, $group, $sequence, intval($answer));
 
 		$totalp = $_SESSION["points"][$phase] + $p;
 		if($totalp > $_SESSION["max_points"])
@@ -30,13 +30,13 @@ function checkAnswer($phase, $sequence, $answer)
 
 		logging("checkAnswers called successfully, phase " . $phase . " gained " . $p . " points and now has " . $_SESSION["points"][$phase] . " points");
 
-		array_push($_SESSION["checked"][$phase], $sequence);
-		$_SESSION["checked_assoc"][$phase][$sequence] = $p;
+		array_push($_SESSION["checked"][$phase][$group], $sequence);
+		$_SESSION["checked_assoc"][$phase][$group][$sequence] = $p;
 	}
 }
 
-if(isset($_POST["phase"]) && isset($_POST["sequence"]) && $_POST["sequence"] > -1 && isset($_POST["answer"]))
-	checkAnswer($_POST["phase"], $_POST["sequence"], $_POST["answer"]);
+if(isset($_POST["phase"]) && isset($_POST["group"]) && isset($_POST["sequence"]) && $_POST["sequence"] > -1 && isset($_POST["answer"]))
+	checkAnswer($_POST["phase"], $_POST["group"], $_POST["sequence"], $_POST["answer"]);
 else
 	logging("Something not set in check.php");
 

@@ -1052,3 +1052,68 @@
 [2019-02-27 19:11:33] Get.php OK
 [2019-02-27 12:14:12] Setup done
 [2019-02-27 19:14:12] Get.php OK
+[2019-02-27 12:19:28] Setup done
+[2019-02-27 19:19:31] Get.php OK
+[2019-02-27 12:37:58] Setup done
+[2019-02-27 19:38:04] Get.php OK
+[2019-02-27 12:38:14] Setup done
+[2019-02-27 12:38:17] Setup done
+[2019-02-27 19:38:19] Get.php OK
+[2019-02-27 23:11:05] Setup done
+[2019-02-27 23:11:06] Setup done
+[2019-02-28 06:11:06] Get.php OK
+[2019-02-27 23:11:21] Setup done
+[2019-02-28 06:11:21] Get.php OK
+[2019-02-28 06:11:56] setworkerid.php called with dfghj
+[2019-02-27 23:15:47] Setup done
+[2019-02-28 06:15:47] Get.php OK
+[2019-02-28 06:15:55] setworkerid.php called with dsfhg
+[2019-02-27 23:16:16] Setup done
+[2019-02-28 06:16:16] Get.php OK
+[2019-02-28 06:16:22] setworkerid.php called with adsdg
+[2019-02-27 23:17:34] Setup done
+[2019-02-28 06:17:35] Get.php OK
+[2019-02-28 06:17:41] setworkerid.php called with adsfg
+[2019-02-27 23:19:08] Setup done
+[2019-02-28 06:19:08] Get.php OK
+[2019-02-28 06:19:14] setworkerid.php called with sdfhgf
+[2019-02-27 23:21:53] Setup done
+[2019-02-28 06:21:53] Get.php OK
+[2019-02-28 06:21:59] setworkerid.php called with sdgf
+[2019-02-28 06:27:42] checkAnswer called with 0 0 183
+[2019-02-28 06:29:07] Something not set in check.php
+[2019-02-28 06:29:12] checkAnswer called with 0 0 209
+[2019-02-28 06:29:19] Something not set in check.php
+[2019-02-28 06:29:23] checkAnswer called with 0 0 195
+[2019-02-28 06:29:34] Something not set in check.php
+[2019-02-28 06:29:37] checkAnswer called with 0 0 171
+[2019-02-28 06:29:44] Something not set in check.php
+[2019-02-28 06:29:47] checkAnswer called with 0 0 169
+[2019-02-28 06:29:54] Something not set in check.php
+[2019-02-28 06:29:57] checkAnswer called with 0 0 146
+[2019-02-28 06:30:05] Something not set in check.php
+[2019-02-28 06:31:46] Submit.php called and OK
+[2019-02-27 23:31:46] The trial with sequence 0 in phase 0 doesn't have the correct points or place, (points = 8 when it should be ; place = 3 when it should be )
+[2019-02-27 23:31:46] The trial with sequence 0 in phase 0 doesn't have the correct points or place, (points = 0 when it should be ; place = 9 when it should be )
+[2019-02-27 23:31:46] The trial with sequence 0 in phase 0 doesn't have the correct points or place, (points = 7 when it should be ; place = 15 when it should be )
+[2019-02-27 23:31:46] The trial with sequence 0 in phase 0 doesn't have the correct points or place, (points = 13 when it should be ; place = 2 when it should be )
+[2019-02-27 23:31:46] The trial with sequence 0 in phase 0 doesn't have the correct points or place, (points = 14 when it should be ; place = 5 when it should be )
+[2019-02-27 23:31:46] The trial with sequence 0 in phase 0 doesn't have the correct points or place, (points = 19 when it should be ; place = 1 when it should be )
+[2019-02-27 23:31:46] Finished submitting
+[2019-02-27 23:41:16] Setup done
+[2019-02-28 06:41:16] Get.php OK
+[2019-02-28 06:41:23] setworkerid.php called with asdfg
+[2019-02-28 06:42:08] Something not set in check.php
+[2019-02-27 23:42:55] Setup done
+[2019-02-28 06:42:55] Get.php OK
+[2019-02-28 06:43:02] setworkerid.php called with dgf
+[2019-02-28 06:43:49] checkAnswer called with 0  0 0
+[2019-02-28 06:43:49] checkAnswers called successfully, phase 0 gained 0 points and now has 0 points
+[2019-02-28 06:44:05] Something not set in check.php
+[2019-02-28 06:44:12] checkAnswer called with 0  1 0
+[2019-02-28 06:44:12] checkAnswers called successfully, phase 0 gained 0 points and now has 0 points
+[2019-02-27 23:45:55] Setup done
+[2019-02-28 06:45:56] Get.php OK
+[2019-02-28 06:46:04] setworkerid.php called with ADSFDG
+[2019-02-28 00:07:18] Setup done
+[2019-02-28 07:08:16] Get.php OK

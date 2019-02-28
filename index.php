@@ -407,6 +407,8 @@ function init_exp()
 
 	timeline.push(instructions_trial);
   	timeline.push(start_trial);
+    timeline.push(risk_trial);
+
 
     var passed = false;
 
@@ -439,7 +441,7 @@ function init_exp()
     	timeline.push(Object.assign({ repeat_num: i,
                     passed: function() { return passed; },
                     on_finish: function(data) {
-                        if(data.passed && data.repeat_num > 0) {
+                        if(data.passed) {
                             passed = true;
 	                        $("#wheel").css("display", "block");
                         }
@@ -471,12 +473,13 @@ function init_exp()
 				prices: testing_data[i][j],
 				row: j,
 				phase: 0,
+                group: i,
                        	        continue_message: "Next sequence",
 				sequence: "In sequence <span>" + (j + 1) + "</span> out of <span>" + testing_data[i].length + "</span>",
 			//	points: function() { return points_counter.p[0]; },
 				showpoints: true,
 				on_finish: function(data) {
-					$.post("<?= $site_prefix ?>/check.php", { phase: 0, sequence: data.sequence, answer: data.result });
+					$.post("<?= $site_prefix ?>/check.php", { phase: 0, group: data.group, sequence: data.sequence, answer: data.result });
 				}
 		    });
         }
@@ -487,7 +490,7 @@ function init_exp()
 	}
 	timeline[timeline.length-1].continue_message = "Finish";
 	timeline[timeline.length-1].on_finish = function(data) {
-		$.post("<?= $site_prefix ?>/check.php", { phase: 0, sequence: data.sequence, answer: data.result });
+		$.post("<?= $site_prefix ?>/check.php", { phase: 0, group: data.group, sequence: data.sequence, answer: data.result });
 	};
 
 	timeline.push(training_trial3);
@@ -565,8 +568,6 @@ function init_exp()
 
 	timeline.push(p2_training_trial3);
 */
-    timeline.push(risk_trial);
-
 	timeline.push(special_sequence_trial);
 
 	timeline.push(final_trial);

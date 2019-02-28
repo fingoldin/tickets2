@@ -47,7 +47,7 @@ jsPsych.plugins["number-animation"] = (function()
         $(number).stop().animate({ transform: "translateX(0px)", opacity: "0" }, interval_time / 2);
       });*/
 		
-            if(trial.repeat_num > 1 && trial.sequence_num == 0)
+            if(trial.repeat_num > 0 && trial.sequence_num == 0)
             {
 				$("#wrong-top").animate({ top: "0px" });
 				setTimeout(function() {

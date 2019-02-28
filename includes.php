@@ -33,7 +33,7 @@ function httpPost($url, $data)
     return $response;
 }
 
-function get_points($phase, $sequence, $answer)
+function get_points($phase, $group, $sequence, $answer)
 {
 	if(!session_id())
 		session_start();
@@ -41,7 +41,7 @@ function get_points($phase, $sequence, $answer)
 	if(!isset($_SESSION["testing_data"]))
 		return 0;
 
-	$arr = $_SESSION["testing_data"][$phase][$sequence];
+	$arr = $_SESSION["testing_data"][$phase][$group][$sequence];
         sort($arr);
 
     $p = intval(round(20 * ($arr[count($arr) - 1] - $answer) / ($arr[count($arr) - 1] - $arr[0])));
@@ -491,7 +491,7 @@ function startSession() {
     /****                   PARAMETERS                  ****/ 
 
     // The number of phases
-    $nphases = 2;
+    $nphases = 1;
 
     // The number of sequences in one training phase
     $ntraining_sequences = 5;
@@ -554,6 +554,11 @@ function startSession() {
         $_SESSION["points"][$i] = 0;
         $_SESSION["checked"][$i] = [];
         $_SESSION["checked_assoc"][$i] = [];
+
+        for($j = 0; $j < count($test_block); $j++) {
+            $_SESSION["checked"][$i][$j] = [];
+            $_SESSION["checked_assoc"][$i][$j] = [];
+        }
     }
 
     $_SESSION["start_time"] = get_time();
