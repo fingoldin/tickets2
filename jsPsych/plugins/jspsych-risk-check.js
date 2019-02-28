@@ -36,7 +36,9 @@ jsPsych.plugins["risk-check"] = (function()
             low.onclick = function() {
                 canvas.onclick = null;
                 low.onclick = null;
-                choose();
+                $.post(SITE_PREFIX + "/risk.php", { "choice": "fixed" }, function(r) {
+                    choose();
+                });
             };
             
             if(canvas.getContext) {
@@ -56,7 +58,7 @@ jsPsych.plugins["risk-check"] = (function()
                         var f = parseFloat(r)
                         if(f > 0.5) {
                             vel = 2.0 * (f - 0.5) * (30.64 - 30.35) + 30.35;
-                            result = 200;
+                            result = 220;
                         }
                         else {
                             vel = 2.0 * f * (30.34 - 30.05) + 30.05;
@@ -108,7 +110,7 @@ jsPsych.plugins["risk-check"] = (function()
                     c.textBaseline = "middle";
                     c.fillStyle = "white";
                     c.font = "16px 'Roboto', sans-serif";
-                    c.fillText("$200", hw / 2, hw);
+                    c.fillText("$220", hw / 2, hw);
                     c.fillText("$140", 3 * hw / 2, hw);
 
                     c.save();

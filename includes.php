@@ -38,13 +38,13 @@ function get_points($phase, $group, $sequence, $answer)
 	if(!session_id())
 		session_start();
 
-	if(!isset($_SESSION["testing_data"]))
+	if(!isset($_SESSION["testing_data"]) || !isset($_SESSION["max_points_per_seq"]))
 		return 0;
 
 	$arr = $_SESSION["testing_data"][$phase][$group][$sequence];
-        sort($arr);
+    sort($arr);
 
-    $p = intval(round(20 * ($arr[count($arr) - 1] - $answer) / ($arr[count($arr) - 1] - $arr[0])));
+    $p = intval(round($_SESSION["max_points_per_seq"] * ($arr[count($arr) - 1] - $answer) / ($arr[count($arr) - 1] - $arr[0])));
 
 	return $p;
 }
@@ -497,7 +497,7 @@ function startSession() {
     $ntraining_sequences = 5;
 
     // The number of tickets in one sequence in the training phase
-    $ntraining_tickets = 10;
+    $ntraining_tickets = 1; //10;
 
     // Parameters of skewed normal distribution
     $location = 150;
@@ -538,12 +538,18 @@ function startSession() {
     $test_blocks = [5, 10, 20, 5, 10, 20];
 
     // Number of sequences in each block
-    $ntest_sequences = 30;
+    $ntest_sequences = 1; //30;
 
     // The max number of points in a phase
-    $_SESSION["max_points"] = 20 * $ntest_sequences;
+    $_SESSION["max_points_per_seq"] = 20; // in tenths of a cent
+    
+    $_SESSION["site_prefix"] = "/christiane/tickets5";
     
     /****               END PARAMETERS                 ****/
+    
+    $_SESSION["max_points"] = $_SESSION["max_points_per_seq"] * $ntest_sequences * count($test_blocks);
+
+    $_SESSION["risk_payoff"] = 140;
 
     $_SESSION["points"] = [];
     $_SESSION["checked"] = [];
@@ -698,8 +704,6 @@ function startSession() {
             }
         }
     }
-    
-    $_SESSION["site_prefix"] = "/christiane/tickets3";
 }
 
 ?>

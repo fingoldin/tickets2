@@ -24,6 +24,7 @@ if(isset($_SESSION["start_time"]) && isset($_SESSION["finished"]) && $_SESSION["
 		"assignment_id" => $_POST["assignment_id"],
 		"data" => json_decode($_POST["data"], true),
         "training_sort" => $_SESSION["training_sort_total"],
+        "risk" => $_SESSION["risk_payoff"],
 		"bonus" => 0
 	];
 
@@ -68,7 +69,7 @@ if(isset($_SESSION["start_time"]) && isset($_SESSION["finished"]) && $_SESSION["
 	}
 
 	subject_save_response($arr);
-	mysql_save_response($arr);
+	//mysql_save_response($arr);
 	log_save_response($arr);
 	//grant_bonus($arr["bonus"], $arr["worker_id"], $arr["assignment_id"]);
 	//subject_save_response($arr);

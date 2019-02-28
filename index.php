@@ -404,10 +404,9 @@ function init_exp()
 	};
   	timeline.push(workerid_trial);
 
-
 	timeline.push(instructions_trial);
-  	timeline.push(start_trial);
     timeline.push(risk_trial);
+  	timeline.push(start_trial);
 
 
     var passed = false;
@@ -479,14 +478,14 @@ function init_exp()
 			//	points: function() { return points_counter.p[0]; },
 				showpoints: true,
 				on_finish: function(data) {
-					$.post("<?= $site_prefix ?>/check.php", { phase: 0, group: data.group, sequence: data.sequence, answer: data.result });
+					$.post("<?= $site_prefix ?>/check.php", { phase: 0, group: data.group, sequence: data.sequence, answer: data.result }, function(r) { console.log(r) });
 				}
 		    });
         }
         
         timeline.push(points_update_trial);
 //        timeline.push(training_trial2);
-        timeline.push(mid_test_trial);
+//        timeline.push(mid_test_trial);
 	}
 	timeline[timeline.length-1].continue_message = "Finish";
 	timeline[timeline.length-1].on_finish = function(data) {
