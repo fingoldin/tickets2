@@ -485,7 +485,7 @@ function init_exp()
         }
         
         timeline.push(points_update_trial);
-        timeline.push(training_trial2);
+//        timeline.push(training_trial2);
         timeline.push(mid_test_trial);
 	}
 	timeline[timeline.length-1].continue_message = "Finish";
