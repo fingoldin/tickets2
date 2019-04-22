@@ -2,20 +2,20 @@
 
 session_start();
 
-if(isset($_SESSION["risk_choice"]))
-    echo "0";
-else if(isset($_POST["choice"])) {
-    $_SESSION["risk_choice"] = $_POST["choice"];
+if(isset($_POST["choice"]) && isset($_SESSION["risk_choices"])) {
     if($_POST["choice"] == "wheel") {
-        $max = mt_getrandmax();
-        $r = mt_rand() / $max;
-
-        $_SESSION["risk_payoff"] = $r > 0.5 ? 220 : 140;
-    
-        echo $r;
+        $r = mt_rand();
+        if($r % 2 == 0) {
+            echo "220";
+            array_push($_SESSION["risk_choices"], 220);
+        } else {
+            echo "140";
+            array_push($_SESSION["risk_choices"], 140);
+        }
     }
     else if($_POST["choice"] == "fixed") {
-        $_SESSION["risk_payoff"] = 180;
+        array_push($_SESSION["risk_choices"], 180);
+        echo "180";
     }
 }
 

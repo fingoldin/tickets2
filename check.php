@@ -18,14 +18,14 @@ function checkAnswer($phase, $group, $sequence, $answer)
 		$p = get_points($phase, $group, $sequence, $answer);
         echo $p;
 
-		$totalp = $_SESSION["points"][$phase] + $p;
+		/*$totalp = $_SESSION["points"][$phase] + $p;
 		if($totalp > $_SESSION["max_points"])
 		{
 			logging("checkAnswer has exceeded the max of " . $_SESSION["max_points"] . " points, previously " . $_SESSION["points"][$phase] . " and tried to be " . $data["points"]);
 
 			$_SESSION["points"][$phase] = $_SESSION["max_points"];
 		}
-		else
+		else*/
 			$_SESSION["points"][$phase] += $p;
 		//$data["place"] = array_search($a, $arr) + 1;
 

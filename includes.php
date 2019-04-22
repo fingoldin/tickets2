@@ -51,16 +51,17 @@ function get_points($phase, $group, $sequence, $answer)
 
 
 // returns an integer for the number of cents
-function get_bonus($points)
+function get_bonus($p)
 {
-	$b = round($points * 0.1);
+    if(!session_id())
+        session_start();
 
-	if($b > 400)
-		return 400;
-	else if($b < 0)
-		return 0;
-	else
-		return $b;
+	if($p > $_SESSION["max_points"])
+		$p = $_SESSION["max_points"];
+	else if($p < 0)
+		$p = 0;
+	
+    return round($points * 0.1);
 }
 
 function grant_bonuses()
@@ -82,15 +83,16 @@ function grant_bonuses()
 
 function grant_bonus($b, $worker_id, $assignment_id)
 {
-	//$b = get_bonus(intval($arr["points_phase0"]) + intval($arr["points_phase1"])) / 100;
-
+    if(!session_id())
+        session_start();
+	
+    if($b > 0.1 * $_SESSION["max_points"])
+		$b = round(0.1 * $_SESSION["max_points"]);
+	else if($b < 0)
+		$b = 0;
+	
 	// b is inputted as an int of cents
 	$bonus = $b / 100;
-
-	if($bonus > 4)
-		$bonus = 4;
-	else if($bonus < 0)
-		$bonus = 0;
 
 	//echo "bonus: " . $bonus;
 
@@ -491,7 +493,7 @@ function startSession() {
     /****                   PARAMETERS                  ****/ 
 
     // The number of phases
-    $nphases = 1;
+    $nphases = 2;
 
     // The number of sequences in one training phase
     $ntraining_sequences = 5;
@@ -506,7 +508,7 @@ function startSession() {
 
     // Parameters of log-normal distribution, or of normal distribution
     $mean = 180;
-    $stddev = 20;
+    $stddevs = [20, 80]; // per phase
 
     // Parameters for PERT distribution
     $p_min = 120;
@@ -517,8 +519,8 @@ function startSession() {
     $dist = 'normal';
 
     // Minimum and maximum values for the deviates in case we get a really unlikely one
-    $min = 120;
-    $max = 240;
+    $min = 0;
+    $max = 360;
 
     $_SESSION["training_max_repeats"] = 3;
     $_SESSION["training_threshold"] = 0.25;
@@ -535,19 +537,25 @@ function startSession() {
     $_SESSION["training_avg_ranges"] = [[120, 240], [120, 240]];
 
     // Number of tickets in each sequence in each test block. Will be shuffled
-    $test_blocks = [5, 10, 20, 5, 10, 20];
+    $test_blocks = [10];
 
     // Number of sequences in each block
-    $ntest_sequences = 30;
+    $ntest_sequences = 10;
 
     // The max number of points in a phase
     $_SESSION["max_points_per_seq"] = 20; // in tenths of a cent
     
     $_SESSION["site_prefix"] = "/christiane/tickets5";
+
+    $_SESSION["max_risk_bonus"] = 220; // tenths of a cent
     
     /****               END PARAMETERS                 ****/
     
-    $_SESSION["max_points"] = $_SESSION["max_points_per_seq"] * $ntest_sequences * count($test_blocks);
+    shuffle($stddevs);
+
+    $_SESSION["risk_choices"] = [];
+    
+    $_SESSION["max_points"] = $_SESSION["max_risk_bonus"] + $_SESSION["max_points_per_seq"] * $ntest_sequences * count($test_blocks);
 
     $_SESSION["risk_payoff"] = 140;
 
@@ -561,7 +569,7 @@ function startSession() {
         $_SESSION["checked"][$i] = [];
         $_SESSION["checked_assoc"][$i] = [];
 
-        for($j = 0; $j < count($test_block); $j++) {
+        for($j = 0; $j < count($test_blocks); $j++) {
             $_SESSION["checked"][$i][$j] = [];
             $_SESSION["checked_assoc"][$i][$j] = [];
         }
@@ -598,9 +606,9 @@ function startSession() {
                     for($j = 0; $j < $ntraining_tickets; $j++) {
                         $v = 0;
                         if($dist == 'ln')
-                            $v = (int)round(ln_generate_deviate($mean, $stddev));
+                            $v = (int)round(ln_generate_deviate($mean, $stddevs[$h]));
                         else if($dist == 'normal')
-                            $v = (int)round(normal_generate_deviate($mean, $stddev));
+                            $v = (int)round(normal_generate_deviate($mean, $stddevs[$h]));
                         else
                             $v = (int)round(sn_generate_deviate($location, $scale, $shape));
                 
@@ -660,7 +668,7 @@ function startSession() {
 
     $_SESSION["training_sort_total"] = $total_n;
 
-    while(true) {
+    /*while(true) {
         shuffle($test_blocks);
         $ex = true;
     
@@ -673,8 +681,8 @@ function startSession() {
         
         if($ex)
             break;
-    }
-
+    }*/
+    
     // Generate test data
     $_SESSION["testing_data"] = array();
     for($p = 0; $p < $nphases; $p++) {
@@ -688,9 +696,9 @@ function startSession() {
                     if($dist == 'pert')
                         $v = (int)$pert_tickets[$ticket_counter++ % count($pert_tickets)];
                     else if($dist == 'ln')
-                        $v = (int)round(ln_generate_deviate($mean, $stddev));
+                        $v = (int)round(ln_generate_deviate($mean, $stddevs[$p]));
                     else if($dist == 'normal')
-                        $v = (int)round(normal_generate_deviate($mean, $stddev));
+                        $v = (int)round(normal_generate_deviate($mean, $stddevs[$p]));
                     else
                         $v = (int)round(sn_generate_deviate($location, $scale, $shape));
                     

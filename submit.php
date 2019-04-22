@@ -5,7 +5,7 @@ if(!session_id())
 
 require("./includes.php");
 
-if(isset($_SESSION["start_time"]) && isset($_SESSION["finished"]) && $_SESSION["finished"] == 0 && isset($_POST["data"]) && isset($_SESSION["points"]) && isset($_SESSION["workerId"]) && isset($_POST["assignment_id"]) && isset($_SESSION["training_sort_total"]))
+if(isset($_SESSION["start_time"]) && isset($_SESSION["finished"]) && $_SESSION["finished"] == 0 && isset($_POST["data"]) && isset($_SESSION["points"]) && isset($_SESSION["workerId"]) && isset($_POST["assignment_id"]) && isset($_SESSION["training_sort_total"]) && isset($_SESSION["risk_final"]))
 {
 	logging("Submit.php called and OK");
 
@@ -24,8 +24,7 @@ if(isset($_SESSION["start_time"]) && isset($_SESSION["finished"]) && $_SESSION["
 		"assignment_id" => $_POST["assignment_id"],
 		"data" => json_decode($_POST["data"], true),
         "training_sort" => $_SESSION["training_sort_total"],
-        "risk" => $_SESSION["risk_payoff"],
-		"bonus" => 0
+		"bonus" => ($_SESSION["risk_final"] / 10)
 	];
 
 	foreach($arr["data"] as $trial)
@@ -60,16 +59,16 @@ if(isset($_SESSION["start_time"]) && isset($_SESSION["finished"]) && $_SESSION["
 
 			$b = intval($trial["bonus"]);
 			$gb = get_bonus(intval($arr["points_phase0"]) + intval($arr["points_phase1"]));
-			if($gb != $b)
+			$arr["bonus"] += $gb;
+			if($arr["bonus"] != $b)
 			{
-				logging("The total points don't match up: the trial says " . $b . " while get_bonus says " . $gb);
+				logging("The total points don't match up: the trial says " . $b . " while get_bonus says " . $arr["bonus"]);
 			}
-			$arr["bonus"] = $gb;
 		}
 	}
 
 	subject_save_response($arr);
-	//mysql_save_response($arr);
+	mysql_save_response($arr);
 	log_save_response($arr);
 	//grant_bonus($arr["bonus"], $arr["worker_id"], $arr["assignment_id"]);
 	//subject_save_response($arr);

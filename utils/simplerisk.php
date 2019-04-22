@@ -1,12 +1,28 @@
+<?php
+
+session_start();
+
+$site_prefix = $_SESSION["site_prefix"];
+
+?>
+
 <div id="risk-main">
     <p style="margin: 15px">
-        First of all, consider you are buying an airplane ticket. You have 2 options: you can either buy it for $180 (Option 1), or take your chance on a roulette wheel that will give you a value between $140 and $220. If you choose the second option, you have a 50/50 chance of getting a number greater than or less than $180, but you must pay the ticket you get.
+        Now, consider you're at the casino. You will do 30 trials of the following choice: either option 1, which will give you $180, or option 2, which will give you $220 or $140 with equal chance. At the end of these 30 trials, one will be chosen and its value will be converted to real money by dividing by 1000 (so, $180 in the gamble would correspond to 0.18 dollars of real money), and that will be added to your bonus.
     </p>
     <br>
     <br>
+    <div id="risk-progress-wrap">
+        <link rel="stylesheet" href="<?= $site_prefix ?>/utils/bootstrap.min.css">
+        <script src="<?= $site_prefix ?>/utils/popper.min.js"></script>
+        <script src="<?= $site_prefix ?>/utils/bootstrap.min.js"></script>
+        <div class="progress">
+            <div class="progress-bar" id="risk-progress"></div>
+        </div>
+    </div>
     <br>
     <div class="risk-low">
-        <h2 class="risk-option"><b>Option 1<b></h2>
+        <h2 class="risk-option"><b>Option 1</b></h2>
         <button id="risk-low-button">$180</button>
     </div>
     <div class="risk-canvas-wrap">
@@ -27,9 +43,10 @@
     </div>
     <div id="risk-result">
         <div class="risk-result-inner">
-            <span id="risk-result-money">Your ticket will cost $180.</span>
+            <span id="risk-result-money"></span>
             <br>
             <button id="risk-result-done">Done</button>
+            <br>
         </div>
     </div>
 </div>

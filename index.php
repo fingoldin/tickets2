@@ -95,7 +95,9 @@ SITE_PREFIX = "<?= $site_prefix ?>"
 <script src="<?= $site_prefix ?>/jsPsych/plugins/jspsych-workerid.js"></script>
 <script src="<?= $site_prefix ?>/jsPsych/plugins/jspsych-special_sequence.js"></script>
 <script src="<?= $site_prefix ?>/jsPsych/plugins/jspsych-points-update.js"></script>
-<script src="<?= $site_prefix ?>/jsPsych/plugins/jspsych-risk-check.js"></script>
+<script src="<?= $site_prefix ?>/jsPsych/plugins/jspsych-simplerisk.js"></script>
+<script src="<?= $site_prefix ?>/jsPsych/plugins/jspsych-riskchoose.js"></script>
+<script src="<?= $site_prefix ?>/jsPsych/plugins/jspsych-survey-multi-choice.js"></script>
 <script src="<?= $site_prefix ?>/utils/general.js"></script>
 <script src="<?= $site_prefix ?>/utils/bar-choose-plugin.js"></script>
 <script src="<?= $site_prefix ?>/utils/json2.js"></script>
@@ -294,11 +296,61 @@ var p2_points_update_trial = {
 }
 
 var risk_trial = {
-    type: "risk-check"
+    type: "simplerisk",
+    num_trials: 3
+}
+
+var riskchoose_trial = {
+	type: "riskchoose"
 }
 
 var final_trial = {
 	type: "final"
+}
+
+var risk_prompts = ["Betting a day's income at the horse races",
+                    "Investing 10% of your annual income in a moderate growth diversified fund",
+                    "Betting a day's income at a high-stakes poker game",
+                    "Investing 5% of your annual income in a very speculative stock",
+                    "Betting a day's income on the outcome of a sporting event",
+                    "Invetsing 10% of your annual income in a new business venture"];
+
+var risk_options = ["Extremely Unlikely", "Moderately Unlikely", "Somewhat Unlikely", "Not Sure",
+                    "Somewhat Likely", "Moderately Likely", "Extremely Likely"];
+
+var risksurvey_trial = {
+    type: "survey-multi-choice",
+    preamble: "For each of the following statements, please indicate the <b>likelihood</b> that you would engage in the described activity or behavior if you were to find yourself in that situation",
+    questions: risk_prompts,
+    required: [],
+    options: []
+}
+
+var closure_prompts = ["I don't like situations that are uncertain.",
+                       "I dislike questions which could be answered in many different ways.",
+                       "I find that a well ordered life with regular hours suits my temperament.",
+                       "I feel uncomfortable when I don't understand the reason why an event occurred in my life.",
+                       "I feel irritated when one person disagrees with what everyone else in a group believes.",
+                       "I don't like to go into a situation without knowing what I can expect from it.",
+                       "When I have made a decision, I feel relieved.",
+                       "When I am confronted with a problem, I’m dying to reach a solution very quickly.",
+                       "I would quickly become impatient and irritated if I would not find a solution to a problem immediately.",
+                       "I don't like to be with people who are capable of unexpected action.",
+                       "I dislike it when a person's statement could mean many different things.",
+                       "I find that establishing a consistent routine enables me to enjoy life more.",
+                       "I enjoy having a clear and structured mode of life.",
+                       "I do not usually consult many different opinions before forming my own view.",
+                       "I dislike unpredictable situations."];
+
+var closure_options = ["Strongly Disagree", "Moderately Disagree", "Slightly Disagree",
+                       "Slightly Agree", "Moderately Agree", "Strongly Agree"];
+
+var closuresurvey_trial = {
+    type: "survey-multi-choice",
+    preamble: "Read each of the following statements and decide how much you agree with each according to your beliefs and experiences",
+    questions: closure_prompts,
+    required: [],
+    options: []
 }
 
 function preload()
@@ -365,7 +417,7 @@ function init_exp()
     var training_sort = parseInt(da["training_sort"]);
     var threshold = parseFloat(da["training_threshold"]);
 
-    console.log(testing_data);
+    console.log(da["categories"]);
     console.log(animanswers);
 
 	//animation_trial.prices = animdata;
@@ -393,9 +445,19 @@ function init_exp()
 
     training_trial.pass_threshold = threshold;
     p2_training_trial.pass_threshold = threshold;
-	
+    
+    for(idx in risk_prompts) {
+        risksurvey_trial.options.push(risk_options);
+        risksurvey_trial.required.push(true);
+    }
+    
+    for(idx in closure_prompts) {
+        closuresurvey_trial.options.push(closure_options);
+        closuresurvey_trial.required.push(true);
+    }
+
     var assignment_id = "<?= $_SESSION['assignmentId'] ?>";
-	
+    
     timeline.push(consent_trial);
 	timeline.push(age_trial);
 
@@ -405,13 +467,12 @@ function init_exp()
   	timeline.push(workerid_trial);
 
 	timeline.push(instructions_trial);
-    timeline.push(risk_trial);
+    //timeline.push(risk_trial);
   	timeline.push(start_trial);
 
 
-    var passed = false;
-
-	for(var i = 0; i < animdata.length; i++)
+    //var passed = false;
+	for(var i = 0; i < 1/*animdata.length*/; i++)
 	{
         for(var j = 0; j < animdata[i].length; j++)
         {
@@ -422,7 +483,7 @@ function init_exp()
                     continue_message: "Next",
                     repeat_num: i,
                     sequence_num: j,
-                    passed: function() { return passed; }
+                    passed: false //function() { return passed; }
             });
 
             timeline.push({
@@ -430,14 +491,14 @@ function init_exp()
                 phase: 0,
                 sequence_num: j,
                 repeat_num: i,
-                passed: function() { return passed; },
+                passed: false, //function() { return passed; },
                 sequence: animdata[i][j],
                 min_val: training_ranges[0][0],
                 max_val: training_ranges[0][1]
             });
         }
 
-    	timeline.push(Object.assign({ repeat_num: i,
+    	/*timeline.push(Object.assign({ repeat_num: i,
                     passed: function() { return passed; },
                     on_finish: function(data) {
                         if(data.passed) {
@@ -445,7 +506,7 @@ function init_exp()
 	                        $("#wheel").css("display", "block");
                         }
                     }
-        }, training_trial));
+        }, training_trial));*/
     }
 
     timeline.push(testing_instructions_trial);
@@ -487,17 +548,17 @@ function init_exp()
 //        timeline.push(training_trial2);
 //        timeline.push(mid_test_trial);
 	}
-	timeline[timeline.length-1].continue_message = "Finish";
+	/*timeline[timeline.length-1].continue_message = "Finish";
 	timeline[timeline.length-1].on_finish = function(data) {
 		$.post("<?= $site_prefix ?>/check.php", { phase: 0, group: data.group, sequence: data.sequence, answer: data.result });
-	};
+	};*/
 
-	timeline.push(training_trial3);
-/*
+	//timeline.push(training_trial3);
+
+
 	timeline.push(p2_start_trial);
 	
     var passed2 = false;
-
     for(var i = 0; i < animdata2.length; i++)
 	{
         for(var j = 0; j < animdata2[i].length; j++)
@@ -517,14 +578,15 @@ function init_exp()
                 phase: 1,
                 sequence_num: j,
                 repeat_num: i,
-                passed: function() { return passed2; }
+                passed: function() { return passed2; },
                 sequence: animdata2[i][j],
                 min_val: training_ranges[1][0],
                 max_val: training_ranges[1][1]
             });
         }
 
-    	timeline.push(Object.assign({ repeat_num: i,
+        passed = true;
+    	/*timeline.push(Object.assign({ repeat_num: i,
                     passed: function() { return passed2; },
                     on_finish: function(data) {
                         if(data.passed) {
@@ -532,7 +594,7 @@ function init_exp()
 	                        $("#wheel").css("display", "block");
                         }
                     }                  
-        }, p2_training_trial));
+        }, p2_training_trial));*/
     }
 
         timeline.push(p2_testing_instructions_trial);
@@ -541,6 +603,27 @@ function init_exp()
 
 	//for(var i = 0; i < 2; i++)
 	for(var i = 0; i < p2_testing_data.length; i++)
+	{
+        for(var j = 0; j < p2_testing_data[i].length; j++)
+        {
+        	timeline.push({ type: "ticket-choose",
+				prices: p2_testing_data[i][j],
+				row: j,
+				phase: 1,
+                group: i,
+                       	        continue_message: "Next sequence",
+				sequence: "In sequence <span>" + (j + 1) + "</span> out of <span>" + p2_testing_data[i].length + "</span>",
+			//	points: function() { return points_counter.p[0]; },
+				showpoints: true,
+				on_finish: function(data) {
+					$.post("<?= $site_prefix ?>/check.php", { phase: 1, group: data.group, sequence: data.sequence, answer: data.result }, function(r) { console.log(r) });
+				}
+		    });
+        }
+        
+        timeline.push(p2_points_update_trial);
+	}
+	/*for(var i = 0; i < p2_testing_data.length; i++)
         {
                 timeline.push({ type: "ticket-choose",
 				prices: p2_testing_data[i],
@@ -564,9 +647,15 @@ function init_exp()
         timeline[timeline.length-1].on_finish = function(data) {
                 $.post("<?= $site_prefix ?>/check.php", { phase: 1, sequence: data.sequence, answer: data.result });
         };
-
-	timeline.push(p2_training_trial3);
 */
+	timeline.push(p2_training_trial3);
+    
+    timeline.push(closuresurvey_trial);
+    timeline.push(risksurvey_trial);
+    
+    timeline.push(risk_trial);
+    timeline.push(riskchoose_trial);
+
 	timeline.push(special_sequence_trial);
 
 	timeline.push(final_trial);

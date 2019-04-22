@@ -1,14 +1,45 @@
-jsPsych.plugins["risk-check"] = (function()
+jsPsych.plugins["ticket-choose"] = (function()
 {
 	var plugin = {};
+
+	function gt()
+	{
+		var d = new Date();
+		return d.getTime();
+	}
 
 	plugin.trial = function(display_element, trial)
 	{
 		trial = jsPsych.pluginAPI.evaluateFunctionParameters(trial);
 
-		display_element.empty();
+		trial.prices = trial.prices || [];
+        trial.fixed = trial.fixed || 0;
+		trial.continue_message = trial.continue_message || "Continue";
+		trial.sequence = trial.sequence || "";
+		trial.showpoints = trial.showpoints || false;
+		trial.phase = trial.phase || 0;
+		trial.group = trial.group || 0;
 
+		//console.log("Trial: " + trial.prices);
+
+		//console.log(trial.prices);
+
+		var num_prices = trial.prices.length;
+		if(!num_prices)
+			jsPsych.finishTrial({ "result": "error" });
+
+		var times = [];
+
+		display_element.html("");
+        
         display_element.load(SITE_PREFIX + "/utils/risk.html", function() {
+            var progress_bar = display_element.find("#ticket-choose-progress"); 
+            progress_bar.css("width", (100 / num_prices).toFixed(0) + "%");
+            progress_bar.html("1/" + num_prices);
+            
+            var price_num = -1;
+			var next_num = 0;
+
             var result = 180;
             
             var canvas = document.getElementById("risk-canvas");
@@ -28,6 +59,51 @@ jsPsych.plugins["risk-check"] = (function()
             canvas.height = 2 * hw;
 
             if(canvas.getContext) {
+                function next_price()
+                {
+                    next_num++;
+                    price_num++;
+                    if(price_num >= num_prices) {
+                        price_num = num_prices - 1;
+
+                        times[num_prices - 1] = gt() - next_price.startTime;
+
+                        select_price();
+                    }
+                    else if(price_num === 0) {
+                        next_price.startTime = gt();
+                    }
+                    else {
+                        times[price_num-1] = gt() - next_price.startTime;
+
+                        progress_bar.html((price_num + 1) + "/" + num_prices);
+                        progress_bar.css("width", (100 * (price_num + 1) / num_prices).toFixed(0) + "%");
+                        next_price.startTime = gt();
+                    }
+                }
+
+                function end_trial(ps, r, ti)
+                {
+                    if(r == -1) {
+			            jsPsych.finishTrial({ "result": "error" });
+                        return;
+                    }
+
+                    var trial_data = {
+                        "result": trial.prices[price_num],
+                        "points": ps,
+                        "place": r,
+                        "phase": trial.phase,
+                        "sequence": trial.row,
+                        "prices": trial.prices,
+                        "times": ti,
+                        "next_num": next_num,
+                        "group": trial.group
+                    };
+
+                    jsPsych.finishTrial(trial_data);
+                }
+                
                 result_done.onclick = function() {
                     result_cont.animate({ "opacity": "0" }, 500, function() {
                         jsPsych.finishTrial();
@@ -197,13 +273,10 @@ jsPsych.plugins["risk-check"] = (function()
                 
                 draw();
             } else {
+			    jsPsych.finishTrial({ "result": "error" });
             }
         });
-
-        data = {};
-
-       // jsPsych.finishTrial(data);
 	}
 
-	return plugin;
+  	return plugin;
 })();

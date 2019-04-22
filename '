@@ -202,19 +202,6 @@ button:focus {
     font-weight: 600;
 }
 
-#risk-progress-wrap {
-    padding: 10px;
-}
-
-#risk-progress-wrap .progress {
-    height: 35px;
-}
-
-#risk-progress {
-    font-size: 20px;
-    font-weight: 600;
-}
-
 .normal .ticket-img {
 	width: 98%;
 	height: auto;
@@ -354,10 +341,6 @@ button:focus {
     cursor: pointer;
 }
 
-#risk-canvas:focus {
-    border: 1px solid #aaa;
-}
-
 .risk-option {
     margin-bottom: 30px;
     font-size: 25px;
@@ -400,7 +383,7 @@ button:focus {
 }
 
 #risk-result-done {
-    margin: 20px 20px 10px 20px;
+    margin: 20px;
 }
 
 #risk-spinner-result {
@@ -410,17 +393,10 @@ button:focus {
     background-color: #eee;
     margin: 10%;
     border-radius: 8px;
-    padding: 20px 10px;
-    display: none;
+    padding: 20px 10px 0px 10px;
 } 
 
 #risk-spinner-result-no {
     background-color: #F44336;
     border-color: #F44336;
-}
-
-.risk-subtext {
-    padding: 3px;
-    font-size: 14px;
-    font-weight: 400;
 }
