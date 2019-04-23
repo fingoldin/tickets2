@@ -452,7 +452,7 @@ function init_exp()
 
     var assignment_id = "<?= $_SESSION['assignmentId'] ?>";
     
-/*    timeline.push(consent_trial);
+    timeline.push(consent_trial);
 	timeline.push(age_trial);
 
 	workerid_trial.on_finish = function(data) {
@@ -556,7 +556,7 @@ function init_exp()
     }
 
     timeline.push(p2_testing_instructions_trial);
-*/	
+	
     for(var i = 0; i < p2_testing_data.length; i++)
 	{
         for(var j = 0; j < p2_testing_data[i].length; j++)

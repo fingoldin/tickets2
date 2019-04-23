@@ -637,9 +637,9 @@ function startSession() {
     if($dist == 'pert')
         $prev_cdf = pert_cdf($training_divisions[0], $p_min, $p_max, $p_mode);
     else if($dist == 'ln')
-        $prev_cdf = ln_cdf($training_divisions[0], $mean, $stddev);
+        $prev_cdf = ln_cdf($training_divisions[0], $mean, $stddevs[0]);
     else if($dist == 'normal')
-        $prev_cdf = normal_cdf($training_divisions[0], $mean, $stddev);
+        $prev_cdf = normal_cdf($training_divisions[0], $mean, $stddevs[0]);
     else
         $prev_cdf = sn_cdf($training_divisions[0], $location, $scale, $shape);
 
@@ -648,9 +648,9 @@ function startSession() {
         if($dist == 'pert')
             $cdf = pert_cdf($training_divisions[$i], $p_min, $p_max, $p_mode);
         else if($dist == 'ln')
-            $cdf = ln_cdf($training_divisions[$i], $mean, $stddev);
+            $cdf = ln_cdf($training_divisions[$i], $mean, $stddevs[0]);
         else if($dist == 'normal')
-            $cdf = normal_cdf($training_divisions[$i], $mean, $stddev);
+            $cdf = normal_cdf($training_divisions[$i], $mean, $stddevs[0]);
         else
             $cdf = sn_cdf($training_divisions[$i], $location, $scale, $shape);
         
