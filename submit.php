@@ -32,7 +32,7 @@ if(isset($_SESSION["start_time"]) && isset($_SESSION["finished"]) && $_SESSION["
 		if($trial["trial_type"] == "ticket-choose" && $trial["sequence"] > -1)
 		{
 //			var_dump($trial);
-			$arr2 = $_SESSION["testing_data"][$trial["phase"]][$trial["sequence"]];
+			/*$arr2 = $_SESSION["testing_data"][$trial["phase"]][$trial["sequence"]];
 			sort($arr2);
 
 			//echo "tp: " . $trial["points"] . " arr: " . $_SESSION["checked_assoc"][$trial["phase"]][$trial["sequence"]];
@@ -44,7 +44,7 @@ if(isset($_SESSION["start_time"]) && isset($_SESSION["finished"]) && $_SESSION["
 				logging("The trial with sequence " . $trial["sequence"] . " in phase " . $trial["phase"] . " doesn't have the correct points or place, (points = " . $trial["points"] . " when it should be " . $points . "; place = " . $trial["place"] . " when it should be " . $place . ")");
 				$trial["points"] = $points;
                 $trial["place"] = $place;
-			}
+			}*/
 		}
 		else if($trial["trial_type"] == "age")
 		{
