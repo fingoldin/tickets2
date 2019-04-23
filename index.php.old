@@ -8,11 +8,17 @@ require("./includes.php");
 
 startSession();
 
+//echo get_bonus(227);
+
 store_url();
 
 //phpinfo();
 
 grant_bonuses();
+//grant_bonus(1, "A3UEJQ4EJB9DBD", "3180JW2OT55Z5VXVLET9XPRFURAJ50");
+
+
+//startSession();
 
 $preview = true;
 
@@ -452,7 +458,7 @@ function init_exp()
 
     var assignment_id = "<?= $_SESSION['assignmentId'] ?>";
     
-/*    timeline.push(consent_trial);
+    timeline.push(consent_trial);
 	timeline.push(age_trial);
 
 	workerid_trial.on_finish = function(data) {
@@ -461,9 +467,12 @@ function init_exp()
   	timeline.push(workerid_trial);
 
 	timeline.push(instructions_trial);
+    //timeline.push(risk_trial);
   	timeline.push(start_trial);
 
-	for(var i = 0; i < 1; i++) // animdata.length
+
+    //var passed = false;
+	for(var i = 0; i < 1/*animdata.length*/; i++)
 	{
         for(var j = 0; j < animdata[i].length; j++)
         {
@@ -488,6 +497,16 @@ function init_exp()
                 max_val: training_ranges[0][1]
             });
         }
+
+    	/*timeline.push(Object.assign({ repeat_num: i,
+                    passed: function() { return passed; },
+                    on_finish: function(data) {
+                        if(data.passed) {
+                            passed = true;
+	                        $("#wheel").css("display", "block");
+                        }
+                    }
+        }, training_trial));*/
     }
 
     timeline.push(testing_instructions_trial);
@@ -504,6 +523,8 @@ function init_exp()
 
 	timeline.push(testing_instructions2_trial);
 
+//    testing_data.length = 4;
+
 	for(var i = 0; i < testing_data.length; i++)
 	{
         for(var j = 0; j < testing_data[i].length; j++)
@@ -515,6 +536,7 @@ function init_exp()
                 group: i,
                        	        continue_message: "Next sequence",
 				sequence: "In sequence <span>" + (j + 1) + "</span> out of <span>" + testing_data[i].length + "</span>",
+			//	points: function() { return points_counter.p[0]; },
 				showpoints: true,
 				on_finish: function(data) {
 					$.post("<?= $site_prefix ?>/check.php", { phase: 0, group: data.group, sequence: data.sequence, answer: data.result }, function(r) { console.log(r) });
@@ -523,12 +545,21 @@ function init_exp()
         }
         
         timeline.push(points_update_trial);
+//        timeline.push(training_trial2);
+//        timeline.push(mid_test_trial);
 	}
+	/*timeline[timeline.length-1].continue_message = "Finish";
+	timeline[timeline.length-1].on_finish = function(data) {
+		$.post("<?= $site_prefix ?>/check.php", { phase: 0, group: data.group, sequence: data.sequence, answer: data.result });
+	};*/
+
+	//timeline.push(training_trial3);
+
 
 	timeline.push(p2_start_trial);
 	
     var passed2 = false;
-    for(var i = 0; i < 1; i++) // animdata2.length
+    for(var i = 0; i < 1/*animdata2.length*/; i++)
 	{
         for(var j = 0; j < animdata2[i].length; j++)
         {
@@ -553,11 +584,24 @@ function init_exp()
                 max_val: training_ranges[1][1]
             });
         }
+
+    	/*timeline.push(Object.assign({ repeat_num: i,
+                    passed: function() { return passed2; },
+                    on_finish: function(data) {
+                        if(data.passed) {
+                            passed2 = true;  
+	                        $("#wheel").css("display", "block");
+                        }
+                    }                  
+        }, p2_training_trial));*/
     }
 
-    timeline.push(p2_testing_instructions_trial);
-*/	
-    for(var i = 0; i < p2_testing_data.length; i++)
+        timeline.push(p2_testing_instructions_trial);
+
+    //p2_testing_data.length = 4;
+
+	//for(var i = 0; i < 2; i++)
+	for(var i = 0; i < p2_testing_data.length; i++)
 	{
         for(var j = 0; j < p2_testing_data[i].length; j++)
         {
@@ -578,6 +622,32 @@ function init_exp()
         
         timeline.push(p2_points_update_trial);
 	}
+	/*for(var i = 0; i < p2_testing_data.length; i++)
+        {
+                timeline.push({ type: "ticket-choose",
+				prices: p2_testing_data[i],
+                                row: i,
+				phase: 1,
+				continue_message: "Next sequence",
+                                sequence: "In sequence <span>" + (i + 1) + "</span> out of <span>" + p2_testing_data.length + "</span>",
+                        //      points: function() { return points_counter.p[1]; },
+                                showpoints: true,
+                                on_finish: function(data) {
+					$.post("<?= $site_prefix ?>/check.php", { phase: 1, sequence: data.sequence, answer: data.result });
+                } });
+
+                if(i == Math.floor((p2_testing_data.length - 1) / 2)) {
+                    timeline.push(p2_points_update_trial);
+                    timeline.push(p2_training_trial2);
+                    timeline.push(p2_mid_test_trial);
+                }
+        }
+        timeline[timeline.length-1].continue_message = "Finish";
+        timeline[timeline.length-1].on_finish = function(data) {
+                $.post("<?= $site_prefix ?>/check.php", { phase: 1, sequence: data.sequence, answer: data.result });
+        };
+*/
+	//timeline.push(p2_training_trial3);
     
     timeline.push(closuresurvey_trial);
     timeline.push(risksurvey_trial);
@@ -588,6 +658,48 @@ function init_exp()
 	//timeline.push(special_sequence_trial);
 
 	timeline.push(final_trial);
+
+/*	var completion_code = {
+		type: 'html',
+		url: 'confirmation_code.html'
+	};
+        timeline.push(completion_code);
+*/
+
+//save data
+
+
+
+			// function to save data
+	/*		function saveData(filename, filedata){
+				$.ajax({
+					type:'post',
+					cache: false,
+					url: '<?= $site_prefix ?>/save_data.php', // this is the path to the above PHP script
+					data: {filename: filename, filedata: filedata},
+				// complete: function() {
+				// 				window.location.href = "confirmation_code.html";
+				// 			}
+				});
+			}
+
+
+	var save_data = {
+		type: 'call-function',
+		func: function()
+		{
+			saveData(subject_id + '_output.csv', jsPsych.data.getDataAsCSV())
+		}
+		,timing_post_trial: 0
+	};
+
+	timeline.push(save_data);*/
+
+	// save data end
+
+	//var worker_id = "<?= $_SESSION['workerId']; ?>";
+	//var assignment_id = "<?= $_SESSION['assignmentId']; ?>";
+
 
 	$("#wheel").css("display", "none");
 
@@ -628,6 +740,15 @@ var outside_trial = {
 
 function init()
 {
+	/*var tinfo = jsPsych.turk.turkInfo();
+
+	if(tinfo.outsideTurk)
+		init_preview(outside_trial);
+	else if(tinfo.previewMode)
+		init_preview(accept_trial);
+	else
+		init_exp(tinfo.workerId, tinfo.assignmentId);*/
+
 	var prev = <?php if($preview)
 				echo('true');
 			else

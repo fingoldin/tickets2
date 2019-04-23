@@ -878,3 +878,150 @@
 [2019-04-22 17:49:27] Setup done
 [2019-04-23 00:49:27] Get.php OK
 [2019-04-23 00:49:36] setworkerid.php called with dfghjk
+[2019-04-23 00:52:19] checkAnswer called with 0 0 0 171
+[2019-04-23 00:52:19] checkAnswers called successfully, phase 0 gained 14 points and now has 14 points
+[2019-04-23 00:52:22] checkAnswer called with 0 0 1 163
+[2019-04-23 00:52:22] checkAnswers called successfully, phase 0 gained 18 points and now has 32 points
+[2019-04-23 00:52:24] checkAnswer called with 0 0 2 189
+[2019-04-23 00:52:24] checkAnswers called successfully, phase 0 gained 3 points and now has 35 points
+[2019-04-23 00:52:26] checkAnswer called with 0 0 3 183
+[2019-04-23 00:52:26] checkAnswers called successfully, phase 0 gained 11 points and now has 46 points
+[2019-04-23 00:52:29] checkAnswer called with 0 0 4 178
+[2019-04-23 00:52:29] checkAnswers called successfully, phase 0 gained 12 points and now has 58 points
+[2019-04-23 00:52:31] checkAnswer called with 0 0 5 174
+[2019-04-23 00:52:31] checkAnswers called successfully, phase 0 gained 14 points and now has 72 points
+[2019-04-23 00:52:33] checkAnswer called with 0 0 6 234
+[2019-04-23 00:52:33] checkAnswers called successfully, phase 0 gained 2 points and now has 74 points
+[2019-04-23 00:52:35] checkAnswer called with 0 0 7 194
+[2019-04-23 00:52:35] checkAnswers called successfully, phase 0 gained 7 points and now has 81 points
+[2019-04-23 00:52:37] checkAnswer called with 0 0 8 149
+[2019-04-23 00:52:37] checkAnswers called successfully, phase 0 gained 19 points and now has 100 points
+[2019-04-23 00:52:39] checkAnswer called with 0 0 9 184
+[2019-04-23 00:52:39] checkAnswers called successfully, phase 0 gained 8 points and now has 108 points
+[2019-04-23 00:57:06] checkAnswer called with 1 0 0 259
+[2019-04-23 00:57:06] checkAnswers called successfully, phase 1 gained 7 points and now has 7 points
+[2019-04-23 00:57:09] checkAnswer called with 1 0 1 158
+[2019-04-23 00:57:09] checkAnswers called successfully, phase 1 gained 8 points and now has 15 points
+[2019-04-23 00:57:12] checkAnswer called with 1 0 2 219
+[2019-04-23 00:57:12] checkAnswers called successfully, phase 1 gained 10 points and now has 25 points
+[2019-04-23 00:57:14] checkAnswer called with 1 0 3 143
+[2019-04-23 00:57:14] checkAnswers called successfully, phase 1 gained 15 points and now has 40 points
+[2019-04-23 00:57:17] checkAnswer called with 1 0 4 219
+[2019-04-23 00:57:17] checkAnswers called successfully, phase 1 gained 6 points and now has 46 points
+[2019-04-23 00:57:19] checkAnswer called with 1 0 5 145
+[2019-04-23 00:57:19] checkAnswers called successfully, phase 1 gained 14 points and now has 60 points
+[2019-04-23 00:57:21] checkAnswer called with 1 0 6 228
+[2019-04-23 00:57:21] checkAnswers called successfully, phase 1 gained 3 points and now has 63 points
+[2019-04-23 00:57:23] checkAnswer called with 1 0 7 42
+[2019-04-23 00:57:23] checkAnswers called successfully, phase 1 gained 20 points and now has 83 points
+[2019-04-23 00:57:26] checkAnswer called with 1 0 8 173
+[2019-04-23 00:57:26] checkAnswers called successfully, phase 1 gained 10 points and now has 93 points
+[2019-04-23 00:57:28] checkAnswer called with 1 0 9 224
+[2019-04-23 00:57:28] checkAnswers called successfully, phase 1 gained 12 points and now has 105 points
+[2019-04-23 01:08:44] Something not set in submit.php
+[2019-04-22 18:11:21] Setup done
+[2019-04-23 01:11:21] Get.php OK
+[2019-04-23 11:22:18] Setup done
+[2019-04-23 11:22:19] Setup done
+[2019-04-23 11:23:02] Setup done
+[2019-04-23 18:23:03] Get.php OK
+[2019-04-23 18:23:13] setworkerid.php called with adsghf
+[2019-04-23 18:27:56] checkAnswer called with 0 0 0 285
+[2019-04-23 18:27:56] checkAnswers called successfully, phase 0 gained 1 points and now has 1 points
+[2019-04-23 18:28:11] checkAnswer called with 0 0 1 50
+[2019-04-23 18:28:11] checkAnswers called successfully, phase 0 gained 20 points and now has 21 points
+[2019-04-23 18:28:14] checkAnswer called with 0 0 2 196
+[2019-04-23 18:28:14] checkAnswers called successfully, phase 0 gained 13 points and now has 34 points
+[2019-04-23 18:28:17] checkAnswer called with 0 0 3 265
+[2019-04-23 18:28:17] checkAnswers called successfully, phase 0 gained 2 points and now has 36 points
+[2019-04-23 18:28:19] checkAnswer called with 0 0 4 220
+[2019-04-23 18:28:19] checkAnswers called successfully, phase 0 gained 6 points and now has 42 points
+[2019-04-23 18:28:25] checkAnswer called with 0 0 5 183
+[2019-04-23 18:28:25] checkAnswers called successfully, phase 0 gained 17 points and now has 59 points
+[2019-04-23 18:28:28] checkAnswer called with 0 0 6 189
+[2019-04-23 18:28:28] checkAnswers called successfully, phase 0 gained 12 points and now has 71 points
+[2019-04-23 18:28:30] checkAnswer called with 0 0 7 180
+[2019-04-23 18:28:30] checkAnswers called successfully, phase 0 gained 8 points and now has 79 points
+[2019-04-23 18:28:33] checkAnswer called with 0 0 8 219
+[2019-04-23 18:28:33] checkAnswers called successfully, phase 0 gained 3 points and now has 82 points
+[2019-04-23 18:28:36] checkAnswer called with 0 0 9 248
+[2019-04-23 18:28:36] checkAnswers called successfully, phase 0 gained 4 points and now has 86 points
+[2019-04-23 18:31:10] checkAnswer called with 1 0 0 185
+[2019-04-23 18:31:10] checkAnswers called successfully, phase 1 gained 13 points and now has 13 points
+[2019-04-23 18:31:12] checkAnswer called with 1 0 1 168
+[2019-04-23 18:31:12] checkAnswers called successfully, phase 1 gained 8 points and now has 21 points
+[2019-04-23 18:31:14] checkAnswer called with 1 0 2 176
+[2019-04-23 18:31:14] checkAnswers called successfully, phase 1 gained 12 points and now has 33 points
+[2019-04-23 18:31:17] checkAnswer called with 1 0 3 183
+[2019-04-23 18:31:17] checkAnswers called successfully, phase 1 gained 3 points and now has 36 points
+[2019-04-23 18:31:19] checkAnswer called with 1 0 4 189
+[2019-04-23 18:31:19] checkAnswers called successfully, phase 1 gained 5 points and now has 41 points
+[2019-04-23 18:31:22] checkAnswer called with 1 0 5 173
+[2019-04-23 18:31:22] checkAnswers called successfully, phase 1 gained 20 points and now has 61 points
+[2019-04-23 18:31:24] checkAnswer called with 1 0 6 178
+[2019-04-23 18:31:24] checkAnswers called successfully, phase 1 gained 13 points and now has 74 points
+[2019-04-23 18:31:26] checkAnswer called with 1 0 7 200
+[2019-04-23 18:31:26] checkAnswers called successfully, phase 1 gained 0 points and now has 74 points
+[2019-04-23 18:31:28] checkAnswer called with 1 0 8 189
+[2019-04-23 18:31:28] checkAnswers called successfully, phase 1 gained 12 points and now has 86 points
+[2019-04-23 18:31:30] checkAnswer called with 1 0 9 192
+[2019-04-23 18:31:30] checkAnswers called successfully, phase 1 gained 7 points and now has 93 points
+[2019-04-23 18:32:56] Submit.php called and OK
+[2019-04-23 11:32:56] The trial with sequence 0 in phase 0 doesn't have the correct points or place, (points = 1 when it should be Array; place = 7 when it should be )
+[2019-04-23 11:32:56] The trial with sequence 1 in phase 0 doesn't have the correct points or place, (points = 20 when it should be ; place = 0 when it should be )
+[2019-04-23 11:32:56] The trial with sequence 2 in phase 0 doesn't have the correct points or place, (points = 13 when it should be ; place = 3 when it should be )
+[2019-04-23 11:32:56] The trial with sequence 3 in phase 0 doesn't have the correct points or place, (points = 2 when it should be ; place = 6 when it should be )
+[2019-04-23 11:32:56] The trial with sequence 4 in phase 0 doesn't have the correct points or place, (points = 6 when it should be ; place = 8 when it should be )
+[2019-04-23 11:32:56] The trial with sequence 5 in phase 0 doesn't have the correct points or place, (points = 17 when it should be ; place = 1 when it should be )
+[2019-04-23 11:32:56] The trial with sequence 6 in phase 0 doesn't have the correct points or place, (points = 12 when it should be ; place = 4 when it should be )
+[2019-04-23 11:32:56] The trial with sequence 7 in phase 0 doesn't have the correct points or place, (points = 8 when it should be ; place = 5 when it should be )
+[2019-04-23 11:32:56] The trial with sequence 8 in phase 0 doesn't have the correct points or place, (points = 3 when it should be ; place = 6 when it should be )
+[2019-04-23 11:32:56] The trial with sequence 9 in phase 0 doesn't have the correct points or place, (points = 4 when it should be ; place = 8 when it should be )
+[2019-04-23 11:32:56] The trial with sequence 0 in phase 1 doesn't have the correct points or place, (points = 13 when it should be Array; place = 5 when it should be )
+[2019-04-23 11:32:56] The trial with sequence 1 in phase 1 doesn't have the correct points or place, (points = 8 when it should be ; place = 4 when it should be )
+[2019-04-23 11:32:56] The trial with sequence 2 in phase 1 doesn't have the correct points or place, (points = 12 when it should be ; place = 2 when it should be )
+[2019-04-23 11:32:56] The trial with sequence 3 in phase 1 doesn't have the correct points or place, (points = 3 when it should be ; place = 8 when it should be )
+[2019-04-23 11:32:56] The trial with sequence 4 in phase 1 doesn't have the correct points or place, (points = 5 when it should be ; place = 6 when it should be )
+[2019-04-23 11:32:56] The trial with sequence 5 in phase 1 doesn't have the correct points or place, (points = 20 when it should be ; place = 0 when it should be )
+[2019-04-23 11:32:56] The trial with sequence 6 in phase 1 doesn't have the correct points or place, (points = 13 when it should be ; place = 3 when it should be )
+[2019-04-23 11:32:56] The trial with sequence 7 in phase 1 doesn't have the correct points or place, (points = 0 when it should be ; place = 9 when it should be )
+[2019-04-23 11:32:56] The trial with sequence 8 in phase 1 doesn't have the correct points or place, (points = 12 when it should be ; place = 6 when it should be )
+[2019-04-23 11:32:56] The trial with sequence 9 in phase 1 doesn't have the correct points or place, (points = 7 when it should be ; place = 5 when it should be )
+[2019-04-23 11:32:56] The total points don't match up: the trial says 36 while get_bonus says 18
+[2019-04-23 11:32:56] Finished submitting
+[2019-04-23 11:38:01] Setup done
+[2019-04-23 18:38:01] Get.php OK
+[2019-04-23 11:45:05] Setup done
+[2019-04-23 18:45:06] Get.php OK
+[2019-04-23 18:45:09] checkAnswer called with 1 0 0 333
+[2019-04-23 18:45:09] checkAnswers called successfully, phase 1 gained 0 points and now has 0 points
+[2019-04-23 18:45:12] checkAnswer called with 1 0 1 198
+[2019-04-23 18:45:12] checkAnswers called successfully, phase 1 gained 11 points and now has 11 points
+[2019-04-23 18:45:14] checkAnswer called with 1 0 2 89
+[2019-04-23 18:45:14] checkAnswers called successfully, phase 1 gained 20 points and now has 31 points
+[2019-04-23 18:45:17] checkAnswer called with 1 0 3 87
+[2019-04-23 18:45:17] checkAnswers called successfully, phase 1 gained 17 points and now has 48 points
+[2019-04-23 18:45:19] checkAnswer called with 1 0 4 187
+[2019-04-23 18:45:19] checkAnswers called successfully, phase 1 gained 13 points and now has 61 points
+[2019-04-23 18:45:21] checkAnswer called with 1 0 5 167
+[2019-04-23 18:45:21] checkAnswers called successfully, phase 1 gained 5 points and now has 66 points
+[2019-04-23 18:45:24] checkAnswer called with 1 0 6 67
+[2019-04-23 18:45:24] checkAnswers called successfully, phase 1 gained 20 points and now has 86 points
+[2019-04-23 18:45:27] checkAnswer called with 1 0 7 157
+[2019-04-23 18:45:27] checkAnswers called successfully, phase 1 gained 14 points and now has 100 points
+[2019-04-23 18:45:29] checkAnswer called with 1 0 8 299
+[2019-04-23 18:45:29] checkAnswers called successfully, phase 1 gained 0 points and now has 100 points
+[2019-04-23 18:45:32] checkAnswer called with 1 0 9 106
+[2019-04-23 18:45:32] checkAnswers called successfully, phase 1 gained 16 points and now has 116 points
+[2019-04-23 18:46:45] Submit.php called and OK
+[2019-04-23 11:46:45] The trial with sequence 0 in phase 1 doesn't have the correct points or place, (points = 0 when it should be Array; place = 9 when it should be )
+[2019-04-23 11:46:45] The trial with sequence 1 in phase 1 doesn't have the correct points or place, (points = 11 when it should be ; place = 5 when it should be )
+[2019-04-23 11:46:45] The trial with sequence 2 in phase 1 doesn't have the correct points or place, (points = 20 when it should be ; place = 1 when it should be )
+[2019-04-23 11:46:45] The trial with sequence 3 in phase 1 doesn't have the correct points or place, (points = 17 when it should be ; place = 1 when it should be )
+[2019-04-23 11:46:45] The trial with sequence 4 in phase 1 doesn't have the correct points or place, (points = 13 when it should be ; place = 4 when it should be )
+[2019-04-23 11:46:45] The trial with sequence 5 in phase 1 doesn't have the correct points or place, (points = 5 when it should be ; place = 5 when it should be )
+[2019-04-23 11:46:45] The trial with sequence 6 in phase 1 doesn't have the correct points or place, (points = 20 when it should be ; place = 0 when it should be )
+[2019-04-23 11:46:45] The trial with sequence 7 in phase 1 doesn't have the correct points or place, (points = 14 when it should be ; place = 4 when it should be )
+[2019-04-23 11:46:45] The trial with sequence 8 in phase 1 doesn't have the correct points or place, (points = 0 when it should be ; place = 8 when it should be )
+[2019-04-23 11:46:45] The trial with sequence 9 in phase 1 doesn't have the correct points or place, (points = 16 when it should be ; place = 1 when it should be )
+[2019-04-23 11:46:45] Finished submitting

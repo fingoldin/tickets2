@@ -61,7 +61,7 @@ function get_bonus($p)
 	else if($p < 0)
 		$p = 0;
 	
-    return round($points * 0.1);
+    return round($p * 0.1);
 }
 
 function grant_bonuses()
