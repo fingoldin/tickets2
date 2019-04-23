@@ -1,1 +1,94 @@
 
+[2019-04-23 11:58:45] Setup done
+[2019-04-23 15:58:46] Get.php OK
+[2019-04-23 12:00:53] Setup done
+[2019-04-23 16:00:54] Get.php OK
+[2019-04-23 16:01:03] setworkerid.php called with whoops
+[2019-04-23 16:02:13] checkAnswer called with 0 0 0 161
+[2019-04-23 16:02:13] checkAnswers called successfully, phase 0 gained 20 points and now has 20 points
+[2019-04-23 16:02:16] checkAnswer called with 0 0 1 234
+[2019-04-23 16:02:16] checkAnswers called successfully, phase 0 gained 0 points and now has 20 points
+[2019-04-23 16:02:18] checkAnswer called with 0 0 2 187
+[2019-04-23 16:02:18] checkAnswers called successfully, phase 0 gained 9 points and now has 29 points
+[2019-04-23 16:02:20] checkAnswer called with 0 0 3 204
+[2019-04-23 16:02:20] checkAnswers called successfully, phase 0 gained 6 points and now has 35 points
+[2019-04-23 16:02:22] checkAnswer called with 0 0 4 177
+[2019-04-23 16:02:22] checkAnswers called successfully, phase 0 gained 16 points and now has 51 points
+[2019-04-23 16:02:24] checkAnswer called with 0 0 5 186
+[2019-04-23 16:02:24] checkAnswers called successfully, phase 0 gained 11 points and now has 62 points
+[2019-04-23 16:02:26] checkAnswer called with 0 0 6 203
+[2019-04-23 16:02:26] checkAnswers called successfully, phase 0 gained 2 points and now has 64 points
+[2019-04-23 16:02:29] checkAnswer called with 0 0 7 218
+[2019-04-23 16:02:29] checkAnswers called successfully, phase 0 gained 0 points and now has 64 points
+[2019-04-23 16:02:31] checkAnswer called with 0 0 8 124
+[2019-04-23 16:02:31] checkAnswers called successfully, phase 0 gained 20 points and now has 84 points
+[2019-04-23 16:02:33] checkAnswer called with 0 0 9 163
+[2019-04-23 16:02:33] checkAnswers called successfully, phase 0 gained 13 points and now has 97 points
+[2019-04-23 16:02:36] checkAnswer called with 0 0 10 185
+[2019-04-23 16:02:36] checkAnswers called successfully, phase 0 gained 10 points and now has 107 points
+[2019-04-23 16:02:38] checkAnswer called with 0 0 11 178
+[2019-04-23 16:02:38] checkAnswers called successfully, phase 0 gained 18 points and now has 125 points
+[2019-04-23 16:02:41] checkAnswer called with 0 0 12 193
+[2019-04-23 16:02:41] checkAnswers called successfully, phase 0 gained 8 points and now has 133 points
+[2019-04-23 16:02:43] checkAnswer called with 0 0 13 183
+[2019-04-23 16:02:43] checkAnswers called successfully, phase 0 gained 5 points and now has 138 points
+[2019-04-23 16:02:45] checkAnswer called with 0 0 14 206
+[2019-04-23 16:02:45] checkAnswers called successfully, phase 0 gained 0 points and now has 138 points
+[2019-04-23 16:02:48] checkAnswer called with 0 0 15 216
+[2019-04-23 16:02:48] checkAnswers called successfully, phase 0 gained 0 points and now has 138 points
+[2019-04-23 16:02:50] checkAnswer called with 0 0 16 185
+[2019-04-23 16:02:50] checkAnswers called successfully, phase 0 gained 7 points and now has 145 points
+[2019-04-23 16:02:52] checkAnswer called with 0 0 17 207
+[2019-04-23 16:02:52] checkAnswers called successfully, phase 0 gained 0 points and now has 145 points
+[2019-04-23 16:02:54] checkAnswer called with 0 0 18 173
+[2019-04-23 16:02:54] checkAnswers called successfully, phase 0 gained 13 points and now has 158 points
+[2019-04-23 16:02:56] checkAnswer called with 0 0 19 203
+[2019-04-23 16:02:56] checkAnswers called successfully, phase 0 gained 5 points and now has 163 points
+[2019-04-23 16:03:00] checkAnswer called with 0 0 20 169
+[2019-04-23 16:03:00] checkAnswers called successfully, phase 0 gained 12 points and now has 175 points
+[2019-04-23 16:03:02] checkAnswer called with 0 0 21 177
+[2019-04-23 16:03:02] checkAnswers called successfully, phase 0 gained 8 points and now has 183 points
+[2019-04-23 16:03:07] checkAnswer called with 0 0 22 147
+[2019-04-23 16:03:07] checkAnswers called successfully, phase 0 gained 20 points and now has 203 points
+[2019-04-23 16:03:10] checkAnswer called with 0 0 23 220
+[2019-04-23 16:03:10] checkAnswers called successfully, phase 0 gained 0 points and now has 203 points
+[2019-04-23 16:03:13] checkAnswer called with 0 0 24 133
+[2019-04-23 16:03:13] checkAnswers called successfully, phase 0 gained 20 points and now has 223 points
+[2019-04-23 16:03:15] checkAnswer called with 0 0 25 161
+[2019-04-23 16:03:15] checkAnswers called successfully, phase 0 gained 14 points and now has 237 points
+[2019-04-23 16:03:20] checkAnswer called with 0 0 26 198
+[2019-04-23 16:03:20] checkAnswers called successfully, phase 0 gained 4 points and now has 241 points
+[2019-04-23 16:03:23] checkAnswer called with 0 0 27 141
+[2019-04-23 16:03:23] checkAnswers called successfully, phase 0 gained 20 points and now has 261 points
+[2019-04-23 16:04:29] checkAnswer called with 0 0 28 146
+[2019-04-23 16:04:29] checkAnswers called successfully, phase 0 gained 20 points and now has 281 points
+[2019-04-23 16:04:31] checkAnswer called with 0 0 29 145
+[2019-04-23 16:04:31] checkAnswers called successfully, phase 0 gained 20 points and now has 301 points
+[2019-04-23 16:04:34] checkAnswer called with 0 0 30 177
+[2019-04-23 16:04:34] checkAnswers called successfully, phase 0 gained 16 points and now has 317 points
+[2019-04-23 16:04:36] checkAnswer called with 0 0 31 196
+[2019-04-23 16:04:36] checkAnswers called successfully, phase 0 gained 2 points and now has 319 points
+[2019-04-23 16:04:39] checkAnswer called with 0 0 32 170
+[2019-04-23 16:04:39] checkAnswers called successfully, phase 0 gained 9 points and now has 328 points
+[2019-04-23 16:04:41] checkAnswer called with 0 0 33 210
+[2019-04-23 16:04:41] checkAnswers called successfully, phase 0 gained 2 points and now has 330 points
+[2019-04-23 16:04:44] checkAnswer called with 0 0 34 197
+[2019-04-23 16:04:44] checkAnswers called successfully, phase 0 gained 6 points and now has 336 points
+[2019-04-23 16:04:46] checkAnswer called with 0 0 35 176
+[2019-04-23 16:04:46] checkAnswers called successfully, phase 0 gained 13 points and now has 349 points
+[2019-04-23 16:04:48] checkAnswer called with 0 0 36 196
+[2019-04-23 16:04:48] checkAnswers called successfully, phase 0 gained 2 points and now has 351 points
+[2019-04-23 16:04:50] checkAnswer called with 0 0 37 179
+[2019-04-23 16:04:50] checkAnswers called successfully, phase 0 gained 7 points and now has 358 points
+[2019-04-23 16:04:53] checkAnswer called with 0 0 38 135
+[2019-04-23 16:04:53] checkAnswers called successfully, phase 0 gained 20 points and now has 378 points
+[2019-04-23 16:04:55] checkAnswer called with 0 0 39 197
+[2019-04-23 16:04:55] checkAnswers called successfully, phase 0 gained 7 points and now has 385 points
+[2019-04-23 16:04:57] checkAnswer called with 0 0 40 163
+[2019-04-23 16:04:57] checkAnswers called successfully, phase 0 gained 20 points and now has 405 points
+[2019-04-23 16:05:00] checkAnswer called with 0 0 41 200
+[2019-04-23 16:05:00] checkAnswers called successfully, phase 0 gained 5 points and now has 410 points
+[2019-04-23 16:05:03] checkAnswer called with 0 0 42 216
+[2019-04-23 16:05:03] checkAnswers called successfully, phase 0 gained 0 points and now has 410 points
+[2019-04-23 16:05:05] checkAnswer called with 0 0 43 153
+[2019-04-23 16:05:05] checkAnswers called successfully, phase 0 gained 20 points and now has 430 points
