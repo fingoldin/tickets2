@@ -291,7 +291,7 @@ var p2_points_update_trial = {
 
 var risk_trial = {
     type: "simplerisk",
-    num_trials: 3
+    num_trials: 30
 }
 
 var riskchoose_trial = {
