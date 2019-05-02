@@ -170,10 +170,10 @@ var training_trial = {
 var testing_instructions_trial = {
 	type: "html",
         url: "<?= $site_prefix ?>/utils/testing.html",
-        cont_btn: "testingstart",
-    on_start: function(trial) {
+        cont_btn: "testingstart"
+    /*on_start: function(trial) {
         $("#wheel").css("display", "none");
-    }
+    }*/
 }
 
 // Second testing instructions (after example sequence)
@@ -244,10 +244,10 @@ var p2_training_trial = {
 var p2_testing_instructions_trial = {
         type: "html",
         url: "<?= $site_prefix ?>/utils/testing2.html",
-        cont_btn: "testingstart",
-    on_start: function(trial) {
+        cont_btn: "testingstart"
+    /*on_start: function(trial) {
         $("#wheel").css("display", "none");
-    }
+    }*/
 }
 
 // Second bar graph to see learning
@@ -408,7 +408,7 @@ function init_exp()
 	animanswers2 = da["answers"][1];
 	training_ranges = da["training_ranges"];
     
-    var training_sort = parseInt(da["training_sort"]);
+    var training_sort = da["training_sort"];
     var threshold = parseFloat(da["training_threshold"]);
 
     console.log(da["categories"]);
@@ -430,12 +430,12 @@ function init_exp()
     p2_training_trial2.categories = da["categories"][1];
     p2_training_trial3.categories = da["categories"][1];
 	
-    training_trial.max_val = training_sort;
-	training_trial2.max_val = training_sort;
-	training_trial3.max_val = training_sort;
-    p2_training_trial.max_val = training_sort;
-	p2_training_trial2.max_val = training_sort;
-    p2_training_trial3.max_val = training_sort;
+    training_trial.max_val = training_sort[0];
+	training_trial2.max_val = training_sort[0];
+	training_trial3.max_val = training_sort[0];
+    p2_training_trial.max_val = training_sort;[1]
+	p2_training_trial2.max_val = training_sort[1];
+    p2_training_trial3.max_val = training_sort[1];
 
     training_trial.pass_threshold = threshold;
     p2_training_trial.pass_threshold = threshold;
@@ -451,7 +451,7 @@ function init_exp()
     }
 
     var assignment_id = "<?= $_SESSION['assignmentId'] ?>";
-    
+	
     timeline.push(consent_trial);
 	timeline.push(age_trial);
 
@@ -463,7 +463,8 @@ function init_exp()
 	timeline.push(instructions_trial);
   	timeline.push(start_trial);
 
-	for(var i = 0; i < 1; i++) // animdata.length
+    var passed = false;
+	for(var i = 0; i < animdata.length; i++)
 	{
         for(var j = 0; j < animdata[i].length; j++)
         {
@@ -488,6 +489,16 @@ function init_exp()
                 max_val: training_ranges[0][1]
             });
         }
+    	
+        timeline.push(Object.assign({ repeat_num: i,
+                    passed: function() { return passed; },
+                    on_finish: function(data) {
+                        if(data.passed) {
+                            passed = true;
+	                        $("#wheel").css("display", "block");
+                        }
+                    }
+        }, training_trial));
     }
 
     timeline.push(testing_instructions_trial);
@@ -523,6 +534,7 @@ function init_exp()
         }
         
         timeline.push(points_update_trial);
+        timeline.push(training_trial2);
 	}
 
 	timeline.push(p2_start_trial);
@@ -553,6 +565,16 @@ function init_exp()
                 max_val: training_ranges[1][1]
             });
         }
+        
+        timeline.push(Object.assign({ repeat_num: i,
+                    passed: function() { return passed2; },
+                    on_finish: function(data) {
+                        if(data.passed) {
+                            passed2 = true;
+	                        $("#wheel").css("display", "block");
+                        }
+                    }
+        }, p2_training_trial));
     }
 
     timeline.push(p2_testing_instructions_trial);
@@ -577,6 +599,7 @@ function init_exp()
         }
         
         timeline.push(p2_points_update_trial);
+        timeline.push(p2_training_trial2);
 	}
     
     timeline.push(closuresurvey_trial);
