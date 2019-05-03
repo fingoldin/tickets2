@@ -89,7 +89,7 @@ SITE_PREFIX = "<?= $site_prefix ?>"
 <script src="<?= $site_prefix ?>/jsPsych/plugins/jspsych-workerid.js"></script>
 <script src="<?= $site_prefix ?>/jsPsych/plugins/jspsych-special_sequence.js"></script>
 <script src="<?= $site_prefix ?>/jsPsych/plugins/jspsych-points-update.js"></script>
-<script src="<?= $site_prefix ?>/jsPsych/plugins/jspsych-simplerisk.js"></script>
+<script src="<?= $site_prefix ?>/jsPsych/plugins/jspsych-risk.js"></script>
 <script src="<?= $site_prefix ?>/jsPsych/plugins/jspsych-riskchoose.js"></script>
 <script src="<?= $site_prefix ?>/jsPsych/plugins/jspsych-survey-multi-choice.js"></script>
 <script src="<?= $site_prefix ?>/utils/general.js"></script>
@@ -290,8 +290,8 @@ var p2_points_update_trial = {
 }
 
 var risk_trial = {
-    type: "simplerisk",
-    num_trials: 30
+    type: "risk",
+    all_choices: []
 }
 
 var riskchoose_trial = {
@@ -389,8 +389,8 @@ function init_exp()
 	var timeline = [];
 
 	$.post("<?= $site_prefix ?>/get.php", { f7g12d: "y" }, function(d) {
-
-	var animdata = [];
+	
+    var animdata = [];
 	var animanswers = [];
 	var animdata2 = [];
 	var animanswers2 = [];
@@ -411,8 +411,7 @@ function init_exp()
     var training_sort = da["training_sort"];
     var threshold = parseFloat(da["training_threshold"]);
 
-    console.log(da["categories"]);
-    console.log(animanswers);
+    risk_trial.all_choices = da["risk_options"];
 
 	//animation_trial.prices = animdata;
 	//p2_animation_trial.prices = animdata2;
@@ -451,6 +450,7 @@ function init_exp()
     }
 
     var assignment_id = "<?= $_SESSION['assignmentId'] ?>";
+    
 	
     timeline.push(consent_trial);
 	timeline.push(age_trial);

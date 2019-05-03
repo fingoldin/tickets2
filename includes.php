@@ -484,6 +484,10 @@ function pert_cdf($x, $min, $max, $mode)
 
     return $v;
 }
+/*
+function splice_risk(&$item, $idx) {
+    array_splice($item, 3);
+}*/
 
 function startSession() {
     $_SESSION = array();
@@ -546,18 +550,32 @@ function startSession() {
     
     $_SESSION["site_prefix"] = "/christiane/tickets5";
 
-    $_SESSION["max_risk_bonus"] = 220; // tenths of a cent
-    
     $_SESSION["training_sort_total"] = [100, 100]; // desired values, this is updated to the actual
+
+    $risk_options_file = "Gambles_v2.csv";
+    $pert_file = "vec_test_right.csv";
     
     /****               END PARAMETERS                 ****/
     
+    $risk_file = fopen($risk_options_file, "r");
+    $risk_options = [];
+    $risk_row = [];
+    while(($risk_row = fgetcsv($risk_file)) !== FALSE) {
+        array_push($risk_options, array_map("intval", $risk_row));
+    }
+    //var_dump($risk_options);
+    //array_walk($risk_options, "splice_risk");
+    shuffle($risk_options);
+    $_SESSION["risk_options"] = $risk_options;
+
+    $_SESSION["max_risk_bonus"] = 5 * max(array_column($risk_options, 2)); // tenths of a cent
+
     shuffle($stddevs);
     $_SESSION["stddevs"] = $stddevs;
 
     $_SESSION["risk_choices"] = [];
     
-    $_SESSION["max_points"] = 5000; //$_SESSION["max_risk_bonus"] + $_SESSION["max_points_per_seq"] * $ntest_sequences * count($test_blocks);
+    $_SESSION["max_points"] = $_SESSION["max_risk_bonus"] + $_SESSION["max_points_per_seq"] * $ntest_sequences * count($test_blocks) * $nphases; // in tenths of a cent
 
     $_SESSION["risk_payoff"] = 140;
 
@@ -583,7 +601,7 @@ function startSession() {
     $pert_training = [];
     $ticket_counter = 0;
     if($dist == 'pert') {
-        $pert_tickets = file('vec_test_right.csv', FILE_IGNORE_NEW_LINES);
+        $pert_tickets = file($pert_file, FILE_IGNORE_NEW_LINES);
         array_splice($pert_tickets, 0, 1);
         shuffle($pert_tickets);
     
