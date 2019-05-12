@@ -170,10 +170,10 @@ var training_trial = {
 var testing_instructions_trial = {
 	type: "html",
         url: "<?= $site_prefix ?>/utils/testing.html",
-        cont_btn: "testingstart"
-    /*on_start: function(trial) {
+        cont_btn: "testingstart",
+    on_start: function(trial) {
         $("#wheel").css("display", "none");
-    }*/
+    }
 }
 
 // Second testing instructions (after example sequence)
@@ -244,10 +244,10 @@ var p2_training_trial = {
 var p2_testing_instructions_trial = {
         type: "html",
         url: "<?= $site_prefix ?>/utils/testing2.html",
-        cont_btn: "testingstart"
-    /*on_start: function(trial) {
+        cont_btn: "testingstart",
+    on_start: function(trial) {
         $("#wheel").css("display", "none");
-    }*/
+    }
 }
 
 // Second bar graph to see learning
@@ -344,6 +344,7 @@ var closuresurvey_trial = {
     preamble: "Read each of the following statements and decide how much you agree with each according to your beliefs and experiences",
     questions: closure_prompts,
     required: [],
+    horizontal: [],
     options: []
 }
 
@@ -432,7 +433,7 @@ function init_exp()
     training_trial.max_val = training_sort[0];
 	training_trial2.max_val = training_sort[0];
 	training_trial3.max_val = training_sort[0];
-    p2_training_trial.max_val = training_sort;[1]
+    p2_training_trial.max_val = training_sort[1];
 	p2_training_trial2.max_val = training_sort[1];
     p2_training_trial3.max_val = training_sort[1];
 
@@ -447,11 +448,11 @@ function init_exp()
     for(idx in closure_prompts) {
         closuresurvey_trial.options.push(closure_options);
         closuresurvey_trial.required.push(true);
+//        closuresurvey_trial.horizontal.push(true);
     }
 
     var assignment_id = "<?= $_SESSION['assignmentId'] ?>";
     
-	
     timeline.push(consent_trial);
 	timeline.push(age_trial);
 
