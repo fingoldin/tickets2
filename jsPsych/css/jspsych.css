@@ -8,7 +8,7 @@
  /* Container holding jsPsych content */
 
  .jspsych-display-element {
-   displat: -ms-flexbox;
+   display: -ms-flexbox;
    display: -webkit-flex;
    display: flex;
    -webkit-flex-direction: column;
@@ -20,8 +20,8 @@
    -ms-flex-align: center;
    -webkit-align-items: center;
    align-items: center;
-   height: 100%;
    width: 100%;
+   height: 100%;
    overflow-y: auto;
  }
 

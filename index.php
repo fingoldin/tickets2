@@ -91,7 +91,7 @@ SITE_PREFIX = "<?= $site_prefix ?>"
 <script src="<?= $site_prefix ?>/jsPsych/plugins/jspsych-points-update.js"></script>
 <script src="<?= $site_prefix ?>/jsPsych/plugins/jspsych-risk.js"></script>
 <script src="<?= $site_prefix ?>/jsPsych/plugins/jspsych-riskchoose.js"></script>
-<script src="<?= $site_prefix ?>/jsPsych/plugins/jspsych-survey-multi-choice.js"></script>
+<script src="<?= $site_prefix ?>/jsPsych/plugins/jspsych-survey-multi.js"></script>
 <script src="<?= $site_prefix ?>/utils/general.js"></script>
 <script src="<?= $site_prefix ?>/utils/bar-choose-plugin.js"></script>
 <script src="<?= $site_prefix ?>/utils/json2.js"></script>
@@ -309,14 +309,18 @@ var risk_prompts = ["Betting a day's income at the horse races",
                     "Betting a day's income on the outcome of a sporting event",
                     "Invetsing 10% of your annual income in a new business venture"];
 
-var risk_options = ["Extremely Unlikely", "Moderately Unlikely", "Somewhat Unlikely", "Not Sure",
+var risk_options_full = ["Extremely Unlikely", "Moderately Unlikely", "Somewhat Unlikely", "Not Sure",
                     "Somewhat Likely", "Moderately Likely", "Extremely Likely"];
 
+var risk_options = ["1", "2", "3", "4", "5", "6", "7"];
+
 var risksurvey_trial = {
-    type: "survey-multi-choice",
-    preamble: "For each of the following statements, please indicate the <b>likelihood</b> that you would engage in the described activity or behavior if you were to find yourself in that situation",
+    type: "survey-multi",
+    preamble: "</span>For each of the following statements, please indicate the <b>likelihood</b> that you would engage in the described activity or behavior if you were to find yourself in that situation, by selecting one of the following options for each:</span>",
+    title: "Please take this survey to continue",
     questions: risk_prompts,
     required: [],
+    horizontal: [],
     options: []
 }
 
@@ -336,12 +340,15 @@ var closure_prompts = ["I don't like situations that are uncertain.",
                        "I do not usually consult many different opinions before forming my own view.",
                        "I dislike unpredictable situations."];
 
-var closure_options = ["Strongly Disagree", "Moderately Disagree", "Slightly Disagree",
+var closure_options_full = ["Strongly Disagree", "Moderately Disagree", "Slightly Disagree",
                        "Slightly Agree", "Moderately Agree", "Strongly Agree"];
 
+var closure_options = ["1", "2", "3", "4", "5", "6"];
+
 var closuresurvey_trial = {
-    type: "survey-multi-choice",
-    preamble: "Read each of the following statements and decide how much you agree with each according to your beliefs and experiences",
+    type: "survey-multi",
+    preamble: "<span>Read each of the following statements and indicate how much you agree with each according to your beliefs and experiences, by selecting one of the following options for each:</span>",
+    title: "Please take this survey to continue",
     questions: closure_prompts,
     required: [],
     horizontal: [],
@@ -443,16 +450,25 @@ function init_exp()
     for(idx in risk_prompts) {
         risksurvey_trial.options.push(risk_options);
         risksurvey_trial.required.push(true);
+        risksurvey_trial.horizontal.push(true);
     }
     
     for(idx in closure_prompts) {
         closuresurvey_trial.options.push(closure_options);
         closuresurvey_trial.required.push(true);
-//        closuresurvey_trial.horizontal.push(true);
+        closuresurvey_trial.horizontal.push(true);
+    }
+
+    for(idx in closure_options_full) {
+        closuresurvey_trial.preamble += "<br>" + (parseInt(idx) + 1) + ":  " + closure_options_full[idx];
+    }
+    
+    for(idx in risk_options_full) {
+        risksurvey_trial.preamble += "<br>" + (parseInt(idx) + 1) + ":  " + risk_options_full[idx];
     }
 
     var assignment_id = "<?= $_SESSION['assignmentId'] ?>";
-    
+
     timeline.push(consent_trial);
 	timeline.push(age_trial);
 
@@ -476,7 +492,7 @@ function init_exp()
                     continue_message: "Next",
                     repeat_num: i,
                     sequence_num: j,
-                    passed: false //function() { return passed; }
+                    passed: function() { return passed; }
             });
 
             timeline.push({
@@ -484,7 +500,7 @@ function init_exp()
                 phase: 0,
                 sequence_num: j,
                 repeat_num: i,
-                passed: false, //function() { return passed; },
+                passed: function() { return passed; },
                 sequence: animdata[i][j],
                 min_val: training_ranges[0][0],
                 max_val: training_ranges[0][1]
@@ -541,7 +557,7 @@ function init_exp()
 	timeline.push(p2_start_trial);
 	
     var passed2 = false;
-    for(var i = 0; i < 1; i++) // animdata2.length
+    for(var i = 0; i < animdata2.length; i++)
 	{
         for(var j = 0; j < animdata2[i].length; j++)
         {
@@ -552,7 +568,7 @@ function init_exp()
                     continue_message: "Next",
                     repeat_num: i,
                     sequence_num: j,
-                    passed: false //function() { return passed2; }
+                    passed: function() { return passed2; }
             });
 
             timeline.push({
@@ -560,7 +576,7 @@ function init_exp()
                 phase: 1,
                 sequence_num: j,
                 repeat_num: i,
-                passed: false, //function() { return passed2; },
+                passed: function() { return passed2; },
                 sequence: animdata2[i][j],
                 min_val: training_ranges[1][0],
                 max_val: training_ranges[1][1]

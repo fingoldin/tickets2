@@ -48,6 +48,7 @@ jsPsych.plugins["bar-choose"] = (function()
 			        var results = display_element.find("#bar-graph").barChooseGraph("get");
 
                     var data = {};
+                    console.log("Off by: " + (results.total_offby / trial.max_val) + "  thresh: " + trial.pass_threshold);
 
                     if(trial.pass_threshold)
                         data.passed = (results.total_offby / trial.max_val) <= trial.pass_threshold;
