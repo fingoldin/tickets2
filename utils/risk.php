@@ -8,7 +8,7 @@ $site_prefix = $_SESSION["site_prefix"];
 
 <div id="risk-main">
     <p style="margin: 15px">
-        Now, consider you're at the casino. You will do 30 trials of the following choice: either option 1, which will give you a fixed reward, or option 2, which will give you one of two rewards with equal chance. At the end of these 30 trials, one trial will be chosen randomly and its value will be converted to real money by dividing by 200 (so, if you selected option 1 for the chosen trial and were rewarded $180, you would gain $0.90 of real money), and that will be added to your bonus. Each option will have different rewards.
+        Now, consider you're at the casino. You will do 36 trials of the following choice: either option 1, which will give you a fixed reward, or option 2, which will give you one of two rewards with equal chance. At the end of these 36 trials, one trial will be chosen randomly and its value will be converted to real money by dividing by 200 (so, if you selected option 1 for the chosen trial and were rewarded $180, you would gain $0.90 of real money), and that will be added to your bonus. Each option will have different rewards.
     </p>
     <br>
     <br>
@@ -36,7 +36,7 @@ $site_prefix = $_SESSION["site_prefix"];
             </div>
         </div>
         <canvas id="risk-canvas">
-            Canvas isn't supported by your browser. Press the below button to spin the spinner and 
+            Canvas isn't supported by your browser. Press the below button to spin the spinner and
             win either <span id="risk-low"></span> or <span id="risk-high"></span>.
             <button id="risk-button">Spin!</button>
         </canvas>
