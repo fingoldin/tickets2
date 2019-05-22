@@ -30,7 +30,7 @@ jsPsych.plugins['survey-multi'] = (function() {
       ".jspsych-survey-multi-choice-horizontal .jspsych-survey-multi-choice-text { min-height: 70px; max-width: 50%; display: inline-block; }"+
       ".jspsych-survey-multi-choice-option { line-height: 2; }"+
       ".jspsych-survey-multi-choice-horizontal .jspsych-survey-multi-choice-option {  display: inline-block;  margin-left: 1em;  margin-right: 1em;  vertical-align: top;}"+
-      "#jspsych-survey-multi-choice-form { min-width: 100px; top: 0; position: absolute; left: 0; padding: 20px;}"+
+      "#jspsych-survey-multi-choice-form { max-width: 1200px; min-width: 100px; top: 0; position: absolute; left: 0; right: 0; margin: auto; padding: 20px;}"+
       "#jspsych-survey-multi-choice-next { margin: 15px; }"+
       ".jspsych-content { padding-top 20px; padding-bottom: 10px; }"+
       ".jspsych-survey-multi-choice-option-group { display: inline-block; float: right }"+
@@ -110,7 +110,7 @@ jsPsych.plugins['survey-multi'] = (function() {
 
       if (trial.required && trial.required[i]) {
         // add "question required" asterisk
-        $(question_selector + " p").append("<span class='required'>*</span>")
+        $(question_selector + " p").append("<span class='required'></span>")
 
         // add required property
         $(question_selector + " input:radio").prop("required", true);

@@ -511,7 +511,7 @@ function startSession() {
 
     // Parameters of log-normal distribution, or of normal distribution
     $mean = 180;
-    $stddevs = [10, 40]; // per phase
+    $stddevs_unsorted = [10, 40]; // per phase
 
     // Parameters for PERT distribution
     $p_min = 120;
@@ -528,7 +528,7 @@ function startSession() {
     $_SESSION["training_max_repeats"] = 3;
     $_SESSION["training_threshold"] = 0.25;
 
-    $training_divisions = [100, 120, 140, 160, 180, 200, 220, 240, 260];
+    $training_divisions_unsorted = [[140, 150, 160, 170, 180, 190, 200, 210, 220], [100, 120, 140, 160, 180, 200, 220, 240, 260]];
     /*$training_divisions = [];
     $n = 15;
     for($i = 0; $i < $n; $i++) {
@@ -570,7 +570,15 @@ function startSession() {
 
     $_SESSION["max_risk_bonus"] = 5 * max(array_column($risk_options, 2)); // tenths of a cent
 
-    shuffle($stddevs);
+    $tmp = range(0, count($stddevs_unsorted) - 1);
+    shuffle($tmp);
+    $stddevs = [];
+    $training_divisions = [];
+    for($i = 0; $i < count($tmp); $i++) {
+        $stddevs[$i] = $stddevs_unsorted[$tmp[$i]];
+        $training_divisions[$i] = $training_divisions_unsorted[$tmp[$i]];
+    }
+
     $_SESSION["stddevs"] = $stddevs;
 
     $_SESSION["risk_choices"] = [];
@@ -656,24 +664,24 @@ function startSession() {
         $prev_cdf = 0;
 
         if($dist == 'pert')
-            $prev_cdf = pert_cdf($training_divisions[0], $p_min, $p_max, $p_mode);
+            $prev_cdf = pert_cdf($training_divisions[$phase][0], $p_min, $p_max, $p_mode);
         else if($dist == 'ln')
-            $prev_cdf = ln_cdf($training_divisions[0], $mean, $stddevs[$phase]);
+            $prev_cdf = ln_cdf($training_divisions[$phase][0], $mean, $stddevs[$phase]);
         else if($dist == 'normal')
-            $prev_cdf = normal_cdf($training_divisions[0], $mean, $stddevs[$phase]);
+            $prev_cdf = normal_cdf($training_divisions[$phase][0], $mean, $stddevs[$phase]);
         else
-            $prev_cdf = sn_cdf($training_divisions[0], $location, $scale, $shape);
+            $prev_cdf = sn_cdf($training_divisions[$phase][0], $location, $scale, $shape);
 
-        for($i = 1; $i < count($training_divisions); $i++) {
+        for($i = 1; $i < count($training_divisions[$phase]); $i++) {
             $cdf = 0;
             if($dist == 'pert')
-                $cdf = pert_cdf($training_divisions[$i], $p_min, $p_max, $p_mode);
+                $cdf = pert_cdf($training_divisions[$phase][$i], $p_min, $p_max, $p_mode);
             else if($dist == 'ln')
-                $cdf = ln_cdf($training_divisions[$i], $mean, $stddevs[$phase]);
+                $cdf = ln_cdf($training_divisions[$phase][$i], $mean, $stddevs[$phase]);
             else if($dist == 'normal')
-                $cdf = normal_cdf($training_divisions[$i], $mean, $stddevs[$phase]);
+                $cdf = normal_cdf($training_divisions[$phase][$i], $mean, $stddevs[$phase]);
             else
-                $cdf = sn_cdf($training_divisions[$i], $location, $scale, $shape);
+                $cdf = sn_cdf($training_divisions[$phase][$i], $location, $scale, $shape);
 
             $frac = $cdf - $prev_cdf;
             $prev_cdf = $cdf;
@@ -684,7 +692,7 @@ function startSession() {
             $_SESSION["training_answers"][$phase][$i - 1] = $_SESSION["training_answers"][1][$i - 1] = $n;
 
             $_SESSION["training_categories"][$phase][$i - 1] = $_SESSION["training_categories"][1][$i - 1] =
-                "$" . (int)ceil($training_divisions[$i - 1]) . " - $" . (int)floor($training_divisions[$i]);
+                "$" . (int)ceil($training_divisions[$phase][$i - 1]) . " - $" . (int)floor($training_divisions[$phase][$i]);
         }
         $_SESSION["training_sort_total"][$phase] = $total_n;
     }

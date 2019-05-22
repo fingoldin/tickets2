@@ -42,7 +42,7 @@ jsPsych.plugins["risk"] = (function()
             var choices = [];
 
             function result_click() {
-                choices.push(result);
+                choices.push({ result: result, choices: all_choices[trial_num], index: trial_num });
                 trial_num += 1;
                 if(trial_num == num_trials) {
                     console.log(choices);
