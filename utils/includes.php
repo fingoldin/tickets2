@@ -543,7 +543,7 @@ function startSession() {
     $test_blocks = [10];
 
     // Number of sequences in each block
-    $ntest_sequences = 4;
+    $ntest_sequences = 80;
 
     // The max number of points in a phase
     $_SESSION["max_points_per_seq"] = 20; // in tenths of a cent

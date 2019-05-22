@@ -40,6 +40,7 @@ jsPsych.plugins["instructions_check"] = (function()
 						$("#" + trial.right).off("click").click(function() {
 //							console.log(count);
 							display_element.empty();
+                            $(window).off("resize");
 							jsPsych.finishTrial({ tries: count });
 						});
 						$("#" + trial.wrong).off("click").click(function() {

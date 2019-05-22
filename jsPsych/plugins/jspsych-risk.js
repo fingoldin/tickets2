@@ -17,6 +17,7 @@ jsPsych.plugins["risk"] = (function()
         }
 
         display_element.load(SITE_PREFIX + "/utils/risk.php", function() {
+            display_element.find("#risk-count").html(num_trials);
             var max = all_choices[0][2];
             var min = all_choices[0][1];
             var fixed = all_choices[0][0];
