@@ -27,6 +27,7 @@ jsPsych.plugins["risk"] = (function()
             progress_bar.html("1/" + num_trials);
             
             var result = 180;
+            var outcome = "";
             
             var canvas = document.getElementById("risk-canvas");
             var low = document.getElementById("risk-low-button");
@@ -90,6 +91,7 @@ jsPsych.plugins["risk"] = (function()
                     low.disabled = true;
                     $.post(SITE_PREFIX + "/risk.php", { "choice": "fixed", "index": trial_num }, function(r) {
                         result = fixed;
+                        outcome = "You chose the fixed reward of $" + fixed + ".";
                         console.log("showing in low");
                         show();
                     });
@@ -98,7 +100,7 @@ jsPsych.plugins["risk"] = (function()
                 function show() {
                     console.log("show");
                     valid_click = true;
-                    money.html("You won $" + result.toFixed(0) + "!");
+                    money.html(outcome);
                     result_cont.css("display", "block").animate({ "opacity": "1" }, 500);
                     $(result_done).focus();
                 }
@@ -127,7 +129,9 @@ jsPsych.plugins["risk"] = (function()
                             result = max;
                             console.log("Got max, " + result);
                         } 
-                        spin();
+                        outcome = "You chose the spinner's outcome.";
+//                        spin();
+                        show();
                     });
                 };
 
