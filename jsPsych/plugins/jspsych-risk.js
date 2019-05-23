@@ -36,6 +36,8 @@ jsPsych.plugins["risk"] = (function()
             var result_cont = display_element.find("#risk-result");
             var money = display_element.find("#risk-result-money");
             var result_done = document.getElementById("risk-result-done");
+
+            var first_box = document.getElementById("risk-first");
             
             var vel = 0;
             var ang = 0;
@@ -43,13 +45,15 @@ jsPsych.plugins["risk"] = (function()
             var choices = [];
 
             function result_click() {
-                choices.push({ result: result, choices: all_choices[trial_num], index: trial_num });
+                choices.push({ result: result, choices: all_choices[trial_num] });
                 trial_num += 1;
                 if(trial_num == num_trials) {
                     console.log(choices);
 		            display_element.empty();
                     jsPsych.finishTrial({ choices: choices });
                     return;
+                } else if(trial_num == 1) {
+                    first_box.innerHTML = "<b>Now all your choices will count for real money.</b>"
                 }
                 ang = 0;
                 vel = 0;
@@ -130,8 +134,11 @@ jsPsych.plugins["risk"] = (function()
                             console.log("Got max, " + result);
                         } 
                         outcome = "You chose the spinner's outcome.";
-//                        spin();
-                        show();
+                        if(trial_num == 0) {
+                            spin();
+                        } else {
+                            show();
+                        }
                     });
                 };
 

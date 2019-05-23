@@ -499,10 +499,10 @@ function startSession() {
     $nphases = 2;
 
     // The number of sequences in one training phase
-    $ntraining_sequences = 5;
+    $ntraining_sequences = 3;
 
     // The number of tickets in one sequence in the training phase
-    $ntraining_tickets = 10;
+    $ntraining_tickets = 20;
 
     // Parameters of skewed normal distribution
     $location = 150;
@@ -525,7 +525,7 @@ function startSession() {
     $min = 0;
     $max = 360;
 
-    $_SESSION["training_max_repeats"] = 3;
+    $_SESSION["training_max_repeats"] = 2;
     $_SESSION["training_threshold"] = 0.25;
 
     $training_divisions_unsorted = [[140, 150, 160, 170, 180, 190, 200, 210, 220], [100, 120, 140, 160, 180, 200, 220, 240, 260]];
