@@ -16,6 +16,7 @@ jsPsych.plugins["training_avg"] = (function()
 		trial.min_val = trial.min_val || 0;
 		trial.max_val = trial.max_val || 0;
 		trial.phase = trial.phase || 0;
+        trial.count = trial.count || 0;
         trial.repeat_num = trial.repeat_num || 0;
 		
         var avg = 0;
@@ -24,6 +25,8 @@ jsPsych.plugins["training_avg"] = (function()
 		avg = Math.round(avg / trial.sequence.length);
 
 		display_element.empty().load(SITE_PREFIX + "/utils/training_avg.html", function() {
+            document.getElementById("avg-count").innerHTML = trial.count;
+            
 			for(var i = trial.min_val; i <= trial.max_val; i++)
 				$("#avg-drop").append("<option value='" + i + "'>" + i + "</option>");
 

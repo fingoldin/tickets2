@@ -1,6 +1,7 @@
 <?php
 
-session_start();
+if(!session_id())
+    session_start();
 
 if(isset($_POST["choice"]) && isset($_SESSION["risk_choices"]) && isset($_POST["index"])) {
     $idx = intval($_POST["index"]);
@@ -21,6 +22,9 @@ if(isset($_POST["choice"]) && isset($_SESSION["risk_choices"]) && isset($_POST["
 
         $_SESSION["risk_choices"][$idx] = $val;
     }
+}
+else {
+    logging("Something not set in risk.php");
 }
 
 ?>

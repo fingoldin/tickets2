@@ -469,6 +469,7 @@ function init_exp()
 
     var assignment_id = "<?= $_SESSION['assignmentId'] ?>";
     
+   /* 
     timeline.push(consent_trial);
 	timeline.push(age_trial);
 
@@ -621,7 +622,7 @@ function init_exp()
 
     timeline.push(closuresurvey_trial);
     timeline.push(risksurvey_trial);
-
+*/
     timeline.push(risk_trial);
     timeline.push(riskchoose_trial);
 
