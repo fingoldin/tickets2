@@ -49,8 +49,8 @@ jsPsych.plugins["final"] = (function()
 
                         var money = 0.01 * Math.round(points * 0.1);
 
-                        top.innerHTML = "You earned $2 + $" + money.toFixed(2) + " =";
-                        bot.innerHTML = "$" + (2 + money).toFixed(2);
+                        top.innerHTML = "You earned $3 + $" + money.toFixed(2) + " =";
+                        bot.innerHTML = "$" + (3 + money).toFixed(2);
 
 						$(wrap).animate({ "opacity": "1" }, 600, function() {
 							setTimeout(function() {
