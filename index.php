@@ -1,6 +1,8 @@
 <?php
 
 //error_reporting(E_ALL);
+error_reporting(E_ALL);
+ini_set('display_errors', 'on');
 
 session_start();
 
@@ -469,7 +471,6 @@ function init_exp()
 
     var assignment_id = "<?= $_SESSION['assignmentId'] ?>";
     
-   /* 
     timeline.push(consent_trial);
 	timeline.push(age_trial);
 
@@ -501,6 +502,7 @@ function init_exp()
                 phase: 0,
                 sequence_num: j,
                 repeat_num: i,
+                count: animdata[i][j].length,
                 passed: function() { return passed; },
                 sequence: animdata[i][j],
                 min_val: training_ranges[0][0],
@@ -577,6 +579,7 @@ function init_exp()
                 phase: 1,
                 sequence_num: j,
                 repeat_num: i,
+                count: animdata2[i][j].length,
                 passed: function() { return passed2; },
                 sequence: animdata2[i][j],
                 min_val: training_ranges[1][0],
@@ -622,7 +625,7 @@ function init_exp()
 
     timeline.push(closuresurvey_trial);
     timeline.push(risksurvey_trial);
-*/
+    
     timeline.push(risk_trial);
     timeline.push(riskchoose_trial);
 

@@ -37,9 +37,8 @@ $site_prefix = $_SESSION["site_prefix"];
             </div>
         </div>
         <canvas id="risk-canvas">
-            Canvas isn't supported by your browser. Press the below button to spin the spinner and
-            win either <span id="risk-low"></span> or <span id="risk-high"></span>.
-            <button id="risk-button">Spin!</button>
+            Canvas isn't supported by your browser. Click anywhere in this box to spin the spinner and
+            win either <span style="font-size: 24px;" id="risk-low"></span> or <span style="font-size: 24px" id="risk-high"></span>.
         </canvas>
     </div>
     <div id="risk-result">

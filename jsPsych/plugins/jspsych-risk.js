@@ -81,146 +81,163 @@ jsPsych.plugins["risk"] = (function()
 			});*/
             
             var hw = 150;
-            canvas.width = 2 * hw;
-            canvas.height = 2 * hw;
 
-            if(canvas.getContext) {
-                result_done.onclick = result_click;
+            result_done.onclick = result_click;
 
-                low.onclick = function() {
-                    if(!valid_click)
-                        return;
+            low.onclick = function() {
+                if(!valid_click)
+                    return;
 
-                    valid_click = false;
-                    low.disabled = true;
-                    $.post(SITE_PREFIX + "/risk.php", { "choice": "fixed", "index": trial_num }, function(r) {
-                        result = fixed;
-                        outcome = "You chose the fixed reward of $" + fixed + ".";
-                        console.log("showing in low");
-                        show();
-                    });
-                };
-                
-                function show() {
-                    console.log("show");
-                    valid_click = true;
-                    money.html(outcome);
-                    result_cont.css("display", "block").animate({ "opacity": "1" }, 500);
-                    $(result_done).focus();
-                }
+                valid_click = false;
+                low.disabled = true;
+                $.post(SITE_PREFIX + "/risk.php", { "choice": "fixed", "index": trial_num }, function(r) {
+                    result = fixed;
+                    outcome = "You chose the fixed reward of $" + fixed + ".";
+                    console.log("showing in low");
+                    show();
+                });
+            };
             
-                var a = -10; // -3 acceleration of pointer, radians per second ^ 2
-                var dt = 3;
+            function show() {
+                console.log("show");
+                valid_click = true;
+                money.html(outcome);
+                result_cont.css("display", "block").animate({ "opacity": "1" }, 500);
+                $(result_done).focus();
+            }
+        
+            var a = -10; // -3 acceleration of pointer, radians per second ^ 2
+            var dt = 3;
 
-                var c = canvas.getContext("2d");
+            var c = null;
+            if(canvas.getContext) {
+                canvas.width = 2 * hw;
+                canvas.height = 2 * hw;
+                c = canvas.getContext("2d");
+            } else {
+                canvas.style.border = "1px solid #444";
+                canvas.style.borderRadius = "5px";
+                canvas.style.width = (2 * hw) + "px";
+                canvas.style.height = (2 * hw) + "px";
+            }
 
-                canvas.onclick = function() {
-                    if(!valid_click)
-                        return;
+            canvas.onclick = function() {
+                if(!valid_click)
+                    return;
 
-                    valid_click = false;
-                    low.disabled = true;
-                    $.post(SITE_PREFIX + "/risk.php", { "choice": "wheel", "index": trial_num }, function(r) {
-                        console.log(r);
-                        result = parseInt(r);
-                        if(result == 0) {
-                            vel = 5000 + Math.round(75 * Math.random());
-                            result = min;
-                            console.log("Got min, " + result);
-                        }
-                        else {
-                            vel = 5080 + Math.round(70 * Math.random());
-                            result = max;
-                            console.log("Got max, " + result);
-                        } 
-                        outcome = "You chose the spinner's outcome.";
-                        if(trial_num == 0) {
-                            spin();
-                        } else {
-                            show();
-                        }
-                    });
-                };
-
-                function roundedRect(x, y, width, height, radius) {
-                    c.beginPath();
-                    c.moveTo(x, y + radius);
-                    c.lineTo(x, y + height - radius);
-                    c.arcTo(x, y + height, x + radius, y + height, radius);
-                    c.lineTo(x + width - radius, y + height);
-                    c.arcTo(x + width, y + height, x + width, y + height-radius, radius);
-                    c.lineTo(x + width, y + radius);
-                    c.arcTo(x + width, y, x + width - radius, y, radius);
-                    c.lineTo(x + radius, y);
-                    c.arcTo(x, y, x, y + radius, radius);
-                    c.fill();
-                }
-
-                function draw() { 
-                    c.clearRect(0, 0, 2 * hw, 2 * hw);
-                        
-                    c.fillStyle = "blue";
-                    c.beginPath();
-                    c.arc(hw, hw, hw, -0.5 * Math.PI, 0.5 * Math.PI, false);
-                    c.closePath();
-                    c.fill();
-                    
-                    c.fillStyle = "red";
-                    c.beginPath();
-                    c.arc(hw, hw, hw, 0.5 * Math.PI, 1.5 * Math.PI, false);
-                    c.closePath();
-                    c.fill();
-                    
-                    var w = 50;
-                    var h = 30;
-                    c.fillStyle = "black";
-                    roundedRect(hw / 2 - w / 2, hw - h / 2, w, h, 5);
-                    roundedRect(3 * hw / 2 - w / 2, hw - h / 2, w, h, 5);
-
-                    c.textAlign = "center";
-                    c.textBaseline = "middle";
-                    c.fillStyle = "white";
-                    c.font = "16px 'Roboto', sans-serif";
-                    c.fillText("$" + min, hw / 2, hw);
-                    c.fillText("$" + max, 3 * hw / 2, hw);
-                    
-                    c.save();
-                    
-                    c.translate(hw, hw);
-                    c.rotate(Math.PI * 2 * ((ang / 1000) % 81) / 81);
-                    c.translate(-hw, -hw);
-                    
-                    c.lineWidth = 6;
-                    c.lineCap = "round";
-                    c.strokeStyle = "white";
-
-                    c.beginPath();
-                    c.moveTo(hw, hw);
-                    c.lineTo(hw, 10);
-                    c.stroke();
-                    
-                    c.restore();
-
-                }
-
-                function spin() {
-                    draw();
-                    //var dt = tdiff();
-                    ang += vel * dt;
-                    vel += a * dt;
-//                    console.log(ang);
-
-                    if(vel > 0)
-                        window.requestAnimationFrame(spin);
+                valid_click = false;
+                low.disabled = true;
+                $.post(SITE_PREFIX + "/risk.php", { "choice": "wheel", "index": trial_num }, function(r) {
+                    console.log(r);
+                    result = parseInt(r);
+                    if(result == 0) {
+                        vel = 5000 + Math.round(75 * Math.random());
+                        result = min;
+                        console.log("Got min, " + result);
+                    }
                     else {
-                        console.log("showing in spin");
+                        vel = 5080 + Math.round(70 * Math.random());
+                        result = max;
+                        console.log("Got max, " + result);
+                    } 
+                    outcome = "You chose the spinner's outcome.";
+                    if(trial_num == 0) {
+                        spin();
+                    } else {
                         show();
                     }
-                }
-                
-                draw();
-            } else {
+                });
+            };
+
+            function roundedRect(x, y, width, height, radius) {
+                c.beginPath();
+                c.moveTo(x, y + radius);
+                c.lineTo(x, y + height - radius);
+                c.arcTo(x, y + height, x + radius, y + height, radius);
+                c.lineTo(x + width - radius, y + height);
+                c.arcTo(x + width, y + height, x + width, y + height-radius, radius);
+                c.lineTo(x + width, y + radius);
+                c.arcTo(x + width, y, x + width - radius, y, radius);
+                c.lineTo(x + radius, y);
+                c.arcTo(x, y, x, y + radius, radius);
+                c.fill();
             }
+
+            function draw() { 
+                if(!c) {
+                    document.getElementById("risk-low").innerHTML = "$" + min;
+                    document.getElementById("risk-high").innerHTML = "$" + max;
+                    return;
+                }
+
+                c.clearRect(0, 0, 2 * hw, 2 * hw);
+                    
+                c.fillStyle = "blue";
+                c.beginPath();
+                c.arc(hw, hw, hw, -0.5 * Math.PI, 0.5 * Math.PI, false);
+                c.closePath();
+                c.fill();
+                
+                c.fillStyle = "red";
+                c.beginPath();
+                c.arc(hw, hw, hw, 0.5 * Math.PI, 1.5 * Math.PI, false);
+                c.closePath();
+                c.fill();
+                
+                var w = 50;
+                var h = 30;
+                c.fillStyle = "black";
+                roundedRect(hw / 2 - w / 2, hw - h / 2, w, h, 5);
+                roundedRect(3 * hw / 2 - w / 2, hw - h / 2, w, h, 5);
+
+                c.textAlign = "center";
+                c.textBaseline = "middle";
+                c.fillStyle = "white";
+                c.font = "16px 'Roboto', sans-serif";
+                c.fillText("$" + min, hw / 2, hw);
+                c.fillText("$" + max, 3 * hw / 2, hw);
+                
+                c.save();
+                
+                c.translate(hw, hw);
+                c.rotate(Math.PI * 2 * ((ang / 1000) % 81) / 81);
+                c.translate(-hw, -hw);
+                
+                c.lineWidth = 6;
+                c.lineCap = "round";
+                c.strokeStyle = "white";
+
+                c.beginPath();
+                c.moveTo(hw, hw);
+                c.lineTo(hw, 10);
+                c.stroke();
+                
+                c.restore();
+
+            }
+
+            function spin() {
+                draw();
+                
+                if(!c) {
+                    show();
+                    return;
+                }
+
+                //var dt = tdiff();
+                ang += vel * dt;
+                vel += a * dt;
+//                    console.log(ang);
+
+                if(vel > 0)
+                    window.requestAnimationFrame(spin);
+                else {
+                    console.log("showing in spin");
+                    show();
+                }
+            }
+           
+            draw();
         });
 	}
 
