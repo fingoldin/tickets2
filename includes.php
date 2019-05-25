@@ -560,12 +560,12 @@ function startSession() {
     $risk_file = fopen($risk_options_file, "r");
     $risk_options = [];
     $risk_row = [];
-    $i = 0;
+//    $i = 0;
     while(($risk_row = fgetcsv($risk_file)) !== FALSE) {
         array_push($risk_options, array_map("intval", $risk_row));
-        if($i > 2)
-            break;
-        $i += 1;
+//        if($i > 2)
+//            break;
+//        $i += 1;
     }
     //var_dump($risk_options);
     //array_walk($risk_options, "splice_risk");
