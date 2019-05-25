@@ -18,6 +18,7 @@ jsPsych.plugins["ticket-choose"] = (function()
 		trial.showpoints = trial.showpoints || false;
 		trial.phase = trial.phase || 0;
 		trial.group = trial.group || 0;
+        trial.max_points = trial.max_points || 0;
 
 		//console.log("Trial: " + trial.prices);
 
@@ -108,11 +109,11 @@ jsPsych.plugins["ticket-choose"] = (function()
                         below.html("");
 
                         if(r === 0) {
-                            points = 20;
+                            points = trial.max_points;
                             above.html("Congratulations! Your ticket is the cheapest ticket!");
                         }
                         else {
-                            points = Math.round(20 * (prices[prices.length - 1] - trial.prices[price_num]) / (prices[prices.length - 1] - prices[0]));
+                            points = Math.round(trial.max_points * (prices[prices.length - 1] - trial.prices[price_num]) / (prices[prices.length - 1] - prices[0]));
                             
                             var diff = trial.prices[price_num] - prices[0];
 
