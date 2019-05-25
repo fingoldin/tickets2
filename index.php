@@ -302,12 +302,36 @@ var final_trial = {
 	type: "final"
 }
 
-var risk_prompts = ["Betting a day's income at the horse races",
+var risk_prompts = ["Admitting that your tastes are different from those of a friend.",
+										"Going camping in the wilderness.",
+										"Betting a day's income at the horse races.",
                     "Investing 10% of your annual income in a moderate growth diversified fund",
-                    "Betting a day's income at a high-stakes poker game",
-                    "Investing 5% of your annual income in a very speculative stock",
+										"Drinking heavily at a social function.",
+										"Taking some questionable deductions on your income tax return.",
+										"Disagreeing with an authority figure on a major issue.",
+										"Betting a day's income at a high-stakes poker game.",
+										"Having an affair with a married man/woman.",
+										"Passing off somebody else's work as your own.",
+										"Going down a ski run that is beyond your ability.",
+                    "Investing 5% of your annual income in a very speculative stock.",
+										"Going whitewater rafting at high water in the spring.",
                     "Betting a day's income on the outcome of a sporting event",
-                    "Invetsing 10% of your annual income in a new business venture"];
+										"Engaging in unprotected sex.",
+										"Revealing a friend's secret to someone else.",
+										"Driving a car without wearing a seat belt.",
+                    "Invetsing 10% of your annual income in a new business venture",
+										"Taking a skydiving class.",
+										"Riding a motorcycle without a helmet.",
+										"Choosing a career that you truly enjoy over a more secure one.",
+										"Speaking your mind about an unpopular issue in a meeting at work.",
+										"Sunbathing without sunscreen.",
+										"Bungee jumping off a tall bridge.",
+										"Piloting a small plane.",
+										"Walking home alone at night in an unsafe area of town.",
+										"Moving to a city far away from your extended family.",
+										"Starting a new career in your mid-thirties.",
+										"Leaving your young children alone at home while running an errand.",
+										"Not returning a wallet you found that contains $200."];
 
 var risk_options_full = ["Extremely Unlikely", "Moderately Unlikely", "Somewhat Unlikely", "Not Sure",
                     "Somewhat Likely", "Moderately Likely", "Extremely Likely"];
@@ -468,7 +492,7 @@ function init_exp()
     }
 
     var assignment_id = "<?= $_SESSION['assignmentId'] ?>";
-    
+
     timeline.push(consent_trial);
 	timeline.push(age_trial);
 
