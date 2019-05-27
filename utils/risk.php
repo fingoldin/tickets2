@@ -11,7 +11,7 @@ $site_prefix = $_SESSION["site_prefix"];
         Now, consider you're at the casino. You will do <span id="risk-count"></span> trials of the following choice: either option 1, which will give you a fixed reward, or option 2, which will give you one of two rewards with equal chance. At the end of these 36 trials, one trial will be chosen randomly and its value will be converted to real money and that will be added to your bonus, with a maximum of $1.00 awarded. Each option will have different rewards.
     </p>
     <br>
-    <p id="risk-first"><b>The first trial will be an example for you to understand the interface; it will not count for money</b></p>
+    <p id="risk-first"><b>You will first be shown an example trial, which will not count for money. The example trial is below.</b></p>
     <br>
     <div id="risk-progress-wrap">
         <link rel="stylesheet" href="<?= $site_prefix ?>/utils/bootstrap.min.css">

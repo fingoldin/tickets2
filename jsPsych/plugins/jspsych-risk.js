@@ -8,7 +8,7 @@ jsPsych.plugins["risk"] = (function()
 
         var all_choices = trial.all_choices || [];
         var trial_num = 0;
-        var num_trials = all_choices.length;
+        var num_trials = all_choices.unshift([170, 160, 180, 170, 10]);
         
 		display_element.empty();
 
@@ -17,14 +17,16 @@ jsPsych.plugins["risk"] = (function()
         }
 
         display_element.load(SITE_PREFIX + "/utils/risk.php", function() {
-            display_element.find("#risk-count").html(num_trials);
+            display_element.find("#risk-count").html(num_trials - 1);
             var max = all_choices[0][2];
             var min = all_choices[0][1];
             var fixed = all_choices[0][0];
 
+            var progress_bar_wrap = display_element.find("#risk-progress-wrap");
+
             var progress_bar = display_element.find("#risk-progress"); 
-            progress_bar.css("width", (100 / num_trials).toFixed(0) + "%");
-            progress_bar.html("1/" + num_trials);
+            progress_bar.css("width", (100 / (num_trials - 1)).toFixed(0) + "%");
+            progress_bar.html("1/" + (num_trials - 1));
             
             var result = 180;
             var outcome = "";
@@ -54,6 +56,7 @@ jsPsych.plugins["risk"] = (function()
                     return;
                 } else if(trial_num == 1) {
                     first_box.innerHTML = "<b>Now all your choices will count for real money.</b>"
+                    progress_bar_wrap.css("opacity", "1");
                 }
                 ang = 0;
                 vel = 0;
@@ -62,7 +65,7 @@ jsPsych.plugins["risk"] = (function()
                 max = all_choices[trial_num][2];
                 draw();
                 low.innerHTML = "$" + fixed;
-                progress_bar.html((trial_num + 1) + "/" + num_trials);
+                progress_bar.html((trial_num) + "/" + (num_trials - 1));
                 var p = (100 * (trial_num + 1) / num_trials); 
                 progress_bar.css("width", Math.max(p, 5).toFixed(0) + "%");
                 result_cont.animate({ "opacity": "0" }, 500, function() {

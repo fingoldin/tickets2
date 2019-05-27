@@ -652,6 +652,7 @@ function startSession() {
                 }
             }
         }
+        $_SESSION["training_data"][$h][$_SESSION["training_max_repeats"]] = [];
     }
 
     $_SESSION["training_answers"] = [];

@@ -203,6 +203,7 @@ button:focus {
 
 #risk-progress-wrap {
     padding: 10px;
+    opacity: 0;
 }
 
 #risk-progress-wrap .progress {
