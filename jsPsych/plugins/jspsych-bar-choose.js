@@ -20,6 +20,7 @@ jsPsych.plugins["bar-choose"] = (function()
 		trial.phase = trial.phase || 0;
 		trial.number = trial.number || 0;
         trial.repeat_num = trial.repeat_num || 0;
+        trial.show_wrong_mes = trial.show_wrong_mes || false;
 //		trial.points = trial.points || { points: 0, subtitle: "" };
 		
         trial.instructions = trial.instructions.replace("MAXVAL", trial.max_val);
@@ -29,6 +30,13 @@ jsPsych.plugins["bar-choose"] = (function()
 		display_element.load(SITE_PREFIX + "/utils/bar-choose.html", function()
 		{
 //			showPoints(display_element, trial.points);
+				
+            if(trial.show_wrong_mes) {
+                $("#wrong-top").animate({ top: "0px" });
+				setTimeout(function() {
+					$("#wrong-top").animate({ top: "-40px" });
+				}, 5000);
+            }
 
 			display_element.find("#bar-instructions").html(trial.instructions);
 			display_element.find("#bar-subtitle").html(trial.subtitle);

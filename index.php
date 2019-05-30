@@ -535,6 +535,7 @@ function init_exp()
 
         timeline.push(Object.assign({ repeat_num: i,
                     passed: function() { return passed; },
+                    show_wrong_mes: (i == (animdata.length - 1)),
                     on_finish: function(data) {
                         if(data.passed) {
                             passed = true;
@@ -614,6 +615,7 @@ function init_exp()
 
         timeline.push(Object.assign({ repeat_num: i,
                     passed: function() { return passed2; },
+                    show_wrong_mes: (i == (animdata2.length - 1)),
                     on_finish: function(data) {
                         if(data.passed) {
                             passed2 = true;
