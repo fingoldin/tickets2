@@ -306,7 +306,7 @@ var final_trial = {
 var risk_prompts = ["Admitting that your tastes are different from those of a friend.",
 										"Going camping in the wilderness.",
 										"Betting a day's income at the horse races.",
-                    "Investing 10% of your annual income in a moderate growth diversified fund",
+                    "Investing 10% of your annual income in a moderate growth diversified fund.",
 										"Drinking heavily at a social function.",
 										"Taking some questionable deductions on your income tax return.",
 										"Disagreeing with an authority figure on a major issue.",
@@ -316,11 +316,11 @@ var risk_prompts = ["Admitting that your tastes are different from those of a fr
 										"Going down a ski run that is beyond your ability.",
                     "Investing 5% of your annual income in a very speculative stock.",
 										"Going whitewater rafting at high water in the spring.",
-                    "Betting a day's income on the outcome of a sporting event",
+                    "Betting a day's income on the outcome of a sporting event.",
 										"Engaging in unprotected sex.",
 										"Revealing a friend's secret to someone else.",
 										"Driving a car without wearing a seat belt.",
-                    "Invetsing 10% of your annual income in a new business venture",
+                    "Investing 10% of your annual income in a new business venture.",
 										"Taking a skydiving class.",
 										"Riding a motorcycle without a helmet.",
 										"Choosing a career that you truly enjoy over a more secure one.",
@@ -493,7 +493,7 @@ function init_exp()
     }
 
     var assignment_id = "<?= $_SESSION['assignmentId'] ?>";
-    
+
     timeline.push(consent_trial);
 	timeline.push(age_trial);
 
@@ -653,7 +653,7 @@ function init_exp()
 
     timeline.push(closuresurvey_trial);
     timeline.push(risksurvey_trial);
-    
+
     timeline.push(risk_trial);
     timeline.push(riskchoose_trial);
 
