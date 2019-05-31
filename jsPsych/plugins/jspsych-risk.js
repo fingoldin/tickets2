@@ -44,9 +44,14 @@ jsPsych.plugins["risk"] = (function()
             var vel = 0;
             var ang = 0;
             var valid_click = true;
+            var valid_done_click = false;
             var choices = [];
 
             function result_click() {
+                if(!valid_done_click)
+                    return;
+
+                valid_done_click = false;
                 choices.push({ result: result, choices: all_choices[trial_num] });
                 trial_num += 1;
                 if(trial_num == num_trials) {
@@ -103,9 +108,10 @@ jsPsych.plugins["risk"] = (function()
             
             function show() {
                 console.log("show");
-                valid_click = true;
                 money.html(outcome);
-                result_cont.css("display", "block").animate({ "opacity": "1" }, 500);
+                result_cont.css("display", "block").animate({ "opacity": "1" }, 500, function() {
+                    valid_done_click = true;
+                });
                 $(result_done).focus();
             }
         
