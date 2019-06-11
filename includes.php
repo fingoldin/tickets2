@@ -540,15 +540,15 @@ function startSession() {
     $_SESSION["training_avg_ranges"] = [[120, 240], [120, 240]];
 
     // Number of tickets in each sequence in each test block. Will be shuffled
-    $test_blocks = [10];
+    $test_blocks = [5, 10, 20, 5, 10, 20];
 
     // Number of sequences in each block
-    $ntest_sequences = 80;
+    $ntest_sequences = 30;
 
     // The max number of points in a sequence
     $_SESSION["max_points_per_seq"] = 25; // in tenths of a cent
 
-    $_SESSION["site_prefix"] = "/christiane/tickets5";
+    $_SESSION["site_prefix"] = "/christiane/tickets6";
 
     $_SESSION["training_sort_total"] = [100, 100]; // desired values, this is updated to the actual
 
@@ -700,7 +700,7 @@ function startSession() {
         $_SESSION["training_sort_total"][$phase] = $total_n;
     }
 
-    /*while(true) {
+    while(true) {
         shuffle($test_blocks);
         $ex = true;
 
@@ -713,7 +713,7 @@ function startSession() {
 
         if($ex)
             break;
-    }*/
+    }
 
     // Generate test data
     $_SESSION["testing_data"] = array();

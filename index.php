@@ -581,9 +581,15 @@ function init_exp()
 		    });
         }
 
-        timeline.push(points_update_trial);
-        //timeline.push(training_trial2);
+        if(i < testing_data.length-1) {
+            timeline.push({ type: "text", 
+                text: "<span style='font-size: 20px'>Very good! The next " + testing_data[i + 1].length + " sequences will each have " + testing_data[i + 1][0].length + " tickets. Press enter to continue.</span>",
+                choices: [13]
+            });
+        }
 	}
+    
+    /*timeline.push(points_update_trial);
 
 	timeline.push(p2_start_trial);
 
@@ -649,8 +655,12 @@ function init_exp()
 		    });
         }
 
-        timeline.push(p2_points_update_trial);
-        //timeline.push(p2_training_trial2);
+        if(i < p2_testing_data.length-1) {
+            timeline.push({ type: "text", 
+                text: "<span style='font-size: 20px'>Very good! The next " + p2_testing_data[i + 1].length + " sequences will each have " + p2_testing_data[i + 1][0].length + " tickets. Press enter to continue.</span>",
+                choices: [13]
+            });
+        }
 	}
 
     timeline.push(closuresurvey_trial);
@@ -660,7 +670,7 @@ function init_exp()
     timeline.push(riskchoose_trial);
 
 	//timeline.push(special_sequence_trial);
-
+*/
 	timeline.push(final_trial);
 
 	$("#wheel").css("display", "none");
