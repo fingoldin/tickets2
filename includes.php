@@ -511,7 +511,7 @@ function startSession() {
 
     // Parameters of log-normal distribution, or of normal distribution
     $mean = 180;
-    $stddevs_unsorted = [10, 40]; // per phase
+    $stddevs_unsorted = [20, 20]; // per phase
 
     // Parameters for PERT distribution
     $p_min = 120;
