@@ -134,8 +134,15 @@ button:focus {
 }
 
 #ticket-choose-seq {
-    padding: 5px 15px 30px 15px;
+    padding: 40px;
+    margin: 25px;
     font-size: 30px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #eee;
 }
 
 #ticket-choose-seq span {
