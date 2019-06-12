@@ -15,6 +15,8 @@ jsPsych.plugins["ticket-choose"] = (function()
 		trial.prices = trial.prices || [];
 		trial.continue_message = trial.continue_message || "Continue";
 		trial.sequence = trial.sequence || "";
+        trial.sequence_id = trial.sequence_id || 0;
+        trial.num_sequences = trial.num_sequences || 0;
 		trial.showpoints = trial.showpoints || false;
 		trial.phase = trial.phase || 0;
 		trial.group = trial.group || 0;
@@ -46,6 +48,9 @@ jsPsych.plugins["ticket-choose"] = (function()
                 //n_d2.style = "width: " + x
                 but_wrap.append(n_d2);
             }*/
+            display_element.find("#ticket-choose-seq-num").html(trial.sequence_id + 1);
+            display_element.find("#ticket-choose-seq-total").html(trial.num_sequences);
+            
             var progress_bar = display_element.find("#ticket-choose-progress"); 
             progress_bar.css("width", (100 / num_prices).toFixed(0) + "%");
             progress_bar.html("1/" + num_prices);
@@ -93,6 +98,7 @@ jsPsych.plugins["ticket-choose"] = (function()
 	
 					display_element.find(".ticket-choose-main").animate({ opacity: "0" }, 200, function() {
                         display_element.find("#ticket-choose-progress-wrap").remove();
+                        display_element.find("#ticket-choose-seq").remove();
                         
                         var prices = trial.prices.slice(0);
                                         prices.sort(function(a, b){return a - b});
@@ -203,7 +209,7 @@ jsPsych.plugins["ticket-choose"] = (function()
 					"points": ps,
 					"place": r,
 					"phase": trial.phase,
-					"sequence": trial.row,
+					"sequence": trial.sequence_id,
 					"prices": trial.prices,
 					"times": ti,
 					"next_num": next_num,

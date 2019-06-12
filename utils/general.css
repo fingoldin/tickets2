@@ -133,6 +133,15 @@ button:focus {
 	opacity: 0;
 }
 
+#ticket-choose-seq {
+    padding: 5px 15px 30px 15px;
+    font-size: 30px;
+}
+
+#ticket-choose-seq span {
+    color: red;
+}
+
 .ie8 .ticket-choose-main, .ie9 .ticket-choose-main, .ie10 .ticket-choose-main {
 	margin-top: 100px;
 }

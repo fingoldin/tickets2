@@ -494,8 +494,6 @@ function init_exp()
 
     var assignment_id = "<?= $_SESSION['assignmentId'] ?>";
     
-//    timeline.push(risk_trial);
-    
     timeline.push(consent_trial);
 	timeline.push(age_trial);
 
@@ -552,6 +550,8 @@ function init_exp()
     // example testing sequence
 	timeline.push({ type: "ticket-choose",
 			phase: 0,
+            sequence_id: 0,
+            num_sequences: 1,
 			row: -1,
             max_points: <?= $_SESSION["max_points_per_seq"] ?>,
             showpoints: false,
@@ -568,7 +568,8 @@ function init_exp()
         {
         	timeline.push({ type: "ticket-choose",
 				prices: testing_data[i][j],
-				row: j,
+                sequence_id: j,
+                num_sequences: testing_data[i].length,
                 max_points: <?= $_SESSION["max_points_per_seq"] ?>,
 				phase: 0,
                 group: i,
@@ -635,7 +636,8 @@ function init_exp()
         {
         	timeline.push({ type: "ticket-choose",
 				prices: p2_testing_data[i][j],
-				row: j,
+                sequence_id: j,
+                num_sequences: p2_testing_data[i].length,
                 max_points: <?= $_SESSION["max_points_per_seq"] ?>,
 				phase: 1,
                 group: i,
