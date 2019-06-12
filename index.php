@@ -494,8 +494,6 @@ function init_exp()
 
     var assignment_id = "<?= $_SESSION['assignmentId'] ?>";
     
-//    timeline.push(risk_trial);
-    
     timeline.push(consent_trial);
 	timeline.push(age_trial);
 
@@ -583,14 +581,22 @@ function init_exp()
 
         if(i < testing_data.length-1) {
             timeline.push({ type: "text", 
-                text: "<span style='font-size: 20px'>Very good! The next " + testing_data[i + 1].length + " sequences will each have " + testing_data[i + 1][0].length + " tickets. Press enter to continue.</span>",
+                text: "<span style='font-size: 20px'>Very good! The next " + testing_data[i + 1].length + " sequences will each have " + testing_data[i + 1][0].length + " tickets. Press Enter to continue.</span>",
                 choices: [13]
             });
         }
 	}
     
-    /*timeline.push(points_update_trial);
+    timeline.push(points_update_trial);
+    
+    timeline.push({ type: "text", 
+        text: "<span style='font-size: 20px'>In the next section you will do the same as before. Let's check if you still remember the ticket distribution. Press Enter to continue.</span>",
+        choices: [13]
+    });
 
+    timeline.push(training_trial2);
+
+/*
 	timeline.push(p2_start_trial);
 
     var passed2 = false;
@@ -634,7 +640,7 @@ function init_exp()
     }
 
     timeline.push(p2_testing_instructions_trial);
-
+*/
     for(var i = 0; i < p2_testing_data.length; i++)
 	{
         for(var j = 0; j < p2_testing_data[i].length; j++)
@@ -657,12 +663,12 @@ function init_exp()
 
         if(i < p2_testing_data.length-1) {
             timeline.push({ type: "text", 
-                text: "<span style='font-size: 20px'>Very good! The next " + p2_testing_data[i + 1].length + " sequences will each have " + p2_testing_data[i + 1][0].length + " tickets. Press enter to continue.</span>",
+                text: "<span style='font-size: 20px'>Very good! The next " + p2_testing_data[i + 1].length + " sequences will each have " + p2_testing_data[i + 1][0].length + " tickets. Press Enter to continue.</span>",
                 choices: [13]
             });
         }
 	}
-
+/*
     timeline.push(closuresurvey_trial);
     timeline.push(risksurvey_trial);
 

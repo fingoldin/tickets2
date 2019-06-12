@@ -540,13 +540,13 @@ function startSession() {
     $_SESSION["training_avg_ranges"] = [[120, 240], [120, 240]];
 
     // Number of tickets in each sequence in each test block. Will be shuffled
-    $test_blocks = [5, 10, 20, 5, 10, 20];
+    $test_blocks = [[5, 10, 20], [5, 10, 20]];
 
     // Number of sequences in each block
-    $ntest_sequences = 30;
+    $ntest_sequences = 2;
 
     // The max number of points in a sequence
-    $_SESSION["max_points_per_seq"] = 25; // in tenths of a cent
+    $_SESSION["max_points_per_seq"] = 20; // in tenths of a cent
 
     $_SESSION["site_prefix"] = "/christiane/tickets6";
 
@@ -587,7 +587,7 @@ function startSession() {
 
     $_SESSION["risk_choices"] = [];
 
-    $_SESSION["max_points"] = $_SESSION["max_risk_bonus"] + $_SESSION["max_points_per_seq"] * $ntest_sequences * count($test_blocks) * $nphases; // in tenths of a cent
+    $_SESSION["max_points"] = $_SESSION["max_risk_bonus"] + $_SESSION["max_points_per_seq"] * $ntest_sequences * array_sum(array_map("count", $test_blocks)); // in tenths of a cent
 
     $_SESSION["points"] = [];
     $_SESSION["checked"] = [];
@@ -599,7 +599,7 @@ function startSession() {
         $_SESSION["checked"][$i] = [];
         $_SESSION["checked_assoc"][$i] = [];
 
-        for($j = 0; $j < count($test_blocks); $j++) {
+        for($j = 0; $j < count($test_blocks[$i]); $j++) {
             $_SESSION["checked"][$i][$j] = [];
             $_SESSION["checked_assoc"][$i][$j] = [];
         }
@@ -700,30 +700,32 @@ function startSession() {
         $_SESSION["training_sort_total"][$phase] = $total_n;
     }
 
-    while(true) {
-        shuffle($test_blocks);
-        $ex = true;
+    for($p = 0; $p < $nphases; $p++) {
+        while(true) {
+            shuffle($test_blocks[$p]);
+            $ex = true;
 
-        for($i = 1; $i < count($test_blocks); $i++) {
-            if($test_blocks[$i] == $test_blocks[$i - 1]) {
-                $ex = false;
-                break;
+            for($i = 1; $i < count($test_blocks[$p]); $i++) {
+                if($test_blocks[$p][$i] == $test_blocks[$p][$i - 1]) {
+                    $ex = false;
+                    break;
+                }
             }
-        }
 
-        if($ex)
-            break;
+            if($ex)
+                break;
+        }
     }
 
     // Generate test data
     $_SESSION["testing_data"] = array();
     for($p = 0; $p < $nphases; $p++) {
         $_SESSION["testing_data"][$p] = array();
-        for($h = 0; $h < count($test_blocks); $h++) {
+        for($h = 0; $h < count($test_blocks[$p]); $h++) {
             $_SESSION["testing_data"][$p][$h] = array();
             for($i = 0; $i < $ntest_sequences; $i++) {
                 $_SESSION["testing_data"][$p][$h][$i] = array();
-                for($j = 0; $j < $test_blocks[$h]; $j++) {
+                for($j = 0; $j < $test_blocks[$p][$h]; $j++) {
                     $v = 0;
                     if($dist == 'pert')
                         $v = (int)$pert_tickets[$ticket_counter++ % count($pert_tickets)];
