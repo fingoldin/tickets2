@@ -548,7 +548,7 @@ function startSession() {
     // The max number of points in a sequence
     $_SESSION["max_points_per_seq"] = 25; // in tenths of a cent
 
-    $_SESSION["site_prefix"] = "/christiane/tickets5";
+    $_SESSION["site_prefix"] = "/christiane/tickets5l";
 
     $_SESSION["training_sort_total"] = [100, 100]; // desired values, this is updated to the actual
 
@@ -575,7 +575,7 @@ function startSession() {
     $_SESSION["max_risk_bonus"] = 1000; // tenths of a cent
 
     $tmp = range(0, count($stddevs_unsorted) - 1);
-    shuffle($tmp);
+//    shuffle($tmp);
     $stddevs = [];
     $training_divisions = [];
     for($i = 0; $i < count($tmp); $i++) {
