@@ -4,3 +4,4 @@ data/*
 logging.txt
 log.txt
 *.swp
+mturk.php
