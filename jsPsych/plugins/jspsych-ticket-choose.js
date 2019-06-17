@@ -97,8 +97,8 @@ jsPsych.plugins["ticket-choose"] = (function()
 					times[price_num] = gt() - next_price.startTime;
 	
 					display_element.find(".ticket-choose-main").animate({ opacity: "0" }, 200, function() {
-                        display_element.find("#ticket-choose-progress-wrap").remove();
-                        display_element.find("#ticket-choose-seq").remove();
+//                        display_element.find("#ticket-choose-progress-wrap").remove();
+//                        display_element.find("#ticket-choose-seq").remove();
                         
                         var prices = trial.prices.slice(0);
                                         prices.sort(function(a, b){return a - b});
@@ -202,6 +202,7 @@ jsPsych.plugins["ticket-choose"] = (function()
 				}
 
 				display_element.find(".ticket-choose-main").css("opacity", "0");
+                display_element.find("#ticket-choose-seq").css("opacity", "0");
                                 jsPsych.pluginAPI.cancelAllKeyboardResponses();
 //console.log("answer: " + trial.prices[price_num]);
                         	var trial_data = {

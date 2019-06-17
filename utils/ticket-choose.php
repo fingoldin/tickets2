@@ -6,10 +6,10 @@ $site_prefix = $_SESSION["site_prefix"];
 
 ?>
 
+<div id="ticket-choose-seq">
+    Sequence <span id="ticket-choose-seq-num"></span> of <span id="ticket-choose-seq-total"></span>
+</div>
 <div class="ticket-choose-main">
-    <div id="ticket-choose-seq">
-        Sequence <span id="ticket-choose-seq-num"></span> of <span id="ticket-choose-seq-total"></span>
-    </div>
     <div id="ticket-choose-progress-wrap">
         <link rel="stylesheet" href="<?= $site_prefix ?>/utils/bootstrap.min.css">
         <script src="<?= $site_prefix ?>/utils/popper.min.js"></script>
