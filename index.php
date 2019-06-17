@@ -397,14 +397,14 @@ function preload()
 function init_exp()
 {
 //	if(Function('/*@cc_on return document.documentMode===10@*/')()){ $("body").addClass("ie10"); }
+	/*BrowserDetect.init();
 
 	if(document.getElementsByTagName("html")[0].classList == "ie-warning" || (BrowserDetect.browser == "Explorer" && BrowserDetect.version <= 7))
 	{
-		document.getElementsByTagName("body")[0].innerHTML = "<p class='ie-nope'>It's time to upgrade your browser. Seriously, stop using this clunky thing.";
+		document.getElementsByTagName("body")[0].innerHTML = "<p class='ie-nope'>It's time to upgrade your browser. Seriously, stop using this clunky thing.</p>";
 		return;
 	}
 
-	BrowserDetect.init();
 	if(BrowserDetect.browser == "Explorer" && BrowserDetect.version == 10)
         	$("html").addClass("ie10");
 
@@ -412,7 +412,7 @@ function init_exp()
 		window.ticketprefix = "ie8";
 	else if(BrowserDetect.browser == "Explorer" && BrowserDetect.version < 11)
                 window.ticketprefix = "ie9";
-	else
+	else*/
 		window.ticketprefix = "normal";
 
 	preload();
