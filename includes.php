@@ -68,7 +68,7 @@ function grant_bonuses()
 {
 	$c = dbConnect();
 
-	$r = dbQuery($c, "SELECT * FROM responses WHERE bonus_paid=FALSE AND end_time < (NOW() - INTERVAL 10 MINUTE)");
+	$r = dbQuery($c, "SELECT * FROM responses WHERE bonus_paid=FALSE AND end_time < TIMESTAMPADD(HOUR, -1, NOW())");
 
 	if(!empty($r))
 	{
