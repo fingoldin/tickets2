@@ -1,6 +1,6 @@
 <?php
 
-require("./repos/mturk-php/mturk.php");
+require("../aws/aws-autoloader.php");
 
 function logging($mes)
 {
@@ -81,6 +81,12 @@ function grant_bonuses()
 	}
 }
 
+function get_mturk_credentials() {
+    $data = json_decode(file_get_contents("../mturk_credentials.json"), true);
+    
+    return new Aws\Credentials\Credentials($data["key"], $data["secret"]);
+}
+
 function grant_bonus($b, $worker_id, $assignment_id)
 {
     if(!session_id())
@@ -96,21 +102,24 @@ function grant_bonus($b, $worker_id, $assignment_id)
 
 	//echo "bonus: " . $bonus;
 
-	$m = new MechanicalTurk();
-	$r = $m->request('GrantBonus', array(
+	$m = new Aws\MTurk\MTurkClient([
+        "credentials" => get_mturk_credentials(),
+        "version" => "2017-01-17",
+        "endpoint" => "https://mturk-requester.us-east-1.amazonaws.com",
+        "region" => "us-east-1"
+    ]);
+
+	$r = $m->sendBonus([
 		"WorkerId" => $worker_id,
 		"AssignmentId" => $assignment_id,
-		"BonusAmount" => array(array("Amount" => $bonus, "CurrencyCode" => "USD")),
-		"Reason" => "Thanks!"
-	));
-
+		"BonusAmount" => sprintf("%.2f", $bonus),
+		"Reason" => "Thank you for taking the tickets experiment!"
+	]);
+    echo $r;
+/*
 	$f = fopen("./bonus/" . $worker_id . ".json", "w");
 	fwrite($f, json_encode([ "bonus" => $bonus, "worker_id" => $worker_id, "assignment_id" => $assignment_id, "result" => $r]));
-	fclose($f);
-
-	//var_dump($r);
-
-	//httpPost("https://www.mturk.com/mturk/externalSubmit", [ "assignmentId" => $_SESSION["assignmentId"] ]);
+	fclose($f);*/
 }
 
 function log_save_response($arr)
