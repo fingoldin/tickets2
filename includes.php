@@ -2,11 +2,21 @@
 
 require("../aws/aws-autoloader.php");
 
-function logging($mes)
+function f_logging($mes, $fname)
 {
-	$f = fopen("./logging.txt", "a");
+	$f = fopen($fname, "a");
 	fwrite($f, "[" . date("Y-m-d H:i:s") . "] " . $mes . "\n");
 	fclose($f);
+}
+
+function logging($mes)
+{
+    f_logging($mes, "./logging.txt");
+}
+
+function bonus_log($mes)
+{
+    f_logging($mes . "\n\n", "../bonus_log.txt");
 }
 
 function store_url()
@@ -101,25 +111,28 @@ function grant_bonus($b, $worker_id, $assignment_id)
 	$bonus = $b / 100;
 
 	//echo "bonus: " . $bonus;
+    $bonus_str = sprintf("%.2f", $bonus);
+    $info = "WID: [" . $worker_id . "], AID: [" . $assignment_id . "], B: [" . $bonus_str . "]";
 
-	$m = new Aws\MTurk\MTurkClient([
-        "credentials" => get_mturk_credentials(),
-        "version" => "2017-01-17",
-        "endpoint" => "https://mturk-requester.us-east-1.amazonaws.com",
-        "region" => "us-east-1"
-    ]);
+    try {
+        $m = new Aws\MTurk\MTurkClient([
+            "credentials" => get_mturk_credentials(),
+            "version" => "2017-01-17",
+            "endpoint" => "https://mturk-requester.us-east-1.amazonaws.com",
+            "region" => "us-east-1"
+        ]);
 
-	$r = $m->sendBonus([
-		"WorkerId" => $worker_id,
-		"AssignmentId" => $assignment_id,
-		"BonusAmount" => sprintf("%.2f", $bonus),
-		"Reason" => "Thank you for taking the tickets experiment!"
-	]);
-    echo $r;
-/*
-	$f = fopen("./bonus/" . $worker_id . ".json", "w");
-	fwrite($f, json_encode([ "bonus" => $bonus, "worker_id" => $worker_id, "assignment_id" => $assignment_id, "result" => $r]));
-	fclose($f);*/
+        $r = $m->sendBonus([
+            "WorkerId" => $worker_id,
+            "AssignmentId" => $assignment_id,
+            "BonusAmount" => $bonus_str,
+            "Reason" => "Thank you for taking the tickets experiment!"
+        ]);
+        
+        echo $info . "    SUCCEEDED: " . json_encode($r);
+    } catch (Exception $e) {
+        echo $info . "    FAILED: " . $e->getMessage();
+    }
 }
 
 function log_save_response($arr)
