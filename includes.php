@@ -84,9 +84,10 @@ function grant_bonuses()
 	{
 		foreach($r as $row)
 		{
-			grant_bonus($row["bonus"], $row["worker_id"], $row["assignment_id"]);
-
-			dbQuery($c, "UPDATE responses SET bonus_paid=TRUE WHERE RID=:rid", ["rid" => $row["RID"]]);
+			if(grant_bonus($row["bonus"], $row["worker_id"], $row["assignment_id"]))
+            {
+                dbQuery($c, "UPDATE responses SET bonus_paid=TRUE WHERE RID=:rid", ["rid" => $row["RID"]]);
+            }
 		}
 	}
 }
@@ -114,6 +115,7 @@ function grant_bonus($b, $worker_id, $assignment_id)
     $bonus_str = sprintf("%.2f", $bonus);
     $info = "WID: [" . $worker_id . "], AID: [" . $assignment_id . "], B: [" . $bonus_str . "]";
 
+    $success = false;
     try {
         $m = new Aws\MTurk\MTurkClient([
             "credentials" => get_mturk_credentials(),
@@ -130,9 +132,12 @@ function grant_bonus($b, $worker_id, $assignment_id)
         ]);
         
         bonus_log($info . "    SUCCEEDED: " . json_encode($r));
+        $success = true;
     } catch (Exception $e) {
         bonus_log($info . "    FAILED: " . $e->getMessage());
     }
+
+    return $success;
 }
 
 function log_save_response($arr)
