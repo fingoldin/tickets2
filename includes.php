@@ -1,12 +1,23 @@
 <?php
 
-require("./repos/mturk-php/mturk.php");
+require("../aws/aws-autoloader.php");
+
+function f_logging($mes, $fname)
+{
+	$f = fopen($fname, "a");
+	fwrite($f, "[" . date("Y-m-d H:i:s") . "] " . $mes . "\n");
+	fclose($f);
+}
 
 function logging($mes)
 {
-	$f = fopen("./logging.txt", "a");
-	fwrite($f, "[" . date("Y-m-d H:i:s") . "] " . $mes . "\n");
-	fclose($f);
+    f_logging($mes, "./logging.txt");
+}
+
+function bonus_log($mes, $opt)
+{
+    f_logging($mes . $opt . "\n\n", "../bonus_log_long.txt");
+    f_logging($mes . "\n\n", "../bonus_log.txt");
 }
 
 function store_url()
@@ -68,17 +79,24 @@ function grant_bonuses()
 {
 	$c = dbConnect();
 
-	$r = dbQuery($c, "SELECT * FROM responses WHERE bonus_paid=FALSE AND end_time < TIMESTAMPADD(HOUR, -1, NOW())");
+	$r = dbQuery($c, "SELECT * FROM responses WHERE bonus_paid=FALSE AND end_time < TIMESTAMPADD(MINUTE, -10, NOW())");
 
 	if(!empty($r))
 	{
 		foreach($r as $row)
 		{
-			grant_bonus($row["bonus"], $row["worker_id"], $row["assignment_id"]);
-
-			dbQuery($c, "UPDATE responses SET bonus_paid=TRUE WHERE RID=:rid", ["rid" => $row["RID"]]);
+			if(grant_bonus($row["bonus"], $row["worker_id"], $row["assignment_id"]))
+            {
+                dbQuery($c, "UPDATE responses SET bonus_paid=TRUE WHERE RID=:rid", ["rid" => $row["RID"]]);
+            }
 		}
 	}
+}
+
+function get_mturk_credentials() {
+    $data = json_decode(file_get_contents("../mturk_credentials.json"), true);
+    
+    return new Aws\Credentials\Credentials($data["key"], $data["secret"]);
 }
 
 function grant_bonus($b, $worker_id, $assignment_id)
@@ -95,22 +113,32 @@ function grant_bonus($b, $worker_id, $assignment_id)
 	$bonus = $b / 100;
 
 	//echo "bonus: " . $bonus;
+    $bonus_str = sprintf("%.2f", $bonus);
+    $info = "WID: [" . $worker_id . "], AID: [" . $assignment_id . "], B: [" . $bonus_str . "]";
 
-	$m = new MechanicalTurk();
-	$r = $m->request('GrantBonus', array(
-		"WorkerId" => $worker_id,
-		"AssignmentId" => $assignment_id,
-		"BonusAmount" => array(array("Amount" => $bonus, "CurrencyCode" => "USD")),
-		"Reason" => "Thanks!"
-	));
+    $success = false;
+    try {
+        $m = new Aws\MTurk\MTurkClient([
+            "credentials" => get_mturk_credentials(),
+            "version" => "2017-01-17",
+            "endpoint" => "https://mturk-requester.us-east-1.amazonaws.com",
+            "region" => "us-east-1"
+        ]);
 
-	$f = fopen("./bonus/" . $worker_id . ".json", "w");
-	fwrite($f, json_encode([ "bonus" => $bonus, "worker_id" => $worker_id, "assignment_id" => $assignment_id, "result" => $r]));
-	fclose($f);
+        $r = $m->sendBonus([
+            "WorkerId" => $worker_id,
+            "AssignmentId" => $assignment_id,
+            "BonusAmount" => $bonus_str,
+            "Reason" => "Thank you for taking the tickets experiment!"
+        ]);
+        
+        bonus_log($info . "    SUCCEEDED", ": " . json_encode($r));
+        $success = true;
+    } catch (Exception $e) {
+        bonus_log($info . "    FAILED", ": " . $e->getMessage());
+    }
 
-	//var_dump($r);
-
-	//httpPost("https://www.mturk.com/mturk/externalSubmit", [ "assignmentId" => $_SESSION["assignmentId"] ]);
+    return $success;
 }
 
 function log_save_response($arr)
