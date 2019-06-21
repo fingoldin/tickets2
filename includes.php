@@ -129,9 +129,9 @@ function grant_bonus($b, $worker_id, $assignment_id)
             "Reason" => "Thank you for taking the tickets experiment!"
         ]);
         
-        echo $info . "    SUCCEEDED: " . json_encode($r);
+        bonus_log($info . "    SUCCEEDED: " . json_encode($r));
     } catch (Exception $e) {
-        echo $info . "    FAILED: " . $e->getMessage();
+        bonus_log($info . "    FAILED: " . $e->getMessage());
     }
 }
 
