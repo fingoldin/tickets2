@@ -14,8 +14,9 @@ function logging($mes)
     f_logging($mes, "./logging.txt");
 }
 
-function bonus_log($mes)
+function bonus_log($mes, $opt)
 {
+    f_logging($mes . $opt . "\n\n", "../bonus_log_long.txt");
     f_logging($mes . "\n\n", "../bonus_log.txt");
 }
 
@@ -78,7 +79,7 @@ function grant_bonuses()
 {
 	$c = dbConnect();
 
-	$r = dbQuery($c, "SELECT * FROM responses WHERE bonus_paid=FALSE AND end_time < TIMESTAMPADD(HOUR, -1, NOW())");
+	$r = dbQuery($c, "SELECT * FROM responses WHERE bonus_paid=FALSE AND end_time < TIMESTAMPADD(MINUTE, -10, NOW())");
 
 	if(!empty($r))
 	{
@@ -131,10 +132,10 @@ function grant_bonus($b, $worker_id, $assignment_id)
             "Reason" => "Thank you for taking the tickets experiment!"
         ]);
         
-        bonus_log($info . "    SUCCEEDED: " . json_encode($r));
+        bonus_log($info . "    SUCCEEDED", ": " . json_encode($r));
         $success = true;
     } catch (Exception $e) {
-        bonus_log($info . "    FAILED: " . $e->getMessage());
+        bonus_log($info . "    FAILED", ": " . $e->getMessage());
     }
 
     return $success;
