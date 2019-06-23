@@ -17,14 +17,10 @@ jsPsych.plugins["ticket-choose"] = (function()
 		trial.sequence = trial.sequence || "";
         trial.sequence_id = trial.sequence_id || 0;
         trial.num_sequences = trial.num_sequences || 0;
-		trial.showpoints = trial.showpoints || false;
 		trial.phase = trial.phase || 0;
 		trial.group = trial.group || 0;
         trial.max_points = trial.max_points || 0;
-
-		//console.log("Trial: " + trial.prices);
-
-		//console.log(trial.prices);
+        trial.name = trial.name || "";
 
 		var num_prices = trial.prices.length;
 		if(!num_prices)
@@ -36,20 +32,15 @@ jsPsych.plugins["ticket-choose"] = (function()
 
 		display_element.load(SITE_PREFIX + "/utils/ticket-choose.php", function()
 		{
-			//window.viewportUnitsBuggyfill.refresh();
-            /*var but_wrap = display_element.find("#ticket-choose-but-wrap");
-            var n_d = document.createElement("DIV");
-            n_d.classList = "ticket-choose-but ticket-choose-but-sel";
+            $("#ticket-choose-seq-num").html(trial.sequence_id + 1);
+            $("#ticket-choose-seq-total").html(trial.num_sequences);
+            $("#ticket-choose-seq").css("display", "block");
+            
+            var ticket_wrap = display_element.find("#ticket-wrap");
+            ticket_wrap.append(trial.image.img);
 
-            but_wrap.append(n_d);
-            for (var i = 1; i < num_prices; i++) {
-				var n_d2 = document.createElement("DIV");
-                n_d2.classList = "ticket-choose-but";
-                //n_d2.style = "width: " + x
-                but_wrap.append(n_d2);
-            }*/
-            display_element.find("#ticket-choose-seq-num").html(trial.sequence_id + 1);
-            display_element.find("#ticket-choose-seq-total").html(trial.num_sequences);
+            var ticket_name = display_element.find("#ticket-name");
+            ticket_name.html(trial.name);
             
             var progress_bar = display_element.find("#ticket-choose-progress"); 
             progress_bar.css("width", (100 / num_prices).toFixed(0) + "%");
@@ -58,10 +49,9 @@ jsPsych.plugins["ticket-choose"] = (function()
             var price_num = -1;
 			var next_num = 0;
 
-			if(trial.showpoints)
-				$("#points-s").html(trial.sequence);
+            var ticket_main = display_element.find("#ticket-choose-main"); 
 
-			var price = display_element.find(".number-animation");
+			var price = display_element.find("#number-animation");
 			next_price.startTime = gt();
 			next_price();
 
@@ -71,11 +61,11 @@ jsPsych.plugins["ticket-choose"] = (function()
 			var next = display_element.find("#ticket-choose-next");
 			next.click(next_price);
 
-			var above = display_element.find(".number-animation-above");
-			var below = display_element.find(".number-animation-below");
+			var above = display_element.find("#number-animation-above");
+			var below = display_element.find("#number-animation-below");
+            
+            above.hide();
 			
-            above.html("Ticket <span>1</span> of <span>" + num_prices + "</span>:");
-
 			var listener = jsPsych.pluginAPI.getKeyboardResponse({
 				callback_function: next_price,
 				valid_responses: [32],
@@ -83,8 +73,6 @@ jsPsych.plugins["ticket-choose"] = (function()
 				persist: true,
 				allow_held_key: false
 			});
-
-			var selected = false;
 
 			function select_price()
 			{
@@ -96,54 +84,48 @@ jsPsych.plugins["ticket-choose"] = (function()
 
 					times[price_num] = gt() - next_price.startTime;
 	
-					display_element.find(".ticket-choose-main").animate({ opacity: "0" }, 200, function() {
-//                        display_element.find("#ticket-choose-progress-wrap").remove();
-//                        display_element.find("#ticket-choose-seq").remove();
+					ticket_main.animate({ opacity: "0" }, 200, function() {
+                        display_element.find("#ticket-choose-progress-wrap").remove();
+                        ticket_name.remove();
                         
                         var prices = trial.prices.slice(0);
-                                        prices.sort(function(a, b){return a - b});
-
-                        //console.log(prices);
-                        //console.log(trial.prices[price_num]);
+                        prices.sort(function(a, b){return a - b});
 
                         var points = 0;
 
                         var r = prices.indexOf(trial.prices[price_num]);
 
-                        //console.log(points);
-
                         below.html("");
+                        above.show();
 
                         if(r === 0) {
                             points = trial.max_points;
-                            above.html("Congratulations! Your ticket is the cheapest ticket!");
+                            above.html("Congratulations! Your chose the lowest price!");
                         }
                         else {
                             points = Math.round(trial.max_points * (prices[prices.length - 1] - trial.prices[price_num]) / (prices[prices.length - 1] - prices[0]));
                             
                             var diff = trial.prices[price_num] - prices[0];
 
-                            above.html("You could have saved $" + diff.toFixed(0) + " if had you chosen a different ticket");
+                            above.html("You could have saved $" + diff.toFixed(2) + " if had you chosen a different price");
                         }
 
                         price.hide();
 
-                        $("#ticket-wrap").hide();
+                        ticket_wrap.hide();
 
                         listener = jsPsych.pluginAPI.getKeyboardResponse({
-                                            callback_function: function() { end_trial(points, r, times); },
-                                            valid_responses: [32],
-                                            rt_method: "date",
-                                            persist: true,
-                                            allow_held_key: false
-                                    });
+                            callback_function: function() { end_trial(points, r, times); },
+                            valid_responses: [32],
+                            rt_method: "date",
+                            persist: true,
+                            allow_held_key: false
+                        });
 
                         select.hide();
-                        next.html(trial.continue_message).addClass("big-btn").off("click").click(function() { end_trial(points, r, times); });
+                        next.html(trial.continue_message).addClass("big-btn").click(function() { end_trial(points, r, times); });
 
-                        selected = true;
-
-                        display_element.find(".ticket-choose-main").animate({ opacity: "1" }, 200);
+                        ticket_main.animate({ opacity: "1" }, 200);
 					});
 				}
 				else
@@ -152,8 +134,6 @@ jsPsych.plugins["ticket-choose"] = (function()
 
 			function next_price()
 			{
-//				if(selected)
-//					end_trial();
 				if(price.is(":animated"))
 					return;
 				else
@@ -168,11 +148,10 @@ jsPsych.plugins["ticket-choose"] = (function()
 						select_price();
 					}
 					else if(price_num === 0) {
-						price.html("<span>$</span>" + trial.prices[price_num]).css("transform", "translateX(-30px)");
-               	        showTicket(trial.phase, $("#ticket-wrap"));
+						price.html("<span>$</span>" + trial.prices[price_num].toFixed(2)).css("transform", "translateX(-30px)");
                	        price.animate({ transform: "translateX(0px)", opacity: "1" }, 200);
 						next_price.startTime = gt();
-						display_element.find(".ticket-choose-main").css("opacity", "1");
+						ticket_main.css("opacity", "1");
 					}
 					else {
 						times[price_num-1] = gt() - next_price.startTime;
@@ -180,47 +159,40 @@ jsPsych.plugins["ticket-choose"] = (function()
                         progress_bar.html((price_num + 1) + "/" + num_prices);
                         progress_bar.css("width", (100 * (price_num + 1) / num_prices).toFixed(0) + "%");
 						price.animate({ transform: "translateX(30px)", opacity: "0" }, 200, function() {
-							price.html("<span>$</span>" + trial.prices[price_num]).css("transform", "translateX(-30px)");
-							price.animate({ transform: "translateX(0px)", opacity: "1" }, 200, function() {
-                                //but_wrap.children().eq(price_num-1).removeClass("ticket-choose-but-sel");
-                                //but_wrap.children().eq(price_num).addClass("ticket-choose-but-sel");
-                            });
-							showTicket(trial.phase, $("#ticket-wrap"));
-							above.html("Ticket <span>" + (price_num + 1) + "</span> of <span>" + num_prices + "</span>:");
-								next_price.startTime = gt();
+							price.html("<span>$</span>" + trial.prices[price_num].toFixed(2)).css("transform", "translateX(-30px)");
+							price.animate({ transform: "translateX(0px)", opacity: "1" }, 200);
+                            next_price.startTime = gt();
 						});
 					}
 				}
 			}
 
 			function end_trial(ps, r, ti)
-                	{
+            {
 				if(r == -1) {
 					console.log("Whoops! There was an error");
 					jsPsych.finishTrial({});
 					return;
 				}
 
-				display_element.find(".ticket-choose-main").css("opacity", "0");
-                display_element.find("#ticket-choose-seq").css("opacity", "0");
-                                jsPsych.pluginAPI.cancelAllKeyboardResponses();
-//console.log("answer: " + trial.prices[price_num]);
-                        	var trial_data = {
-                                	"result": trial.prices[price_num],
+				ticket_main.css("opacity", "0");
+
+                jsPsych.pluginAPI.cancelAllKeyboardResponses();
+                var trial_data = {
+                    "result": trial.prices[price_num],
 					"points": ps,
 					"place": r,
 					"phase": trial.phase,
 					"sequence": trial.sequence_id,
 					"prices": trial.prices,
+                    "name": trial.name,
 					"times": ti,
 					"next_num": next_num,
                     "group": trial.group
-                        	};
+                };
 
-				//console.log("Prices for this sequence: " + trial.prices);
-
-                        	jsPsych.finishTrial(trial_data);
-                	}
+                jsPsych.finishTrial(trial_data);
+            }
 		});
 	}
 

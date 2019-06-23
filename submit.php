@@ -5,7 +5,7 @@ if(!session_id())
 
 require("./includes.php");
 
-if(isset($_SESSION["start_time"]) && isset($_SESSION["finished"]) && $_SESSION["finished"] == 0 && isset($_POST["data"]) && isset($_SESSION["points"]) && isset($_SESSION["workerId"]) && isset($_POST["assignment_id"]) && isset($_SESSION["training_sort_total"]) && isset($_SESSION["risk_final"]) && isset($_SESSION["stddevs"]))
+if(isset($_SESSION["start_time"]) && isset($_SESSION["finished"]) && $_SESSION["finished"] == 0 && isset($_POST["data"]) && isset($_SESSION["points"]) && isset($_SESSION["workerId"]) && isset($_SESSION["assignmentId"]))
 {
 	logging("Submit.php called and OK");
 
@@ -18,36 +18,17 @@ if(isset($_SESSION["start_time"]) && isset($_SESSION["finished"]) && $_SESSION["
 		"points_phase1" => $_SESSION["points"][1],
 		"age" => 0,
 		"gender" => "m",
-		"tries" => 1,
+        "tries" => 1,
 		"during" => "Nothing",
 		"worker_id" => $_SESSION["workerId"],
-		"assignment_id" => $_POST["assignment_id"],
+		"assignment_id" => $_SESSION["assignmentId"],
 		"data" => json_decode($_POST["data"], true),
-        "training_sort" => $_SESSION["training_sort_total"],
 		"bonus" => round(0.1 * $_SESSION["risk_final"]), // in cents
-        "stddevs" => $_SESSION["stddevs"]
 	];
 
 	foreach($arr["data"] as $trial)
 	{
-		if($trial["trial_type"] == "ticket-choose" && $trial["sequence"] > -1)
-		{
-//			var_dump($trial);
-			/*$arr2 = $_SESSION["testing_data"][$trial["phase"]][$trial["sequence"]];
-			sort($arr2);
-
-			//echo "tp: " . $trial["points"] . " arr: " . $_SESSION["checked_assoc"][$trial["phase"]][$trial["sequence"]];
-			$place = array_search($trial["result"], $arr2);
-            $points = $_SESSION["checked_assoc"][$trial["phase"]][$trial["sequence"]];
-
-            if($trial["points"] != $points || $trial["place"] != $place)
-			{
-				logging("The trial with sequence " . $trial["sequence"] . " in phase " . $trial["phase"] . " doesn't have the correct points or place, (points = " . $trial["points"] . " when it should be " . $points . "; place = " . $trial["place"] . " when it should be " . $place . ")");
-				$trial["points"] = $points;
-                $trial["place"] = $place;
-			}*/
-		}
-		else if($trial["trial_type"] == "age")
+		if($trial["trial_type"] == "age")
 		{
 			$arr["age"] = $trial["age"];
 			$arr["gender"] = $trial["gender"];
