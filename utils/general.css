@@ -148,10 +148,9 @@ button:focus {
 #ticket-name {
     font-size: 30px;
     line-height: 40px;
-    margin-bottom: 20px;
     font-weight: bold;
     max-width: 600px;
-    margin: auto;
+    margin: 0px auto 20px auto;
 }
 
 #ticket-choose-seq span {

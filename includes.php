@@ -226,7 +226,7 @@ function startSession() {
     $test_blocks = [10];
 
     // Number of sequences in each block
-    $ntest_sequences = 3;
+    $ntest_sequences = 6;
 
     // The max number of points in a sequence
     $_SESSION["max_points_per_seq"] = 40; // in tenths of a cent
@@ -269,8 +269,8 @@ function startSession() {
             $_SESSION["testing_metadata"][$p][$h] = array();
             for($i = 0; $i < $ntest_sequences; $i++) {
                 $product = array_pop($products);
+                shuffle($product["prices"]);
                 $prices = array_slice($product["prices"], 0, $test_blocks[$h]);
-                shuffle($prices);
 
                 $_SESSION["testing_data"][$p][$h][$i] = $prices;
                 unset($product["prices"]);
