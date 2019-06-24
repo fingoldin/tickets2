@@ -34,7 +34,8 @@ jsPsych.plugins["ticket-choose"] = (function()
 		{
             $("#ticket-choose-seq-num").html(trial.sequence_id + 1);
             $("#ticket-choose-seq-total").html(trial.num_sequences);
-            $("#ticket-choose-seq").css("display", "block");
+            if(trial.showseqnum)
+                $("#ticket-choose-seq").css("display", "block");
             
             var ticket_wrap = display_element.find("#ticket-wrap");
             ticket_wrap.append(trial.image.img);

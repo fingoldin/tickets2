@@ -188,7 +188,7 @@ function init_exp()
 
         var assignment_id = "<?= $_SESSION['assignmentId'] ?>";
         
-/*        timeline.push(consent_trial);
+        timeline.push(consent_trial);
         timeline.push(age_trial);
 
         workerid_trial.on_finish = function(data) {
@@ -208,14 +208,15 @@ function init_exp()
                 row: -1,
                 max_points: <?= $_SESSION["max_points_per_seq"] ?>,
                 image: registerImage("trial.jpg"),
-                name: "Plane Ticket",
+                name: "Plane Ticket from San Francisco to Vancouver (Economy, One-way)",
                 prices: [184, 180, 224, 165, 181, 199, 185, 193, 218, 126],
                 continue_mesage: "Finish",
+                showseqnum: false,
                 sequence: ""
         });
 
         timeline.push(testing_instructions2_trial);
-*/
+
         for(var i = 0; i < testing_data.length; i++)
         {
             for(var j = 0; j < testing_data[i].length; j++)
@@ -227,6 +228,7 @@ function init_exp()
                     sequence_id: j,
                     num_sequences: testing_data[i].length,
                     max_points: <?= $_SESSION["max_points_per_seq"] ?>,
+                    showseqnum: true,
                     phase: 0,
                     group: i,
                                     continue_message: "Next sequence",

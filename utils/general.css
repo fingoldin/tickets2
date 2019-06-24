@@ -147,6 +147,7 @@ button:focus {
 
 #ticket-name {
     font-size: 30px;
+    line-height: 40px;
     margin-bottom: 20px;
     font-weight: bold;
 }
@@ -207,7 +208,7 @@ button:focus {
 }
 
 #ticket-choose-progress-wrap {
-    padding: 10px;
+    padding: 20px 5px 5px 5px;
 }
 
 #ticket-choose-progress-wrap .progress {
@@ -217,6 +218,7 @@ button:focus {
 #ticket-choose-progress {
     font-size: 20px;
     font-weight: 600;
+    min-width: 14%;
 }
 
 #risk-progress-wrap {
@@ -235,6 +237,7 @@ button:focus {
 
 .normal .ticket-img {
     max-height: 350px;
+    max-width: 98%;
 	display: inline-block;
 }
 
