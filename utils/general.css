@@ -150,10 +150,25 @@ button:focus {
     line-height: 40px;
     margin-bottom: 20px;
     font-weight: bold;
+    max-width: 600px;
+    margin: auto;
 }
 
 #ticket-choose-seq span {
     color: red;
+}
+
+#ticket-choose-seq p {
+    text-align: left;
+}
+
+#ticket-choose-seq-product {
+    margin-bottom: 20px;
+}
+
+#ticket-choose-seq-avg-wrap {
+    font-size: 20px;
+    margin: 0px;
 }
 
 .ticket-choose-footer {
@@ -208,7 +223,9 @@ button:focus {
 }
 
 #ticket-choose-progress-wrap {
-    padding: 20px 5px 10px 5px;
+    padding: 20px;
+    margin: auto;
+    max-width: 600px;
 }
 
 #ticket-choose-progress-wrap .progress {

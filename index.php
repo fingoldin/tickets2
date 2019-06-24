@@ -130,7 +130,10 @@ var testing_instructions_trial = {
 var testing_instructions2_trial = {
 	type: "html",
 	url: "<?= $site_prefix ?>/utils/testing_after.html",
-	cont_btn: "testingstart"
+	cont_btn: "testingstart",
+    on_start: function(trial) {
+        $("#ticket-choose-seq").css("display", "none");
+    }
 }
 
 var points_update_trial = {
@@ -187,7 +190,7 @@ function init_exp()
         testing_metadata = da["testing_meta"][0];
 
         var assignment_id = "<?= $_SESSION['assignmentId'] ?>";
-        
+/*        
         timeline.push(consent_trial);
         timeline.push(age_trial);
 
@@ -199,7 +202,7 @@ function init_exp()
         timeline.push(instructions_trial);
 
         timeline.push(testing_instructions_trial);
-                
+*/                
         // example testing sequence
         timeline.push({ type: "ticket-choose",
                 phase: 0,
@@ -211,7 +214,7 @@ function init_exp()
                 name: "Plane Ticket from San Francisco to Vancouver (Economy, One-way)",
                 prices: [184, 180, 224, 165, 181, 199, 185, 193, 218, 126],
                 continue_mesage: "Finish",
-                showseqnum: false,
+                showseqnum: true,
                 sequence: ""
         });
 
@@ -300,7 +303,12 @@ function init()
 <body onload="init()">
 	<div class="wheel-loader-wrap" id="wheel"><div class="wheel-loader"></div></div>
     <div id="ticket-choose-seq" style="display: none">
-        Product <span id="ticket-choose-seq-num"></span> of <span id="ticket-choose-seq-total"></span>
+        <p id="ticket-choose-seq-product">
+            Product <span id="ticket-choose-seq-num"></span> of <span id="ticket-choose-seq-total"></span>
+        </p>
+        <p id="ticket-choose-seq-avg-wrap">
+            Mean price: <span id="ticket-choose-seq-avg"></span>
+        </p>
     </div>
 	<div id="jspsych-main"></div>
 </body>

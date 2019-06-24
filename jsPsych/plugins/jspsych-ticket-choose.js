@@ -32,8 +32,14 @@ jsPsych.plugins["ticket-choose"] = (function()
 
 		display_element.load(SITE_PREFIX + "/utils/ticket-choose.php", function()
 		{
+            var average_price = 0.0;
+            for(var i = 0; i < trial.prices.length; i++) {
+                average_price += trial.prices[i] / trial.prices.length;
+            }
+            
             $("#ticket-choose-seq-num").html(trial.sequence_id + 1);
             $("#ticket-choose-seq-total").html(trial.num_sequences);
+            $("#ticket-choose-seq-avg").html("$" + average_price.toFixed(2));
             if(trial.showseqnum)
                 $("#ticket-choose-seq").css("display", "block");
             
@@ -65,13 +71,7 @@ jsPsych.plugins["ticket-choose"] = (function()
 			var above = display_element.find("#number-animation-above");
 			var below = display_element.find("#number-animation-below");
             
-            var average_price = 0.0;
-            for(var i = 0; i < trial.prices.length; i++) {
-                average_price += trial.prices[i] / trial.prices.length;
-            }
-            
-            above.html("Average of <span>" + trial.prices.length + "</span> prices: <span>$" +
-                        average_price.toFixed(2) + "</span>");
+            above.hide();
 			
 			var listener = jsPsych.pluginAPI.getKeyboardResponse({
 				callback_function: next_price,
@@ -103,6 +103,7 @@ jsPsych.plugins["ticket-choose"] = (function()
                         var r = prices.indexOf(trial.prices[price_num]);
 
                         below.html("");
+                        above.show();
 
                         if(r === 0) {
                             points = trial.max_points;
