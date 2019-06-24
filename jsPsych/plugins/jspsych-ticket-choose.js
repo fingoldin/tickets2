@@ -65,7 +65,13 @@ jsPsych.plugins["ticket-choose"] = (function()
 			var above = display_element.find("#number-animation-above");
 			var below = display_element.find("#number-animation-below");
             
-            above.hide();
+            var average_price = 0.0;
+            for(var i = 0; i < trial.prices.length; i++) {
+                average_price += trial.prices[i] / trial.prices.length;
+            }
+            
+            above.html("Average of <span>" + trial.prices.length + "</span> prices: <span>$" +
+                        average_price.toFixed(2) + "</span>");
 			
 			var listener = jsPsych.pluginAPI.getKeyboardResponse({
 				callback_function: next_price,
@@ -97,7 +103,6 @@ jsPsych.plugins["ticket-choose"] = (function()
                         var r = prices.indexOf(trial.prices[price_num]);
 
                         below.html("");
-                        above.show();
 
                         if(r === 0) {
                             points = trial.max_points;

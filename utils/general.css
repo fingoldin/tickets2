@@ -81,13 +81,13 @@ button:focus {
 #number-animation {
 	font-size: 120px;
 	border-radius: 50%;
-	//background-color: #4CAF50;
 	color: #333;
 	width: auto;
-	height: 200px;
-	line-height: 200px;
+	height: 160px;
+	line-height: 160px;
 	display: inline-block;
 	text-align: center;
+    margin-top: -20px;
 }
 
 #number-animation span {
@@ -135,8 +135,8 @@ button:focus {
 
 #ticket-choose-seq {
     padding: 20px;
-    font-size: 30px;
-    line-height: 30px;
+    font-size: 24px;
+    line-height: 20px;
     position: fixed;
     left: 0;
     top: 0;
@@ -208,7 +208,7 @@ button:focus {
 }
 
 #ticket-choose-progress-wrap {
-    padding: 20px 5px 5px 5px;
+    padding: 20px 5px 10px 5px;
 }
 
 #ticket-choose-progress-wrap .progress {

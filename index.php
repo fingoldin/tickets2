@@ -187,7 +187,7 @@ function init_exp()
         testing_metadata = da["testing_meta"][0];
 
         var assignment_id = "<?= $_SESSION['assignmentId'] ?>";
-        
+/*        
         timeline.push(consent_trial);
         timeline.push(age_trial);
 
@@ -216,7 +216,7 @@ function init_exp()
         });
 
         timeline.push(testing_instructions2_trial);
-
+*/
         for(var i = 0; i < testing_data.length; i++)
         {
             for(var j = 0; j < testing_data[i].length; j++)

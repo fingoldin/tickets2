@@ -27,6 +27,6 @@ $site_prefix = $_SESSION["site_prefix"];
 	</div>
 	<div class="ticket-choose-footer">
 		<button id="ticket-choose-select">Choose this</button>
-		<button id="ticket-choose-next">Next</button>
+		<button id="ticket-choose-next">Next price</button>
 	</div>
 </div>
