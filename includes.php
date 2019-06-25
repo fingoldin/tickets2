@@ -5,7 +5,7 @@ require("../aws/aws-autoloader.php");
 function f_logging($mes, $fname)
 {
 	$f = fopen($fname, "a");
-	fwrite($f, "[" . date("Y-m-d H:i:s") . "] " . $mes . "\n");
+	fwrite($f, "[" . get_time() . "] " . $mes . "\n");
 	fclose($f);
 }
 
@@ -17,7 +17,7 @@ function logging($mes)
 function bonus_log($mes, $opt)
 {
     f_logging($mes . $opt . "\n\n", "../bonus_log_long.txt");
-    f_logging($mes . "\n", "../bonus_log.txt");
+    f_logging($mes, "../bonus_log.txt");
 }
 
 function store_url()
@@ -29,8 +29,7 @@ function store_url()
 
 function get_time()
 {
-	date_default_timezone_set("America/New_York");
-        return date("Y-m-d H:i:s");
+    return date("Y-m-d H:i:s");
 }
 
 function get_points($phase, $group, $sequence, $answer)
@@ -64,6 +63,12 @@ function get_bonus($p)
     return round($p * 0.1);
 }
 
+function get_mturk_credentials() {
+    $data = json_decode(file_get_contents("../mturk_credentials.json"), true);
+    
+    return new Aws\Credentials\Credentials($data["key"], $data["secret"]);
+}
+
 function grant_bonuses()
 {
 	$c = dbConnect();
@@ -72,23 +77,33 @@ function grant_bonuses()
 
 	if(!empty($r))
 	{
-		foreach($r as $row)
-		{
-			if(grant_bonus($row["bonus"], $row["worker_id"], $row["assignment_id"]))
+        $m = false;
+        try {
+            $m = new Aws\MTurk\MTurkClient([
+                "credentials" => get_mturk_credentials(),
+                "version" => "2017-01-17",
+                "endpoint" => "https://mturk-requester.us-east-1.amazonaws.com",
+                "region" => "us-east-1"
+            ]);
+        } catch (Exception $e) {
+            bonus_log("ERROR: Could not create mturk client", ": " . $e->getMessage());
+            $m = false;
+        }
+
+        if($m !== false)
+        {
+            foreach($r as $row)
             {
-                dbQuery($c, "UPDATE responses SET bonus_paid=TRUE WHERE RID=:rid", ["rid" => $row["RID"]]);
+                if(grant_bonus($row["bonus"], $row["worker_id"], $row["assignment_id"], $m))
+                {
+                    dbQuery($c, "UPDATE responses SET bonus_paid=TRUE WHERE RID=:rid", ["rid" => $row["RID"]]);
+                }
             }
-		}
+        }
 	}
 }
 
-function get_mturk_credentials() {
-    $data = json_decode(file_get_contents("../mturk_credentials.json"), true);
-    
-    return new Aws\Credentials\Credentials($data["key"], $data["secret"]);
-}
-
-function grant_bonus($b, $worker_id, $assignment_id)
+function grant_bonus($b, $worker_id, $assignment_id, $mturk)
 {
     if(!session_id())
         session_start();
@@ -100,31 +115,35 @@ function grant_bonus($b, $worker_id, $assignment_id)
 
 	// b is inputted as an int of cents
 	$bonus = $b / 100;
-
-	//echo "bonus: " . $bonus;
+    
     $bonus_str = sprintf("%.2f", $bonus);
-    $info = "WID: [" . $worker_id . "], AID: [" . $assignment_id . "], B: [" . $bonus_str . "]";
-
     $success = false;
-    try {
-        $m = new Aws\MTurk\MTurkClient([
-            "credentials" => get_mturk_credentials(),
-            "version" => "2017-01-17",
-            "endpoint" => "https://mturk-requester.us-east-1.amazonaws.com",
-            "region" => "us-east-1"
-        ]);
+    $balance = "unk";
+    $opt = "";
 
-        $r = $m->sendBonus([
+    try {
+        $b = $mturk->getAccountBalance();
+        $balance = $b["AvailableBalance"];
+    } catch (Exception $e) {
+        $opt = ",   (" . $e->getMessage() . ")";
+        $balance = "unk";
+    }
+    
+    $info = "WID: [" . $worker_id . "], AID: [" . $assignment_id . "], BAL: [" . $balance . "], BON: [" . $bonus_str . "]";
+
+    try {
+        $r = $mturk->sendBonus([
             "WorkerId" => $worker_id,
             "AssignmentId" => $assignment_id,
             "BonusAmount" => $bonus_str,
-            "Reason" => "Thank you for taking the tickets experiment!"
+            "Reason" => "Thank you for taking our psychological study!",
+            "UniqueRequestToken" => $worker_id . $assignment_id
         ]);
         
-        bonus_log($info . "    SUCCEEDED", ": " . json_encode($r));
+        bonus_log($info . "    SUCCEEDED", ": " . json_encode($r) . $opt);
         $success = true;
     } catch (Exception $e) {
-        bonus_log($info . "    FAILED", ": " . $e->getMessage());
+        bonus_log($info . "    FAILED", ": " . $e->getMessage() . $opt);
     }
 
     return $success;
