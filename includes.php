@@ -17,7 +17,7 @@ function logging($mes)
 function bonus_log($mes, $opt)
 {
     f_logging($mes . $opt . "\n\n", "../bonus_log_long.txt");
-    f_logging($mes . "\n", "../bonus_log.txt");
+    f_logging($mes, "../bonus_log.txt");
 }
 
 function store_url()
