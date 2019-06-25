@@ -17,7 +17,7 @@ function logging($mes)
 function bonus_log($mes, $opt)
 {
     f_logging($mes . $opt . "\n\n", "../bonus_log_long.txt");
-    f_logging($mes . "\n\n", "../bonus_log.txt");
+    f_logging($mes, "../bonus_log.txt");
 }
 
 function store_url()
@@ -129,7 +129,8 @@ function grant_bonus($b, $worker_id, $assignment_id)
             "WorkerId" => $worker_id,
             "AssignmentId" => $assignment_id,
             "BonusAmount" => $bonus_str,
-            "Reason" => "Thank you for taking the tickets experiment!"
+            "Reason" => "Thank you for taking the tickets experiment!",
+            "UniqueRequestToken" => $worker_id . $assignment_id
         ]);
         
         bonus_log($info . "    SUCCEEDED", ": " . json_encode($r));
