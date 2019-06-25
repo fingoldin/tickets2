@@ -84,7 +84,7 @@ function grant_bonuses()
 {
 	$c = dbConnect();
 
-	$r = dbQuery($c, "SELECT * FROM responses WHERE bonus_paid=FALSE AND end_time < TIMESTAMPADD(MINUTE, -10, NOW()) AND LENGTH(assignment_id) > 10");
+	$r = dbQuery($c, "SELECT * FROM responses WHERE bonus_paid=FALSE AND end_time < TIMESTAMPADD(MINUTE, -10, NOW()) AND CHAR_LENGTH(assignment_id) > 10");
 
 	if(!empty($r))
 	{
