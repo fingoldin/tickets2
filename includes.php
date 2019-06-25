@@ -84,7 +84,7 @@ function grant_bonuses()
 {
 	$c = dbConnect();
 
-	$r = dbQuery($c, "SELECT * FROM responses WHERE bonus_paid=FALSE AND end_time < TIMESTAMPADD(MINUTE, -10, NOW())");
+	$r = dbQuery($c, "SELECT * FROM responses WHERE bonus_paid=FALSE AND end_time < TIMESTAMPADD(MINUTE, -10, NOW()) AND LENGTH(assignment_id) > 10");
 
 	if(!empty($r))
 	{
@@ -134,9 +134,12 @@ function grant_bonus($b, $worker_id, $assignment_id, $mturk)
 
     try {
         $b = $mturk->getAccountBalance();
-        $balance = $b["AvailableBalance"] . ", " . $b["OnHoldBalance"];
+        $balance = $b["AvailableBalance"];
+        if($b["OnHoldBalance"] != "") {
+            $balance = $balance . ", " . $b["OnHoldBalance"];
+        }
     } catch (Exception $e) {
-        $opt = ",   (" . $e->getMessage() . ")";
+        $opt = "Balance_Error(" . $e->getMessage() . ")";
         $balance = "unk";
     }
     
@@ -148,13 +151,22 @@ function grant_bonus($b, $worker_id, $assignment_id, $mturk)
             "AssignmentId" => $assignment_id,
             "BonusAmount" => $bonus_str,
             "Reason" => "Thank you for taking our psychological study!",
-            "UniqueRequestToken" => $worker_id . $assignment_id
+            "UniqueRequestToken" => ($worker_id . $assignment_id)
         ]);
         
-        bonus_log($info . "    SUCCEEDED", ": " . json_encode($r) . $opt);
+        $r_json = json_encode($r);
+        if($r_json == "{}") {
+            $r_json = "";
+        }
+
+        if($r_json !== "" || $opt !== "") {
+            bonus_log($info . "    SUCCEEDED", ": " . json_encode($r) . "    " . $opt);
+        } else {
+            bonus_log($info . "    SUCCEEDED", "");
+        }
         $success = true;
     } catch (Exception $e) {
-        bonus_log($info . "    FAILED", ": " . $e->getMessage() . $opt);
+        bonus_log($info . "    FAILED", ": " . $e->getMessage() . "    " . $opt);
     }
 
     return $success;
