@@ -134,7 +134,7 @@ function grant_bonus($b, $worker_id, $assignment_id, $mturk)
 
     try {
         $b = $mturk->getAccountBalance();
-        $balance = $b["AvailableBalance"];
+        $balance = $b["AvailableBalance"] . ", " . $b["OnHoldBalance"];
     } catch (Exception $e) {
         $opt = ",   (" . $e->getMessage() . ")";
         $balance = "unk";
