@@ -22,7 +22,7 @@ else if(isset($_SESSION["risk_choices"]) && isset($_SESSION["max_risk_bonus"]) &
     $maximum = max($tmp);
     $minimum = min($tmp);
 
-    $_SESSION["risk_final"] = min($_SESSION["max_risk_bonus"], round($_SESSION["max_risk_bonus"] * ($v - $minimum) / ($maximum - $minimum)));
+    $_SESSION["risk_final"] = max(0, min($_SESSION["max_risk_bonus"], round($_SESSION["max_risk_bonus"] * ($v - $minimum) / ($maximum - $minimum))));
     
     echo $v . "\n" . $idx . "\n" . $_SESSION["risk_final"];
 

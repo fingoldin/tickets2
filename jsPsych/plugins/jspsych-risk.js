@@ -59,6 +59,7 @@ jsPsych.plugins["risk"] = (function()
                 if(trial_num == num_trials) {
                     console.log(choices);
 		            display_element.empty();
+                    console.log(choices);
                     jsPsych.finishTrial({ choices: choices });
                     return;
                 } else if(trial_num == 1) {
