@@ -68,6 +68,8 @@ if(isset($_SESSION["start_time"]) && isset($_SESSION["finished"]) && $_SESSION["
 		}
 	}
 
+    logging("Total bonus: " . $arr["bonus"]);
+
 	subject_save_response($arr);
 	mysql_save_response($arr);
 	log_save_response($arr);

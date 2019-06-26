@@ -6,6 +6,7 @@ if(!session_id())
     session_start();
 
 if(isset($_SESSION["risk_final"])) {
+    logging("risk_final already set in riskchoose.php");
     echo "0";
 }
 else if(isset($_SESSION["risk_choices"]) && isset($_SESSION["max_risk_bonus"]) && isset($_SESSION["risk_options"])) {
@@ -24,6 +25,8 @@ else if(isset($_SESSION["risk_choices"]) && isset($_SESSION["max_risk_bonus"]) &
     $_SESSION["risk_final"] = min($_SESSION["max_risk_bonus"], round($_SESSION["max_risk_bonus"] * ($v - $minimum) / ($maximum - $minimum)));
     
     echo $v . "\n" . $idx . "\n" . $_SESSION["risk_final"];
+
+    logging("riskchoose.php OK, with (" . $v . ", " . $idx . ", " . $_SESSION["risk_final"] . ")");
 } else {
     logging("Something not set in riskchoose.php");
     echo "0";

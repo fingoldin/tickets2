@@ -9,7 +9,7 @@ require("./includes.php");
 
 function checkAnswer($phase, $group, $sequence, $answer)
 {
-	logging("checkAnswer called with " . $phase . " " . $group . " " . $sequence . " " . $answer);
+//	logging("checkAnswer called with " . $phase . " " . $group . " " . $sequence . " " . $answer);
 
 	if(!isset($_SESSION["points"]) || !isset($_SESSION["checked"]) || !isset($_SESSION["checked_assoc"]) || !isset($_SESSION["testing_data"]))
 		logging("Something not set in checkAnswer");
@@ -29,7 +29,7 @@ function checkAnswer($phase, $group, $sequence, $answer)
 			$_SESSION["points"][$phase] += $p;
 		//$data["place"] = array_search($a, $arr) + 1;
 
-		logging("checkAnswers called successfully, phase " . $phase . " gained " . $p . " points and now has " . $_SESSION["points"][$phase] . " points");
+//		logging("checkAnswers called successfully, phase " . $phase . " gained " . $p . " points and now has " . $_SESSION["points"][$phase] . " points");
 
 		array_push($_SESSION["checked"][$phase][$group], $sequence);
 		$_SESSION["checked_assoc"][$phase][$group][$sequence] = $p;

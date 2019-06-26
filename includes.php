@@ -11,7 +11,26 @@ function f_logging($mes, $fname)
 
 function logging($mes)
 {
-    f_logging($mes, "./logging.txt");
+    if(!session_id()) {
+        session_start();
+    }
+
+    $id = "";
+    if(isset($_SESSION["assignmentId"])) {
+        $id = "(" . $_SESSION["assignmentId"];
+    }
+
+    if(isset($_SESSION["workerId"])) {
+        if($id != "") {
+            $id = $id . ", " . $_SESSION["workerId"] . ")  ";
+        } else {
+            $id = "(" . $_SESSION["workerId"] . ")  ";
+        }
+    } else {
+        $id = $id . ")  ";
+    }
+
+    f_logging($id . $mes, "./logging.txt");
 }
 
 function bonus_log($mes, $opt)
