@@ -1,9 +1,11 @@
 <?php
 
+require("./includes.php");
+
 if(!session_id())
     session_start();
 
-if(isset($_POST["choice"]) && isset($_SESSION["risk_choices"]) && isset($_POST["index"])) {
+if(isset($_POST["choice"]) && isset($_SESSION["risk_choices"]) && isset($_SESSION["risk_options"]) && isset($_POST["index"])) {
     $idx = intval($_POST["index"]);
     if($idx >= 0 && $idx < count($_SESSION["risk_options"])) {
         if($_POST["choice"] == "wheel") {
