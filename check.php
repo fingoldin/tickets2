@@ -29,7 +29,7 @@ function checkAnswer($phase, $group, $sequence, $answer)
 			$_SESSION["points"][$phase] += $p;
 		//$data["place"] = array_search($a, $arr) + 1;
 
-//		logging("checkAnswers called successfully, phase " . $phase . " gained " . $p . " points and now has " . $_SESSION["points"][$phase] . " points");
+		logging("checkAnswers called successfully, phase " . $phase . " gained " . $p . " points and now has " . $_SESSION["points"][$phase] . " points");
 
 		array_push($_SESSION["checked"][$phase][$group], $sequence);
 		$_SESSION["checked_assoc"][$phase][$group][$sequence] = $p;
