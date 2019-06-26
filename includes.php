@@ -647,7 +647,9 @@ function startSession() {
     }
     //var_dump($risk_options);
     //array_walk($risk_options, "splice_risk");
+
     shuffle($risk_options);
+    array_unshift($risk_options, [170, 160, 180, 170, 10]);
     $_SESSION["risk_options"] = $risk_options;
 
     $_SESSION["max_risk_bonus"] = 1000; // tenths of a cent

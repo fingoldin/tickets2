@@ -14,7 +14,7 @@ else if(isset($_SESSION["risk_choices"]) && isset($_SESSION["max_risk_bonus"]) &
     $v = intval($_SESSION["risk_choices"][$idx]);
 
     $tmp = [];
-    for($i = 0; $i < count($_SESSION["risk_options"]); $i++) {
+    for($i = 1; $i < count($_SESSION["risk_options"]); $i++) {
         for($j = 0; $j < 3; $j++) {
             array_push($tmp, $_SESSION["risk_options"][$i][$j]);
         }

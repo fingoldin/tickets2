@@ -8,7 +8,7 @@ jsPsych.plugins["risk"] = (function()
 
         var all_choices = trial.all_choices || [];
         var trial_num = 0;
-        var num_trials = all_choices.unshift([170, 160, 180, 170, 10]);
+        var num_trials = all_choices.length;
         
 		display_element.empty();
 
@@ -52,7 +52,9 @@ jsPsych.plugins["risk"] = (function()
                     return;
 
                 valid_done_click = false;
-                choices.push({ result: result, choices: all_choices[trial_num] });
+                if(trial_num > 0) {
+                    choices.push({ result: result, choices: all_choices[trial_num] });
+                }
                 trial_num += 1;
                 if(trial_num == num_trials) {
                     console.log(choices);

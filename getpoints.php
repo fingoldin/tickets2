@@ -7,11 +7,12 @@ if(!session_id())
 
 if(isset($_SESSION["points"])) {
     $p = array_sum($_SESSION["points"]);
-    logging("getpoints.php OK, with " . $p);
 
     if(isset($_SESSION["risk_final"])) {
         $p += $_SESSION["risk_final"];
     }
+    
+    logging("getpoints.php OK, with " . $p);
 
     echo $p;
 } else {
