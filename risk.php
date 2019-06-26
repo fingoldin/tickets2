@@ -25,7 +25,9 @@ if(isset($_POST["choice"]) && isset($_SESSION["risk_choices"]) && isset($_SESSIO
         $_SESSION["risk_choices"][$idx] = $val;
         logging("risk.php OK, with " . $val);
     }
-    logging("risk.php bad params");
+    else {
+        logging("risk.php bad params");
+    }
 }
 else {
     logging("Something not set in risk.php");
