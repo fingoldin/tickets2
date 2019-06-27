@@ -5,9 +5,6 @@ session_start();
 //error_reporting(E_ALL);
 //ini_set('display_errors', 'on');
 
-ini_set("session.gc_maxlifetime", 7200);
-//echo ini_get("session.gc_maxlifetime");
-
 require("./includes.php");
 
 startSession();
