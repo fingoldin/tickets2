@@ -16,7 +16,7 @@ store_url();
 
 //phpinfo();
 
-grant_bonuses();
+//grant_bonuses();
 
 $preview = true;
 
