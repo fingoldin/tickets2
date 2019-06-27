@@ -1,5 +1,9 @@
 <?php
 
+ini_set("session.gc_maxlifetime", 36000);
+echo ini_get("session.gc_maxlifetime");
+echo ini_get("session.cookie_lifetime");
+
 require("../aws/aws-autoloader.php");
 
 function f_logging($mes, $fname)
@@ -826,8 +830,5 @@ function startSession() {
     }
 }
 
-ini_set("session.gc_maxlifetime", 36000);
-echo ini_get("session.gc_maxlifetime");
-echo ini_get("session.cookie_lifetime");
 
 ?>
