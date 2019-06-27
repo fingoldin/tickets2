@@ -826,8 +826,4 @@ function startSession() {
     }
 }
 
-ini_set("session.gc_maxlifetime", 36000);
-echo ini_get("session.gc_maxlifetime");
-echo ini_get("session.cookie_lifetime");
-
 ?>
