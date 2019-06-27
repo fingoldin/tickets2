@@ -1,9 +1,7 @@
 <?php
 
-//error_reporting(E_ALL);
-//ini_set('display_errors', 'on');
-
 session_start();
+
 
 require("./includes.php");
 
@@ -13,7 +11,7 @@ store_url();
 
 //phpinfo();
 
-grant_bonuses();
+//grant_bonuses();
 
 $preview = true;
 
