@@ -14,7 +14,7 @@ store_url();
 
 //phpinfo();
 
-grant_bonuses();
+//grant_bonuses();
 
 $preview = true;
 
@@ -191,7 +191,7 @@ function init_exp()
         testing_metadata = da["testing_meta"][0];
 
         var assignment_id = "<?= $_SESSION['assignmentId'] ?>";
-/*        
+        
         timeline.push(consent_trial);
         timeline.push(age_trial);
 
@@ -203,7 +203,7 @@ function init_exp()
         timeline.push(instructions_trial);
 
         timeline.push(testing_instructions_trial);
-*/                
+                
         // example testing sequence
         timeline.push({ type: "ticket-choose",
                 phase: 0,
