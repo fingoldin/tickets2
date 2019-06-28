@@ -6,6 +6,19 @@ $site_prefix = $_SESSION["site_prefix"];
 
 ?>
 
+<script type="text/javascript">
+function resize()
+{
+    var s_top = $("#jspsych-main").scrollTop();
+    var tcs = $("#ticket-choose-seq");
+    var h = tcs.height();
+    var o = Math.max(0, 1 - s_top / h);
+    tcs.css("opacity", o);
+}
+
+$(window).resize(resize);
+$("#jspsych-main").scroll(resize);
+</script>
 <div id="ticket-choose-main">
     <div id="ticket-name"></div>
 	<div id="ticket-wrap"></div>
