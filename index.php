@@ -156,7 +156,7 @@ function registerImage(name)
     image.img.alt = "The image couldn't be displayed";
     image.img.classList = "ticket-img";
     image.img.src = image.src;
-    
+
     //window.registeredImages.unshift(image);
 
     return image;
@@ -167,7 +167,7 @@ function registerImage(name)
     if(window.registeredImages && window.registeredImages.length) {
         var image = window.registeredImages.pop();
         console.log("PRELOADING IMAGE " + image.src);
-        
+
         image.img = new Image();
         image.img.alt = "The image couldn't be displayed";
 		image.img.classList = "ticket-img";
@@ -191,7 +191,7 @@ function init_exp()
         testing_metadata = da["testing_meta"][0];
 
         var assignment_id = "<?= $_SESSION['assignmentId'] ?>";
-        
+
         timeline.push(consent_trial);
         timeline.push(age_trial);
 
@@ -203,7 +203,7 @@ function init_exp()
         timeline.push(instructions_trial);
 
         timeline.push(testing_instructions_trial);
-                
+
         // example testing sequence
         timeline.push({ type: "ticket-choose",
                 phase: 0,
@@ -246,9 +246,9 @@ function init_exp()
     //        timeline.push(points_update_trial);
             //timeline.push(training_trial2);
         }
-       
+
      //   preloadImage();
-        
+
         //timeline.push(special_sequence_trial);
 
         timeline.push(final_trial);
@@ -308,7 +308,7 @@ function init()
             Product <span id="ticket-choose-seq-num"></span> of <span id="ticket-choose-seq-total"></span>
         </p>
         <p id="ticket-choose-seq-avg-wrap">
-            Mean price: <span id="ticket-choose-seq-avg"></span>
+            Average price: <span id="ticket-choose-seq-avg"></span>
         </p>
     </div>
 	<div id="jspsych-main"></div>
