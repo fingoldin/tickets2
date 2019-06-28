@@ -133,7 +133,7 @@ var testing_instructions2_trial = {
 	url: "<?= $site_prefix ?>/utils/testing_after.html",
 	cont_btn: "testingstart",
     on_start: function(trial) {
-        $("#ticket-choose-seq").css("display", "none");
+        $("#ticket-choose-seq").css("opacity", "0");
     }
 }
 
@@ -144,7 +144,7 @@ var points_update_trial = {
 var final_trial = {
 	type: "final",
     on_start: function(trial) {
-        $("#ticket-choose-seq").css("display", "none");
+        $("#ticket-choose-seq").css("opacity", "0");
     }
 }
 
@@ -215,7 +215,6 @@ function init_exp()
                 name: "Plane Ticket from San Francisco to Vancouver (Economy, One-way)",
                 prices: [184, 180, 224, 165, 181, 199, 185, 193, 218, 126],
                 continue_mesage: "Finish",
-                showseqnum: true,
                 sequence: ""
         });
 
@@ -232,7 +231,6 @@ function init_exp()
                     sequence_id: j,
                     num_sequences: testing_data[i].length,
                     max_points: <?= $_SESSION["max_points_per_seq"] ?>,
-                    showseqnum: true,
                     phase: 0,
                     group: i,
                                     continue_message: "Next sequence",
@@ -303,7 +301,7 @@ function init()
 
 <body onload="init()">
 	<div class="wheel-loader-wrap" id="wheel"><div class="wheel-loader"></div></div>
-    <div id="ticket-choose-seq" style="display: none">
+    <div id="ticket-choose-seq" style="opacity: 0">
         <p id="ticket-choose-seq-product">
             Product <span id="ticket-choose-seq-num"></span> of <span id="ticket-choose-seq-total"></span>
         </p>

@@ -40,8 +40,7 @@ jsPsych.plugins["ticket-choose"] = (function()
             $("#ticket-choose-seq-num").html(trial.sequence_id + 1);
             $("#ticket-choose-seq-total").html(trial.num_sequences);
             $("#ticket-choose-seq-avg").html("$" + average_price.toFixed(2));
-            if(trial.showseqnum)
-                $("#ticket-choose-seq").css("display", "block");
+            $("#ticket-choose-seq").css("opacity", "1");
             
             var ticket_wrap = display_element.find("#ticket-wrap");
             ticket_wrap.append(trial.image.img);
@@ -70,8 +69,8 @@ jsPsych.plugins["ticket-choose"] = (function()
 
 			var above = display_element.find("#number-animation-above");
 			var below = display_element.find("#number-animation-below");
-            
-            above.hide();
+
+            above.html("Price <span>1</span> of <span>" + num_prices + "</span>:");
 			
 			var listener = jsPsych.pluginAPI.getKeyboardResponse({
 				callback_function: next_price,
@@ -103,7 +102,6 @@ jsPsych.plugins["ticket-choose"] = (function()
                         var r = prices.indexOf(trial.prices[price_num]);
 
                         below.html("");
-                        above.show();
 
                         if(r === 0) {
                             points = trial.max_points;
@@ -116,6 +114,8 @@ jsPsych.plugins["ticket-choose"] = (function()
 
                             above.html("You could have saved $" + diff.toFixed(2) + " if had you chosen a different price");
                         }
+                        
+                        above.show();
 
                         price.hide();
 
@@ -168,6 +168,7 @@ jsPsych.plugins["ticket-choose"] = (function()
 						price.animate({ transform: "translateX(30px)", opacity: "0" }, 200, function() {
 							price.html("<span>$</span>" + trial.prices[price_num].toFixed(2)).css("transform", "translateX(-30px)");
 							price.animate({ transform: "translateX(0px)", opacity: "1" }, 200);
+							above.html("Price <span>" + (price_num + 1) + "</span> of <span>" + num_prices + "</span>:");
                             next_price.startTime = gt();
 						});
 					}

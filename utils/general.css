@@ -131,6 +131,7 @@ button:focus {
 	-webkit-transition: opacity 0.2s;
 	transition: opacity 0.2s;
 	opacity: 0;
+    margin: 120px 0px;
 }
 
 #ticket-choose-seq {
@@ -143,6 +144,8 @@ button:focus {
     border: 1px solid #ccc;
     border-radius: 0px 0px 20px 0px;
     background-color: #eee;
+    z-index: 3;
+    transition: opacity 0.2s;
 }
 
 #ticket-name {
@@ -166,8 +169,8 @@ button:focus {
 }
 
 #ticket-choose-seq-avg-wrap {
-    font-size: 20px;
-    margin: 0px;
+    font-size: 30px;
+    margin: 0px 0px 5px 0px;
 }
 
 .ticket-choose-footer {
