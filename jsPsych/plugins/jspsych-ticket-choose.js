@@ -115,10 +115,10 @@ jsPsych.plugins["ticket-choose"] = (function()
                             var diff = trial.prices[price_num] - prices[0];
 
                             var prefix = "You could";
-                            if(frac >= 0.9) {
+/*                            if(frac >= 0.9) {
                                 prefix = "Good job! You would only";
                             }
-                            
+*/                            
                             above.html(prefix + " have saved $" + diff.toFixed(2) + " if had you chosen a different price");
                         }
                         
