@@ -13,7 +13,7 @@ store_url();
 
 //phpinfo();
 
-grant_bonuses();
+//grant_bonuses();
 
 $preview = true;
 
@@ -181,7 +181,10 @@ var testing_instructions_trial = {
 var testing_instructions2_trial = {
 	type: "html",
 	url: "<?= $site_prefix ?>/utils/testing_after.html",
-	cont_btn: "testingstart"
+	cont_btn: "testingstart",
+    on_start: function(trial) {
+        $("#ticket-choose-seq").css("opacity", "0");
+    }
 }
 
 // Second bar graph to see learning
@@ -283,7 +286,10 @@ var p2_training_trial3 = {
 }
 
 var points_update_trial = {
-    type: "points-update"
+    type: "points-update",
+    on_start: function(trial) {
+        $("#ticket-choose-seq").css("opacity", "0");
+    }
 }
 
 var p2_points_update_trial = {
@@ -300,7 +306,10 @@ var riskchoose_trial = {
 }
 
 var final_trial = {
-	type: "final"
+	type: "final",
+    on_start: function(trial) {
+        $("#ticket-choose-seq").css("opacity", "0");
+    }
 }
 
 var risk_prompts = ["Admitting that your tastes are different from those of a friend.",
@@ -573,7 +582,7 @@ function init_exp()
                 max_points: <?= $_SESSION["max_points_per_seq"] ?>,
 				phase: 0,
                 group: i,
-                       	        continue_message: "Next sequence",
+                continue_message: "Next sequence &#187;",
 				sequence: "In sequence <span>" + (j + 1) + "</span> out of <span>" + testing_data[i].length + "</span>",
 				showpoints: true,
 				on_finish: function(data) {
@@ -585,7 +594,10 @@ function init_exp()
         if(i < testing_data.length-1) {
             timeline.push({ type: "text", 
                 text: "<span style='font-size: 20px'>Very good! The next " + testing_data[i + 1].length + " sequences will each have " + testing_data[i + 1][0].length + " tickets. Press Enter to continue.</span>",
-                choices: [13]
+                choices: [13],
+                on_start: function(trial) {
+                    $("#ticket-choose-seq").css("opacity", "0");
+                }
             });
         }
 	}
@@ -655,7 +667,7 @@ function init_exp()
                 max_points: <?= $_SESSION["max_points_per_seq"] ?>,
 				phase: 1,
                 group: i,
-                       	        continue_message: "Next sequence",
+                continue_message: "Next sequence &#187;",
 				sequence: "In sequence <span>" + (j + 1) + "</span> out of <span>" + p2_testing_data[i].length + "</span>",
 			//	points: function() { return points_counter.p[0]; },
 				showpoints: true,
@@ -668,7 +680,10 @@ function init_exp()
         if(i < p2_testing_data.length-1) {
             timeline.push({ type: "text", 
                 text: "<span style='font-size: 20px'>Very good! The next " + p2_testing_data[i + 1].length + " sequences will each have " + p2_testing_data[i + 1][0].length + " tickets. Press Enter to continue.</span>",
-                choices: [13]
+                choices: [13],
+                on_start: function(trial) {
+                    $("#ticket-choose-seq").css("opacity", "0");
+                }
             });
         }
 	}
@@ -739,6 +754,9 @@ function init()
 
 <body onload="init()">
 	<div class="wheel-loader-wrap" id="wheel"><div class="wheel-loader"></div></div>
+    <div id="ticket-choose-seq" style="opacity: 0">
+        Sequence <span id="ticket-choose-seq-num"></span> of <span id="ticket-choose-seq-total"></span>
+    </div>
 	<div id="jspsych-main"></div>
 </body>
 

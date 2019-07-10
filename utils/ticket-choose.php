@@ -6,9 +6,6 @@ $site_prefix = $_SESSION["site_prefix"];
 
 ?>
 
-<div id="ticket-choose-seq">
-    Sequence <span id="ticket-choose-seq-num"></span> of <span id="ticket-choose-seq-total"></span>
-</div>
 <div class="ticket-choose-main">
     <div id="ticket-choose-progress-wrap">
         <link rel="stylesheet" href="<?= $site_prefix ?>/utils/bootstrap.min.css">
@@ -29,6 +26,6 @@ $site_prefix = $_SESSION["site_prefix"];
 	</div>
 	<div class="ticket-choose-footer">
 		<button id="ticket-choose-select">Choose this</button>
-		<button id="ticket-choose-next">Next</button>
+		<button id="ticket-choose-next" style="background-color: #ddd; color: black">Next price &#187;</button>
 	</div>
 </div>
