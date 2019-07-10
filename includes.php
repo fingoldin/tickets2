@@ -65,7 +65,7 @@ function get_bonus($p)
 
 function get_mturk_credentials() {
     $data = json_decode(file_get_contents("../mturk_credentials.json"), true);
-    
+
     return new Aws\Credentials\Credentials($data["key"], $data["secret"]);
 }
 
@@ -115,7 +115,7 @@ function grant_bonus($b, $worker_id, $assignment_id, $mturk)
 
 	// b is inputted as an int of cents
 	$bonus = $b / 100;
-    
+
     $bonus_str = sprintf("%.2f", $bonus);
     $success = false;
     $balance = "unk";
@@ -131,7 +131,7 @@ function grant_bonus($b, $worker_id, $assignment_id, $mturk)
         $opt = "Balance_Error(" . $e->getMessage() . ")";
         $balance = "unk";
     }
-    
+
     $info = "WID: [" . $worker_id . "], AID: [" . $assignment_id . "], BAL: [" . $balance . "], BON: [" . $bonus_str . "]";
 
     try {
@@ -142,7 +142,7 @@ function grant_bonus($b, $worker_id, $assignment_id, $mturk)
             "Reason" => "Thank you for taking our psychological study!",
             "UniqueRequestToken" => ($worker_id . $assignment_id)
         ]);
-        
+
         $r_json = json_encode($r);
         if($r_json == "{}") {
             $r_json = "";
@@ -257,7 +257,7 @@ function startSession() {
     $test_blocks = [10];
 
     // Number of sequences in each block
-    $ntest_sequences = 6;
+    $ntest_sequences = 62;
 
     // The max number of points in a sequence
     $_SESSION["max_points_per_seq"] = 40; // in tenths of a cent
