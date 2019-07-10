@@ -48,8 +48,9 @@ jsPsych.plugins["ticket-choose"] = (function()
                 //n_d2.style = "width: " + x
                 but_wrap.append(n_d2);
             }*/
-            display_element.find("#ticket-choose-seq-num").html(trial.sequence_id + 1);
-            display_element.find("#ticket-choose-seq-total").html(trial.num_sequences);
+            $("#ticket-choose-seq-num").html(trial.sequence_id + 1);
+            $("#ticket-choose-seq-total").html(trial.num_sequences);
+            $("#ticket-choose-seq").css("opacity", "1");
             
             var progress_bar = display_element.find("#ticket-choose-progress"); 
             progress_bar.css("width", (100 / num_prices).toFixed(0) + "%");
