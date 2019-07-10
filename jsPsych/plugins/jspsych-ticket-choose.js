@@ -21,6 +21,7 @@ jsPsych.plugins["ticket-choose"] = (function()
 		trial.group = trial.group || 0;
         trial.max_points = trial.max_points || 0;
         trial.name = trial.name || "";
+        trial.product_id = trial.product_id || 0;
 
 		var num_prices = trial.prices.length;
 		if(!num_prices)
@@ -108,11 +109,17 @@ jsPsych.plugins["ticket-choose"] = (function()
                             above.html("Congratulations! Your chose the lowest price!");
                         }
                         else {
-                            points = Math.round(trial.max_points * (prices[prices.length - 1] - trial.prices[price_num]) / (prices[prices.length - 1] - prices[0]));
+                            var frac = (prices[prices.length - 1] - trial.prices[price_num]) / (prices[prices.length - 1] - prices[0]);
+                            points = Math.round(trial.max_points * frac);
                             
                             var diff = trial.prices[price_num] - prices[0];
 
-                            above.html("You could have saved $" + diff.toFixed(2) + " if had you chosen a different price");
+                            var prefix = "You could";
+                            if(frac >= 0.9) {
+                                prefix = "Good job! You would only";
+                            }
+                            
+                            above.html(prefix + " have saved $" + diff.toFixed(2) + " if had you chosen a different price");
                         }
                         
                         above.show();
@@ -136,7 +143,7 @@ jsPsych.plugins["ticket-choose"] = (function()
 					});
 				}
 				else
-					end_trial(0, -1);
+					end_trial(0, -1, 0);
 			}
 
 			function next_price()
@@ -196,9 +203,12 @@ jsPsych.plugins["ticket-choose"] = (function()
                     "name": trial.name,
 					"times": ti,
 					"next_num": next_num,
-                    "group": trial.group
+                    "group": trial.group,
+                    "average_price": average_price,
+                    "product_id": trial.product_id
                 };
 
+                console.log(trial_data);
                 jsPsych.finishTrial(trial_data);
             }
 		});

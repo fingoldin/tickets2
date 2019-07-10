@@ -1,6 +1,5 @@
 <?php
 
-
 //error_reporting(E_ALL);
 //ini_set('display_errors', 'on');
 
@@ -191,7 +190,7 @@ function init_exp()
         testing_metadata = da["testing_meta"][0];
 
         var assignment_id = "<?= $_SESSION['assignmentId'] ?>";
-
+/*
         timeline.push(consent_trial);
         timeline.push(age_trial);
 
@@ -209,6 +208,7 @@ function init_exp()
                 phase: 0,
                 sequence_id: 0,
                 num_sequences: 1,
+                product_id: 0,
                 row: -1,
                 max_points: <?= $_SESSION["max_points_per_seq"] ?>,
                 image: registerImage("trial.jpg"),
@@ -219,7 +219,7 @@ function init_exp()
         });
 
         timeline.push(testing_instructions2_trial);
-
+*/
         for(var i = 0; i < testing_data.length; i++)
         {
             for(var j = 0; j < testing_data[i].length; j++)
@@ -228,12 +228,13 @@ function init_exp()
                     prices: testing_data[i][j],
                     image: registerImage(testing_metadata[i][j]["img_name"]),
                     name: testing_metadata[i][j]["name"],
+                    product_id: testing_metadata[i][j]["id"],
                     sequence_id: j,
                     num_sequences: testing_data[i].length,
                     max_points: <?= $_SESSION["max_points_per_seq"] ?>,
                     phase: 0,
                     group: i,
-                                    continue_message: "Next sequence",
+                                    continue_message: "Next sequence &#187;",
                     sequence: "In sequence <span>" + (j + 1) + "</span> out of <span>" + testing_data[i].length + "</span>",
                     on_finish: function(data) {
                         $.post("<?= $site_prefix ?>/check.php", { phase: 0, group: data.group, sequence: data.sequence, answer: data.result }, function(r) { console.log(r) });

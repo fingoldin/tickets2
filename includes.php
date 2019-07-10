@@ -287,6 +287,9 @@ function startSession() {
     $_SESSION["start_time"] = get_time();
 
     $products = json_decode(file_get_contents("products.json"), true);
+    for($i = 0; $i < count($products); $i++) {
+        $products[$i]["id"] = $i + 1;
+    }
     shuffle($products);
 
     // Generate test data
