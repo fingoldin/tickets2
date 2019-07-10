@@ -40,6 +40,6 @@ $("#jspsych-main").scroll(resize);
 	</div>
 	<div class="ticket-choose-footer">
 		<button id="ticket-choose-select">Choose this</button>
-		<button id="ticket-choose-next" style="background-color: #ddd; color: black">Next price <span style="font-size: 20px">&#187;</span></button>
+		<button id="ticket-choose-next" style="background-color: #ddd; color: black">Next price &#187;</button>
 	</div>
 </div>
