@@ -626,7 +626,7 @@ function startSession() {
     // The max number of points in a sequence
     $_SESSION["max_points_per_seq"] = 25; // in tenths of a cent
 
-    $_SESSION["site_prefix"] = "/christiane/tickets5";
+    $_SESSION["site_prefix"] = "/christiane/tickets3type";
 
     $_SESSION["training_sort_total"] = [100, 100]; // desired values, this is updated to the actual
 
@@ -638,18 +638,12 @@ function startSession() {
     $risk_file = fopen($risk_options_file, "r");
     $risk_options = [];
     $risk_row = [];
-//    $i = 0;
+    
     while(($risk_row = fgetcsv($risk_file)) !== FALSE) {
         array_push($risk_options, array_map("intval", $risk_row));
-//        if($i > 2)
-//            break;
-//        $i += 1;
     }
-    //var_dump($risk_options);
-    //array_walk($risk_options, "splice_risk");
 
     shuffle($risk_options);
-    array_unshift($risk_options, [170, 160, 180, 170, 10]);
     $_SESSION["risk_options"] = $risk_options;
 
     $_SESSION["max_risk_bonus"] = 1000; // tenths of a cent
