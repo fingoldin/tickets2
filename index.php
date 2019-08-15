@@ -426,6 +426,7 @@ function init_exp()
 
 	$.post("<?= $site_prefix ?>/get.php", { f7g12d: "y" }, function(d) {
 
+    console.log(d);
     var animdata = [];
 	var animanswers = [];
 	var animdata2 = [];
@@ -447,7 +448,7 @@ function init_exp()
     var training_sort = da["training_sort"];
     var threshold = parseFloat(da["training_threshold"]);
 
-    risk_trial.all_choices = da["risk_options"];
+    risk_one_trial.all_choices = da["risk_one_options"];
 
 	//animation_trial.prices = animdata;
 	//p2_animation_trial.prices = animdata2;
@@ -662,7 +663,7 @@ function init_exp()
     timeline.push(risksurvey_trial);
 */
     timeline.push(risk_one_trial);
-    timeline.push(risk_trial);
+//    timeline.push(risk_trial);
 //    timeline.push(riskchoose_trial);
 
 	//timeline.push(special_sequence_trial);

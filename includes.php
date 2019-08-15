@@ -2,6 +2,40 @@
 
 require("../aws/aws-autoloader.php");
 
+function random_weighted_cmp($a, $b)
+{
+    if($a["weight"] == $b["weight"]) {
+        return 0;
+    }
+    return($a["weight"] < $b["weight"]) ? -1 : 1;
+}
+
+
+// Return an random index from a list of weights. The weights array HAS to be sorted
+function random_weighted($weights)
+{
+    $sorted_weights = array();
+
+    for($i = 0; $i < count($weights); $i++) {
+        array_push($sorted_weights, ["weight" => $weights[$i], "index" => $i]);
+    }
+
+    usort($sorted_weights, "random_weighted_cmp");
+
+    $total = array_sum($weights);
+    $max = mt_getrandmax();
+    $rand = $total * (mt_rand() / $max);
+
+    for($i = 0; $i < count($sorted_weights); $i++) {
+        $rand -= $sorted_weights[$i]["weight"];
+        if($rand <= 0) {
+            return $sorted_weights[$i]["index"];
+        }
+    }
+
+    return $sorted_weights[0]["index"];
+}
+
 function f_logging($mes, $fname)
 {
 	$f = fopen($fname, "a");
@@ -79,7 +113,7 @@ function get_points($phase, $group, $sequence, $answer)
 }
 
 
-// returns an integer for the number of cents
+// returns an integer for the number of tenths of cents
 function get_bonus($p)
 {
     if(!session_id())
@@ -90,7 +124,7 @@ function get_bonus($p)
 	else if($p < 0)
 		$p = 0;
 
-    return round($p * 0.1);
+    return $p;
 }
 
 function get_mturk_credentials() {
@@ -630,24 +664,23 @@ function startSession() {
 
     $_SESSION["training_sort_total"] = [100, 100]; // desired values, this is updated to the actual
 
-    $risk_options_file = "Gambles_v2.csv";
+    $risk_file = "risk.json";
+    $risk_one_file = "risk_one.json";
     $pert_file = "vec_test_right.csv";
+
+    // Number of times you can spin the spinner in the risk_one trial
+    $_SESSION["num_risk_one"] = 5;
 
     /****               END PARAMETERS                 ****/
 
-    $risk_file = fopen($risk_options_file, "r");
-    $risk_options = [];
-    $risk_row = [];
+    $_SESSION["risk_options"] = json_decode(file_get_contents($risk_file), true);
+
+    // This a risk set where the user ends upon clicking the fixed amount
+    $risk_one_json = json_decode(file_get_contents($risk_one_file), true);
+    $_SESSION["risk_one_options"] = array_fill(0, $_SESSION["num_risk_one"], $risk_one_json);
+
+    $_SESSION["risk_one_choices"] = [];
     
-    while(($risk_row = fgetcsv($risk_file)) !== FALSE) {
-        array_push($risk_options, array_map("intval", $risk_row));
-    }
-
-    shuffle($risk_options);
-    $_SESSION["risk_options"] = $risk_options;
-
-    $_SESSION["max_risk_bonus"] = 1000; // tenths of a cent
-
     $tmp = range(0, count($stddevs_unsorted) - 1);
     shuffle($tmp);
     $stddevs = [];
@@ -661,7 +694,7 @@ function startSession() {
 
     $_SESSION["risk_choices"] = [];
 
-    $_SESSION["max_points"] = $_SESSION["max_risk_bonus"] + $_SESSION["max_points_per_seq"] * $ntest_sequences * count($test_blocks) * $nphases; // in tenths of a cent
+    $_SESSION["max_points"] = $_SESSION["max_points_per_seq"] * $ntest_sequences * count($test_blocks) * $nphases; // in tenths of a cent
 
     $_SESSION["points"] = [];
     $_SESSION["checked"] = [];

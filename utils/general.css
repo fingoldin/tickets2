@@ -361,8 +361,7 @@ button:focus {
 }
 
 .risk-canvas-wrap {
-    float: left;
-    position: relative;
+    display: inline-block;
 }
 
 #risk-canvas:hover {
@@ -383,8 +382,9 @@ button:focus {
 }
 
 .risk-low {
-    width: 50%;
-    float: left;
+    display: inline-block;
+    vertical-align: top;
+    margin-bottom: 40px;
 }
 
 #risk-low-button {

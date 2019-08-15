@@ -13,7 +13,7 @@ jsPsych.plugins["risk"] = (function()
         // [{ fixed: 140, spinner: [{fraction: 0.2, value: 170}]}]
         //var all_choices = trial.all_choices || [];
         
-        var all_choices = [
+/*        var all_choices = [
             { fixed: 170, spinner: [
                 { fraction: 0.1, value: 140 },
                 { fraction: 0.2, value: 150 },
@@ -33,6 +33,9 @@ jsPsych.plugins["risk"] = (function()
                 { fraction: 0.2, value: 130 }
             ] }
         ];
+ */
+ 
+        var all_choices = trial.all_choices;
         
         var trial_num = 0;
         var num_trials = all_choices.length;
@@ -46,6 +49,10 @@ jsPsych.plugins["risk"] = (function()
         var php_site = SITE_PREFIX + "/utils/risk.php";
         if(one_trial)
             php_site = SITE_PREFIX + "/utils/risk_one.php";
+        
+        var post_site = SITE_PREFIX + "/risk.php";
+        if(one_trial)
+            post_site = SITE_PREFIX + "/risk_one.php";
 
         display_element.load(php_site, function() {
             display_element.find("#risk-count").html(num_trials);
@@ -76,14 +83,17 @@ jsPsych.plugins["risk"] = (function()
             var valid_click = true;
             var valid_done_click = false;
             var choices = [];
-            var hw = 150;
+            var hw = 200;
+            var pad = 40;
+
+            var chose_fixed = false;
 
             function result_click(force_end) {
                 if(!valid_done_click)
                     return;
 
                 valid_done_click = false;
-                choices.push({ result: result, choices: all_choices[trial_num] });
+                choices.push({ result: result, fixed: chose_fixed, choices: all_choices[trial_num] });
                 trial_num += 1;
                 if(trial_num == num_trials || force_end) {
                     console.log(choices);
@@ -105,6 +115,7 @@ jsPsych.plugins["risk"] = (function()
                 });
             }
                     
+            result_done.onclick = function() { result_click(one_trial); }
             result_no.onclick = function() { result_click(false); }
 			
             low.onclick = function() {
@@ -113,9 +124,10 @@ jsPsych.plugins["risk"] = (function()
 
                 valid_click = false;
                 low.disabled = true;
-                $.post(SITE_PREFIX + "/risk.php", { "choice": "fixed", "index": trial_num }, function(r) {
+                $.post(post_site, { "choice": "fixed", "index": trial_num }, function(r) {
                     result = all_choices[trial_num].fixed;
                     outcome = "You chose the fixed reward of $" + result + ".";
+                    chose_fixed = true;
                     console.log("showing in low");
                     show(false);
                 });
@@ -124,11 +136,6 @@ jsPsych.plugins["risk"] = (function()
             function show(is_spin) {
                 console.log("show");
                 money.html(outcome);
-
-                if(one_trial)
-                    result_done.onclick = function() { result_click(true); }
-                else
-                    result_done.onclick = function() { result_click(false); }
 
                 if(one_trial && is_spin && trial_num < num_trials - 1) {
                     result_done.innerHTML = "Yes";
@@ -145,14 +152,14 @@ jsPsych.plugins["risk"] = (function()
         
             var c = null;
             if(canvas.getContext) {
-                canvas.width = 2 * hw;
-                canvas.height = 2 * hw;
+                canvas.width = 2 * hw + 2 * pad;
+                canvas.height = 2 * hw + 2 * pad;
                 c = canvas.getContext("2d");
             } else {
                 canvas.style.border = "1px solid #444";
                 canvas.style.borderRadius = "5px";
-                canvas.style.width = (2 * hw) + "px";
-                canvas.style.height = (2 * hw) + "px";
+                canvas.style.width = (2 * hw + 2 * pad) + "px";
+                canvas.style.height = (2 * hw + 2 * pad) + "px";
             }
 
             canvas.onclick = function() {
@@ -161,10 +168,17 @@ jsPsych.plugins["risk"] = (function()
 
                 valid_click = false;
                 low.disabled = true;
-                $.post(SITE_PREFIX + "/risk.php", { "choice": "wheel", "index": trial_num }, function(r) {
-                    var j_r = JSON.parse(r);
-                    result = j_r.result;
-                    target_ang = parseInt(10000 * j_r.fraction); // 10000 corresponds to 2 * PI radians
+                $.post(post_site, { "choice": "wheel", "index": trial_num }, function(r) {
+                    var r_idx = parseInt(r);
+                    result = all_choices[trial_num].spinner[r_idx].value;
+                    var frac = all_choices[trial_num].spinner[r_idx].fraction;
+                    if(r_idx > 0) {
+                        var sliced = all_choices[trial_num].spinner.slice(0, r_idx);
+                        console.log(sliced);
+                        frac += sliced.reduce(function(total, cur) { return total + cur.fraction; }, 0.0);
+                    }
+
+                    target_ang = parseInt(10000 * (1.0 + frac)); // 10000 corresponds to 2 * PI radians
                     outcome = "The spinner returned $" + result + ".";
                     if(one_trial && trial_num < num_trials - 1)
                         outcome += " Would you like to choose this value?";
@@ -192,24 +206,29 @@ jsPsych.plugins["risk"] = (function()
                     return;
                 }
 
-                c.clearRect(0, 0, 2 * hw, 2 * hw);
+                c.clearRect(0, 0, 2 * (hw + pad), 2 * (hw + pad));
 
                 c.strokeStyle = "black";
                 c.lineWidth = 2;
                
                 var spin_vals = all_choices[trial_num].spinner;
                 var start_sector_ang = 0.0;
-              
+                var last_sector_ang = start_sector_ang;
+             
                 for(var i = 0; i < spin_vals.length; i++) {
-                    var d_sector_ang = spin_vals[i].fraction * 2.0 * Math.PI;
+                    var d_sector_ang = spin_vals[i].fraction;
+                    if(spin_vals[i].show) {
+                        var sang = -0.5 * Math.PI + 2.0 * Math.PI * last_sector_ang;
+                        var fang = -0.5 * Math.PI + 2.0 * Math.PI * (start_sector_ang + d_sector_ang);
+                        c.fillStyle = "rgb(0, 0, " + parseInt(200.0 * (fang - sang) / (2.0 * Math.PI) + 55.0) + ")";
+                        c.beginPath();
+                        c.arc(hw + pad, hw + pad, hw, sang, fang, false); 
+                        c.lineTo(hw + pad, hw + pad);
+                        c.fill();
+                        c.stroke();
 
-                    c.fillStyle = "rgb(0, 0, " + parseInt(200.0 * spin_vals[i].fraction + 55.0) + ")";
-                    c.beginPath();
-                    c.arc(hw, hw, hw, start_sector_ang, start_sector_ang + d_sector_ang, false); 
-                    c.lineTo(hw, hw);
-                    c.fill();
-                    c.stroke();
-                    
+                        last_sector_ang = start_sector_ang + d_sector_ang;
+                    }
                     start_sector_ang += d_sector_ang;
                 }
                 
@@ -220,34 +239,66 @@ jsPsych.plugins["risk"] = (function()
                 var rect_h = 32;
                 var rect_r = 5;
                
-                start_sector_ang = 0.0; 
+                c.lineWidth = 2;
+                
+                start_sector_ang = 0.0;
                 for(var i = 0; i < spin_vals.length; i++) {
                     var d_sector_ang = spin_vals[i].fraction * 2.0 * Math.PI;
-                    var x = Math.cos(start_sector_ang + 0.5 * d_sector_ang) * hw * 0.5 + hw;
-                    var y = Math.sin(start_sector_ang + 0.5 * d_sector_ang) * hw * 0.5 + hw;
+                    var hl = 5;
+                    if(spin_vals[i].show) {
+                        hl = 10;
+                        c.lineWidth = 3;
+                        c.strokeStyle = "white";
+                    } else {
+                        c.lineWidth = 2;
+                        c.strokeStyle = "black";
+                    }
+                   
+                    c.save();
+
+                    c.translate(hw + pad, hw + pad);
+                    c.rotate(start_sector_ang + d_sector_ang);
+                    c.translate(-hw - pad, -hw - pad);
+                   
+                    c.beginPath();
+                    c.moveTo(hw + pad, pad - hl);
+                    c.lineTo(hw + pad, pad + hl);
+                    c.stroke();
+                    
+                    c.restore();
+                    
+                    start_sector_ang += d_sector_ang;
+                }
                 
-                    c.fillStyle = "black";
-                    roundedRect(x - 0.5 * rect_w, y - 0.5 * rect_h, rect_w, rect_h, rect_r);
+                start_sector_ang = -0.5 * Math.PI;
+                for(var i = 0; i < spin_vals.length; i++) {
+                    var d_sector_ang = spin_vals[i].fraction * 2.0 * Math.PI;
+                    if(spin_vals[i].show) {
+                        var x = Math.cos(start_sector_ang + d_sector_ang) * (hw + 0.5 * rect_w) + hw + pad;
+                        var y = Math.sin(start_sector_ang + d_sector_ang) * (hw + 0.5 * rect_w) + hw + pad;
+                    
+                        c.fillStyle = "black";
+                        roundedRect(x - 0.5 * rect_w, y - 0.5 * rect_h, rect_w, rect_h, rect_r);
 
-                    c.fillStyle = "white";
-                    c.fillText("$" + spin_vals[i].value, x, y);
-
+                        c.fillStyle = "white";
+                        c.fillText("$" + spin_vals[i].value, x, y);
+                    }
                     start_sector_ang += d_sector_ang;
                 }
 
                 c.save();
                 
-                c.translate(hw, hw);
+                c.translate(hw + pad, hw + pad);
                 c.rotate(Math.PI * 2 * (ang / 10000));
-                c.translate(-hw, -hw);
+                c.translate(-hw - pad, -hw - pad);
                 
                 c.lineWidth = 6;
                 c.lineCap = "round";
                 c.strokeStyle = "white";
 
                 c.beginPath();
-                c.moveTo(hw, hw);
-                c.lineTo(hw, 10);
+                c.moveTo(hw + pad, hw + pad);
+                c.lineTo(hw + pad, 10 + pad);
                 c.stroke();
                 
                 c.restore();
