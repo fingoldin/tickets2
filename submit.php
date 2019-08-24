@@ -5,7 +5,7 @@ if(!session_id())
 
 require("./includes.php");
 
-if(isset($_SESSION["start_time"]) && isset($_SESSION["finished"]) && $_SESSION["finished"] == 0 && isset($_POST["data"]) && isset($_SESSION["points"]) && isset($_SESSION["workerId"]) && isset($_POST["assignment_id"]) && isset($_SESSION["training_sort_total"]) && isset($_SESSION["risk_one_final"]) && isset($_SESSION["stddevs"]))
+if(isset($_SESSION["start_time"]) && isset($_SESSION["finished"]) && $_SESSION["finished"] == 0 && isset($_POST["data"]) && isset($_SESSION["points"]) && isset($_SESSION["workerId"]) && isset($_POST["assignment_id"]) && isset($_SESSION["training_sort_total"]) && isset($_SESSION["risk_one_options"]) && isset($_SESSION["risk_options"]) && isset($_SESSION["stddevs"]))
 {
 	logging("Submit.php called and OK");
 
@@ -24,8 +24,10 @@ if(isset($_SESSION["start_time"]) && isset($_SESSION["finished"]) && $_SESSION["
 		"assignment_id" => $_POST["assignment_id"],
 		"data" => json_decode($_POST["data"], true),
         "training_sort" => $_SESSION["training_sort_total"],
-		"bonus" => $_SESSION["risk_one_final"], // in tenths of a cent
-        "stddevs" => $_SESSION["stddevs"]
+		"bonus" => $_SESSION["points_additional"], // in tenths of a cent
+        "stddevs" => $_SESSION["stddevs"],
+        "risk_one_options" => $_SESSION["risk_one_options"],
+        "risk_options" => $_SESSION["risk_options"]
 	];
 
 	foreach($arr["data"] as $trial)

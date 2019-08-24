@@ -1,19 +1,31 @@
 <?php
 
+$niters = 1000000;
+
+
+session_start();
+
 require("./includes.php");
 
-$weights = [0.1, 0.8, 0.06, 0.04];
+startSession();
 
-$niters = 10000;
+function spinner_weight($v) {
+    return $v["fraction"];
+}
 
 $results = array();
+$weights = $_SESSION["risk_one_options"][0]["spinner"];
+$min = $weights[0]["value"];
+$weights = array_map("spinner_weight", $weights);
 
 for($i = 0; $i < $niters; $i++) {
-    array_push($results, random_weighted($weights));
+    array_push($results, $min + random_weighted($weights));
 }
 
 $values = array_count_values($results);
 ksort($values);
-print_r($values);
+$values = array_values($values);
+
+echo json_encode($values) . "\n";
 
 ?>

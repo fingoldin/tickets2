@@ -9,32 +9,6 @@ jsPsych.plugins["risk"] = (function()
         // Is this a risk set where the user ends upon clicking the fixed amount?
         var one_trial = trial.one_trial || false;
 
-        // Of this format:
-        // [{ fixed: 140, spinner: [{fraction: 0.2, value: 170}]}]
-        //var all_choices = trial.all_choices || [];
-        
-/*        var all_choices = [
-            { fixed: 170, spinner: [
-                { fraction: 0.1, value: 140 },
-                { fraction: 0.2, value: 150 },
-                { fraction: 0.3, value: 160 },
-                { fraction: 0.4, value: 170 }
-            ] },
-            { fixed: 120, spinner: [
-                { fraction: 0.5, value: 100 },
-                { fraction: 0.25, value: 110 },
-                { fraction: 0.15, value: 120 },
-                { fraction: 0.1, value: 130 }
-            ] },
-            { fixed: 100, spinner: [
-                { fraction: 0.5, value: 140 },
-                { fraction: 0.15, value: 180 },
-                { fraction: 0.15, value: 120 },
-                { fraction: 0.2, value: 130 }
-            ] }
-        ];
- */
- 
         var all_choices = trial.all_choices;
         
         var trial_num = 0;
@@ -93,26 +67,40 @@ jsPsych.plugins["risk"] = (function()
                     return;
 
                 valid_done_click = false;
-                choices.push({ result: result, fixed: chose_fixed, choices: all_choices[trial_num] });
+                choices.push({ result: result, fixed: chose_fixed/*, choices: all_choices[trial_num]*/ });
                 trial_num += 1;
                 if(trial_num == num_trials || force_end) {
-                    console.log(choices);
-		            display_element.empty();
-                    jsPsych.finishTrial({ choices: choices });
-                    return;
+                    function finish() {
+                        console.log(choices);
+                        display_element.empty();
+                        jsPsych.finishTrial({ choices: choices });
+                    }
+
+                    if(one_trial) {
+                        $.post(SITE_PREFIX + "/risk_one_choice.php", function(r) {
+                            var earned = parseInt(r);
+                            money.html("You earned $" + (earned * 0.001).toFixed(3) + ".");
+                            result_no.style.display = "none";
+                            result_done.onclick = finish;
+                            result_done.innerHTML = "Ok";
+                        });
+                    } else {
+                        finish();
+                    }
+                } else {
+                    ang = 0;
+                    vel = 0;
+                    draw();
+                    low.innerHTML = "$" + all_choices[trial_num].fixed;
+                    progress_bar.html((trial_num + 1) + "/" + num_trials);
+                    var p = (100 * (trial_num + 1) / num_trials); 
+                    progress_bar.css("width", Math.max(p, 5).toFixed(0) + "%");
+                    result_cont.animate({ "opacity": "0" }, 500, function() {
+                        $(this).css("display", "none");
+                        valid_click = true;
+                        low.disabled = false;
+                    });
                 }
-                ang = 0;
-                vel = 0;
-                draw();
-                low.innerHTML = "$" + all_choices[trial_num].fixed;
-                progress_bar.html((trial_num + 1) + "/" + num_trials);
-                var p = (100 * (trial_num + 1) / num_trials); 
-                progress_bar.css("width", Math.max(p, 5).toFixed(0) + "%");
-                result_cont.animate({ "opacity": "0" }, 500, function() {
-                    $(this).css("display", "none");
-                    valid_click = true;
-                    low.disabled = false;
-                });
             }
                     
             result_done.onclick = function() { result_click(one_trial); }
@@ -127,14 +115,16 @@ jsPsych.plugins["risk"] = (function()
                 $.post(post_site, { "choice": "fixed", "index": trial_num }, function(r) {
                     result = all_choices[trial_num].fixed;
                     outcome = "You chose the fixed reward of $" + result + ".";
+                    if(!one_trial) {
+                        var earned = parseInt(r);
+                        outcome += " You earned $" + (earned * 0.001).toFixed(3) + ".";
+                    }
                     chose_fixed = true;
-                    console.log("showing in low");
                     show(false);
                 });
             };
             
             function show(is_spin) {
-                console.log("show");
                 money.html(outcome);
 
                 if(one_trial && is_spin && trial_num < num_trials - 1) {
@@ -147,7 +137,8 @@ jsPsych.plugins["risk"] = (function()
                 result_cont.css("display", "block").animate({ "opacity": "1" }, 500, function() {
                     valid_done_click = true;
                 });
-                $(result_done).focus();
+                if(!one_trial)
+                    $(result_done).focus();
             }
         
             var c = null;
@@ -169,12 +160,20 @@ jsPsych.plugins["risk"] = (function()
                 valid_click = false;
                 low.disabled = true;
                 $.post(post_site, { "choice": "wheel", "index": trial_num }, function(r) {
-                    var r_idx = parseInt(r);
+                    var r_idx = 0;
+                    var earned = 0;
+                    if(one_trial) {
+                        r_idx = parseInt(r);
+                    } else {
+                        var arr = r.split(":");
+                        r_idx = parseInt(arr[0]);
+                        earned = parseInt(arr[1]);
+                    }
+
                     result = all_choices[trial_num].spinner[r_idx].value;
                     var frac = all_choices[trial_num].spinner[r_idx].fraction;
                     if(r_idx > 0) {
                         var sliced = all_choices[trial_num].spinner.slice(0, r_idx);
-                        console.log(sliced);
                         frac += sliced.reduce(function(total, cur) { return total + cur.fraction; }, 0.0);
                     }
 
@@ -182,6 +181,8 @@ jsPsych.plugins["risk"] = (function()
                     outcome = "The spinner returned $" + result + ".";
                     if(one_trial && trial_num < num_trials - 1)
                         outcome += " Would you like to choose this value?";
+                    if(!one_trial)
+                        outcome += " You earned $" + (earned * 0.001).toFixed(3) + ".";
                     vel = 100;
                     spin();
                 });

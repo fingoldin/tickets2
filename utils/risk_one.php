@@ -9,7 +9,7 @@ $site_prefix = $_SESSION["site_prefix"];
 <div id="risk-main">
     <h3 style="text-align: center">Part 2</h3>
     <p style="margin: 15px">
-        Consider you're at a casino. You have two choices before you: either you choose a fixed-dollar reward, or you try your luck on the spinner. If you choose the fixed reward, the game ends. However, if you spin the spinner, you have the choice to either accept or reject its outcome, and spin it again (or select the fixed reward). You can spin it a maximum of <span id="risk-count"></span> times.
+        Consider you're at a casino. You have two choices before you: either you choose a fixed-dollar reward, or you try your luck on the spinner. <b>If you choose the fixed reward, the game ends</b>. However, if you spin the spinner, you have the choice to either accept or reject its outcome, and spin it again (or select the fixed reward). You can spin it a maximum of <span id="risk-count"></span> times.
     </p>
     <br>
     <div id="risk-progress-wrap">

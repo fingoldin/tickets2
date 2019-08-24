@@ -256,7 +256,7 @@ function mysql_save_response($arr)
 			"assignment_id" => $arr["assignment_id"],
 			"bonus" => $arr["bonus"]
 	]);
-
+/*
 	$id = $conn->lastInsertId();
 
 	foreach($arr["data"] as $trial)
@@ -308,6 +308,7 @@ function mysql_save_response($arr)
 		    }
         }
 	}
+    */
 }
 
 function dbConnect() {
@@ -608,13 +609,13 @@ function startSession() {
     /****                   PARAMETERS                  ****/
 
     // The number of phases
-    $nphases = 2;
+    $nphases = 1;
 
     // The number of sequences in one training phase
     $ntraining_sequences = 3;
 
     // The number of tickets in one sequence in the training phase
-    $ntraining_tickets = 20;
+    $ntraining_tickets = 2;
 
     // Parameters of skewed normal distribution
     $location = 150;
@@ -647,18 +648,16 @@ function startSession() {
         $training_divisions[$i] = intval(120 + 120 * floatval($i) / floatval($n));
     }*/
 
-    $_SESSION["training_sort_total"] = 100;
-
     $_SESSION["training_avg_ranges"] = [[120, 240], [120, 240]];
 
     // Number of tickets in each sequence in each test block. Will be shuffled
-    $test_blocks = [10];
+    $test_blocks = [3];
 
     // Number of sequences in each block
-    $ntest_sequences = 80;
+    $ntest_sequences = 2;
 
     // The max number of points in a sequence
-    $_SESSION["max_points_per_seq"] = 25; // in tenths of a cent
+    $_SESSION["max_points_per_seq"] = 50; // in tenths of a cent
 
     $_SESSION["site_prefix"] = "/christiane/tickets3type";
 
@@ -671,7 +670,16 @@ function startSession() {
     // Number of times you can spin the spinner in the risk_one trial
     $_SESSION["num_risk_one"] = 5;
 
+    // Maximum number of points (10th of a cent) that can be earned by the risk_one part
+    $_SESSION["max_points_risk_one"] = 1000;
+    
+    // Maximum number of points (10th of a cent) that can be earned per risk trial
+    $_SESSION["max_points_risk"] = 100;
+
     /****               END PARAMETERS                 ****/
+
+    // Points counter for risk trials
+    $_SESSION["points_additional"] = 0;
 
     $_SESSION["risk_options"] = json_decode(file_get_contents($risk_file), true);
 
@@ -682,7 +690,8 @@ function startSession() {
     $_SESSION["risk_one_choices"] = [];
     
     $tmp = range(0, count($stddevs_unsorted) - 1);
-    shuffle($tmp);
+    // UNCOMMMENT TO SHUFFLE STANDARD DEVIATIONS
+    //shuffle($tmp);
     $stddevs = [];
     $training_divisions = [];
     for($i = 0; $i < count($tmp); $i++) {

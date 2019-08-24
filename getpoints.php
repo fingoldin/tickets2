@@ -5,13 +5,9 @@ require("./includes.php");
 if(!session_id())
 	session_start();
 
-if(isset($_SESSION["points"])) {
-    $p = array_sum($_SESSION["points"]);
+if(isset($_SESSION["points"]) && isset($_SESSION["points_additional"])) {
+    $p = array_sum($_SESSION["points"]) + $_SESSION["points_additional"];
 
-    if(isset($_SESSION["risk_final"])) {
-        $p += $_SESSION["risk_final"];
-    }
-    
     logging("getpoints.php OK, with " . $p);
 
     echo $p;
