@@ -7,9 +7,12 @@ $site_prefix = $_SESSION["site_prefix"];
 ?>
 
 <div id="risk-main">
-    <h3 style="text-align: center">Part 2</h3>
+    <h3 style="text-align: center">Part 3</h3>
     <p style="margin: 15px">
-        <b>Now let's begin the real trials</b>. Again, consider you're at a casino. You have two choices before you: either you choose a fixed-dollar reward, or you try your luck on the spinner. <b>If you choose the fixed reward, the game ends</b>. However, if you spin the spinner, you have the choice to either accept or reject its outcome, and spin it again (or select the fixed reward). You can spin it a maximum of <span id="risk-count"></span> times.
+        Now, consider you're at the casino. You will do <span id="risk-count"></span> trials of the following choice: either option 1, which will give you a fixed reward, or option 2, which will give you one of a set of rewards, with probabilities as shown in the pie chart.
+    </p>
+    <p style="text-align: center; font-size: 20px">
+        <b>This is a trial run, not for real monetary reward</b>.
     </p>
     <br>
     <div id="risk-progress-wrap">

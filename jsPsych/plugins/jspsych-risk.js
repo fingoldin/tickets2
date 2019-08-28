@@ -9,6 +9,9 @@ jsPsych.plugins["risk"] = (function()
         // Is this a risk set where the user ends upon clicking the fixed amount?
         var one_trial = trial.one_trial || false;
 
+        // Is this an example trial (doesn't count for money?)
+        var example = trial.example || false;
+
         var all_choices = trial.all_choices;
         
         var trial_num = 0;
@@ -21,8 +24,15 @@ jsPsych.plugins["risk"] = (function()
         }
 
         var php_site = SITE_PREFIX + "/utils/risk.php";
-        if(one_trial)
-            php_site = SITE_PREFIX + "/utils/risk_one.php";
+        if(one_trial) {
+            if(example) {
+                php_site = SITE_PREFIX + "/utils/risk_one_example.php";
+            } else {
+                php_site = SITE_PREFIX + "/utils/risk_one.php";
+            }
+        } else if(example) {
+            php_site = SITE_PREFIX + "/utils/risk_example.php";
+        }
         
         var post_site = SITE_PREFIX + "/risk.php";
         if(one_trial)
@@ -77,13 +87,19 @@ jsPsych.plugins["risk"] = (function()
                     }
 
                     if(one_trial) {
-                        $.post(SITE_PREFIX + "/risk_one_choice.php", function(r) {
+                        function post_choice(r) {
                             var earned = parseInt(r);
                             money.html("You earned $" + (earned * 0.001).toFixed(3) + ".");
                             result_no.style.display = "none";
                             result_done.onclick = finish;
                             result_done.innerHTML = "Ok";
-                        });
+                        }
+                        
+                        if(example) {
+                            post_choice("400");
+                        } else {
+                            $.post(SITE_PREFIX + "/risk_one_choice.php", post_choice);
+                        }
                     } else {
                         finish();
                     }
@@ -112,7 +128,7 @@ jsPsych.plugins["risk"] = (function()
 
                 valid_click = false;
                 low.disabled = true;
-                $.post(post_site, { "choice": "fixed", "index": trial_num }, function(r) {
+                function low_post(r) {
                     result = all_choices[trial_num].fixed;
                     outcome = "You chose the fixed reward of $" + result + ".";
                     if(!one_trial) {
@@ -121,7 +137,13 @@ jsPsych.plugins["risk"] = (function()
                     }
                     chose_fixed = true;
                     show(false);
-                });
+                }
+
+                if(example) {
+                    low_post("300");
+                } else {
+                    $.post(post_site, { "choice": "fixed", "index": trial_num }, low_post);
+                }
             };
             
             function show(is_spin) {
@@ -159,7 +181,7 @@ jsPsych.plugins["risk"] = (function()
 
                 valid_click = false;
                 low.disabled = true;
-                $.post(post_site, { "choice": "wheel", "index": trial_num }, function(r) {
+                function canvas_click(r) {
                     var r_idx = 0;
                     var earned = 0;
                     if(one_trial) {
@@ -185,7 +207,17 @@ jsPsych.plugins["risk"] = (function()
                         outcome += " You earned $" + (earned * 0.001).toFixed(3) + ".";
                     vel = 100;
                     spin();
-                });
+                }
+
+                if(example) {
+                    if(one_trial) {
+                        canvas_click("1");
+                    } else {
+                        canvas_click("1:400");
+                    }
+                } else {
+                    $.post(post_site, { "choice": "wheel", "index": trial_num }, canvas_click);
+                }
             };
 
             function roundedRect(x, y, width, height, radius) {
@@ -221,7 +253,8 @@ jsPsych.plugins["risk"] = (function()
                     if(spin_vals[i].show) {
                         var sang = -0.5 * Math.PI + 2.0 * Math.PI * last_sector_ang;
                         var fang = -0.5 * Math.PI + 2.0 * Math.PI * (start_sector_ang + d_sector_ang);
-                        c.fillStyle = "rgb(0, 0, " + parseInt(200.0 * (fang - sang) / (2.0 * Math.PI) + 55.0) + ")";
+                        var color_int = parseInt(65535.0 * (fang - sang) / (2.0 * Math.PI)); 
+                        c.fillStyle = "rgb(0, " + Math.round(color_int / 256) + ", " + (color_int % 256) + ")";
                         c.beginPath();
                         c.arc(hw + pad, hw + pad, hw, sang, fang, false); 
                         c.lineTo(hw + pad, hw + pad);

@@ -298,6 +298,19 @@ var risk_one_trial = {
     all_choices: []
 }
 
+var risk_example_trial = {
+    type: "risk",
+    example: true,
+    all_choices: []
+}
+
+var risk_one_example_trial = {
+    type: "risk",
+    one_trial: true,
+    example: true,
+    all_choices: []
+}
+
 var riskchoose_trial = {
 	type: "riskchoose"
 }
@@ -450,6 +463,9 @@ function init_exp()
 
     risk_one_trial.all_choices = da["risk_one_options"];
     risk_trial.all_choices = da["risk_options"];
+    
+    risk_one_example_trial.all_choices = da["risk_one_options"].slice(0, 2);
+    risk_example_trial.all_choices = da["risk_options"].slice(0, 1);
 
 	//animation_trial.prices = animdata;
 	//p2_animation_trial.prices = animdata2;
@@ -498,7 +514,7 @@ function init_exp()
     }
 
     var assignment_id = "<?= $_SESSION['assignmentId'] ?>";
-    
+/*    
     timeline.push(consent_trial);
 	timeline.push(age_trial);
 
@@ -590,7 +606,7 @@ function init_exp()
         timeline.push(points_update_trial);
         //timeline.push(training_trial2);
 	}
-/*
+
 	timeline.push(p2_start_trial);
 
     var passed2 = false;
@@ -663,8 +679,10 @@ function init_exp()
     timeline.push(closuresurvey_trial);
     timeline.push(risksurvey_trial);
 */
+    timeline.push(risk_one_example_trial);
     timeline.push(risk_one_trial);
     timeline.push(points_update_trial);
+    timeline.push(risk_example_trial);
     timeline.push(risk_trial);
 //    timeline.push(riskchoose_trial);
 
