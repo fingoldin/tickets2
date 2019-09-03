@@ -99,6 +99,7 @@ jsPsych.plugins["ticket-choose"] = (function()
 					display_element.find(".ticket-choose-main").animate({ opacity: "0" }, 200, function() {
 //                        display_element.find("#ticket-choose-progress-wrap").remove();
 //                        display_element.find("#ticket-choose-seq").remove();
+                        $(".progress").hide();
                         
                         var prices = trial.prices.slice(0);
                                         prices.sort(function(a, b){return a - b});

@@ -582,7 +582,7 @@ function init_exp()
 	});
 
 	timeline.push(testing_instructions2_trial);
-
+*/
 	for(var i = 0; i < testing_data.length; i++)
 	{
         for(var j = 0; j < testing_data[i].length; j++)
@@ -606,7 +606,7 @@ function init_exp()
         timeline.push(points_update_trial);
         //timeline.push(training_trial2);
 	}
-
+/*
 	timeline.push(p2_start_trial);
 
     var passed2 = false;
