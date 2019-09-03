@@ -43,6 +43,29 @@ body {
 	opacity: 1;
 }
 
+#risk-seq {
+    padding: 20px;
+    font-size: 24px;
+    line-height: 30px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    border: 1px solid #ccc;
+    border-radius: 0px 0px 20px 0px;
+    background-color: #eee;
+    z-index: 3;
+    transition: opacity 0.2s;
+}
+
+#risk-seq span {
+    color: red;
+}
+
+#risk-seq p {
+    text-align: left;
+    margin: 0;
+}
+
 button {
 	background-color: #4CAF50;
 	color: white;

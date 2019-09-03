@@ -38,21 +38,34 @@ jsPsych.plugins["risk"] = (function()
         if(one_trial)
             post_site = SITE_PREFIX + "/risk_one.php";
 
+        var seq = document.getElementById("risk-seq");
+        seq.style.opacity = "1";
+        var seq_num = document.getElementById("risk-seq-num");
+        seq_num.innerHTML = "1";
+        document.getElementById("risk-seq-total").innerHTML = num_trials;
+
         display_element.load(php_site, function() {
             display_element.find("#risk-count").html(num_trials);
             
-            var progress_bar_wrap = display_element.find("#risk-progress-wrap");
+            var progress_bar_wrap;
+            var progress_bar;
+            if(one_trial) {
+                progress_bar_wrap = display_element.find("#risk-progress-wrap");
+                progress_bar = display_element.find("#risk-progress"); 
 
-            var progress_bar = display_element.find("#risk-progress"); 
-            progress_bar.css("width", (100 / num_trials).toFixed(0) + "%");
-            progress_bar.html("1/" + num_trials);
+                progress_bar.css("width", (100 / num_trials).toFixed(0) + "%");
+                progress_bar.html("1/" + num_trials);
+            }
             
             var result = 180;
             var outcome = "";
             
             var canvas = document.getElementById("risk-canvas");
-            var low = document.getElementById("risk-low-button");
-            low.innerHTML = "$" + all_choices[trial_num].fixed;
+            var low;
+            if(!one_trial) {
+                low = document.getElementById("risk-low-button");
+                low.innerHTML = "$" + all_choices[trial_num].fixed;
+            }
             
             var result_cont = display_element.find("#risk-result");
             var money = display_element.find("#risk-result-money");
@@ -107,14 +120,21 @@ jsPsych.plugins["risk"] = (function()
                     ang = 0;
                     vel = 0;
                     draw();
-                    low.innerHTML = "$" + all_choices[trial_num].fixed;
-                    progress_bar.html((trial_num + 1) + "/" + num_trials);
                     var p = (100 * (trial_num + 1) / num_trials); 
-                    progress_bar.css("width", Math.max(p, 5).toFixed(0) + "%");
+                    if(!one_trial) {
+                        low.innerHTML = "$" + all_choices[trial_num].fixed;
+                    } else {
+                        progress_bar.html((trial_num + 1) + "/" + num_trials);
+                        progress_bar.css("width", Math.max(p, 5).toFixed(0) + "%");
+                    }
+                    seq.style.opacity = "1";
+                    seq_num.innerHTML = trial_num + 1;
                     result_cont.animate({ "opacity": "0" }, 500, function() {
                         $(this).css("display", "none");
                         valid_click = true;
-                        low.disabled = false;
+                        if(!one_trial) { 
+                            low.disabled = false;
+                        }
                     });
                 }
             }
@@ -122,31 +142,32 @@ jsPsych.plugins["risk"] = (function()
             result_done.onclick = function() { result_click(one_trial); }
             result_no.onclick = function() { result_click(false); }
 			
-            low.onclick = function() {
-                if(!valid_click)
-                    return;
+            if(!one_trial) {
+                low.onclick = function() {
+                    if(!valid_click)
+                        return;
 
-                valid_click = false;
-                low.disabled = true;
-                function low_post(r) {
-                    result = all_choices[trial_num].fixed;
-                    outcome = "You chose the fixed reward of $" + result + ".";
-                    if(!one_trial) {
+                    valid_click = false;
+                    low.disabled = true;
+                    function low_post(r) {
+                        result = all_choices[trial_num].fixed;
+                        outcome = "You chose the fixed reward of $" + result + ".";
                         var earned = parseInt(r);
                         outcome += " You earned $" + (earned * 0.001).toFixed(3) + ".";
+                        chose_fixed = true;
+                        show(false);
                     }
-                    chose_fixed = true;
-                    show(false);
-                }
 
-                if(example) {
-                    low_post("300");
-                } else {
-                    $.post(post_site, { "choice": "fixed", "index": trial_num }, low_post);
-                }
-            };
+                    if(example) {
+                        low_post("300");
+                    } else {
+                        $.post(post_site, { "choice": "fixed", "index": trial_num }, low_post);
+                    }
+                };
+            }
             
             function show(is_spin) {
+                seq.style.opacity = "0";
                 money.html(outcome);
 
                 if(one_trial && is_spin && trial_num < num_trials - 1) {
@@ -180,7 +201,9 @@ jsPsych.plugins["risk"] = (function()
                     return;
 
                 valid_click = false;
-                low.disabled = true;
+                if(!one_trial) {
+                    low.disabled = true;
+                }
                 function canvas_click(r) {
                     var r_idx = 0;
                     var earned = 0;
@@ -192,10 +215,21 @@ jsPsych.plugins["risk"] = (function()
                         earned = parseInt(arr[1]);
                     }
 
-                    result = all_choices[trial_num].spinner[r_idx].value;
-                    var frac = all_choices[trial_num].spinner[r_idx].fraction;
+                    var frac;
+                    if(one_trial) {
+                        result = all_choices[trial_num][r_idx].value;
+                        frac = all_choices[trial_num][r_idx].fraction;
+                     } else {
+                        result = all_choices[trial_num].spinner[r_idx].value;
+                        frac = all_choices[trial_num].spinner[r_idx].fraction;
+                     }
                     if(r_idx > 0) {
-                        var sliced = all_choices[trial_num].spinner.slice(0, r_idx);
+                        var sliced;
+                        if(one_trial) {
+                            sliced = all_choices[trial_num].slice(0, r_idx);
+                        } else {
+                            sliced = all_choices[trial_num].spinner.slice(0, r_idx);
+                        }
                         frac += sliced.reduce(function(total, cur) { return total + cur.fraction; }, 0.0);
                     }
 
@@ -244,7 +278,12 @@ jsPsych.plugins["risk"] = (function()
                 c.strokeStyle = "black";
                 c.lineWidth = 2;
                
-                var spin_vals = all_choices[trial_num].spinner;
+                var spin_vals;
+                if(one_trial) {
+                    spin_vals = all_choices[trial_num];
+                } else {
+                    spin_vals = all_choices[trial_num].spinner;
+                }
                 var start_sector_ang = 0.0;
                 var last_sector_ang = start_sector_ang;
              

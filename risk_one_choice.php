@@ -11,26 +11,19 @@ if(!isset($_SESSION["risk_one_choices"]) || !isset($_SESSION["max_points_risk_on
     logging("Something not set in risk_one_choice.php");
 } else {
     if(isset($_SESSION["risk_one_paid"])) {
-        logging("risk_one_choice.php tried to pay twice with " . $_POST["choice"] . " and " . $_POST["index"]);
+        logging("risk_one_choice.php tried to pay twice");
     } else {
         $num = count($_SESSION["risk_one_choices"]);
-        if($num <= 0 || $num >= $_SESSION["num_risk_one"]) {
+        if($num <= 0 || $num > $_SESSION["num_risk_one"]) {
             logging("risk_one_choices has bad length " . $num);
         } else {
-            $val = $_SESSION["risk_one_choices"][$num - 1]["value"];
+            $val = $_SESSION["risk_one_choices"][$num - 1];
             $min = $val;
             $max = $val;
 
             for($i = 0; $i < count($_SESSION["risk_one_options"]); $i++) {
-                $v = (int)$_SESSION["risk_one_options"][$i]["fixed"];
-                if($v > $max) {
-                    $max = $v;
-                }
-                if($v < $min) {
-                    $min = $v;
-                }
-                for($j = 0; $j < count($_SESSION["risk_one_options"][$i]["spinner"]); $j++) {
-                    $v = (int)$_SESSION["risk_one_options"][$i]["spinner"][$j]["value"];
+                for($j = 0; $j < count($_SESSION["risk_one_options"][$i]); $j++) {
+                    $v = (int)$_SESSION["risk_one_options"][$i][$j]["value"];
                     if($v > $max) {
                         $max = $v;
                     }
@@ -53,7 +46,7 @@ if(!isset($_SESSION["risk_one_choices"]) || !isset($_SESSION["max_points_risk_on
 
             echo $p;
 
-            logging("risk_one_choice.php called successfully with " . $_POST["choice"] . " and " . $_POST["index"] . ", earned " . $p . " points");
+            logging("risk_one_choice.php called successfully with " . $val . ", earned " . $p . " points");
         }
     }
 }

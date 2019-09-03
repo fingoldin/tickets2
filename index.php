@@ -746,6 +746,11 @@ function init()
 
 <body onload="init()">
 	<div class="wheel-loader-wrap" id="wheel"><div class="wheel-loader"></div></div>
+    <div id="risk-seq" style="opacity: 0;">
+        <p id="risk-seq-inner">
+            Gamble <span id="risk-seq-num"></span> of <span id="risk-seq-total"></span>
+        </p>
+    </div>
 	<div id="jspsych-main"></div>
 </body>
 
