@@ -43,6 +43,7 @@ function get_points($phase, $group, $sequence, $answer)
 	$arr = $_SESSION["testing_data"][$phase][$group][$sequence];
     sort($arr);
 
+    logging("Max: " . $arr[count($arr) - 1] . " Min: " . $arr[0] . " Val: " . $answer);
     $p = intval(round($_SESSION["max_points_per_seq"] * ($arr[count($arr) - 1] - $answer) / ($arr[count($arr) - 1] - $arr[0])));
 
 	return $p;
