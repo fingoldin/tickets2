@@ -502,7 +502,7 @@ function init_exp()
     }
 
     var assignment_id = "<?= $_SESSION['assignmentId'] ?>";
-/*    
+    
     timeline.push(consent_trial);
 	timeline.push(age_trial);
 
@@ -553,7 +553,7 @@ function init_exp()
                     }
         }, training_trial));
     }
-*/
+
     timeline.push(testing_instructions_trial);
     
     timeline.push({ type: "text", 
