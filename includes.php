@@ -261,7 +261,7 @@ function startSession() {
     $ntest_sequences = 62;
 
     // The max number of points in a sequence
-    $_SESSION["max_points_per_seq"] = intval(floor(2000, $ntest_sequences)); // in tenths of a cent
+    $_SESSION["max_points_per_seq"] = intval(floor(2000 / $ntest_sequences)); // in tenths of a cent
 
     $_SESSION["site_prefix"] = "/christiane/realistic";
 
