@@ -556,28 +556,37 @@ function init_exp()
     */
     timeline.push(testing_instructions_trial);
     
-    timeline.push({ type: "text", 
-        text: "<span style='font-size: 20px'>The first set of sequences will each have " + testing_data[0][0].length + " tickets. Press Enter to continue.</span>",
-        choices: [13]
-    });
-
     var example_seq = [184, 180, 224, 165, 181, 199, 185, 193, 218, 126, 167, 190, 145, 160, 184, 189, 159, 205, 203, 199];
-    // example testing sequence
-	timeline.push({ type: "ticket-choose",
-			phase: 0,
-            sequence_id: 0,
-            num_sequences: 1,
-			row: -1,
-            max_points: <?= $_SESSION["max_points_per_seq"] ?>,
-            showpoints: false,
-            prices: example_seq.slice(0, testing_data[0][0].length),
-			sequence: ""
-	});
 
-	timeline.push(testing_instructions2_trial);
-   
 	for(var i = 0; i < testing_data.length; i++)
 	{
+        timeline.push({ type: "text", 
+            text: "<span style='font-size: 20px'>The next " + testing_data[i].length + " sequences will each have " + testing_data[i][0].length + " tickets. <b>The first sequence will be an example trial, not counting for money</b>. Press Enter to continue.</span>",
+            choices: [13],
+            on_start: function(trial) {
+                $("#ticket-choose-seq").css("opacity", "0");
+            }
+        });
+        
+        timeline.push({ type: "ticket-choose",
+            phase: 0,
+            sequence_id: 0,
+            num_sequences: 1,
+            row: -1,
+            max_points: <?= $_SESSION["max_points_per_seq"] ?>,
+            showpoints: false,
+            prices: example_seq.slice(0, testing_data[i][0].length),
+            sequence: ""
+        });
+        
+        timeline.push({ type: "text", 
+            text: "<span style='font-size: 20px'>Now press Enter to begin the next sequences.</span>",
+            choices: [13],
+            on_start: function(trial) {
+                $("#ticket-choose-seq").css("opacity", "0");
+            }
+        });
+        
         for(var j = 0; j < testing_data[i].length; j++)
         {
         	timeline.push({ type: "ticket-choose",
@@ -594,35 +603,6 @@ function init_exp()
 					$.post("<?= $site_prefix ?>/check.php", { phase: 0, group: data.group, sequence: data.sequence, answer: data.result }, function(r) { console.log(r) });
 				}
 		    });
-        }
-
-        if(i < testing_data.length-1) {
-            timeline.push({ type: "text", 
-                text: "<span style='font-size: 20px'>Very good! The next " + testing_data[i + 1].length + " sequences will each have " + testing_data[i + 1][0].length + " tickets. <b>The first sequence will be an example trial, not counting for money</b>. Press Enter to continue.</span>",
-                choices: [13],
-                on_start: function(trial) {
-                    $("#ticket-choose-seq").css("opacity", "0");
-                }
-            });
-            
-            timeline.push({ type: "ticket-choose",
-                phase: 0,
-                sequence_id: 0,
-                num_sequences: 1,
-                row: -1,
-                max_points: <?= $_SESSION["max_points_per_seq"] ?>,
-                showpoints: false,
-                prices: example_seq.slice(0, testing_data[i + 1][0].length),
-                sequence: ""
-            });
-            
-            timeline.push({ type: "text", 
-                text: "<span style='font-size: 20px'>Now press Enter to begin the next sequences.</span>",
-                choices: [13],
-                on_start: function(trial) {
-                    $("#ticket-choose-seq").css("opacity", "0");
-                }
-            });
         }
 	}
     
