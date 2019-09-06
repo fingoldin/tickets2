@@ -560,24 +560,27 @@ function init_exp()
 
 	for(var i = 0; i < testing_data.length; i++)
 	{
+        var n_ex = 2;
         timeline.push({ type: "text", 
-            text: "<span style='font-size: 20px'>The next " + testing_data[i].length + " sequences will each have " + testing_data[i][0].length + " tickets. <b>The first sequence will be an example trial, not counting for money</b>. Press Enter to continue.</span>",
+            text: "<span style='font-size: 20px'>The next " + (testing_data[i].length + n_ex) + " sequences will each have " + testing_data[i][0].length + " tickets. <b>The first " + n_ex + " sequences will be examples, not counting for money</b>. Press Enter to continue.</span>",
             choices: [13],
             on_start: function(trial) {
                 $("#ticket-choose-seq").css("opacity", "0");
             }
         });
-        
-        timeline.push({ type: "ticket-choose",
-            phase: 0,
-            sequence_id: 0,
-            num_sequences: 1,
-            row: -1,
-            max_points: <?= $_SESSION["max_points_per_seq"] ?>,
-            showpoints: false,
-            prices: example_seq.slice(0, testing_data[i][0].length),
-            sequence: ""
-        });
+
+        for(var j = 0; j < n_ex; j++) {     
+            timeline.push({ type: "ticket-choose",
+                phase: 0,
+                sequence_id: j,
+                num_sequences: n_ex,
+                row: -1,
+                max_points: <?= $_SESSION["max_points_per_seq"] ?>,
+                showpoints: false,
+                prices: example_seq.slice(0, testing_data[i][0].length),
+                sequence: ""
+            });
+        }
         
         timeline.push({ type: "text", 
             text: "<span style='font-size: 20px'>Now press Enter to begin the next sequences.</span>",
