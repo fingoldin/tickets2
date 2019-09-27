@@ -252,13 +252,12 @@ function startSession() {
     /****                   PARAMETERS                  ****/
 
     // The number of phases
-    $nphases = 1;
+    $nphases = 2;
 
     // Number of tickets in each sequence in each test block. Will be shuffled
     $test_blocks = [10];
 
-    // Number of sequences in each block
-    $ntest_sequences = 62;
+    $ntest_sequences = 2;
 
     // The max number of points in a sequence
     $_SESSION["max_points_per_seq"] = intval(floor(2000 / $ntest_sequences)); // in tenths of a cent
@@ -287,11 +286,18 @@ function startSession() {
 
     $_SESSION["start_time"] = get_time();
 
-    $products = json_decode(file_get_contents("products.json"), true);
-    for($i = 0; $i < count($products); $i++) {
-        $products[$i]["id"] = $i + 1;
+    $products = [];
+    $products[0] = json_decode(file_get_contents("products_first.json"), true);
+    shuffle($products[0]);
+    for($i = 0; $i < count($products[0]); $i++) {
+        $products[0][$i]["id"] = $i + 1;
     }
-    shuffle($products);
+    
+    $products[1] = json_decode(file_get_contents("products_second.json"), true);
+    shuffle($products[1]);
+    for($i = 0; $i < count($products[1]); $i++) {
+        $products[1][$i]["id"] = $i + 1;
+    }
 
     // Generate test data
     $_SESSION["testing_data"] = array();
@@ -303,8 +309,7 @@ function startSession() {
             $_SESSION["testing_data"][$p][$h] = array();
             $_SESSION["testing_metadata"][$p][$h] = array();
             for($i = 0; $i < $ntest_sequences; $i++) {
-                $product = array_pop($products);
-                shuffle($product["prices"]);
+                $product = array_pop($products[$p]);
                 $prices = array_slice($product["prices"], 0, $test_blocks[$h]);
 
                 $_SESSION["testing_data"][$p][$h][$i] = $prices;

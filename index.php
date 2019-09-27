@@ -137,7 +137,10 @@ var testing_instructions2_trial = {
 }
 
 var points_update_trial = {
-    type: "points-update"
+    type: "points-update",
+    on_start: function(trial) {
+        $("#ticket-choose-seq").css("opacity", "0");
+    }
 }
 
 var final_trial = {
@@ -188,6 +191,8 @@ function init_exp()
         var da = JSON.parse(d);
         testing_data = da["testing"][0];
         testing_metadata = da["testing_meta"][0];
+        testing_data2 = da["testing"][1];
+        testing_metadata2 = da["testing_meta"][1];
 
         var assignment_id = "<?= $_SESSION['assignmentId'] ?>";
 
@@ -237,7 +242,32 @@ function init_exp()
                                     continue_message: "Next sequence &#187;",
                     sequence: "In sequence <span>" + (j + 1) + "</span> out of <span>" + testing_data[i].length + "</span>",
                     on_finish: function(data) {
-                        $.post("<?= $site_prefix ?>/check.php", { phase: 0, group: data.group, sequence: data.sequence, answer: data.result }, function(r) { console.log(r) });
+                        $.post("<?= $site_prefix ?>/check.php", { phase: data.phase, group: data.group, sequence: data.sequence, answer: data.result }, function(r) { console.log(r) });
+                    }
+                });
+            }
+
+        }
+        timeline.push(points_update_trial);
+
+        for(var i = 0; i < testing_data2.length; i++)
+        {
+            for(var j = 0; j < testing_data2[i].length; j++)
+            {
+                timeline.push({ type: "ticket-choose",
+                    prices: testing_data2[i][j],
+                    image: registerImage(testing_metadata[i][j]["img_name"]),
+                    name: testing_metadata[i][j]["name"],
+                    product_id: testing_metadata[i][j]["id"],
+                    sequence_id: j,
+                    num_sequences: testing_data2[i].length,
+                    max_points: <?= $_SESSION["max_points_per_seq"] ?>,
+                    phase: 1,
+                    group: i,
+                                    continue_message: "Next sequence &#187;",
+                    sequence: "In sequence <span>" + (j + 1) + "</span> out of <span>" + testing_data2[i].length + "</span>",
+                    on_finish: function(data) {
+                        $.post("<?= $site_prefix ?>/check.php", { phase: data.phase, group: data.group, sequence: data.sequence, answer: data.result }, function(r) { console.log(r) });
                     }
                 });
             }
@@ -245,10 +275,6 @@ function init_exp()
     //        timeline.push(points_update_trial);
             //timeline.push(training_trial2);
         }
-
-     //   preloadImage();
-
-        //timeline.push(special_sequence_trial);
 
         timeline.push(final_trial);
 
