@@ -114,12 +114,19 @@ jsPsych.plugins["ticket-choose"] = (function()
                             
                             var diff = trial.prices[price_num] - prices[0];
 
-                            var prefix = "You could";
+                            var prefix = "You chose the ";
 /*                            if(frac >= 0.9) {
                                 prefix = "Good job! You would only";
                             }
-*/                            
-                            above.html(prefix + " have saved $" + diff.toFixed(2) + " if had you chosen a different price");
+*/                          prefix += r+1;
+                            if(r == 1) {
+                                prefix += "nd";
+                            } else if(r == 2) {
+                                prefix += "rd";
+                            } else {
+                                prefix += "th";
+                            }
+                            above.html(prefix + " best ticket.");
                         }
                         
                         above.show();

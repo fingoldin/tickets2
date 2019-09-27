@@ -288,15 +288,24 @@ function startSession() {
 
     $products = [];
     $products[0] = json_decode(file_get_contents("products_first.json"), true);
-    shuffle($products[0]);
     for($i = 0; $i < count($products[0]); $i++) {
         $products[0][$i]["id"] = $i + 1;
     }
+    shuffle($products[0]);
    
     $products[1] = json_decode(file_get_contents("products_second.json"), true);
-    shuffle($products[1]);
     for($i = 0; $i < count($products[1]); $i++) {
         $products[1][$i]["id"] = $i + 1;
+    }
+    shuffle($products[1]);
+   
+    $_SESSION["phase_order"] = [0,1];
+    
+    if(mt_rand() / mt_getrandmax() > 0.5) {
+        $temp = $products[1];
+        $products[1] = $products[0];
+        $products[0] = $temp;
+        $_SESSION["phase_order"] = [1,0];
     }
 
     // Generate test data

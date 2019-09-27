@@ -5,7 +5,7 @@ if(!session_id())
 
 require("./includes.php");
 
-if(isset($_SESSION["start_time"]) && isset($_SESSION["finished"]) && $_SESSION["finished"] == 0 && isset($_POST["data"]) && isset($_SESSION["points"]) && isset($_SESSION["workerId"]) && isset($_SESSION["assignmentId"]))
+if(isset($_SESSION["start_time"]) && isset($_SESSION["finished"]) && $_SESSION["finished"] == 0 && isset($_POST["data"]) && isset($_SESSION["points"]) && isset($_SESSION["workerId"]) && isset($_SESSION["assignmentId"]) && isset($_SESSION["phase_order"]))
 {
 	logging("Submit.php called and OK");
 
@@ -23,6 +23,7 @@ if(isset($_SESSION["start_time"]) && isset($_SESSION["finished"]) && $_SESSION["
 		"worker_id" => $_SESSION["workerId"],
 		"assignment_id" => $_SESSION["assignmentId"],
 		"data" => json_decode($_POST["data"], true),
+    "phase_order" => $_SESSION["phase_order"],
 		"bonus" => 0, // in cents
 	];
 
