@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.7.22, for Linux (x86_64)
+-- MySQL dump 10.13  Distrib 5.6.45-86.1, for Linux (x86_64)
 --
 -- Host: localhost    Database: tickets_responses
 -- ------------------------------------------------------
--- Server version	5.7.22-0ubuntu0.17.10.1
+-- Server version	5.6.45-86.1
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -55,9 +55,8 @@ CREATE TABLE `responses` (
   `assignment_id` varchar(256) DEFAULT NULL,
   `bonus` int(11) NOT NULL DEFAULT '0',
   `bonus_paid` tinyint(1) NOT NULL DEFAULT '1',
-  `training_sort` int(11) NOT NULL,
   PRIMARY KEY (`RID`)
-) ENGINE=InnoDB AUTO_INCREMENT=591 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1121 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -77,6 +76,21 @@ CREATE TABLE `test_responses` (
   `next_num` int(11) NOT NULL DEFAULT '0',
   `prices` varchar(256) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `testing_orders`
+--
+
+DROP TABLE IF EXISTS `testing_orders`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `testing_orders` (
+  `RID` int(11) NOT NULL,
+  `phase` int(11) NOT NULL DEFAULT '0',
+  `sequence` int(11) NOT NULL DEFAULT '0',
+  `order_index` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -121,4 +135,4 @@ CREATE TABLE `training_responses` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-05-25 23:16:09
+-- Dump completed on 2019-09-27  1:53:49
