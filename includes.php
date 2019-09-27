@@ -292,7 +292,8 @@ function startSession() {
     for($i = 0; $i < count($products[0]); $i++) {
         $products[0][$i]["id"] = $i + 1;
     }
-    
+   
+    mt_srand(10); 
     $products[1] = json_decode(file_get_contents("products_second.json"), true);
     shuffle($products[1]);
     for($i = 0; $i < count($products[1]); $i++) {
