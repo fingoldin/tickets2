@@ -257,7 +257,7 @@ function startSession() {
     // Number of tickets in each sequence in each test block. Will be shuffled
     $test_blocks = [10];
 
-    $ntest_sequences = 2;
+    $ntest_sequences = 60;
 
     // The max number of points in a sequence
     $_SESSION["max_points_per_seq"] = intval(floor(2000 / $ntest_sequences)); // in tenths of a cent
@@ -293,7 +293,6 @@ function startSession() {
         $products[0][$i]["id"] = $i + 1;
     }
    
-    mt_srand(10); 
     $products[1] = json_decode(file_get_contents("products_second.json"), true);
     shuffle($products[1]);
     for($i = 0; $i < count($products[1]); $i++) {
