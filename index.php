@@ -256,9 +256,9 @@ function init_exp()
             {
                 timeline.push({ type: "ticket-choose",
                     prices: testing_data2[i][j],
-                    image: registerImage(testing_metadata[i][j]["img_name"]),
-                    name: testing_metadata[i][j]["name"],
-                    product_id: testing_metadata[i][j]["id"],
+                    image: registerImage(testing_metadata2[i][j]["img_name"]),
+                    name: testing_metadata2[i][j]["name"],
+                    product_id: testing_metadata2[i][j]["id"],
                     sequence_id: j,
                     num_sequences: testing_data2[i].length,
                     max_points: <?= $_SESSION["max_points_per_seq"] ?>,
