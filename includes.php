@@ -257,7 +257,7 @@ function startSession() {
     // Number of tickets in each sequence in each test block. Will be shuffled
     $test_blocks = [10];
 
-    $ntest_sequences = 2;
+    $ntest_sequences = 60;
 
     // The max number of points in a sequence
     $_SESSION["max_points_per_seq"] = intval(floor(2000 / $ntest_sequences)); // in tenths of a cent
