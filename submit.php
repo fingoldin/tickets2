@@ -23,7 +23,7 @@ if(isset($_SESSION["start_time"]) && isset($_SESSION["finished"]) && $_SESSION["
 		"worker_id" => $_SESSION["workerId"],
 		"assignment_id" => $_SESSION["assignmentId"],
 		"data" => json_decode($_POST["data"], true),
-		"bonus" => round(0.1 * $_SESSION["risk_final"]), // in cents
+		"bonus" => 0, // in cents
 	];
 
 	foreach($arr["data"] as $trial)

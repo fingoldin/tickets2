@@ -37,7 +37,7 @@ function checkAnswer($phase, $group, $sequence, $answer)
 }
 
 if(isset($_POST["phase"]) && isset($_POST["group"]) && isset($_POST["sequence"]) && isset($_POST["answer"]))
-	checkAnswer(intval($_POST["phase"]), intval($_POST["group"]), intval($_POST["sequence"]), intval($_POST["answer"]));
+	checkAnswer(intval($_POST["phase"]), intval($_POST["group"]), intval($_POST["sequence"]), floatval($_POST["answer"]));
 else
 	logging("Something not set in check.php");
 
