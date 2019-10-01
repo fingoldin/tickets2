@@ -106,13 +106,14 @@ jsPsych.plugins["ticket-choose"] = (function()
 
                         if(r === 0) {
                             points = trial.max_points;
-                            above.html("Congratulations! Your chose the lowest price!");
+                            above.html("Congratulations! Your chose first best product!");
                         }
                         else {
-                            var frac = (prices[prices.length - 1] - trial.prices[price_num]) / (prices[prices.length - 1] - prices[0]);
+                            //var frac = (prices[prices.length - 1] - trial.prices[price_num]) / (prices[prices.length - 1] - prices[0]);
+                            var frac = (prices.length - r - 1)/(prices.length - 1);
                             points = Math.round(trial.max_points * frac);
                             
-                            var diff = trial.prices[price_num] - prices[0];
+                            //var diff = trial.prices[price_num] - prices[0];
 
                             var prefix = "You chose the ";
 /*                            if(frac >= 0.9) {
@@ -126,7 +127,7 @@ jsPsych.plugins["ticket-choose"] = (function()
                             } else {
                                 prefix += "th";
                             }
-                            above.html(prefix + " best ticket.");
+                            above.html(prefix + " best product.");
                         }
                         
                         above.show();
