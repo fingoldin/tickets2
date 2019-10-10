@@ -252,7 +252,7 @@ function startSession() {
     /****                   PARAMETERS                  ****/
 
     // The number of phases
-    $nphases = 60;
+    $nphases = 2;
 
     // Number of tickets in each sequence in each test block. Will be shuffled
     $test_blocks = [10];
