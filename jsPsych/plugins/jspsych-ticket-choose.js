@@ -109,8 +109,8 @@ jsPsych.plugins["ticket-choose"] = (function()
                             above.html("Congratulations! Your chose first best product!");
                         }
                         else {
-                            //var frac = (prices[prices.length - 1] - trial.prices[price_num]) / (prices[prices.length - 1] - prices[0]);
-                            var frac = (prices.length - r - 1)/(prices.length - 1);
+                            var frac = (prices[prices.length - 1] - trial.prices[price_num]) / (prices[prices.length - 1] - prices[0]);
+                            //var frac = (prices.length - r - 1)/(prices.length - 1);
                             points = Math.round(trial.max_points * frac);
                             
                             //var diff = trial.prices[price_num] - prices[0];
