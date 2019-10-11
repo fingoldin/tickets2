@@ -296,6 +296,12 @@ var p2_points_update_trial = {
     type: "points-update"
 }
 
+var interphase_trial = {
+	type: "html",
+	url: "<?= $site_prefix ?>/utils/interphase.html",
+	cont_btn: "continue"
+}
+
 var risk_trial = {
     type: "risk",
     all_choices: []
@@ -502,7 +508,6 @@ function init_exp()
     }
 
     var assignment_id = "<?= $_SESSION['assignmentId'] ?>";
-   /* 
     timeline.push(consent_trial);
 	timeline.push(age_trial);
 
@@ -553,7 +558,6 @@ function init_exp()
                     }
         }, training_trial));
     }
-    */
     timeline.push(testing_instructions_trial);
     
     var example_seq = [184, 180, 224, 165, 181, 199, 185, 193, 218, 126, 167, 190, 145, 160, 184, 189, 159, 205, 203, 199];
@@ -574,7 +578,7 @@ function init_exp()
                 phase: 0,
                 sequence_id: j,
                 num_sequences: n_ex,
-                row: -1,
+                example: true,
                 max_points: <?= $_SESSION["max_points_per_seq"] ?>,
                 showpoints: false,
                 prices: example_seq.slice(0, testing_data[i][0].length),
@@ -583,7 +587,9 @@ function init_exp()
         }
         
         timeline.push({ type: "text", 
-            text: "<span style='font-size: 20px'>Now press Enter to begin the next sequences.</span>",
+            text: "<span style='font-size: 20px'>Each of the following " + testing_data[i].length + " sequences contain " + testing_data[i][0].length + " tickets, as in the " +
+                  n_ex + " training sequences. Remember that your bonus is dependent on your performance now: the closer you get to the lowest" 
+                  + " price in each sequence, the more reward you will get. Press Enter to continue.</span>",
             choices: [13],
             on_start: function(trial) {
                 $("#ticket-choose-seq").css("opacity", "0");
@@ -615,9 +621,9 @@ function init_exp()
         text: "<span style='font-size: 20px'>In the next section you will do the same as before. Let's check if you still remember the ticket distribution. Press Enter to continue.</span>",
         choices: [13]
     });
-
+    
     timeline.push(training_trial2);
-
+    timeline.push(interphase_trial);
 /*
 	timeline.push(p2_start_trial);
 
@@ -665,6 +671,14 @@ function init_exp()
 */
     for(var i = 0; i < p2_testing_data.length; i++)
 	{
+        timeline.push({ type: "text", 
+            text: "<span style='font-size: 20px'>The next " + (p2_testing_data[i].length) + " sequences will each have " + p2_testing_data[i][0].length + " tickets. Press Enter to continue.</span>",
+            choices: [13],
+            on_start: function(trial) {
+                $("#ticket-choose-seq").css("opacity", "0");
+            }
+        });
+        
         for(var j = 0; j < p2_testing_data[i].length; j++)
         {
         	timeline.push({ type: "ticket-choose",
@@ -682,16 +696,6 @@ function init_exp()
 					$.post("<?= $site_prefix ?>/check.php", { phase: 1, group: data.group, sequence: data.sequence, answer: data.result }, function(r) { console.log(r) });
 				}
 		    });
-        }
-
-        if(i < p2_testing_data.length-1) {
-            timeline.push({ type: "text", 
-                text: "<span style='font-size: 20px'>Very good! The next " + p2_testing_data[i + 1].length + " sequences will each have " + p2_testing_data[i + 1][0].length + " tickets. Press Enter to continue.</span>",
-                choices: [13],
-                on_start: function(trial) {
-                    $("#ticket-choose-seq").css("opacity", "0");
-                }
-            });
         }
 	}
 /*

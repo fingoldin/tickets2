@@ -21,6 +21,7 @@ jsPsych.plugins["ticket-choose"] = (function()
 		trial.phase = trial.phase || 0;
 		trial.group = trial.group || 0;
         trial.max_points = trial.max_points || 0;
+    trial.example = trial.example || 0;
 
 		//console.log("Trial: " + trial.prices);
 
@@ -52,6 +53,9 @@ jsPsych.plugins["ticket-choose"] = (function()
             $("#ticket-choose-seq-total").html(trial.num_sequences);
             $("#ticket-choose-seq").css("opacity", "1");
             
+            if(trial.example)
+              $("#ticket-choose-example").css("display", "block");
+
             var progress_bar = display_element.find("#ticket-choose-progress"); 
             progress_bar.css("width", (100 / num_prices).toFixed(0) + "%");
             progress_bar.html("1/" + num_prices);

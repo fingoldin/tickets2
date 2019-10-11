@@ -7,6 +7,7 @@ $site_prefix = $_SESSION["site_prefix"];
 ?>
 
 <div class="ticket-choose-main">
+    <div id="ticket-choose-example" style="display:none;text-align: center; font-size: 24px"><b>Example Sequence</b></div>
     <div id="ticket-choose-progress-wrap">
         <link rel="stylesheet" href="<?= $site_prefix ?>/utils/bootstrap.min.css">
         <script src="<?= $site_prefix ?>/utils/popper.min.js"></script>

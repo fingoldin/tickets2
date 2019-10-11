@@ -602,10 +602,10 @@ function startSession() {
     $test_blocks = [[5, 10, 20], [5, 10, 20]];
 
     // Number of sequences in each block
-    $ntest_sequences = 2;
+    $ntest_sequences = 30;
 
     // The max number of points in a sequence
-    $_SESSION["max_points_per_seq"] = 20; // in tenths of a cent
+    $_SESSION["max_points_per_seq"] = 33; // in tenths of a cent
 
     $_SESSION["site_prefix"] = "/christiane/tickets6";
 
@@ -646,7 +646,7 @@ function startSession() {
 
     $_SESSION["risk_choices"] = [];
 
-    $_SESSION["max_points"] = $_SESSION["max_risk_bonus"] + $_SESSION["max_points_per_seq"] * $ntest_sequences * array_sum(array_map("count", $test_blocks)); // in tenths of a cent
+    $_SESSION["max_points"] = /*$_SESSION["max_risk_bonus"] + */$_SESSION["max_points_per_seq"] * $ntest_sequences * array_sum(array_map("count", $test_blocks)); // in tenths of a cent
 
     $_SESSION["points"] = [];
     $_SESSION["checked"] = [];
