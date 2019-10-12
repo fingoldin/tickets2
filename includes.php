@@ -756,7 +756,7 @@ function startSession() {
             $_SESSION["training_categories"][$phase][$i - 1] = $_SESSION["training_categories"][1][$i - 1] =
                 "$" . (int)ceil($training_divisions[$phase][$i - 1]) . " - $" . (int)floor($training_divisions[$phase][$i]);
         }
-        $_SESSION["training_sort_total"][$phase] = $total_n;
+//        $_SESSION["training_sort_total"][$phase] = $total_n;
     }
 
     for($p = 0; $p < $nphases; $p++) {
