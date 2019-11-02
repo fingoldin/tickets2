@@ -37,26 +37,26 @@ jsPsych.plugins["ticket-choose"] = (function()
             for(var i = 0; i < trial.prices.length; i++) {
                 average_price += trial.prices[i] / trial.prices.length;
             }
-            
+
             $("#ticket-choose-seq-num").html(trial.sequence_id + 1);
             $("#ticket-choose-seq-total").html(trial.num_sequences);
             $("#ticket-choose-seq-avg").html("$" + average_price.toFixed(2));
             $("#ticket-choose-seq").css("opacity", "1");
-            
+
             var ticket_wrap = display_element.find("#ticket-wrap");
             ticket_wrap.append(trial.image.img);
 
             var ticket_name = display_element.find("#ticket-name");
             ticket_name.html(trial.name);
-            
-            var progress_bar = display_element.find("#ticket-choose-progress"); 
+
+            var progress_bar = display_element.find("#ticket-choose-progress");
             progress_bar.css("width", (100 / num_prices).toFixed(0) + "%");
             progress_bar.html("1/" + num_prices);
-            
+
             var price_num = -1;
 			var next_num = 0;
 
-            var ticket_main = display_element.find("#ticket-choose-main"); 
+            var ticket_main = display_element.find("#ticket-choose-main");
 
 			var price = display_element.find("#number-animation");
 			next_price.startTime = gt();
@@ -72,7 +72,7 @@ jsPsych.plugins["ticket-choose"] = (function()
 			var below = display_element.find("#number-animation-below");
 
             above.html("Price <span>1</span> of <span>" + num_prices + "</span>:");
-			
+
 			var listener = jsPsych.pluginAPI.getKeyboardResponse({
 				callback_function: next_price,
 				valid_responses: [32],
@@ -90,11 +90,11 @@ jsPsych.plugins["ticket-choose"] = (function()
                     jsPsych.pluginAPI.cancelKeyboardResponse(listener);
 
 					times[price_num] = gt() - next_price.startTime;
-	
+
 					ticket_main.animate({ opacity: "0" }, 200, function() {
                         display_element.find("#ticket-choose-progress-wrap").remove();
                         ticket_name.remove();
-                        
+
                         var prices = trial.prices.slice(0);
                         prices.sort(function(a, b){return a - b});
 
@@ -106,13 +106,13 @@ jsPsych.plugins["ticket-choose"] = (function()
 
                         if(r === 0) {
                             points = trial.max_points;
-                            above.html("Congratulations! Your chose first best product!");
+                            above.html("Congratulations! You chose the best price for this product!");
                         }
                         else {
                             //var frac = (prices[prices.length - 1] - trial.prices[price_num]) / (prices[prices.length - 1] - prices[0]);
                             var frac = (prices.length - r - 1)/(prices.length - 1);
                             points = Math.round(trial.max_points * frac);
-                            
+
                             //var diff = trial.prices[price_num] - prices[0];
 
                             var prefix = "You chose the ";
@@ -127,9 +127,9 @@ jsPsych.plugins["ticket-choose"] = (function()
                             } else {
                                 prefix += "th";
                             }
-                            above.html(prefix + " best product.");
+                            above.html(prefix + " best price for this product.");
                         }
-                        
+
                         above.show();
 
                         price.hide();
