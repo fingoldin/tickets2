@@ -245,6 +245,19 @@ function dbQuery($conn, $query, $values = array()) {
     }
 }
 
+function normal_generate_deviate($mean, $stddev)
+{
+    // Generate two random uniformly distributed numbers between 0 and 1
+    $max = mt_getrandmax();
+    $x1 = mt_rand() / $max;
+    $x2 = mt_rand() / $max;
+
+    // Generate one random number on the normal distribution using the Box-Muller transform
+    $y = $stddev * sqrt(-2 * log($x1)) * cos(2 * M_PI * $x2) + $mean;
+
+    return $y;
+}
+
 function startSession() {
     $_SESSION = array();
 
@@ -262,7 +275,7 @@ function startSession() {
     // The max number of points in a sequence
     $_SESSION["max_points_per_seq"] = intval(floor(2000 / $ntest_sequences)); // in tenths of a cent
 
-    $_SESSION["site_prefix"] = "/christiane/realistic";
+    $_SESSION["site_prefix"] = "/christiane/realistic2";
 
     /****               END PARAMETERS                 ****/
 
@@ -287,13 +300,13 @@ function startSession() {
     $_SESSION["start_time"] = get_time();
 
     $products = [];
-    $products[0] = json_decode(file_get_contents("products_first.json"), true);
+    $products[0] = json_decode(file_get_contents("products_final.json"), true);
     for($i = 0; $i < count($products[0]); $i++) {
         $products[0][$i]["id"] = $i + 1;
     }
     shuffle($products[0]);
    
-    $products[1] = json_decode(file_get_contents("products_second.json"), true);
+    $products[1] = json_decode(file_get_contents("products_final.json"), true);
     for($i = 0; $i < count($products[1]); $i++) {
         $products[1][$i]["id"] = $i + 1;
     }
@@ -319,10 +332,13 @@ function startSession() {
             $_SESSION["testing_metadata"][$p][$h] = array();
             for($i = 0; $i < $ntest_sequences; $i++) {
                 $product = array_pop($products[$p]);
-                $prices = array_slice($product["prices"], 0, $test_blocks[$h]);
+                $prices = [];//array_slice($product["prices"], 0, $test_blocks[$h]);
+                for($k = 0; $k < $test_blocks[$h]; $k++) {
+                  $prices[$k] = 0.5*round(2*normal_generate_deviate($product["mean"], $product["sd"]));
+                }
 
                 $_SESSION["testing_data"][$p][$h][$i] = $prices;
-                unset($product["prices"]);
+                //unset($product["prices"]);
                 $_SESSION["testing_metadata"][$p][$h][$i] = $product;
             }
         }

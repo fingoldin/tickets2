@@ -37,6 +37,8 @@ jsPsych.plugins["ticket-choose"] = (function()
             for(var i = 0; i < trial.prices.length; i++) {
                 average_price += trial.prices[i] / trial.prices.length;
             }
+
+            average_price = 0.5*Math.round(2*average_price);
             
             $("#ticket-choose-seq-num").html(trial.sequence_id + 1);
             $("#ticket-choose-seq-total").html(trial.num_sequences);

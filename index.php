@@ -11,9 +11,13 @@ startSession();
 
 store_url();
 
-//phpinfo();
 
-grant_bonuses();
+/**** UNCOMMENT THIS LINE TO ENABLE THIS EXPERIMENT.
+  REMEMBER TO COMMENT THE SAME LINE TO DISABLE ALL OTHER EXPERIMENTS
+***/
+//grant_bonuses();
+
+
 
 $preview = true;
 
@@ -248,7 +252,7 @@ function init_exp()
             }
 
         }
-        timeline.push(points_update_trial);
+/*        timeline.push(points_update_trial);
 
         for(var i = 0; i < testing_data2.length; i++)
         {
@@ -275,7 +279,7 @@ function init_exp()
     //        timeline.push(points_update_trial);
             //timeline.push(training_trial2);
         }
-
+*/
         timeline.push(final_trial);
 
         $("#wheel").css("display", "none");
