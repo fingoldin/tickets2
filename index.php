@@ -18,7 +18,6 @@ store_url();
 //grant_bonuses();
 
 
-
 $preview = true;
 
 // CHANGE THIS TO EITHER GET THE WORKER AND ASSIGNMENT IDS FROM $_GET OR GENERATE RANDOM ONES
