@@ -11,9 +11,12 @@ startSession();
 
 store_url();
 
-//phpinfo();
 
-grant_bonuses();
+/**** UNCOMMENT THIS LINE TO ENABLE THIS EXPERIMENT.
+  REMEMBER TO COMMENT THE SAME LINE TO DISABLE ALL OTHER EXPERIMENTS
+***/
+//grant_bonuses();
+
 
 $preview = true;
 
