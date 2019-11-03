@@ -222,6 +222,7 @@ function init_exp()
                 image: registerImage("trial.jpg"),
                 name: "Plane Ticket from San Francisco to Vancouver (Economy, One-way)",
                 prices: [184, 180, 224, 165, 181, 199, 185, 193, 218, 126],
+                mean_price: 185, 
                 continue_mesage: "Finish",
                 sequence: ""
         });
@@ -236,6 +237,7 @@ function init_exp()
                     prices: testing_data[i][j],
                     image: registerImage(testing_metadata[i][j]["img_name"]),
                     name: testing_metadata[i][j]["name"],
+                    mean_price: testing_metadata[i][j]["mean"],
                     product_id: testing_metadata[i][j]["id"],
                     sequence_id: j,
                     num_sequences: testing_data[i].length,
@@ -261,6 +263,7 @@ function init_exp()
                     prices: testing_data2[i][j],
                     image: registerImage(testing_metadata2[i][j]["img_name"]),
                     name: testing_metadata2[i][j]["name"],
+                    mean_price: testing_metadata2[i][j]["mean"],
                     product_id: testing_metadata2[i][j]["id"],
                     sequence_id: j,
                     num_sequences: testing_data2[i].length,

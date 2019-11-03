@@ -334,7 +334,7 @@ function startSession() {
                 $product = array_pop($products[$p]);
                 $prices = [];//array_slice($product["prices"], 0, $test_blocks[$h]);
                 for($k = 0; $k < $test_blocks[$h]; $k++) {
-                  $prices[$k] = 0.5*round(2*normal_generate_deviate($product["mean"], $product["sd"]));
+                  $prices[$k] = 0.05*round(20*normal_generate_deviate($product["mean"], $product["sd"]));
                 }
 
                 $_SESSION["testing_data"][$p][$h][$i] = $prices;
