@@ -251,7 +251,7 @@ function init_exp()
             }
 
         }
-/*        timeline.push(points_update_trial);
+        timeline.push(points_update_trial);
 
         for(var i = 0; i < testing_data2.length; i++)
         {
@@ -278,7 +278,7 @@ function init_exp()
     //        timeline.push(points_update_trial);
             //timeline.push(training_trial2);
         }
-*/
+
         timeline.push(final_trial);
 
         $("#wheel").css("display", "none");
