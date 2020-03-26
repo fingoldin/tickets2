@@ -6,15 +6,17 @@ jsPsych.plugins["risk"] = (function()
 	{
 		trial = jsPsych.pluginAPI.evaluateFunctionParameters(trial);
 
-        // Is this a risk set where the user ends upon clicking the fixed amount?
-        var one_trial = trial.one_trial || false;
-
         // Is this an example trial (doesn't count for money?)
         var example = trial.example || false;
+        var spinner = trial.spinner || [];
+        var total_trials = trial.total_trials || 1;
+        var trial_idx = trial.trial_idx || 0;
+        var one_trial = true;
 
         var all_choices = trial.all_choices;
+        console.log(all_choices);
         
-        var trial_num = 0;
+        var trial_num = 1;
         var num_trials = all_choices.length;
         
 		display_element.empty();
@@ -24,48 +26,38 @@ jsPsych.plugins["risk"] = (function()
         }
 
         var php_site = SITE_PREFIX + "/utils/risk.php";
-        if(one_trial) {
-            if(example) {
-                php_site = SITE_PREFIX + "/utils/risk_one_example.php";
-            } else {
-                php_site = SITE_PREFIX + "/utils/risk_one.php";
-            }
-        } else if(example) {
+        if(example) {
             php_site = SITE_PREFIX + "/utils/risk_example.php";
+        } else {
+            php_site = SITE_PREFIX + "/utils/risk.php";
         }
         
         var post_site = SITE_PREFIX + "/risk.php";
-        if(one_trial)
-            post_site = SITE_PREFIX + "/risk_one.php";
 
         var seq = document.getElementById("risk-seq");
         seq.style.opacity = "1";
         var seq_num = document.getElementById("risk-seq-num");
-        seq_num.innerHTML = "1";
-        document.getElementById("risk-seq-total").innerHTML = num_trials;
+        seq_num.innerHTML = trial_idx + 1;
+        document.getElementById("risk-seq-total").innerHTML = total_trials;
 
         display_element.load(php_site, function() {
-            display_element.find("#risk-count").html(num_trials);
+            display_element.find("#risk-count").html(num_trials - 1);
             
             var progress_bar_wrap;
             var progress_bar;
-            if(one_trial) {
-                progress_bar_wrap = display_element.find("#risk-progress-wrap");
-                progress_bar = display_element.find("#risk-progress"); 
+            progress_bar_wrap = display_element.find("#risk-progress-wrap");
+            progress_bar = display_element.find("#risk-progress"); 
 
-                progress_bar.css("width", (100 / num_trials).toFixed(0) + "%");
-                progress_bar.html("1/" + num_trials);
-            }
+            progress_bar.css("width", (100 / (num_trials - 1)).toFixed(0) + "%");
+            progress_bar.html("1/" + (num_trials - 1));
             
             var result = 180;
             var outcome = "";
             
             var canvas = document.getElementById("risk-canvas");
             var low;
-            if(!one_trial) {
-                low = document.getElementById("risk-low-button");
-                low.innerHTML = "$" + all_choices[trial_num].fixed;
-            }
+            low = document.getElementById("risk-low-button");
+            low.innerHTML = "$" + all_choices[0];
             
             var result_cont = display_element.find("#risk-result");
             var money = display_element.find("#risk-result-money");
@@ -79,7 +71,6 @@ jsPsych.plugins["risk"] = (function()
             var target_ang = 0;
             var valid_click = true;
             var valid_done_click = false;
-            var choices = [];
             var hw = 200;
             var pad = 40;
 
@@ -90,87 +81,77 @@ jsPsych.plugins["risk"] = (function()
                     return;
 
                 valid_done_click = false;
-                choices.push({ result: result, fixed: chose_fixed/*, choices: all_choices[trial_num]*/ });
                 trial_num += 1;
                 if(trial_num == num_trials || force_end) {
                     function finish() {
-                        console.log(choices);
                         display_element.empty();
-                        jsPsych.finishTrial({ choices: choices });
+                        data = { fixed: chose_fixed, result: result };
+                        console.log(data);
+                        jsPsych.finishTrial(data);
                     }
-
-                    if(one_trial) {
-                        function post_choice(r) {
-                            var earned = parseInt(r);
-                            money.html("You earned $" + (earned * 0.001).toFixed(3) + ".");
-                            result_no.style.display = "none";
-                            result_done.onclick = finish;
-                            result_done.innerHTML = "Ok";
-                        }
-                        
-                        if(example) {
-                            post_choice("400");
-                        } else {
-                            $.post(SITE_PREFIX + "/risk_one_choice.php", post_choice);
-                        }
+                    if(!chose_fixed && trial_num < num_trials) {
+                      function cont(p) {
+                        money.html("You earned $" + (parseInt(p) * 0.001).toFixed(3) + ".");
+                        result_done.innerHTML = "Ok";
+                        result_no.style.display = "none";
+                        result_done.onclick = finish;
+                      }
+                      if(example) {
+                        cont("300");
+                      } else {
+                        $.post(post_site, { "ticket": (trial_num - 1), "index": trial_idx }, cont);
+                      }
                     } else {
-                        finish();
+                      finish();
                     }
                 } else {
                     ang = 0;
                     vel = 0;
                     draw();
-                    var p = (100 * (trial_num + 1) / num_trials); 
-                    if(!one_trial) {
-                        low.innerHTML = "$" + all_choices[trial_num].fixed;
-                    } else {
-                        progress_bar.html((trial_num + 1) + "/" + num_trials);
-                        progress_bar.css("width", Math.max(p, 5).toFixed(0) + "%");
-                    }
+                    var p = (100 * (trial_num ) / (num_trials - 1)); 
+                    low.innerHTML = "$" + all_choices[0];
+                    progress_bar.html((trial_num) + "/" + (num_trials - 1));
+                    progress_bar.css("width", Math.max(p, 5).toFixed(0) + "%");
                     seq.style.opacity = "1";
-                    seq_num.innerHTML = trial_num + 1;
                     result_cont.animate({ "opacity": "0" }, 500, function() {
                         $(this).css("display", "none");
                         valid_click = true;
-                        if(!one_trial) { 
-                            low.disabled = false;
-                        }
+                        low.disabled = false;
                     });
                 }
             }
                     
-            result_done.onclick = function() { result_click(one_trial); }
+            result_done.onclick = function() { result_click(true); }
             result_no.onclick = function() { result_click(false); }
 			
-            if(!one_trial) {
-                low.onclick = function() {
-                    if(!valid_click)
-                        return;
+            low.onclick = function() {
+                if(!valid_click)
+                    return;
 
-                    valid_click = false;
-                    low.disabled = true;
-                    function low_post(r) {
-                        result = all_choices[trial_num].fixed;
-                        outcome = "You chose the fixed reward of $" + result + ".";
-                        var earned = parseInt(r);
-                        outcome += " You earned $" + (earned * 0.001).toFixed(3) + ".";
-                        chose_fixed = true;
-                        show(false);
-                    }
+                valid_click = false;
+                low.disabled = true;
+                function low_post(r) {
+                  console.log(r);
+                    result = all_choices[0];
+                    outcome = "You chose the fixed reward of $" + result + ".";
+                    var earned = parseInt(r);
+                    outcome += " You earned $" + (earned * 0.001).toFixed(3) + ".";
+                    chose_fixed = true;
+                    show(false);
+                }
 
-                    if(example) {
-                        low_post("300");
-                    } else {
-                        $.post(post_site, { "choice": "fixed", "index": trial_num }, low_post);
-                    }
-                };
-            }
+                if(example) {
+                    low_post("300");
+                } else {
+                    $.post(post_site, { "ticket": "fixed", "index": trial_idx }, low_post);
+                }
+            };
             
             function show(is_spin) {
                 seq.style.opacity = "0";
                 money.html(outcome);
 
-                if(one_trial && is_spin && trial_num < num_trials - 1) {
+                if(is_spin && trial_num < num_trials - 1) {
                     result_done.innerHTML = "Yes";
                     result_no.style.display = "inline-block";
                 } else {
@@ -180,8 +161,6 @@ jsPsych.plugins["risk"] = (function()
                 result_cont.css("display", "block").animate({ "opacity": "1" }, 500, function() {
                     valid_done_click = true;
                 });
-                if(!one_trial)
-                    $(result_done).focus();
             }
         
             var c = null;
@@ -201,56 +180,30 @@ jsPsych.plugins["risk"] = (function()
                     return;
 
                 valid_click = false;
-                if(!one_trial) {
-                    low.disabled = true;
-                }
-                function canvas_click(r) {
-                    var r_idx = 0;
-                    var earned = 0;
-                    if(one_trial) {
-                        r_idx = parseInt(r);
-                    } else {
-                        var arr = r.split(":");
-                        r_idx = parseInt(arr[0]);
-                        earned = parseInt(arr[1]);
-                    }
+                low.disabled = true;
+                result = all_choices[trial_num];
+                var r_idx = result - 145;
 
-                    var frac;
-                    if(one_trial) {
-                        result = all_choices[trial_num][r_idx].value;
-                        frac = all_choices[trial_num][r_idx].fraction;
-                     } else {
-                        result = all_choices[trial_num].spinner[r_idx].value;
-                        frac = all_choices[trial_num].spinner[r_idx].fraction;
-                     }
-                    if(r_idx > 0) {
-                        var sliced;
-                        if(one_trial) {
-                            sliced = all_choices[trial_num].slice(0, r_idx);
-                        } else {
-                            sliced = all_choices[trial_num].spinner.slice(0, r_idx);
-                        }
-                        frac += sliced.reduce(function(total, cur) { return total + cur.fraction; }, 0.0);
-                    }
+                var frac = spinner[r_idx].fraction;
+                var sliced= spinner.slice(0, r_idx);
+                frac += sliced.reduce(function(total, cur) { return total + cur.fraction; }, 0.0);
 
-                    target_ang = parseInt(10000 * (1.0 + frac)); // 10000 corresponds to 2 * PI radians
-                    outcome = "The spinner returned $" + result + ".";
-                    if(one_trial && trial_num < num_trials - 1)
-                        outcome += " Would you like to choose this value?";
-                    if(!one_trial)
-                        outcome += " You earned $" + (earned * 0.001).toFixed(3) + ".";
-                    vel = 100;
-                    spin();
-                }
-
-                if(example) {
-                    if(one_trial) {
-                        canvas_click("1");
-                    } else {
-                        canvas_click("1:400");
-                    }
+                target_ang = parseInt(10000 * (1.0 + frac)); // 10000 corresponds to 2 * PI radians
+                outcome = "The spinner returned $" + result + ".";
+                vel = 100;
+                if(trial_num < num_trials - 1) {
+                  outcome += " Would you like to choose this value?";
+                  spin();
                 } else {
-                    $.post(post_site, { "choice": "wheel", "index": trial_num }, canvas_click);
+                    if(example) {
+                      outcome += " You earned $0.300.";
+                      spin();
+                    } else {
+                      $.post(post_site, { "ticket": trial_num, "index": trial_idx }, (p) => {
+                        outcome += " You earned $" + (parseInt(p) * 0.001).toFixed(3) + ".";
+                        spin();
+                      });
+                    }
                 }
             };
 
@@ -278,12 +231,7 @@ jsPsych.plugins["risk"] = (function()
                 c.strokeStyle = "black";
                 c.lineWidth = 2;
                
-                var spin_vals;
-                if(one_trial) {
-                    spin_vals = all_choices[trial_num];
-                } else {
-                    spin_vals = all_choices[trial_num].spinner;
-                }
+                var spin_vals = spinner;
                 var start_sector_ang = 0.0;
                 var last_sector_ang = start_sector_ang;
              
@@ -349,7 +297,13 @@ jsPsych.plugins["risk"] = (function()
                     if(spin_vals[i].show) {
                         var x = Math.cos(start_sector_ang + d_sector_ang) * (hw + 0.5 * rect_w) + hw + pad;
                         var y = Math.sin(start_sector_ang + d_sector_ang) * (hw + 0.5 * rect_w) + hw + pad;
-                    
+                        if(i == spin_vals.length - 1) {
+                          x -= 23;
+                        }
+                        else if(i == 0) {
+                          x += 23;
+                        }
+
                         c.fillStyle = "black";
                         roundedRect(x - 0.5 * rect_w, y - 0.5 * rect_h, rect_w, rect_h, rect_r);
 

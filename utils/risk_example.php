@@ -15,6 +15,14 @@ $site_prefix = $_SESSION["site_prefix"];
         <b>This is a trial run, not for real monetary reward</b>.
     </p>
     <br>
+    <div id="risk-progress-wrap">
+        <link rel="stylesheet" href="<?= $site_prefix ?>/utils/bootstrap.min.css">
+        <script src="<?= $site_prefix ?>/utils/popper.min.js"></script>
+        <script src="<?= $site_prefix ?>/utils/bootstrap.min.js"></script>
+        <div class="progress">
+            <div class="progress-bar" id="risk-progress"></div>
+        </div>
+    </div>
     <div class="risk-low">
         <h2 class="risk-option"><b>Option 1</b></h2>
         <button id="risk-low-button"></button>

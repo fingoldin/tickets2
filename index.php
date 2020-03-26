@@ -289,6 +289,8 @@ var p2_points_update_trial = {
 
 var risk_trial = {
     type: "risk",
+    one_trial: true,
+    spinner: [],
     all_choices: []
 }
 
@@ -301,7 +303,11 @@ var risk_one_trial = {
 var risk_example_trial = {
     type: "risk",
     example: true,
-    all_choices: []
+    one_trial: true,
+    spinner: [],
+    total_trials: 1,
+    trial_idx: 0,
+    all_choices: [ 180, 190, 210, 160 ]
 }
 
 var risk_one_example_trial = {
@@ -461,12 +467,16 @@ function init_exp()
     var training_sort = da["training_sort"];
     var threshold = parseFloat(da["training_threshold"]);
 
+    /*
     risk_one_trial.all_choices = da["risk_one_options"];
-    risk_trial.all_choices = da["risk_options"];
+    risk_trial.all_choices = da["testing"][0][0];
+    risk_trial.spinner = da["risk_options"];
     
     risk_one_example_trial.all_choices = da["risk_one_options"].slice(0, 2);
     risk_example_trial.all_choices = da["risk_options"].slice(0, 1);
-
+*/
+  var spinner = da["risk_options"];
+  risk_example_trial.spinner = spinner;
 	//animation_trial.prices = animdata;
 	//p2_animation_trial.prices = animdata2;
 	training_trial.answers = animanswers;
@@ -580,9 +590,9 @@ function init_exp()
 			continue_mesage: "Finish",
 			sequence: ""
 	});
-
-	timeline.push(testing_instructions2_trial);
 */
+/*
+	timeline.push(testing_instructions2_trial);
 	for(var i = 0; i < testing_data.length; i++)
 	{
         for(var j = 0; j < testing_data[i].length; j++)
@@ -606,6 +616,7 @@ function init_exp()
         timeline.push(points_update_trial);
         //timeline.push(training_trial2);
 	}
+  */
 /*
 	timeline.push(p2_start_trial);
 
@@ -679,11 +690,22 @@ function init_exp()
     timeline.push(closuresurvey_trial);
     timeline.push(risksurvey_trial);
 */
-    timeline.push(risk_one_example_trial);
-    timeline.push(risk_one_trial);
-    timeline.push(points_update_trial);
+//    timeline.push(risk_one_example_trial);
+//    timeline.push(risk_one_trial);
+//    timeline.push(points_update_trial);
     timeline.push(risk_example_trial);
-    timeline.push(risk_trial);
+
+      for(var j = 0; j < testing_data[0].length; j++) {
+        timeline.push({
+            type: "risk",
+            one_trial: true,
+            spinner: spinner,
+            total_trials: testing_data[0].length,
+            trial_idx: j,
+            all_choices: testing_data[0][j]
+        })
+      }
+//    timeline.push(risk_trial);
 //    timeline.push(riskchoose_trial);
 
 	//timeline.push(special_sequence_trial);

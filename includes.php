@@ -107,7 +107,23 @@ function get_points($phase, $group, $sequence, $answer)
 	$arr = $_SESSION["testing_data"][$phase][$group][$sequence];
     sort($arr);
 
-    $p = intval(round($_SESSION["max_points_per_seq"] * ($arr[count($arr) - 1] - $answer) / ($arr[count($arr) - 1] - $arr[0])));
+    $p = intval(round($_SESSION["max_points_per_seq"] * ($answer - $arr[0]) / ($arr[count($arr) - 1] - $arr[0])));
+
+	return $p;
+}
+
+function get_risk_points($phase, $group, $sequence, $answer)
+{
+	if(!session_id())
+		session_start();
+
+	if(!isset($_SESSION["testing_data"]) || !isset($_SESSION["max_points_risk"]))
+		return 0;
+
+	$arr = $_SESSION["testing_data"][$phase][$group][$sequence];
+    sort($arr);
+
+    $p = intval(round($_SESSION["max_points_risk"] * ($answer - $arr[0]) / ($arr[count($arr) - 1] - $arr[0])));
 
 	return $p;
 }
@@ -624,15 +640,15 @@ function startSession() {
 
     // Parameters of log-normal distribution, or of normal distribution
     $mean = 180;
-    $stddevs_unsorted = [10, 40]; // per phase
+    $stddevs_unsorted = [20, 20]; // per phase
 
     // Parameters for PERT distribution
     $p_min = 120;
     $p_max = 220;
     $p_mode = 125;
 
-    // Which distribution to use, set to 'normal', 'pert', 'ln' (log-normal), or 'sn' (skew-normal)
-    $dist = 'normal';
+    // Which distribution to use, set to 'normal', 'file' (loaded from a file), 'ln' (log-normal), or 'sn' (skew-normal)
+    $dist = 'file';
 
     // Minimum and maximum values for the deviates in case we get a really unlikely one
     $min = 0;
@@ -651,10 +667,10 @@ function startSession() {
     $_SESSION["training_avg_ranges"] = [[120, 240], [120, 240]];
 
     // Number of tickets in each sequence in each test block. Will be shuffled
-    $test_blocks = [3];
+    $test_blocks = [10];
 
     // Number of sequences in each block
-    $ntest_sequences = 2;
+    $ntest_sequences = 20;
 
     // The max number of points in a sequence
     $_SESSION["max_points_per_seq"] = 50; // in tenths of a cent
@@ -665,10 +681,11 @@ function startSession() {
 
     $risk_file = "risk.json";
     $risk_one_file = "risk_one.json";
-    $pert_file = "vec_test_right.csv";
+    $dist_test_file = "normal_180_20.csv";
+    $dist_train_file = "normal_180_20_train.csv";
 
     // Number of times you can spin the spinner in the risk_one trial
-    $_SESSION["num_risk_one"] = 5;
+    $_SESSION["num_risk_one"] = 1;
 
     // Maximum number of points (10th of a cent) that can be earned by the risk_one part
     $_SESSION["max_points_risk_one"] = 1000;
@@ -723,18 +740,18 @@ function startSession() {
 
     $_SESSION["start_time"] = get_time();
 
-    $pert_tickets = [];
-    $pert_training = [];
+    $dist_tickets = [];
+    $dist_training = [];
     $ticket_counter = 0;
-    if($dist == 'pert') {
-        $pert_tickets = file($pert_file, FILE_IGNORE_NEW_LINES);
-        array_splice($pert_tickets, 0, 1);
-        shuffle($pert_tickets);
+    if($dist == 'file') {
+        $dist_tickets = file($dist_test_file, FILE_IGNORE_NEW_LINES);
+//        array_splice($dist_tickets, 0, 1);
+//        shuffle($dist_tickets);
 
-        $training = file('vec_train_right.csv');
+        $training = file($dist_train_file);
 
-        for($i = 1; $i < count($training); $i++)
-            $pert_training[$i - 1] = str_getcsv($training[$i]);
+        for($i = 0; $i < count($training); $i++)
+            $dist_training[$i] = str_getcsv($training[$i]);
     }
 
     // Generate training data
@@ -744,8 +761,8 @@ function startSession() {
         for($l = 0; $l < $_SESSION["training_max_repeats"]; $l++) {
             $_SESSION["training_data"][$h][$l] = [];
             for($i = 0; $i < $ntraining_sequences; $i++) {
-                if($dist == 'pert') {
-                    $_SESSION["training_data"][$h][$l][$i] = $pert_training[$l];
+                if($dist == 'file') {
+                    $_SESSION["training_data"][$h][$l][$i] = $dist_training[$l];
                     shuffle($_SESSION["training_data"][$h][$l][$i]);
                 }
                 else {
@@ -782,8 +799,8 @@ function startSession() {
         $total_n = 0;
         $prev_cdf = 0;
 
-        if($dist == 'pert')
-            $prev_cdf = pert_cdf($training_divisions[$phase][0], $p_min, $p_max, $p_mode);
+        if($dist == 'file')
+            $prev_cdf = normal_cdf($training_divisions[$phase][0], $mean, $stddevs[$phase]);
         else if($dist == 'ln')
             $prev_cdf = ln_cdf($training_divisions[$phase][0], $mean, $stddevs[$phase]);
         else if($dist == 'normal')
@@ -793,8 +810,8 @@ function startSession() {
 
         for($i = 1; $i < count($training_divisions[$phase]); $i++) {
             $cdf = 0;
-            if($dist == 'pert')
-                $cdf = pert_cdf($training_divisions[$phase][$i], $p_min, $p_max, $p_mode);
+            if($dist == 'file')
+                $cdf = normal_cdf($training_divisions[$phase][$i], $mean, $stddevs[$phase]);
             else if($dist == 'ln')
                 $cdf = ln_cdf($training_divisions[$phase][$i], $mean, $stddevs[$phase]);
             else if($dist == 'normal')
@@ -841,8 +858,8 @@ function startSession() {
                 $_SESSION["testing_data"][$p][$h][$i] = array();
                 for($j = 0; $j < $test_blocks[$h]; $j++) {
                     $v = 0;
-                    if($dist == 'pert')
-                        $v = (int)$pert_tickets[$ticket_counter++ % count($pert_tickets)];
+                    if($dist == 'file')
+                        $v = (int)$dist_tickets[$ticket_counter++ % count($dist_tickets)];
                     else if($dist == 'ln')
                         $v = (int)round(ln_generate_deviate($mean, $stddevs[$p]));
                     else if($dist == 'normal')

@@ -115,16 +115,16 @@ jsPsych.plugins["ticket-choose"] = (function()
 
                         below.html("");
 
-                        if(r === 0) {
+                        if(r === (prices.length - 1)) {
                             points = trial.max_points;
-                            above.html("Congratulations! Your ticket is the cheapest ticket!");
+                            above.html("Congratulations! You chose the highest-priced stock!");
                         }
                         else {
-                            points = Math.round(trial.max_points * (prices[prices.length - 1] - trial.prices[price_num]) / (prices[prices.length - 1] - prices[0]));
+                            points = Math.round(trial.max_points * (trial.prices[price_num] - prices[0]) / (prices[prices.length - 1] - prices[0]));
                             
-                            var diff = trial.prices[price_num] - prices[0];
+                            var diff = prices[prices.length - 1] - trial.prices[price_num];
 
-                            above.html("You could have saved $" + diff.toFixed(0) + " if had you chosen a different ticket");
+                            above.html("You could have made $" + diff.toFixed(0) + " more if had you chosen a different stock");
                         }
 
                         price.hide();
