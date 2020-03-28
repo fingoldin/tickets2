@@ -648,7 +648,7 @@ function startSession() {
     $p_mode = 125;
 
     // Which distribution to use, set to 'normal', 'file' (loaded from a file), 'ln' (log-normal), or 'sn' (skew-normal)
-    $dist = 'file';
+    $dist = 'normal';
 
     // Minimum and maximum values for the deviates in case we get a really unlikely one
     $min = 0;

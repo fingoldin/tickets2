@@ -325,6 +325,18 @@ var final_trial = {
 	type: "final"
 }
 
+var risk_midexample_trial = {
+	type: "html",
+	url: "<?= $site_prefix ?>/utils/risk_midexample.html",
+	cont_btn: "continue"
+}
+
+var risk3_instructions_trial = {
+	type: "html",
+	url: "<?= $site_prefix ?>/utils/risk3_instructions.html",
+	cont_btn: "continue"
+}
+
 var risk_prompts = ["Admitting that your tastes are different from those of a friend.",
 										"Going camping in the wilderness.",
 										"Betting a day's income at the horse races.",
@@ -591,8 +603,7 @@ function init_exp()
 			sequence: ""
 	});
 */
-/*
-	timeline.push(testing_instructions2_trial);
+	/*timeline.push(testing_instructions2_trial);
 	for(var i = 0; i < testing_data.length; i++)
 	{
         for(var j = 0; j < testing_data[i].length; j++)
@@ -615,8 +626,7 @@ function init_exp()
 
         timeline.push(points_update_trial);
         //timeline.push(training_trial2);
-	}
-  */
+	}*/
 /*
 	timeline.push(p2_start_trial);
 
@@ -694,6 +704,7 @@ function init_exp()
 //    timeline.push(risk_one_trial);
 //    timeline.push(points_update_trial);
     timeline.push(risk_example_trial);
+    timeline.push(risk_midexample_trial);
 
       for(var j = 0; j < testing_data[0].length; j++) {
         timeline.push({
@@ -704,7 +715,18 @@ function init_exp()
             trial_idx: j,
             all_choices: testing_data[0][j]
         })
-      }
+      }/*
+    timeline.push(risk3_instructions_trial);
+      for(var j = 0; j < testing_data[0].length; j++) {
+        timeline.push({
+            type: "risk",
+            one_trial: true,
+            spinner: spinner,
+            total_trials: testing_data[0].length,
+            trial_idx: j,
+            all_choices: testing_data[0][j]
+        })
+      }*/
 //    timeline.push(risk_trial);
 //    timeline.push(riskchoose_trial);
 
