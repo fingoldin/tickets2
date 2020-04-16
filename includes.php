@@ -701,8 +701,8 @@ function startSession() {
     $_SESSION["risk_options"] = json_decode(file_get_contents($risk_file), true);
 
     // This a risk trial without a fixed amount
-    $risk_one_json = json_decode(file_get_contents($risk_one_file), true);
-    $_SESSION["risk_one_options"] = array_fill(0, $_SESSION["num_risk_one"], $risk_one_json);
+    //$risk_one_json = json_decode(file_get_contents($risk_one_file), true);
+    //$_SESSION["risk_one_options"] = array_fill(0, $_SESSION["num_risk_one"], $risk_one_json);
 
     $_SESSION["risk_one_choices"] = [];
     
