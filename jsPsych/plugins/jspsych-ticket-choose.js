@@ -74,7 +74,7 @@ jsPsych.plugins["ticket-choose"] = (function()
 			var above = display_element.find(".number-animation-above");
 			var below = display_element.find(".number-animation-below");
 			
-            above.html("Ticket <span>1</span> of <span>" + num_prices + "</span>:");
+            above.html("Stock <span>1</span> of <span>" + num_prices + "</span>:");
 
 			var listener = jsPsych.pluginAPI.getKeyboardResponse({
 				callback_function: next_price,
@@ -115,6 +115,7 @@ jsPsych.plugins["ticket-choose"] = (function()
 
                         below.html("");
 
+                        console.log(r);
                         if(r === (prices.length - 1)) {
                             points = trial.max_points;
                             above.html("Congratulations! You chose the highest-priced stock!");
@@ -187,7 +188,7 @@ jsPsych.plugins["ticket-choose"] = (function()
                                 //but_wrap.children().eq(price_num).addClass("ticket-choose-but-sel");
                             });
 							showTicket(trial.phase, $("#ticket-wrap"));
-							above.html("Ticket <span>" + (price_num + 1) + "</span> of <span>" + num_prices + "</span>:");
+							above.html("Stock <span>" + (price_num + 1) + "</span> of <span>" + num_prices + "</span>:");
 								next_price.startTime = gt();
 						});
 					}

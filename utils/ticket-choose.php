@@ -20,7 +20,7 @@ $site_prefix = $_SESSION["site_prefix"];
     </div>
 	<div id="ticket-wrap"></div>
 	<div>
-		<div class="number-animation-above">Ticket <span>1</span> of <span>10</span></div>
+		<div class="number-animation-above">Stock <span>1</span> of <span>10</span></div>
 		<div class="number-animation">
 			<span></span>
 			<p></p>

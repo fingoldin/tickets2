@@ -40,7 +40,7 @@ if(isset($_SESSION["start_time"]) && isset($_SESSION["finished"]) && $_SESSION["
 
 			//echo "tp: " . $trial["points"] . " arr: " . $_SESSION["checked_assoc"][$trial["phase"]][$trial["sequence"]];
 			$place = array_search($trial["result"], $arr2);
-            $points = $_SESSION["checked_assoc"][$trial["phase"]][$trial["sequence"]];
+            $points = $_SESSION["checked_assoc"][$trial["phase"]][$trial["sequence"]]["points"];
 
             if($trial["points"] != $points || $trial["place"] != $place)
 			{

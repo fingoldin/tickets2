@@ -1,282 +1,365 @@
-jsPsych.plugins["ticket-choose"] = (function()
+jsPsych.plugins["risk2"] = (function()
 {
 	var plugin = {};
-
-	function gt()
-	{
-		var d = new Date();
-		return d.getTime();
-	}
 
 	plugin.trial = function(display_element, trial)
 	{
 		trial = jsPsych.pluginAPI.evaluateFunctionParameters(trial);
 
-		trial.prices = trial.prices || [];
-        trial.fixed = trial.fixed || 0;
-		trial.continue_message = trial.continue_message || "Continue";
-		trial.sequence = trial.sequence || "";
-		trial.showpoints = trial.showpoints || false;
-		trial.phase = trial.phase || 0;
-		trial.group = trial.group || 0;
+        // Is this an example trial (doesn't count for money?)
+        var example = trial.example || false;
 
-		//console.log("Trial: " + trial.prices);
+        $.post(SITE_PREFIX + "/get_risk_one.php", { "example": example }, (res) => {
+          var all_choices = JSON.parse(res);
+          console.log(all_choices);
+          var trial_num = 0;
+          var num_trials = all_choices.length;
+          
+          display_element.empty();
 
-		//console.log(trial.prices);
+          if(num_trials < 1) {
+              jsPsych.finishTrial({ result: "Error" });
+          }
 
-		var num_prices = trial.prices.length;
-		if(!num_prices)
-			jsPsych.finishTrial({ "result": "error" });
+          var php_site = SITE_PREFIX + "/utils/risk_one.php";
+          if(example) {
+              php_site = SITE_PREFIX + "/utils/risk_one_example.php";
+          }
+          
+          post_site = SITE_PREFIX + "/risk_one.php";
 
-		var times = [];
+          var seq = document.getElementById("risk-seq");
+          seq.style.opacity = "1";
+          var seq_num = document.getElementById("risk-seq-num");
+          seq_num.innerHTML = "1";
+          document.getElementById("risk-seq-total").innerHTML = num_trials;
 
-		display_element.html("");
+          display_element.load(php_site, function() {
+              display_element.find("#risk-count").html(num_trials);
+              
+              var progress_bar_wrap;
+              var progress_bar;
+              progress_bar_wrap = display_element.find("#risk-progress-wrap");
+              progress_bar = display_element.find("#risk-progress"); 
+
+              progress_bar.css("width", (100 / num_trials).toFixed(0) + "%");
+              progress_bar.html("1/" + num_trials);
+              
+              var result = 180;
+              var outcome = "";
+              
+              var canvas = document.getElementById("risk-canvas");
+              var low;
+              low = document.getElementById("risk-low-button");
+              low.innerHTML = "$" + all_choices[trial_num].fixed;
+              
+              var result_cont = display_element.find("#risk-result");
+              var money = display_element.find("#risk-result-money");
+              var result_done = document.getElementById("risk-result-done");
+
+              var first_box = document.getElementById("risk-first");
+
+              var vel = 0;
+              var ang = 0;
+              var target_ang = 0;
+              var valid_click = true;
+              var valid_done_click = false;
+              var choices = [];
+              var hw = 200;
+              var pad = 40;
+
+              var chose_fixed = false;
+
+              function result_click(force_end) {
+                  if(!valid_done_click)
+                      return;
+
+                  valid_done_click = false;
+                  choices.push({ result: result, fixed: chose_fixed/*, choices: all_choices[trial_num]*/ });
+                  trial_num += 1;
+                  if(trial_num == num_trials || force_end) {
+                      jsPsych.finishTrial({ choices: choices });
+                  } else {
+                      ang = 0;
+                      vel = 0;
+                      draw();
+                      var p = (100 * (trial_num + 1) / num_trials); 
+                      low.innerHTML = "$" + all_choices[trial_num].fixed;
+                      progress_bar.html((trial_num + 1) + "/" + num_trials);
+                      progress_bar.css("width", Math.max(p, 5).toFixed(0) + "%");
+                      seq.style.opacity = "1";
+                      seq_num.innerHTML = trial_num + 1;
+                      result_cont.animate({ "opacity": "0" }, 500, function() {
+                          $(this).css("display", "none");
+                          valid_click = true;
+                          low.disabled = false;
+                      });
+                  }
+              }
+                      
+              result_done.onclick = function() { result_click(false); }
         
-        display_element.load(SITE_PREFIX + "/utils/risk.html", function() {
-            var progress_bar = display_element.find("#ticket-choose-progress"); 
-            progress_bar.css("width", (100 / num_prices).toFixed(0) + "%");
-            progress_bar.html("1/" + num_prices);
-            
-            var price_num = -1;
-			var next_num = 0;
+              low.onclick = function() {
+                  if(!valid_click)
+                      return;
 
-            var result = 180;
-            
-            var canvas = document.getElementById("risk-canvas");
-            var low = document.getElementById("risk-low-button");
-            var result_done = document.getElementById("risk-result-done");
-            
-            var result_cont = display_element.find("#risk-result");
-            var money = display_element.find("#risk-result-money");
-            
-            var spinner_result = display_element.find("#risk-spinner-result");
-            var spinner_result_text = display_element.find("#risk-spinner-result-text");
-            var spinner_result_yes = document.getElementById("risk-spinner-result-yes");
-            var spinner_result_no = document.getElementById("risk-spinner-result-no");
+                  valid_click = false;
+                  low.disabled = true;
+                  function low_post(r) {
+                      result = all_choices[trial_num].fixed;
+                      outcome = "You chose the fixed reward of $" + result + ".";
+                      var earned = parseInt(r);
+                      outcome += " You earned $" + (earned * 0.001).toFixed(3) + ".";
+                      chose_fixed = true;
+                      show(false);
+                  }
 
-            var hw = 150;
-            canvas.width = 2 * hw;
-            canvas.height = 2 * hw;
+                  if(example) {
+                      low_post("300");
+                  } else {
+                      $.post(post_site, { "choice": "fixed", "index": trial_num, "seq_idx": all_choices[trial_num].seq_idx }, low_post);
+                  }
+              };
+              
+              function show(is_spin) {
+                  seq.style.opacity = "0";
+                  money.html(outcome);
 
-            if(canvas.getContext) {
-                function next_price()
-                {
-                    next_num++;
-                    price_num++;
-                    if(price_num >= num_prices) {
-                        price_num = num_prices - 1;
+                  if(is_spin && trial_num < num_trials - 1) {
+                      result_done.innerHTML = "Ok";
+                  } else {
+                      result_done.innerHTML = "Done";
+                  }
+                  result_cont.css("display", "block").animate({ "opacity": "1" }, 500, function() {
+                      valid_done_click = true;
+                  });
+                  $(result_done).focus();
+              }
+          
+              var c = null;
+              if(canvas.getContext) {
+                  canvas.width = 2 * hw + 2 * pad;
+                  canvas.height = 2 * hw + 2 * pad;
+                  c = canvas.getContext("2d");
+              } else {
+                  canvas.style.border = "1px solid #444";
+                  canvas.style.borderRadius = "5px";
+                  canvas.style.width = (2 * hw + 2 * pad) + "px";
+                  canvas.style.height = (2 * hw + 2 * pad) + "px";
+              }
 
-                        times[num_prices - 1] = gt() - next_price.startTime;
+              canvas.onclick = function() {
+                  if(!valid_click)
+                      return;
 
-                        select_price();
+                  valid_click = false;
+                  low.disabled = true;
+                  function canvas_click(r) {
+                      console.log("Here: " + r);
+                      var r_idx = 0;
+                      var earned = 0;
+                      var arr = r.split(":");
+                      r_idx = parseInt(arr[0]);
+                      earned = parseInt(arr[1]);
+
+                      var frac;
+                      result = all_choices[trial_num].spinner[r_idx].value;
+                      frac = all_choices[trial_num].spinner[r_idx].fraction;
+                      if(r_idx > 0) {
+                          var sliced;
+                          sliced = all_choices[trial_num].spinner.slice(0, r_idx);
+                          frac += sliced.reduce(function(total, cur) { return total + cur.fraction; }, 0.0);
+                      }
+
+                      target_ang = parseInt(10000 * (1.0 + frac)); // 10000 corresponds to 2 * PI radians
+                      outcome = "The spinner returned $" + result + ". You earned $" + (earned * 0.001).toFixed(3) + ".";
+                      vel = 100;
+                      spin();
+                  }
+
+                  if(example) {
+                      canvas_click("1:400");
+                  } else {
+                      $.post(post_site, { "choice": "wheel", "index": trial_num, "seq_idx": all_choices[trial_num].seq_idx }, canvas_click);
+                  }
+              };
+
+              function roundedRect(x, y, width, height, radius) {
+                  c.beginPath();
+                  c.moveTo(x, y + radius);
+                  c.lineTo(x, y + height - radius);
+                  c.arcTo(x, y + height, x + radius, y + height, radius);
+                  c.lineTo(x + width - radius, y + height);
+                  c.arcTo(x + width, y + height, x + width, y + height-radius, radius);
+                  c.lineTo(x + width, y + radius);
+                  c.arcTo(x + width, y, x + width - radius, y, radius);
+                  c.lineTo(x + radius, y);
+                  c.arcTo(x, y, x, y + radius, radius);
+                  c.fill();
+              }
+
+              function draw() { 
+                  if(!c) {
+                      return;
+                  }
+
+                  c.clearRect(0, 0, 2 * (hw + pad), 2 * (hw + pad));
+
+                  c.strokeStyle = "black";
+                  c.lineWidth = 2;
+                 
+                  var spin_vals;
+                  spin_vals = all_choices[trial_num].spinner;
+                  var start_sector_ang = 0.0;
+                  var last_sector_ang = start_sector_ang;
+                function HSVtoRGB(h, s, v) {
+                    var r, g, b, i, f, p, q, t;
+                    if (arguments.length === 1) {
+                        s = h.s, v = h.v, h = h.h;
                     }
-                    else if(price_num === 0) {
-                        next_price.startTime = gt();
+                    i = Math.floor(h * 6);
+                    f = h * 6 - i;
+                    p = v * (1 - s);
+                    q = v * (1 - f * s);
+                    t = v * (1 - (1 - f) * s);
+                    switch (i % 6) {
+                        case 0: r = v, g = t, b = p; break;
+                        case 1: r = q, g = v, b = p; break;
+                        case 2: r = p, g = v, b = t; break;
+                        case 3: r = p, g = q, b = v; break;
+                        case 4: r = t, g = p, b = v; break;
+                        case 5: r = v, g = p, b = q; break;
                     }
-                    else {
-                        times[price_num-1] = gt() - next_price.startTime;
-
-                        progress_bar.html((price_num + 1) + "/" + num_prices);
-                        progress_bar.css("width", (100 * (price_num + 1) / num_prices).toFixed(0) + "%");
-                        next_price.startTime = gt();
-                    }
-                }
-
-                function end_trial(ps, r, ti)
-                {
-                    if(r == -1) {
-			            jsPsych.finishTrial({ "result": "error" });
-                        return;
-                    }
-
-                    var trial_data = {
-                        "result": trial.prices[price_num],
-                        "points": ps,
-                        "place": r,
-                        "phase": trial.phase,
-                        "sequence": trial.row,
-                        "prices": trial.prices,
-                        "times": ti,
-                        "next_num": next_num,
-                        "group": trial.group
+                    return {
+                        r: Math.round(r * 255),
+                        g: Math.round(g * 255),
+                        b: Math.round(b * 255)
                     };
-
-                    jsPsych.finishTrial(trial_data);
-                }
-                
-                result_done.onclick = function() {
-                    result_cont.animate({ "opacity": "0" }, 500, function() {
-                        jsPsych.finishTrial();
-                    });
-                };
-            
-                function end() {
-                    money.html("Your ticket will cost $" + result.toFixed(0) + ".");
-                    result_cont.css("display", "block").animate({ "opacity": "1" }, 500);
-                }
-                
-                low.onclick = function() {
-                    $.post(SITE_PREFIX + "/risk.php", { "choice": "fixed" }, function(r) {
-                        result = parseInt(r);
-                        end();
-                    });
-                };
-
-                spinner_result_yes.onclick = function() {
-                    spinner_result.css("display", "none");
-                    end();
-                    console.log("yes");
-                };
-                
-                spinner_result_no.onclick = function() {
-                    spinner_result.css("display", "none");
-                    low.disabled = false;
-                };
-
-                function choose() {
-                    spinner_result_text.html("Accept this $" + result.toFixed(0) + " ticket?");
-                    spinner_result.css("display", "block");
                 }
             
-                var max = 220
-                var min = 140
-                var a = -1; // -3 acceleration of pointer, radians per second ^ 2
-                var vel = 696; // 569
-                var ang = 0;
-                var dt = 1;
+                function getColor(v) {
+                  let vmax = 215;
+                  let vmin = 145;
+                  let f = (v - vmin) / (vmax - vmin);
+                  let rgb = HSVtoRGB(f, 1, 1);
 
-                var c = canvas.getContext("2d");
-
-                canvas.onclick = function() {
-                    low.disabled = true;
-                    $.post(SITE_PREFIX + "/risk.php", { "choice": "wheel" }, function(r) {
-                        result = parseInt(r);
-                        vel = Math.round(Math.sqrt(2000 * (22 + result)));
-                        spin();
-                    });
-                };
-
-                function roundedRect(x, y, width, height, radius) {
-                    c.beginPath();
-                    c.moveTo(x, y + radius);
-                    c.lineTo(x, y + height - radius);
-                    c.arcTo(x, y + height, x + radius, y + height, radius);
-                    c.lineTo(x + width - radius, y + height);
-                    c.arcTo(x + width, y + height, x + width, y + height-radius, radius);
-                    c.lineTo(x + width, y + radius);
-                    c.arcTo(x + width, y, x + width - radius, y, radius);
-                    c.lineTo(x + radius, y);
-                    c.arcTo(x, y, x, y + radius, radius);
-                    c.fill();
+                  return "rgb(" + rgb.r + ", " + rgb.g + ", " + rgb.b + ")";
                 }
+               
+                  for(var i = 0; i < spin_vals.length; i++) {
+                      var d_sector_ang = spin_vals[i].fraction;
+                      if(spin_vals[i].show) {
+                          var sang = -0.5 * Math.PI + 2.0 * Math.PI * last_sector_ang;
+                          var fang = -0.5 * Math.PI + 2.0 * Math.PI * (start_sector_ang + d_sector_ang);
+                          var color_int = parseInt(65535.0 * (fang - sang) / (2.0 * Math.PI)); 
+                          c.fillStyle = getColor(parseInt(spin_vals[i].value));
+                          c.beginPath();
+                          c.arc(hw + pad, hw + pad, hw, sang, fang, false); 
+                          c.lineTo(hw + pad, hw + pad);
+                          c.fill();
+                          c.stroke();
 
-                function draw() { 
-                    c.clearRect(0, 0, 2 * hw, 2 * hw);
-                    
-                    c.save();
-                    
-                    c.translate(hw, hw);
-                    c.rotate(Math.PI * 2 * ((ang / 1000) % (max - min + 1)) / (max - min + 1));
-                    c.translate(-hw, -hw);
-                    
-                    c.lineWidth = 3;
-                    c.strokeStyle = "red";
-                    var l = 15;
-                    c.beginPath();
-                    c.moveTo(hw, buf);
-                    c.lineTo(hw, buf - l);
-                    c.moveTo(hw, 2 * hw - buf);
-                    c.lineTo(hw, 2 * hw - buf + l);
-                    c.moveTo(buf, hw);
-                    c.lineTo(buf - l, hw);
-                    c.moveTo(2 * hw - buf, hw);
-                    c.lineTo(2 * hw - buf + l, hw);
-                    c.closePath();
-                    c.stroke();
-                    
-                    c.fillStyle = "red";
-                    var red = true;
-                    var s = 2.0 * Math.PI;
-                    var m = max;
-                    if((max - min + 1) % 2 == 0) {
-                        s /= (max - min + 1);
-                    }
-                    else {
-                        s /= (max - min + 2);
-                        m += 1;
-                    }
+                          last_sector_ang = start_sector_ang + d_sector_ang;
+                      }
+                      start_sector_ang += d_sector_ang;
+                  }
+                  
+                  c.textAlign = "center";
+                  c.textBaseline = "middle";
+                  c.font = "16px 'Roboto', sans-serif";
+                  var rect_w = 50;
+                  var rect_h = 32;
+                  var rect_r = 5;
+                 
+                  c.lineWidth = 2;
+                  
+                  start_sector_ang = 0.0;
+                  for(var i = 0; i < spin_vals.length; i++) {
+                      var d_sector_ang = spin_vals[i].fraction * 2.0 * Math.PI;
+                      var hl = 5;
+                      if(spin_vals[i].show) {
+                          hl = 10;
+                          c.lineWidth = 3;
+                          c.strokeStyle = "white";
+                      } else {
+                          c.lineWidth = 2;
+                          c.strokeStyle = "black";
+                      }
+                     
+                      c.save();
 
-                    var buf = 40;
+                      c.translate(hw + pad, hw + pad);
+                      c.rotate(start_sector_ang + d_sector_ang);
+                      c.translate(-hw - pad, -hw - pad);
+                     
+                      c.beginPath();
+                      c.moveTo(hw + pad, pad - hl);
+                      c.lineTo(hw + pad, pad + hl);
+                      c.stroke();
+                      
+                      c.restore();
+                      
+                      start_sector_ang += d_sector_ang;
+                  }
+                  
+                  start_sector_ang = -0.5 * Math.PI;
+                  for(var i = 0; i < spin_vals.length; i++) {
+                      var d_sector_ang = spin_vals[i].fraction * 2.0 * Math.PI;
+                      if(spin_vals[i].show) {
+                          var x = Math.cos(start_sector_ang + d_sector_ang) * (hw + 0.5 * rect_w) + hw + pad;
+                          var y = Math.sin(start_sector_ang + d_sector_ang) * (hw + 0.5 * rect_w) + hw + pad;
+                      
+                          c.fillStyle = "black";
+                          roundedRect(x - 0.5 * rect_w, y - 0.5 * rect_h, rect_w, rect_h, rect_r);
 
-                    for(var i = min; i <= m; i++) {
-                        if(!red)
-                            c.fillStyle = "red";
-                        else
-                            c.fillStyle = "black";
+                          c.fillStyle = "white";
+                          c.fillText("$" + spin_vals[i].value, x, y);
+                      }
+                      start_sector_ang += d_sector_ang;
+                  }
 
-                        red = !red;
+                  c.save();
+                  
+                  c.translate(hw + pad, hw + pad);
+                  c.rotate(Math.PI * 2 * (ang / 10000));
+                  c.translate(-hw - pad, -hw - pad);
+                  
+                  c.lineWidth = 6;
+                  c.lineCap = "round";
+                  c.strokeStyle = "white";
 
-                        c.beginPath();
-                        c.moveTo(hw, hw);
-                        c.arc(hw, hw, hw - buf, i * s, (i + 1) * s, false);
-                        c.closePath();
-                        c.fill();
-                    }
-                    
-                    c.restore();
+                  c.beginPath();
+                  c.moveTo(hw + pad, hw + pad);
+                  c.lineTo(hw + pad, 10 + pad);
+                  c.stroke();
+                  
+                  c.restore();
 
-                    c.fillStyle = "black";
-                    c.beginPath();
-                    c.arc(hw, hw, 0.7 * (hw - buf), 0, 2 * Math.PI, false);
-                    c.fill();
-                    
-                    c.fillStyle = "white";
-                    c.beginPath();
-                    c.arc(hw, hw, 10, 0, 2 * Math.PI, false);
-                    c.fill();
-                    
-                    c.fillStyle = "black";
-                    var rhw = 30;
-                    var rhh = 16;
-                    var rr = 5;
-                    roundedRect(hw - rhw, 0.5 * (buf - 2 * rhh), 2 * rhw, 2 * rhh, rr);
-                    
-                    c.textAlign = "center";
-                    c.textBaseline = "middle";
-                    c.fillStyle = "white";
-                    c.font = "16px 'Roboto', sans-serif";
-                    var n = (Math.floor(ang / 1000) % (max - min + 1)) + min;
-                    c.fillText("$" + n.toFixed(0), hw, rhh + 0.5 * (buf - 2 * rhh));
+              }
 
-                    c.lineWidth = 6;
-                    c.lineCap = "round";
-                    c.strokeStyle = "white";
+              function spin() {
+                  draw();
+                  
+                  if(!c) {
+                      show(true);
+                      return;
+                  }
 
-                    c.beginPath();
-                    c.moveTo(hw, hw);
-                    c.lineTo(hw, buf + 10);
-                    c.stroke();
-                }
+                  ang += vel;
 
-                function spin() {
-                    draw();
-                    //var dt = tdiff();
-                    ang += vel * dt;
-                    vel += a * dt;
-                    console.log(ang);
-
-                    if(vel > 0.0)
-                        window.requestAnimationFrame(spin);
-                    else
-                        choose();
-                }
-                
-                draw();
-            } else {
-			    jsPsych.finishTrial({ "result": "error" });
-            }
-        });
+                  if(ang < target_ang)
+                      window.requestAnimationFrame(spin);
+                  else {
+                      ang = target_ang;
+                      draw();
+                      show(true);
+                  }
+              }
+             
+              draw();
+          });
+     });
 	}
 
-  	return plugin;
+	return plugin;
 })();

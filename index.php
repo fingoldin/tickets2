@@ -88,6 +88,7 @@ SITE_PREFIX = "<?= $site_prefix ?>"
 <script src="<?= $site_prefix ?>/jsPsych/plugins/jspsych-special_sequence.js"></script>
 <script src="<?= $site_prefix ?>/jsPsych/plugins/jspsych-points-update.js"></script>
 <script src="<?= $site_prefix ?>/jsPsych/plugins/jspsych-risk.js"></script>
+<script src="<?= $site_prefix ?>/jsPsych/plugins/jspsych-risk2.js"></script>
 <script src="<?= $site_prefix ?>/jsPsych/plugins/jspsych-riskchoose.js"></script>
 <script src="<?= $site_prefix ?>/jsPsych/plugins/jspsych-survey-multi.js"></script>
 <script src="<?= $site_prefix ?>/utils/general.js"></script>
@@ -295,7 +296,7 @@ var risk_trial = {
 }
 
 var risk_one_trial = {
-    type: "risk",
+    type: "risk2",
     one_trial: true,
     all_choices: []
 }
@@ -311,7 +312,7 @@ var risk_example_trial = {
 }
 
 var risk_one_example_trial = {
-    type: "risk",
+    type: "risk2",
     one_trial: true,
     example: true,
     all_choices: []
@@ -328,6 +329,12 @@ var final_trial = {
 var risk_midexample_trial = {
 	type: "html",
 	url: "<?= $site_prefix ?>/utils/risk_midexample.html",
+	cont_btn: "continue"
+}
+
+var risk_one_midexample_trial = {
+	type: "html",
+	url: "<?= $site_prefix ?>/utils/risk_one_midexample.html",
 	cont_btn: "continue"
 }
 
@@ -587,7 +594,7 @@ function init_exp()
                     }
         }, training_trial));
     }
-
+    */
     timeline.push(testing_instructions_trial);
 
     // example testing sequence
@@ -602,8 +609,7 @@ function init_exp()
 			continue_mesage: "Finish",
 			sequence: ""
 	});
-*/
-	/*timeline.push(testing_instructions2_trial);
+	timeline.push(testing_instructions2_trial);
 	for(var i = 0; i < testing_data.length; i++)
 	{
         for(var j = 0; j < testing_data[i].length; j++)
@@ -619,15 +625,15 @@ function init_exp()
 				sequence: "In sequence <span>" + (j + 1) + "</span> out of <span>" + testing_data[i].length + "</span>",
 				showpoints: true,
 				on_finish: function(data) {
-					$.post("<?= $site_prefix ?>/check.php", { phase: 0, group: data.group, sequence: data.sequence, answer: data.result }, function(r) { console.log(r) });
+					$.post("<?= $site_prefix ?>/check.php", { phase: 0, group: data.group, sequence: data.sequence, answer: data.result, idx: (data.next_num-1) }, function(r) { console.log(r) });
 				}
 		    });
         }
 
         timeline.push(points_update_trial);
         //timeline.push(training_trial2);
-	}*/
-/*
+	}
+  /*
 	timeline.push(p2_start_trial);
 
     var passed2 = false;
@@ -688,7 +694,7 @@ function init_exp()
 			//	points: function() { return points_counter.p[0]; },
 				showpoints: true,
 				on_finish: function(data) {
-					$.post("<?= $site_prefix ?>/check.php", { phase: 1, group: data.group, sequence: data.sequence, answer: data.result }, function(r) { console.log(r) });
+					$.post("<?= $site_prefix ?>/check.php", { phase: 1, group: data.group, sequence: data.sequence, answer: data.result, idx: (data.next_num-1) }, function(r) { console.log(r) });
 				}
 		    });
         }
@@ -700,9 +706,6 @@ function init_exp()
     timeline.push(closuresurvey_trial);
     timeline.push(risksurvey_trial);
 */
-//    timeline.push(risk_one_example_trial);
-//    timeline.push(risk_one_trial);
-//    timeline.push(points_update_trial);
     timeline.push(risk_example_trial);
     timeline.push(risk_midexample_trial);
 
@@ -715,20 +718,14 @@ function init_exp()
             trial_idx: j,
             all_choices: testing_data[0][j]
         })
-      }/*
+      }
+
+    timeline.push(points_update_trial);
+
     timeline.push(risk3_instructions_trial);
-      for(var j = 0; j < testing_data[0].length; j++) {
-        timeline.push({
-            type: "risk",
-            one_trial: true,
-            spinner: spinner,
-            total_trials: testing_data[0].length,
-            trial_idx: j,
-            all_choices: testing_data[0][j]
-        })
-      }*/
-//    timeline.push(risk_trial);
-//    timeline.push(riskchoose_trial);
+    timeline.push(risk_one_example_trial);
+    timeline.push(risk_one_midexample_trial);
+    timeline.push(risk_one_trial);
 
 	//timeline.push(special_sequence_trial);
 

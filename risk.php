@@ -10,8 +10,8 @@ function spinner_weight($v) {
 if(!session_id())
     session_start();
 
-if(!isset($_SESSION["risk_options"]) || !isset($_SESSION["risk_choices"]) ||
-   !isset($_POST["ticket"]) || !isset($_POST["index"]) || !isset($_SESSION["max_points_risk"]) ||
+if(!isset($_SESSION["testing_data"]) ||
+   !isset($_POST["ticket"]) || !isset($_POST["index"]) ||
    !isset($_SESSION["points_additional"])) {
     logging("Something not set in risk.php");
     echo "0";

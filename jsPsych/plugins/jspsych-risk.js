@@ -19,7 +19,7 @@ jsPsych.plugins["risk"] = (function()
         var trial_num = 1;
         var num_trials = all_choices.length;
         
-		display_element.empty();
+        display_element.empty();
 
         if(num_trials < 1) {
             jsPsych.finishTrial({ result: "Error" });
@@ -234,6 +234,40 @@ jsPsych.plugins["risk"] = (function()
                 var spin_vals = spinner;
                 var start_sector_ang = 0.0;
                 var last_sector_ang = start_sector_ang;
+           
+                function HSVtoRGB(h, s, v) {
+                    var r, g, b, i, f, p, q, t;
+                    if (arguments.length === 1) {
+                        s = h.s, v = h.v, h = h.h;
+                    }
+                    i = Math.floor(h * 6);
+                    f = h * 6 - i;
+                    p = v * (1 - s);
+                    q = v * (1 - f * s);
+                    t = v * (1 - (1 - f) * s);
+                    switch (i % 6) {
+                        case 0: r = v, g = t, b = p; break;
+                        case 1: r = q, g = v, b = p; break;
+                        case 2: r = p, g = v, b = t; break;
+                        case 3: r = p, g = q, b = v; break;
+                        case 4: r = t, g = p, b = v; break;
+                        case 5: r = v, g = p, b = q; break;
+                    }
+                    return {
+                        r: Math.round(r * 255),
+                        g: Math.round(g * 255),
+                        b: Math.round(b * 255)
+                    };
+                }
+            
+                function getColor(v) {
+                  let vmax = 215;
+                  let vmin = 145;
+                  let f = (v - vmin) / (vmax - vmin);
+                  let rgb = HSVtoRGB(f, 1, 1);
+
+                  return "rgb(" + rgb.r + ", " + rgb.g + ", " + rgb.b + ")";
+                }
              
                 for(var i = 0; i < spin_vals.length; i++) {
                     var d_sector_ang = spin_vals[i].fraction;
@@ -241,7 +275,7 @@ jsPsych.plugins["risk"] = (function()
                         var sang = -0.5 * Math.PI + 2.0 * Math.PI * last_sector_ang;
                         var fang = -0.5 * Math.PI + 2.0 * Math.PI * (start_sector_ang + d_sector_ang);
                         var color_int = parseInt(65535.0 * (fang - sang) / (2.0 * Math.PI)); 
-                        c.fillStyle = "rgb(0, " + Math.round(color_int / 256) + ", " + (color_int % 256) + ")";
+                        c.fillStyle = getColor(parseInt(spin_vals[i].value));
                         c.beginPath();
                         c.arc(hw + pad, hw + pad, hw, sang, fang, false); 
                         c.lineTo(hw + pad, hw + pad);
