@@ -20,7 +20,7 @@ if(isset($_SESSION["checked_assoc"]) && isset($_POST["example"])) {
           array_push($data, [
             "fixed" => $_SESSION["testing_data"][0][0][intval($seq_idx)][intval($sequence["idx"])],
             "seq_idx" => $seq_idx,
-            "spinner" => $spinners[intval($sequence["idx"])]
+            "spinner" => $spinners[8 - intval($sequence["idx"])]
           ]);
         }
       }

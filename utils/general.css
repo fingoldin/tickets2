@@ -254,9 +254,12 @@ button:focus {
 }
 
 .normal .ticket-img {
-	width: 98%;
-	height: auto;
-	max-width: 600px;
+  height: 250px;
+  width: 600px;
+  margin: 20px;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
 	display: inline-block;
 }
 

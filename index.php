@@ -594,7 +594,7 @@ function init_exp()
                     }
         }, training_trial));
     }
-    */
+    
     timeline.push(testing_instructions_trial);
 
     // example testing sequence
@@ -610,7 +610,7 @@ function init_exp()
 			sequence: ""
 	});
 	timeline.push(testing_instructions2_trial);
-	for(var i = 0; i < testing_data.length; i++)
+*/	for(var i = 0; i < testing_data.length; i++)
 	{
         for(var j = 0; j < testing_data[i].length; j++)
         {
@@ -726,6 +726,7 @@ function init_exp()
     timeline.push(risk_one_example_trial);
     timeline.push(risk_one_midexample_trial);
     timeline.push(risk_one_trial);
+    timeline.push(riskchoose_trial);
 
 	//timeline.push(special_sequence_trial);
 
