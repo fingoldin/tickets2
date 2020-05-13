@@ -20,7 +20,7 @@ $site_prefix = $_SESSION["site_prefix"];
     </div>
 	<div id="ticket-wrap"></div>
 	<div>
-		<div class="number-animation-above">Stock <span>1</span> of <span>10</span></div>
+		<div class="number-animation-above">Selling <span>1</span> of <span>10</span></div>
 		<div class="number-animation">
 			<span></span>
 			<p></p>
@@ -28,7 +28,7 @@ $site_prefix = $_SESSION["site_prefix"];
 		<div class="number-animation-below"></div>
 	</div>
 	<div class="ticket-choose-footer">
-		<button id="ticket-choose-select">Choose this</button>
-		<button id="ticket-choose-next">Next</button>
+		<button id="ticket-choose-select" style="border-color: #F44336;background-color: #F44336">SELL</button>
+		<button id="ticket-choose-next">CONTINUE</button>
 	</div>
 </div>

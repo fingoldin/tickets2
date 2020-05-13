@@ -74,7 +74,7 @@ jsPsych.plugins["ticket-choose"] = (function()
 			var above = display_element.find(".number-animation-above");
 			var below = display_element.find(".number-animation-below");
 			
-            above.html("Stock <span>1</span> of <span>" + num_prices + "</span>:");
+            above.html("Selling price <span>1</span> of <span>" + num_prices + "</span>:");
 
 			var listener = jsPsych.pluginAPI.getKeyboardResponse({
 				callback_function: next_price,
@@ -118,14 +118,14 @@ jsPsych.plugins["ticket-choose"] = (function()
                         console.log(r);
                         if(r === (prices.length - 1)) {
                             points = trial.max_points;
-                            above.html("Congratulations! You chose the highest-priced stock!");
+                            above.html("Congratulations! You chose the highest stock price!");
                         }
                         else {
                             points = Math.round(trial.max_points * (trial.prices[price_num] - prices[0]) / (prices[prices.length - 1] - prices[0]));
                             
                             var diff = prices[prices.length - 1] - trial.prices[price_num];
 
-                            above.html("You could have made $" + diff.toFixed(0) + " more if had you chosen a different stock");
+                            above.html("You could have made $" + diff.toFixed(0) + " more if had you chosen a different stock price");
                         }
 
                         price.hide();
@@ -187,7 +187,7 @@ jsPsych.plugins["ticket-choose"] = (function()
                                 //but_wrap.children().eq(price_num-1).removeClass("ticket-choose-but-sel");
                                 //but_wrap.children().eq(price_num).addClass("ticket-choose-but-sel");
                             });
-							showTicket(trial.phase, $("#ticket-wrap"));
+							//showTicket(trial.phase, $("#ticket-wrap"));
 							above.html("Stock <span>" + (price_num + 1) + "</span> of <span>" + num_prices + "</span>:");
 								next_price.startTime = gt();
 						});

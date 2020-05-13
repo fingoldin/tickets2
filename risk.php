@@ -16,18 +16,15 @@ if(!isset($_SESSION["testing_data"]) ||
     logging("Something not set in risk.php");
     echo "0";
 } else if((int)$_POST["index"] < count($_SESSION["testing_data"][0][0])) {
-    $fixed = (int)$_SESSION["testing_data"][0][0][(int)$_POST["index"]][0];
-    $val = $fixed;
+//    $fixed = (int)$_SESSION["testing_data"][0][0][(int)$_POST["index"]][0];
+//    $val = $fixed;
     
-    if($_POST["ticket"] != "fixed") {
-        $val = $_SESSION["testing_data"][0][0][(int)$_POST["index"]][(int)$_POST["ticket"]];
-    }
+//    if($_POST["ticket"] != "fixed") {
+    $val = $_SESSION["testing_data"][0][0][(int)$_POST["index"]][(int)$_POST["ticket"]];
+//    }
     
     $_SESSION["risk_choices"][$_POST["index"]] = $val;
     
-    $min = $fixed;
-    $max = $fixed;
-
     $p = get_risk_points(0, 0, (int)$_POST["index"], $val);
     $_SESSION["points_additional"] += $p;
 

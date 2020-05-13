@@ -16,7 +16,7 @@ jsPsych.plugins["risk"] = (function()
         var all_choices = trial.all_choices;
         console.log(all_choices);
         
-        var trial_num = 1;
+        var trial_num = 0;
         var num_trials = all_choices.length;
         
         display_element.empty();
@@ -41,23 +41,23 @@ jsPsych.plugins["risk"] = (function()
         document.getElementById("risk-seq-total").innerHTML = total_trials;
 
         display_element.load(php_site, function() {
-            display_element.find("#risk-count").html(num_trials - 1);
+            display_element.find("#risk-count").html(num_trials);
             
             var progress_bar_wrap;
             var progress_bar;
             progress_bar_wrap = display_element.find("#risk-progress-wrap");
             progress_bar = display_element.find("#risk-progress"); 
 
-            progress_bar.css("width", (100 / (num_trials - 1)).toFixed(0) + "%");
-            progress_bar.html("1/" + (num_trials - 1));
+            progress_bar.css("width", (100 / (num_trials)).toFixed(0) + "%");
+            progress_bar.html("1/" + (num_trials));
             
             var result = 180;
             var outcome = "";
             
             var canvas = document.getElementById("risk-canvas");
             var low;
-            low = document.getElementById("risk-low-button");
-            low.innerHTML = "$" + all_choices[0];
+//            low = document.getElementById("risk-low-button");
+//            low.innerHTML = "$" + all_choices[0];
             
             var result_cont = display_element.find("#risk-result");
             var money = display_element.find("#risk-result-money");
@@ -99,7 +99,7 @@ jsPsych.plugins["risk"] = (function()
                       if(example) {
                         cont("300");
                       } else {
-                        $.post(post_site, { "ticket": (trial_num - 1), "index": trial_idx }, cont);
+                        $.post(post_site, { "ticket": trial_num, "index": trial_idx }, cont);
                       }
                     } else {
                       finish();
@@ -108,15 +108,15 @@ jsPsych.plugins["risk"] = (function()
                     ang = 0;
                     vel = 0;
                     draw();
-                    var p = (100 * (trial_num ) / (num_trials - 1)); 
-                    low.innerHTML = "$" + all_choices[0];
-                    progress_bar.html((trial_num) + "/" + (num_trials - 1));
+                    var p = (100 * (trial_num + 1) / (num_trials)); 
+                    //low.innerHTML = "$" + all_choices[0];
+                    progress_bar.html((trial_num + 1) + "/" + (num_trials));
                     progress_bar.css("width", Math.max(p, 5).toFixed(0) + "%");
                     seq.style.opacity = "1";
                     result_cont.animate({ "opacity": "0" }, 500, function() {
                         $(this).css("display", "none");
                         valid_click = true;
-                        low.disabled = false;
+                        //low.disabled = false;
                     });
                 }
             }
@@ -124,7 +124,7 @@ jsPsych.plugins["risk"] = (function()
             result_done.onclick = function() { result_click(true); }
             result_no.onclick = function() { result_click(false); }
 			
-            low.onclick = function() {
+            /*low.onclick = function() {
                 if(!valid_click)
                     return;
 
@@ -145,7 +145,7 @@ jsPsych.plugins["risk"] = (function()
                 } else {
                     $.post(post_site, { "ticket": "fixed", "index": trial_idx }, low_post);
                 }
-            };
+            };*/
             
             function show(is_spin) {
                 seq.style.opacity = "0";
@@ -180,7 +180,7 @@ jsPsych.plugins["risk"] = (function()
                     return;
 
                 valid_click = false;
-                low.disabled = true;
+                //low.disabled = true;
                 result = all_choices[trial_num];
                 var r_idx = result - 145;
 

@@ -300,19 +300,24 @@ jsPsych.plugins["risk2"] = (function()
                   }
                   
                   start_sector_ang = -0.5 * Math.PI;
+                  let last_label_ang = 0.0;
                   for(var i = 0; i < spin_vals.length; i++) {
                       var d_sector_ang = spin_vals[i].fraction * 2.0 * Math.PI;
                       if(spin_vals[i].show) {
                           var x = Math.cos(start_sector_ang + d_sector_ang) * (hw + 0.5 * rect_w) + hw + pad;
                           var y = Math.sin(start_sector_ang + d_sector_ang) * (hw + 0.5 * rect_w) + hw + pad;
                       
-                          c.fillStyle = "black";
-                          roundedRect(x - 0.5 * rect_w, y - 0.5 * rect_h, rect_w, rect_h, rect_r);
+//                          c.fillStyle = "black";
+//                          roundedRect(x - 0.5 * rect_w, y - 0.5 * rect_h, rect_w, rect_h, rect_r);
 
-                          c.fillStyle = "white";
-                          c.fillText("$" + spin_vals[i].value, x, y);
+                          if(last_label_ang > 0.1) {
+                            c.fillStyle = "black";
+                            c.fillText("$" + spin_vals[i].value, x, y);
+                            last_label_ang = 0.0;
+                          }
                       }
                       start_sector_ang += d_sector_ang;
+                      last_label_ang += d_sector_ang;
                   }
 
                   c.save();

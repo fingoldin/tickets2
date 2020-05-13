@@ -156,8 +156,8 @@ var animation_trial = {
 
 var training_trial = {
 	type: "bar-choose",
-	instructions: "Imagine you would see MAXVAL more tickets for your trip to Canada.",
-	subtitle: "Please drag the bar or type in the input field to determine the amount of tickets <br> that are in the equivalent price range for this trip. <br><br>Press continue when you are sure of your answers.",
+	instructions: "Imagine you would see MAXVAL more stock prices.",
+	subtitle: "Please drag the bar or type in the input field to determine the number of stock prices <br> that are in the equivalent price range for this trip. <br><br>Press continue when you are sure of your answers.",
 //	categories: ["$135 - $150", "$151 - $165", "$166 - 180", "$181 - $195", "$196 - $210", "$211 - $225", "$226 - $240"],
 	min_val: 0,
 	max_val: 20,
@@ -185,8 +185,8 @@ var testing_instructions2_trial = {
 // Second bar graph to see learning
 var training_trial2 = {
 	type: "bar-choose",
-        instructions: "Imagine you would see another MAXVAL tickets to Canada.",
-        subtitle: "Please drag the bar or type in the input field to determine the amount of tickets <br> that are in the equivalent price range for this trip. Press continue when you are sure of your answers.",
+        instructions: "Imagine you would see another MAXVAL stock prices.",
+        subtitle: "Please drag the bar or type in the input field to determine the number of stock prices <br> that are in the equivalent price range for this trip. Press continue when you are sure of your answers.",
 //        categories: ["$135 - $150", "$151 - $165", "$166 - 180", "$181 - $195", "$196 - $210", "$211 - $225", "$226 - $240"],
         min_val: 0,
         max_val: 20,
@@ -203,8 +203,8 @@ var mid_test_trial = {
 
 var training_trial3 = {
 	type: "bar-choose",
-        instructions: "Imagine you would see another MAXVAL tickets to Canada.",
-        subtitle: "Please drag the bar or type in the input field to determine the amount of tickets <br> that are in the equivalent price range for this trip. Press continue when you are sure of your answers.",
+        instructions: "Imagine you would see another MAXVAL stock prices.",
+        subtitle: "Please drag the bar or type in the input field to determine the number of stock prices <br> that are in the equivalent price range for this trip. Press continue when you are sure of your answers.",
 //        categories: ["$135 - $150", "$151 - $165", "$166 - 180", "$181 - $195", "$196 - $210", "$211 - $225", "$226 - $240"],
         min_val: 0,
         max_val: 20,
@@ -543,7 +543,6 @@ function init_exp()
     }
 
     var assignment_id = "<?= $_SESSION['assignmentId'] ?>";
-/*    
     timeline.push(consent_trial);
 	timeline.push(age_trial);
 
@@ -552,9 +551,8 @@ function init_exp()
 	};
   	timeline.push(workerid_trial);
 
-	timeline.push(instructions_trial);
-  	timeline.push(start_trial);
-
+    timeline.push(instructions_trial);
+    timeline.push(start_trial);
     var passed = false;
 	for(var i = 0; i < animdata.length; i++)
 	{
@@ -610,7 +608,7 @@ function init_exp()
 			sequence: ""
 	});
 	timeline.push(testing_instructions2_trial);
-*/	for(var i = 0; i < testing_data.length; i++)
+	for(var i = 0; i < testing_data.length; i++)
 	{
         for(var j = 0; j < testing_data[i].length; j++)
         {
