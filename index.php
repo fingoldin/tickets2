@@ -429,9 +429,9 @@ function preload()
 		TICKET_IMAGES[0][i].src = "<?= $site_prefix ?>/utils/tickets/" + window.ticketprefix + "/ticket" + (i+1) + ".jpg";
 		TICKET_IMAGES[0][i].classList += " ticket-img";
 
-		TICKET_IMAGES[1][i] = new Image();
-                TICKET_IMAGES[1][i].src = "<?= $site_prefix ?>/utils/tickets/" + window.ticketprefix + "/2ticket" + (i+1) + ".jpg";
-                TICKET_IMAGES[1][i].classList += " ticket-img";
+//		TICKET_IMAGES[1][i] = new Image();
+//                TICKET_IMAGES[1][i].src = "<?= $site_prefix ?>/utils/tickets/" + window.ticketprefix + "/2ticket" + (i+1) + ".jpg";
+//                TICKET_IMAGES[1][i].classList += " ticket-img";
 	}
 }
 
