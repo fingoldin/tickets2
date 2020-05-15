@@ -83,7 +83,7 @@ jsPsych.plugins["number-animation"] = (function()
 				}
 				else if(price_num === 0) {
 					price.html("<span>$</span>" + trial.prices[price_num]).css("transform", "translateX(-30px)");
-                                       	showTicket(trial.phase, $("#ticket-wrap"));
+//                                       	showTicket(trial.phase, $("#ticket-wrap"));
                                        	price.animate({ transform: "translateX(0px)", opacity: "1" }, 200);
 
 					display_element.find(".ticket-choose-main").css("opacity", "1");

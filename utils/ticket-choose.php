@@ -18,8 +18,7 @@ $site_prefix = $_SESSION["site_prefix"];
             <div class="progress-bar" id="ticket-choose-progress"></div>
         </div>
     </div>
-	<div id="ticket-wrap"></div>
-	<div>
+	<div style="width: 500px">
 		<div class="number-animation-above">Selling <span>1</span> of <span>10</span></div>
 		<div class="number-animation">
 			<span></span>

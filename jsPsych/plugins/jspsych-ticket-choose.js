@@ -130,7 +130,7 @@ jsPsych.plugins["ticket-choose"] = (function()
 
                         price.hide();
 
-                        $("#ticket-wrap").hide();
+                        //$("#ticket-wrap").hide();
 
                         listener = jsPsych.pluginAPI.getKeyboardResponse({
                                             callback_function: function() { end_trial(points, r, times); },
@@ -171,7 +171,7 @@ jsPsych.plugins["ticket-choose"] = (function()
 					}
 					else if(price_num === 0) {
 						price.html("<span>$</span>" + trial.prices[price_num]).css("transform", "translateX(-30px)");
-               	        showTicket(trial.phase, $("#ticket-wrap"));
+//               	        showTicket(trial.phase, $("#ticket-wrap"));
                	        price.animate({ transform: "translateX(0px)", opacity: "1" }, 200);
 						next_price.startTime = gt();
 						display_element.find(".ticket-choose-main").css("opacity", "1");
@@ -188,7 +188,7 @@ jsPsych.plugins["ticket-choose"] = (function()
                                 //but_wrap.children().eq(price_num).addClass("ticket-choose-but-sel");
                             });
 							//showTicket(trial.phase, $("#ticket-wrap"));
-							above.html("Stock <span>" + (price_num + 1) + "</span> of <span>" + num_prices + "</span>:");
+							above.html("Selling price <span>" + (price_num + 1) + "</span> of <span>" + num_prices + "</span>:");
 								next_price.startTime = gt();
 						});
 					}
