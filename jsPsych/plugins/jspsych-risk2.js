@@ -77,7 +77,7 @@ jsPsych.plugins["risk2"] = (function()
                       return;
 
                   valid_done_click = false;
-                  choices.push({ result: result, fixed: chose_fixed/*, choices: all_choices[trial_num]*/ });
+                  choices.push({ result: result, fixed: chose_fixed, seq_idx: all_choices[trial_num].seq_idx /*, choices: all_choices[trial_num]*/ });
                   trial_num += 1;
                   if(trial_num == num_trials) {
                       jsPsych.finishTrial({ choices: choices });
@@ -174,7 +174,7 @@ jsPsych.plugins["risk2"] = (function()
                   }
 
                   if(example) {
-                      canvas_click("1");
+                      canvas_click("40");
                   } else {
                       $.post(post_site, { "choice": "wheel", "index": trial_num, "seq_idx": all_choices[trial_num].seq_idx }, canvas_click);
                   }
@@ -234,8 +234,8 @@ jsPsych.plugins["risk2"] = (function()
                 }
             
                 function getColor(v) {
-                  let vmax = 215;
-                  let vmin = 145;
+                  let vmax = 195;
+                  let vmin = 125;
                   let f = (v - vmin) / (vmax - vmin);
                   let rgb = HSVtoRGB(f, 1, 1);
 

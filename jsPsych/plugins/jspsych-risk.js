@@ -14,7 +14,7 @@ jsPsych.plugins["risk"] = (function()
         var one_trial = true;
 
         var all_choices = trial.all_choices;
-        console.log(all_choices);
+//        console.log(all_choices);
         
         var trial_num = 0;
         var num_trials = all_choices.length;
@@ -182,7 +182,7 @@ jsPsych.plugins["risk"] = (function()
                 valid_click = false;
                 //low.disabled = true;
                 result = all_choices[trial_num];
-                var r_idx = result - 145;
+                var r_idx = result - 125;
 
                 var frac = spinner[r_idx].fraction;
                 var sliced= spinner.slice(0, r_idx);
@@ -261,8 +261,8 @@ jsPsych.plugins["risk"] = (function()
                 }
             
                 function getColor(v) {
-                  let vmax = 215;
-                  let vmin = 145;
+                  let vmax = 195;
+                  let vmin = 125;
                   let f = (v - vmin) / (vmax - vmin);
                   let rgb = HSVtoRGB(f, 1, 1);
 

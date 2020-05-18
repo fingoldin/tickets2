@@ -308,7 +308,7 @@ var risk_example_trial = {
     spinner: [],
     total_trials: 1,
     trial_idx: 0,
-    all_choices: [ 180, 190, 210, 160 ]
+    all_choices: [ 160, 170, 190, 140 ]
 }
 
 var risk_one_example_trial = {
@@ -703,7 +703,7 @@ function init_exp()
 
     timeline.push(closuresurvey_trial);
     timeline.push(risksurvey_trial);
-*/
+*/    
     timeline.push(risk_example_trial);
     timeline.push(risk_midexample_trial);
 

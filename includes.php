@@ -639,7 +639,7 @@ function startSession() {
     $shape = 20;
 
     // Parameters of log-normal distribution, or of normal distribution
-    $mean = 180;
+    $mean = 160;
     $stddevs_unsorted = [20, 20]; // per phase
 
     // Parameters for PERT distribution
@@ -651,20 +651,20 @@ function startSession() {
     $dist = 'normal';
 
     // Minimum and maximum values for the deviates in case we get a really unlikely one
-    $min = 0;
-    $max = 360;
+    $min = 125;
+    $max = 195;
 
     $_SESSION["training_max_repeats"] = 2;
     $_SESSION["training_threshold"] = 0.25;
 
-    $training_divisions_unsorted = [[140, 150, 160, 170, 180, 190, 200, 210, 220], [100, 120, 140, 160, 180, 200, 220, 240, 260]];
+    $training_divisions_unsorted = [[120, 130, 140, 150, 160, 170, 180, 190, 200], [100, 120, 140, 160, 180, 200, 220, 240, 260]];
     /*$training_divisions = [];
     $n = 15;
     for($i = 0; $i < $n; $i++) {
         $training_divisions[$i] = intval(120 + 120 * floatval($i) / floatval($n));
     }*/
 
-    $_SESSION["training_avg_ranges"] = [[120, 240], [120, 240]];
+    $_SESSION["training_avg_ranges"] = [[100, 220], [120, 240]];
 
     // Number of tickets in each sequence in each test block. Will be shuffled
     $test_blocks = [10];
@@ -688,7 +688,7 @@ function startSession() {
     $_SESSION["num_risk_one"] = 1;
 
     // Maximum number of points (10th of a cent) that can be earned for all the risk_one trials
-    $_SESSION["max_points_risk_one"] = 2150;
+    $_SESSION["max_points_risk_one"] = 1950;
     
     // Maximum number of points (10th of a cent) that can be earned per risk trial
     $_SESSION["max_points_risk"] = 30;
