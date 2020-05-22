@@ -152,7 +152,7 @@ jsPsych.plugins["risk"] = (function()
                 money.html(outcome);
 
                 if(is_spin && trial_num < num_trials - 1) {
-                    result_done.innerHTML = "Yes";
+                    result_done.innerHTML = "Choose this";
                     result_no.style.display = "inline-block";
                 } else {
                     result_done.innerHTML = "Done";
@@ -192,7 +192,7 @@ jsPsych.plugins["risk"] = (function()
                 outcome = "The spinner returned $" + result + ".";
                 vel = 100;
                 if(trial_num < num_trials - 1) {
-                  outcome += " Would you like to choose this value?";
+                  outcome += " Would you like to choose this value or spin the wheel again?";
                   spin();
                 } else {
                     if(example) {

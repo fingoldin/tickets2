@@ -24,7 +24,7 @@ jsPsych.plugins["ticket-choose"] = (function()
 
 		//console.log("Trial: " + trial.prices);
 
-		//console.log(trial.prices);
+		console.log(trial.prices);
 
 		var num_prices = trial.prices.length;
 		if(!num_prices)
@@ -116,7 +116,7 @@ jsPsych.plugins["ticket-choose"] = (function()
                         below.html("");
 
                         console.log(r);
-                        if(r === (prices.length - 1)) {
+                        if(trial.prices[price_num] === prices[prices.length - 1]) {
                             points = trial.max_points;
                             above.html("Congratulations! You chose the highest stock price!");
                         }

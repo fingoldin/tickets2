@@ -165,7 +165,6 @@ button:focus {
     top: 0;
     border: 1px solid #ccc;
     border-radius: 8px;
-    background-color: #eee;
 }
 
 #ticket-choose-seq span {
@@ -434,7 +433,7 @@ button:focus {
     margin: auto;
     margin-top: 200px;
     width: 90%;
-    max-width: 300px;
+    max-width: 400px;
     background-color: #eee;
     padding: 20px;
     text-align: center;
@@ -465,3 +464,15 @@ button:focus {
     font-size: 14px;
     font-weight: 400;
 }
+
+.logo-img {
+  width: 300px;
+  height: auto;
+  display: block;
+  margin: 10px auto;
+}
+
+.logo-img.small {
+  width: 160px;
+}
+

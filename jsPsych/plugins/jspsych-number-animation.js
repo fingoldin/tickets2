@@ -27,7 +27,7 @@ jsPsych.plugins["number-animation"] = (function()
         }
 
 		display_element.html("");
-		display_element.load(SITE_PREFIX + "/utils/number-animation.html", function()
+		display_element.load(SITE_PREFIX + "/utils/number-animation.php", function()
 		{
 			//window.viewportUnitsBuggyfill.refresh();
 
@@ -49,9 +49,11 @@ jsPsych.plugins["number-animation"] = (function()
 		
             if(trial.repeat_num > 0 && trial.sequence_num == 0)
             {
-				$("#wrong-top").animate({ top: "0px" });
+				$("#wrong-top").css("display", "block").animate({ top: "0px" });
 				setTimeout(function() {
-					$("#wrong-top").animate({ top: "-40px" });
+					$("#wrong-top").animate({ top: "-40px" }, function() {
+            $("#wrong-top").css("display", "none");
+          });
 				}, 5000);
             }
 

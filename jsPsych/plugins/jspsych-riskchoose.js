@@ -9,7 +9,9 @@ jsPsych.plugins["riskchoose"] = (function()
 		display_element.empty();
 
         $.post(SITE_PREFIX + "/risk_one_choice.php", function(r) {
-          console.log(r);
+          if(r.substring(0, 4) == "none") {
+            jsPsych.finishTrial({ none: true });
+          } else {
             var vals = r.split("\n");
             display_element.load(SITE_PREFIX + "/utils/riskchoose.html", function() {
                 var risk_int = parseInt(vals[0]);
@@ -21,7 +23,8 @@ jsPsych.plugins["riskchoose"] = (function()
                     jsPsych.finishTrial({ "risk-payoff": risk_int });
                 };
             });
-        });
+          }
+      });
 	}
 
 	return plugin;

@@ -10,8 +10,8 @@ if(isset($_SESSION["checked_assoc"]) && isset($_POST["example"])) {
     $spinners = json_decode(file_get_contents("spinners3.json"));
     if($_POST["example"] == "true") {
       echo json_encode([ 
-        [ "fixed" => 180, "seq_idx" => 2, "spinner" => $spinners[2] ],
-        [ "fixed" => 190, "seq_idx" => 3, "spinner" => $spinners[3] ]
+        [ "fixed" => 180, "seq_idx" => 0, "spinner" => $spinners[2] ],
+        [ "fixed" => 190, "seq_idx" => 1, "spinner" => $spinners[5] ]
       ]);
     } else {
       $data = [];

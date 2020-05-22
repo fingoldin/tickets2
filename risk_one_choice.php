@@ -12,7 +12,8 @@ if(!isset($_SESSION["max_points_risk_one"]) || !isset($_SESSION["points_addition
         logging("risk_one_choice.php tried to pay twice");
     } else {
         $num = array_rand($_SESSION["risk_one_choices"]);
-        if($num < 0) {
+        if(count($_SESSION["risk_one_choices"]) < 1 || $num < 0) {
+            echo "none";
             logging("risk_one_choices has bad length " . $num);
         } else {
             $val = $_SESSION["risk_one_choices"][$num]["val"];

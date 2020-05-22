@@ -1,3 +1,11 @@
+<?php
+
+session_start();
+
+$site_prefix = $_SESSION["site_prefix"];
+
+?>
+
 <script type="text/javascript">
 
 $(window).resize(resize);
@@ -20,12 +28,24 @@ resize();
                 	<button id="c-right" class="big-btn">B: Choose the cheapest ticket</button>
         	</div>
 	</div>
-	<div id="id-int" style="display:none;">
+  <div id="id-followup" style="display:none;">
+    <div class="consent-main">
+      <h3>Followup title</h3>
+      <div class="cscroller">
+        <p>Followup text</p>
+      </div>
+      <div class="consent-footer">
+        <button id="continue2">Continue</button>
+      </div>
+    </div>
+  </div>
+	<div id="id-int">
         <div class="consent-main">
                 <h3>Experiment Instructions</h3>
 		<div class="cscroller">
                        	<p>
-        Suppose you are a stock broker, looking to sell some stocks. One company in particular interests you - Flip or Skip, a company that facilitates reselling of clothing and other items online.
+        Suppose you are a stock broker, looking to sell some stocks. One company in particular interests you - Flip or Skip, a company that facilitates reselling of clothing and other items online:
+        <img class="logo-img" src="<?= $site_prefix ?>/utils/logo.png"></img>
         You task is to learn about the distribution of stock prices for Flip or Skip, and try and choose the highest price from a given sequence of prices over time.
 				<br><br>
 				The first task is divided into four parts:
@@ -67,8 +87,8 @@ resize();
 				<br><br>
 				Please press continue to begin.
 			</p>
-		</div>
 -->
+		</div>
                 <div class="consent-footer">
                         <button id="continue1">Continue</button>
                 </div>

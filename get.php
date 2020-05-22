@@ -9,8 +9,12 @@ if(isset($_POST["f7g12d"]) && isset($_SESSION["testing_data"]) && isset($_SESSIO
 {
 	logging("Get.php OK");
 
+  $risk_data = $_SESSION["testing_data"][0][0];
+  shuffle($risk_data);
+
 	$arr = [
 		"testing" => $_SESSION["testing_data"],
+    "risk_data" => $risk_data,
 		"training" => $_SESSION["training_data"],
 		"training_ranges" => $_SESSION["training_avg_ranges"],
 		"answers" => $_SESSION["training_answers"],

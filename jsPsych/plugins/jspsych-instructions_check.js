@@ -23,32 +23,42 @@ jsPsych.plugins["instructions_check"] = (function()
 
 			var begin = function() {
 				$("#" + trial.instructions).css("display", "block").css("opacity", "1");
+				$("#" + trial.followup).css("display", "none").css("opacity", "0");
 				$("#" + trial.check).css("display", "none").css("opacity", "0");
 				if(count > 1)
                                 	showWrong();
 
-				$("#" + trial.cont_btn).off("click").click(function() {
-					$("#" + trial.instructions).animate({ opacity: 0 }, 100, function()
-					{
-						clearInterval(id);
-						$("#wrong-top").css("top", "-40px");
+				$("#" + trial.cont_btn1).off("click").click(function() {
+          $("#" + trial.instructions).animate({ opacity: 0 }, 100, function() {
+            $("#" + trial.instructions).css("display", "none");
+            $("#" + trial.followup).css("display", "block").animate({ opacity: 1 }, 100);
+          });
+        });
 
-						$("#" + trial.instructions).css("display", "none");
-						$("#" + trial.check).css("display", "block");
-						$("#" + trial.check).animate({ opacity: 1 }, 100);
+        $("#" + trial.cont_btn2).off("click").click(function() {
+          console.log("Here");
+          $("#" + trial.instructions).animate({ opacity: 0 }, 100, function()
+          {
+            clearInterval(id);
+            $("#wrong-top").css("top", "-40px");
 
-						$("#" + trial.right).off("click").click(function() {
+            $("#" + trial.instructions).css("display", "none");
+            $("#" + trial.followup).css("display", "none");
+            $("#" + trial.check).css("display", "block");
+            $("#" + trial.check).animate({ opacity: 1 }, 100);
+
+            $("#" + trial.right).off("click").click(function() {
 //							console.log(count);
-							display_element.empty();
+              display_element.empty();
                             $(window).off("resize");
-							jsPsych.finishTrial({ tries: count });
-						});
-						$("#" + trial.wrong).off("click").click(function() {
-							count++;
-							begin();
-						});
-					});
-				});
+              jsPsych.finishTrial({ tries: count });
+            });
+            $("#" + trial.wrong).off("click").click(function() {
+              count++;
+              begin();
+            });
+          });
+        });
 			};
 
 			begin();

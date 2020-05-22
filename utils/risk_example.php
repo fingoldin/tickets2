@@ -40,7 +40,7 @@ $site_prefix = $_SESSION["site_prefix"];
         <div class="risk-result-inner">
             <span id="risk-result-money"></span>
             <br>
-            <button id="risk-result-no" style="display: none; border-color: #F44336;background-color: #F44336">No</button>
+            <button id="risk-result-no" style="display: none; border-color: #F44336;background-color: #F44336">Spin again</button>
             <button id="risk-result-done">Done</button>
             <br>
         </div>

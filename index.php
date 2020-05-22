@@ -133,12 +133,14 @@ var special_sequence_trial = {
 
 var instructions_trial = {
 	type: "instructions_check",
-	url: "<?= $site_prefix ?>/utils/instructions.html",
+	url: "<?= $site_prefix ?>/utils/instructions.php",
 	instructions: "id-int",
+  followup: "id-followup",
 	check: "id-check",
 	right: "c-right",
 	wrong: "c-wrong",
-	cont_btn: "continue1",
+	cont_btn1: "continue1",
+	cont_btn2: "continue2",
 }
 
 var start_trial = {
@@ -464,7 +466,6 @@ function init_exp()
 
 	$.post("<?= $site_prefix ?>/get.php", { f7g12d: "y" }, function(d) {
 
-    console.log(d);
     var animdata = [];
 	var animanswers = [];
 	var animdata2 = [];
@@ -475,6 +476,7 @@ function init_exp()
 
 	var da = JSON.parse(d);
 	testing_data = da["testing"][0];
+  var risk_data = da["risk_data"];
 	p2_testing_data = da["testing"][1];
 
 	animdata = da["training"][0];
@@ -550,11 +552,10 @@ function init_exp()
 		$.post("<?= $site_prefix ?>/setworkerid.php", { id : data.worker_id });//, function(d) { console.log(d); });
 	};
   	timeline.push(workerid_trial);
-
     timeline.push(instructions_trial);
     timeline.push(start_trial);
     var passed = false;
-	for(var i = 0; i < animdata.length; i++)
+  	for(var i = 0; i < animdata.length; i++)
 	{
         for(var j = 0; j < animdata[i].length; j++)
         {
@@ -592,7 +593,6 @@ function init_exp()
                     }
         }, training_trial));
     }
-    
     timeline.push(testing_instructions_trial);
 
     // example testing sequence
@@ -703,18 +703,17 @@ function init_exp()
 
     timeline.push(closuresurvey_trial);
     timeline.push(risksurvey_trial);
-*/    
-    timeline.push(risk_example_trial);
+ */   timeline.push(risk_example_trial);
     timeline.push(risk_midexample_trial);
 
-      for(var j = 0; j < testing_data[0].length; j++) {
+      for(var j = 0; j < risk_data.length; j++) {
         timeline.push({
             type: "risk",
             one_trial: true,
             spinner: spinner,
-            total_trials: testing_data[0].length,
+            total_trials: risk_data.length,
             trial_idx: j,
-            all_choices: testing_data[0][j]
+            all_choices: risk_data[j]
         })
       }
 
