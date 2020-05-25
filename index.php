@@ -603,7 +603,7 @@ function init_exp()
 			row: -1,
             max_points: <?= $_SESSION["max_points_per_seq"] ?>,
             showpoints: false,
-			prices: [184, 180, 224, 165, 181, 199, 185, 193, 218, 126],
+			prices: [164, 160, 204, 145, 181, 179, 165, 173, 198, 106],
 			continue_mesage: "Finish",
 			sequence: ""
 	});
