@@ -118,14 +118,14 @@ jsPsych.plugins["ticket-choose"] = (function()
                         console.log(r);
                         if(trial.prices[price_num] === prices[prices.length - 1]) {
                             points = trial.max_points;
-                            above.html("Congratulations! You chose the highest stock price!");
+                            above.html("Congratulations! You chose the highest price!");
                         }
                         else {
                             points = Math.round(trial.max_points * (trial.prices[price_num] - prices[0]) / (prices[prices.length - 1] - prices[0]));
                             
                             var diff = prices[prices.length - 1] - trial.prices[price_num];
 
-                            above.html("You could have made $" + diff.toFixed(0) + " more if had you chosen a different stock price");
+                            above.html("You could have made $" + diff.toFixed(0) + " more if had you chosen a different price");
                         }
 
                         price.hide();

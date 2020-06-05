@@ -117,10 +117,10 @@ function get_risk_points($phase, $group, $sequence, $answer)
 	if(!session_id())
 		session_start();
 
-	if(!isset($_SESSION["testing_data"]) || !isset($_SESSION["max_points_risk"]))
+	if(!isset($_SESSION["risk_data"]) || !isset($_SESSION["max_points_risk"]))
 		return 0;
 
-	$arr = $_SESSION["testing_data"][$phase][$group][$sequence];
+	$arr = $_SESSION["risk_data"][$sequence];
     sort($arr);
 
     $p = intval(round($_SESSION["max_points_risk"] * ($answer - $arr[0]) / ($arr[count($arr) - 1] - $arr[0])));
@@ -673,7 +673,7 @@ function startSession() {
     $ntest_sequences = 8;
 
     // The max number of points in a sequence
-    $_SESSION["max_points_per_seq"] = 50; // in tenths of a cent
+    $_SESSION["max_points_per_seq"] = 30; // in tenths of a cent
 
     $_SESSION["site_prefix"] = "/christiane/tickets3type";
 
@@ -688,7 +688,7 @@ function startSession() {
     $_SESSION["num_risk_one"] = 1;
 
     // Maximum number of points (10th of a cent) that can be earned for all the risk_one trials
-    $_SESSION["max_points_risk_one"] = 1950;
+    $_SESSION["max_points_risk_one"] = 1500;
     
     // Maximum number of points (10th of a cent) that can be earned per risk trial
     $_SESSION["max_points_risk"] = 30;
@@ -877,6 +877,12 @@ function startSession() {
             }
         }
     }
+
+
+    $risk_data = $_SESSION["testing_data"][0][0];
+    shuffle($risk_data);
+
+    $_SESSION["risk_data"] = $risk_data;
 }
 
 ?>

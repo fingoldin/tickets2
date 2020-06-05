@@ -14,7 +14,7 @@ jsPsych.plugins["risk"] = (function()
         var one_trial = true;
 
         var all_choices = trial.all_choices;
-//        console.log(all_choices);
+        console.log(all_choices);
         
         var trial_num = 0;
         var num_trials = all_choices.length;
@@ -91,7 +91,19 @@ jsPsych.plugins["risk"] = (function()
                     }
                     if(!chose_fixed && trial_num < num_trials) {
                       function cont(p) {
-                        money.html("You earned $" + (parseInt(p) * 0.001).toFixed(3) + ".");
+                        console.log(p);
+                        var prices = all_choices.slice(0);
+                        prices.sort(function(a, b){return a - b});
+                        let out = "";
+
+                        if(all_choices[trial_num - 1] === prices[prices.length - 1]) {
+                            out = "Congratulations! You chose the highest price!";
+                        }
+                        else {
+                            var diff = prices[prices.length - 1] - all_choices[trial_num - 1];
+                            out = "You could have made $" + diff.toFixed(0) + " more if had you chosen a different price. ";
+                        }
+                        money.html(out + " You earned $" + (parseInt(p) * 0.001).toFixed(3) + " in real money.");
                         result_done.innerHTML = "Ok";
                         result_no.style.display = "none";
                         result_done.onclick = finish;
@@ -99,7 +111,7 @@ jsPsych.plugins["risk"] = (function()
                       if(example) {
                         cont("300");
                       } else {
-                        $.post(post_site, { "ticket": trial_num, "index": trial_idx }, cont);
+                        $.post(post_site, { "ticket": (trial_num - 1), "index": trial_idx }, cont);
                       }
                     } else {
                       finish();
@@ -190,17 +202,28 @@ jsPsych.plugins["risk"] = (function()
 
                 target_ang = parseInt(10000 * (1.0 + frac)); // 10000 corresponds to 2 * PI radians
                 outcome = "The spinner returned $" + result + ".";
-                vel = 100;
+                vel = 200;
                 if(trial_num < num_trials - 1) {
                   outcome += " Would you like to choose this value or spin the wheel again?";
                   spin();
                 } else {
+                    var prices = all_choices.slice(0);
+                    prices.sort(function(a, b){return a - b});
+                    let out = "";
+
+                    if(all_choices[trial_num] === prices[prices.length - 1]) {
+                        out = "Congratulations! You chose the highest price!";
+                    }
+                    else {
+                        var diff = prices[prices.length - 1] - all_choices[trial_num];
+                        out = "You could have made $" + diff.toFixed(0) + " more if had you chosen a different price. ";
+                    }
                     if(example) {
-                      outcome += " You earned $0.300.";
+                      outcome += " " + out + " You earned $0.300.";
                       spin();
                     } else {
                       $.post(post_site, { "ticket": trial_num, "index": trial_idx }, (p) => {
-                        outcome += " You earned $" + (parseInt(p) * 0.001).toFixed(3) + ".";
+                        outcome += " " + out + " You earned $" + (parseInt(p) * 0.001).toFixed(3) + ".";
                         spin();
                       });
                     }
