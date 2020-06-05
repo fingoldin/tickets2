@@ -24,8 +24,8 @@ resize();
 	<div id="id-check" class="check-main" style="display:none;">
         	<div class="check-head">What do you have to do in the test phase?</div>
         	<div class="check-bot">
-                <button id="c-wrong" class="big-btn">A: Click through all the tickets</button>
-                	<button id="c-right" class="big-btn">B: Choose the cheapest ticket</button>
+                <button id="c-wrong" class="big-btn">A: Click through all the stock prices</button>
+                	<button id="c-right" class="big-btn">B: Choose the cheapest stock price</button>
         	</div>
 	</div>
   <div id="id-followup" style="display:none;">
@@ -44,14 +44,32 @@ resize();
                 <h3>Experiment Instructions</h3>
 		<div class="cscroller">
                        	<p>
-        Suppose you are a stock broker, looking to sell some stocks. One company in particular interests you - Flip or Skip, a company that facilitates reselling of clothing and other items online:
+
+        This experiment is devided into 3 tasks.
+        <br><br>
+        <b>1. Task</b><br>
+        In the first task, you are a stock broker and the goal is to sell your stock at the highest price possible.
+        <br>
+        <b>2. Task</b><br>
+        In the second task, you are at the casino and take spins on a wheel of fortune, with the possibility to spin the wheel repeatetly to improve your gain.
+        <br>
+        <b>3. Task</b><br>
+        This task is similar to the 2second task, but you turn the wheel only once.
+        	<br><br>
+
+        Let's start with the first task: <br>
+
+        <b> 1. Task</b>	<br>
+
+        Suppose you are a stock broker, looking to sell some stocks. One company in particular interests you - <font face="Copperplate" ><b>Flip or Skip</b></font>, a company that facilitates reselling of clothing and other items online:
         <img class="logo-img" src="<?= $site_prefix ?>/utils/logo.png"></img>
-        You task is to learn about the distribution of stock prices for Flip or Skip, and try and choose the highest price from a given sequence of prices over time.
+        Your task is to try and choose the highest price from a given sequence of prices over time.
 				<br><br>
-				The first task is divided into four parts:
+				This task is divided into two parts:
 				<br><br>
         <b>1. Training phase</b>
         <br>
+          In this first phase, you get aquainted with potential prices of the  Stock <font face="Copperplate" > Flip and Skip</font>.
           You will encounter 60 potential stock prices and we will then check how
           well you have learned these stock prices. If you do well enough you can continue to the test phase,
           otherwise you will encounter 60 more stock prices.
@@ -59,9 +77,8 @@ resize();
 				<b>2. Test phase</b>
 				<br>
 				You will choose a stock price out of a sequence of 10 pices that are presented one after the other.
-        The goal is to find the highest price. You will be shown 50 of these sequences.
-        <br><br>
-        <b>3. Gamble phase 1</b>
+        The goal is to find the highest price. You will be shown 50 of these sequences.<br><br>
+<!--	        <b>3. Gamble phase 1</b>
         <br>
           Here, you will be presented with a spinner. You will be able to spin the spinner up to a 10 times, and each time it returns a number you can either accept that number as the selling price of the stock you will sell, or spin again. But, once you spin again you won't be able to go back to previous results. You will be presented with 50 such trials.
         <br><br>
@@ -70,6 +87,7 @@ resize();
           This will be similar to Gamble phase 1, but you will not have the option to choose a fixed reward with every spinner trial, and the spinners themselves may be changing (the probabilities of getting different results from the spinners will be changing).
         <br><br>
         <br>
+        -->
                 Please press continue to begin.
 <!--				<b>Training phase 2 </b>
 				<br>
