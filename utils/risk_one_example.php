@@ -7,9 +7,14 @@ $site_prefix = $_SESSION["site_prefix"];
 ?>
 
 <div id="risk-main">
-    <h3 style="text-align: center">Part 2</h3>
+    <h3 style="text-align: center">3.Task</h3>
     <p style="margin: 15px">
-        Consider you're at a casino. You have up to <span id="risk-count"></span> trials of the following choice: either option 1, which will give you a fixed reward, or option 2, which will give you one of a set of rewards, with probabilities as shown in the pie chart. The progress bar shows which of these trials you are currently on.
+        You are again at a casino trying your luck.<br>
+        This time, you have only two choices in each game: <br> Either you choose a fixed reward or you spin the wheel. <br><br>
+        However there is a difference to the 2. Task:<br> The values on the wheel are not same in every game. <br>
+        So keep an eye on the actual wheel !<br>
+
+        Let's do <span id="risk-count"></span> trial gambles before we start with the real gambles.
     </p>
     <p style="text-align: center; font-size: 20px">
         <b>These are trial runs, not for real monetary reward</b>.

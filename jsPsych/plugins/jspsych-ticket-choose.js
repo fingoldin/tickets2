@@ -50,11 +50,11 @@ jsPsych.plugins["ticket-choose"] = (function()
             }*/
             display_element.find("#ticket-choose-seq-num").html(trial.sequence_id + 1);
             display_element.find("#ticket-choose-seq-total").html(trial.num_sequences);
-            
-            var progress_bar = display_element.find("#ticket-choose-progress"); 
+
+            var progress_bar = display_element.find("#ticket-choose-progress");
             progress_bar.css("width", (100 / num_prices).toFixed(0) + "%");
             progress_bar.html("1/" + num_prices);
-            
+
             var price_num = -1;
 			var next_num = 0;
 
@@ -73,8 +73,8 @@ jsPsych.plugins["ticket-choose"] = (function()
 
 			var above = display_element.find(".number-animation-above");
 			var below = display_element.find(".number-animation-below");
-			
-            above.html("Selling price <span>1</span> of <span>" + num_prices + "</span>:");
+
+            above.html("Offered price <span>1</span> of <span>" + num_prices + "</span>:");
 
 			var listener = jsPsych.pluginAPI.getKeyboardResponse({
 				callback_function: next_price,
@@ -95,12 +95,12 @@ jsPsych.plugins["ticket-choose"] = (function()
                     jsPsych.pluginAPI.cancelKeyboardResponse(listener);
 
 					times[price_num] = gt() - next_price.startTime;
-	
+
 					display_element.find(".ticket-choose-main").animate({ opacity: "0" }, 200, function() {
 //                        display_element.find("#ticket-choose-progress-wrap").remove();
 //                        display_element.find("#ticket-choose-seq").remove();
                         $(".progress").hide();
-                        
+
                         var prices = trial.prices.slice(0);
                                         prices.sort(function(a, b){return a - b});
 
@@ -122,10 +122,10 @@ jsPsych.plugins["ticket-choose"] = (function()
                         }
                         else {
                             points = Math.round(trial.max_points * (trial.prices[price_num] - prices[0]) / (prices[prices.length - 1] - prices[0]));
-                            
+
                             var diff = prices[prices.length - 1] - trial.prices[price_num];
 
-                            above.html("You could have made $" + diff.toFixed(0) + " more if had you chosen a different price");
+                            above.html("You could have made $" + diff.toFixed(0) + " more if had you chosen a different offer");
                         }
 
                         price.hide();
@@ -188,7 +188,7 @@ jsPsych.plugins["ticket-choose"] = (function()
                                 //but_wrap.children().eq(price_num).addClass("ticket-choose-but-sel");
                             });
 							//showTicket(trial.phase, $("#ticket-wrap"));
-							above.html("Selling price <span>" + (price_num + 1) + "</span> of <span>" + num_prices + "</span>:");
+							above.html("Offered price <span>" + (price_num + 1) + "</span> of <span>" + num_prices + "</span>:");
 								next_price.startTime = gt();
 						});
 					}

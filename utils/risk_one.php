@@ -7,9 +7,14 @@ $site_prefix = $_SESSION["site_prefix"];
 ?>
 
 <div id="risk-main">
-    <h3 style="text-align: center">Part 2</h3>
+    <h3 style="text-align: center">3. Task</h3>
     <p style="margin: 15px">
-        You have <span id="risk-count"></span> trials of the following choice: either option 1, which will give you a fixed reward, or option 2, which will give you one of a set of rewards, with probabilities as shown in the pie chart.
+        You have the following choices:<br><br>
+        <b>Option 1</b>: you get the fixed amount of money<br>
+        <b>Option 2</b>: You try your luck on the wheel <br><br>
+        Be aware that the values on the wheel are changing between the gambles.
+        <br><br>
+        There is a total of  <span id="risk-count"></span>  gambles.
     </p>
     <br>
     <div class="risk-low">
