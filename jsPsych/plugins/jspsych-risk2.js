@@ -61,6 +61,7 @@ jsPsych.plugins["risk2"] = (function()
 
               var first_box = document.getElementById("risk-first");
 
+              var max_vel = 300;
               var vel = 0;
               var ang = 0;
               var target_ang = 0;
@@ -169,7 +170,7 @@ jsPsych.plugins["risk2"] = (function()
 
                       target_ang = parseInt(10000 * (1.0 + frac)); // 10000 corresponds to 2 * PI radians
                       outcome = "The spinner returned $" + result + ".";
-                      vel = 100;
+                      vel = max_vel;
                       spin();
                   }
 

@@ -310,7 +310,7 @@ var risk_example_trial = {
     spinner: [],
     total_trials: 1,
     trial_idx: 0,
-    all_choices: [ 160, 170, 190, 140 ]
+    all_choices: [ 160, 170, 192, 140, 183, 166, 169, 135, 201, 189 ]
 }
 
 var risk_one_example_trial = {
@@ -551,7 +551,7 @@ function init_exp()
 	workerid_trial.on_finish = function(data) {
 		$.post("<?= $site_prefix ?>/setworkerid.php", { id : data.worker_id });//, function(d) { console.log(d); });
 	};
-  	timeline.push(workerid_trial);
+/*  	timeline.push(workerid_trial);
     timeline.push(instructions_trial);
     timeline.push(start_trial);
     var passed = false;
@@ -608,7 +608,7 @@ function init_exp()
 			sequence: ""
 	});
 	timeline.push(testing_instructions2_trial);
-	for(var i = 0; i < testing_data.length; i++)
+*/	for(var i = 0; i < testing_data.length; i++)
 	{
         for(var j = 0; j < testing_data[i].length; j++)
         {
@@ -703,7 +703,7 @@ function init_exp()
 
     timeline.push(closuresurvey_trial);
     timeline.push(risksurvey_trial);
- */   timeline.push(risk_example_trial);
+ */ /*  timeline.push(risk_example_trial);
     timeline.push(risk_midexample_trial);
 
       for(var j = 0; j < risk_data.length; j++) {
@@ -722,7 +722,7 @@ function init_exp()
     timeline.push(risk3_instructions_trial);
     timeline.push(risk_one_example_trial);
     timeline.push(risk_one_midexample_trial);
-    timeline.push(risk_one_trial);
+   */ timeline.push(risk_one_trial);
     timeline.push(riskchoose_trial);
 
 	//timeline.push(special_sequence_trial);

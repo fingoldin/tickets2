@@ -66,6 +66,7 @@ jsPsych.plugins["risk"] = (function()
 
             var first_box = document.getElementById("risk-first");
 
+            var max_vel = 300;
             var vel = 0;
             var ang = 0;
             var target_ang = 0;
@@ -75,6 +76,49 @@ jsPsych.plugins["risk"] = (function()
             var pad = 40;
 
             var chose_fixed = false;
+            
+            var canvas_click = function() {
+                if(!valid_click)
+                    return;
+
+                valid_click = false;
+                //low.disabled = true;
+                result = all_choices[trial_num];
+                var r_idx = result - 125;
+
+                var frac = spinner[r_idx].fraction;
+                var sliced= spinner.slice(0, r_idx);
+                frac += sliced.reduce(function(total, cur) { return total + cur.fraction; }, 0.0);
+
+                target_ang = parseInt(10000 * (1.0 + frac)); // 10000 corresponds to 2 * PI radians
+                outcome = "The spinner returned $" + result + ".";
+                vel = max_vel;
+                if(trial_num < num_trials - 1) {
+                  outcome += " Would you like to choose this value or spin the wheel again?";
+                  spin();
+                } else {
+                    var prices = all_choices.slice(0);
+                    prices.sort(function(a, b){return a - b});
+                    let out = "";
+
+                    if(all_choices[trial_num] === prices[prices.length - 1]) {
+                        out = "Congratulations! You chose the highest price!";
+                    }
+                    else {
+                        var diff = prices[prices.length - 1] - all_choices[trial_num];
+                        out = "You could have made $" + diff.toFixed(0) + " more if had you chosen a different price. ";
+                    }
+                    if(example) {
+                      outcome += " " + out + " You earned $0.300.";
+                      spin();
+                    } else {
+                      $.post(post_site, { "ticket": trial_num, "index": trial_idx }, (p) => {
+                        outcome += " " + out + " You earned $" + (parseInt(p) * 0.001).toFixed(3) + ".";
+                        spin();
+                      });
+                    }
+                }
+            };
 
             function result_click(force_end) {
                 if(!valid_done_click)
@@ -128,6 +172,7 @@ jsPsych.plugins["risk"] = (function()
                     result_cont.animate({ "opacity": "0" }, 500, function() {
                         $(this).css("display", "none");
                         valid_click = true;
+                        canvas_click();
                         //low.disabled = false;
                     });
                 }
@@ -187,48 +232,8 @@ jsPsych.plugins["risk"] = (function()
                 canvas.style.height = (2 * hw + 2 * pad) + "px";
             }
 
-            canvas.onclick = function() {
-                if(!valid_click)
-                    return;
 
-                valid_click = false;
-                //low.disabled = true;
-                result = all_choices[trial_num];
-                var r_idx = result - 125;
-
-                var frac = spinner[r_idx].fraction;
-                var sliced= spinner.slice(0, r_idx);
-                frac += sliced.reduce(function(total, cur) { return total + cur.fraction; }, 0.0);
-
-                target_ang = parseInt(10000 * (1.0 + frac)); // 10000 corresponds to 2 * PI radians
-                outcome = "The spinner returned $" + result + ".";
-                vel = 200;
-                if(trial_num < num_trials - 1) {
-                  outcome += " Would you like to choose this value or spin the wheel again?";
-                  spin();
-                } else {
-                    var prices = all_choices.slice(0);
-                    prices.sort(function(a, b){return a - b});
-                    let out = "";
-
-                    if(all_choices[trial_num] === prices[prices.length - 1]) {
-                        out = "Congratulations! You chose the highest price!";
-                    }
-                    else {
-                        var diff = prices[prices.length - 1] - all_choices[trial_num];
-                        out = "You could have made $" + diff.toFixed(0) + " more if had you chosen a different price. ";
-                    }
-                    if(example) {
-                      outcome += " " + out + " You earned $0.300.";
-                      spin();
-                    } else {
-                      $.post(post_site, { "ticket": trial_num, "index": trial_idx }, (p) => {
-                        outcome += " " + out + " You earned $" + (parseInt(p) * 0.001).toFixed(3) + ".";
-                        spin();
-                      });
-                    }
-                }
-            };
+            canvas.onclick = canvas_click;
 
             function roundedRect(x, y, width, height, radius) {
                 c.beginPath();
