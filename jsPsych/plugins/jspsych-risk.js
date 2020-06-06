@@ -168,10 +168,10 @@ jsPsych.plugins["risk"] = (function()
                     progress_bar.html((trial_num + 1) + "/" + (num_trials));
                     progress_bar.css("width", Math.max(p, 5).toFixed(0) + "%");
                     seq.style.opacity = "1";
+                    valid_click = true;
+                    canvas_click();
                     result_cont.animate({ "opacity": "0" }, 500, function() {
                         $(this).css("display", "none");
-                        valid_click = true;
-                        canvas_click();
                         //low.disabled = false;
                     });
                 }
