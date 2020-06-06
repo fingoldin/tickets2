@@ -169,7 +169,7 @@ jsPsych.plugins["risk2"] = (function()
 
                       target_ang = parseInt(10000 * (1.0 + frac)); // 10000 corresponds to 2 * PI radians
                       outcome = "The spinner returned $" + result + ".";
-                      vel = 100;
+                      vel = 200;
                       spin();
                   }
 

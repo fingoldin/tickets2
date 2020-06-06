@@ -7,7 +7,7 @@ $site_prefix = $_SESSION["site_prefix"];
 ?>
 
 <div id="risk-main">
-    <h3 style="text-align: center">Part 2</h3>
+    <h3 style="text-align: center">2.Task</h3>
     <p style="margin: 15px">
         Here is a spinner, which you can spin up to <span id="risk-count"></span> times. Each time you spin it, you can either accept the result as a reward, or spin the spinner again in hopes of a higher reward.
       If you choose the outcome at any point, this trial will end and you will proceed to the next trial.
@@ -28,7 +28,7 @@ $site_prefix = $_SESSION["site_prefix"];
     </div>
     -->
     <div class="risk-canvas-wrap">
-        <h2 class="risk-option"><b>Option 2</b></h2>
+        <h2 class="risk-option"><b> </b></h2>
         <canvas id="risk-canvas">
             Canvas isn't supported by your browser. Click anywhere in this box to spin the spinner.
         </canvas>

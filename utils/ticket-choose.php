@@ -8,7 +8,7 @@ $site_prefix = $_SESSION["site_prefix"];
 
 <div id="ticket-choose-seq">
     Sequence <span id="ticket-choose-seq-num"></span> of <span id="ticket-choose-seq-total"></span>
-    <img class="logo-img small" src="<?= $site_prefix ?>/utils/logo.png"></img>
+    <img class="logo-img small" src="<?= $site_prefix ?>/utils/crashed.jpg"></img>
 </div>
 <div class="ticket-choose-main">
     <div id="ticket-choose-progress-wrap">

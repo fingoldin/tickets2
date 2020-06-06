@@ -10,17 +10,17 @@ function spinner_weight($v) {
 if(!session_id())
     session_start();
 
-if(!isset($_SESSION["testing_data"]) ||
+if(!isset($_SESSION["risk_data"]) ||
    !isset($_POST["ticket"]) || !isset($_POST["index"]) ||
    !isset($_SESSION["points_additional"])) {
     logging("Something not set in risk.php");
     echo "0";
-} else if((int)$_POST["index"] < count($_SESSION["testing_data"][0][0])) {
+} else if((int)$_POST["index"] < count($_SESSION["risk_data"])) {
 //    $fixed = (int)$_SESSION["testing_data"][0][0][(int)$_POST["index"]][0];
 //    $val = $fixed;
     
 //    if($_POST["ticket"] != "fixed") {
-    $val = $_SESSION["testing_data"][0][0][(int)$_POST["index"]][(int)$_POST["ticket"]];
+    $val = $_SESSION["risk_data"][(int)$_POST["index"]][(int)$_POST["ticket"]];
 //    }
     
     $_SESSION["risk_choices"][$_POST["index"]] = $val;

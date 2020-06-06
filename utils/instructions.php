@@ -24,8 +24,8 @@ resize();
 	<div id="id-check" class="check-main" style="display:none;">
         	<div class="check-head">What do you have to do in the test phase?</div>
         	<div class="check-bot">
-                <button id="c-wrong" class="big-btn">A: Click through all the stock prices</button>
-                	<button id="c-right" class="big-btn">B: Choose the cheapest stock price</button>
+                <button id="c-wrong" class="big-btn">A: Click through all the offers</button>
+                	<button id="c-right" class="big-btn">B: Choose the highest offer</button>
         	</div>
 	</div>
   <div id="id-followup" style="display:none;">
@@ -44,43 +44,40 @@ resize();
                 <h3>Experiment Instructions</h3>
 		<div class="cscroller">
                        	<p>
-
         This experiment is devided into 3 tasks.
         <br><br>
         <b>1. Task</b><br>
-        In the first task, you are a stock broker and the goal is to sell your stock at the highest price possible.
+        In the first task, you are looking to sell a crashed car to a scrapyard for the highest amount you can get.
         <br>
         <b>2. Task</b><br>
         In the second task, you are at the casino and take spins on a wheel of fortune, with the possibility to spin the wheel repeatetly to improve your gain.
         <br>
         <b>3. Task</b><br>
-        This task is similar to the 2second task, but you turn the wheel only once.
+        This task is similar to the second task, but you turn the wheel only once.
         	<br><br>
 
         Let's start with the first task: <br>
 
         <b> 1. Task</b>	<br>
 
-        Suppose you are a stock broker, looking to sell some stocks. One company in particular interests you - <font face="Copperplate" ><b>Flip or Skip</b></font>, a company that facilitates reselling of clothing and other items online:
-        <img class="logo-img" src="<?= $site_prefix ?>/utils/logo.png"></img>
-        Your task is to try and choose the highest price from a given sequence of prices over time.
-				<br><br>
-				This task is divided into two parts:
-				<br><br>
-        <b>1. Training phase</b>
-        <br>
-          In this first phase, you get aquainted with potential prices of the  Stock <font face="Copperplate" > Flip and Skip</font>.
-          You will encounter 60 potential stock prices and we will then check how
-          well you have learned these stock prices. If you do well enough you can continue to the test phase,
-          otherwise you will encounter 60 more stock prices.
+        Suppose one day you are driving along, and manage to crash your car, rendering it not usable. Having done this, you now want to sell your car to a scrapyard, obviously for the largest price you can find. But it turns out that there are many scrapyards you could sell it to, and you go out looking for the one that will give you the highest price. Here is your car:
+        <img class="logo-img" src="<?= $site_prefix ?>/utils/crashed.jpg"></img>
+        You task is to learn about the distribution of prices that these scrapyards will offer you. However, <b>if you decline an offer from a particular scrapyard you cannot go back and sell it there anymore</b>. Given this, you will have to try to choose the highest price from a sequence of prices.
+<!--	        <b>3. Gamble phase 1</b>
+=======
+          You will encounter 60 potential prices and we will then check how
+          well you have learned these prices. If you do well enough you can continue to the test phase,
+          otherwise you will encounter 60 more prices.
                        		<br><br>
 				<b>2. Test phase</b>
 				<br>
-				You will choose a stock price out of a sequence of 10 pices that are presented one after the other.
-        The goal is to find the highest price. You will be shown 50 of these sequences.<br><br>
-<!--	        <b>3. Gamble phase 1</b>
+				You will choose a price out of a sequence of 10 pices that are presented one after the other.
+        The goal is to find the highest price. You will be shown 50 of these sequences.
+        <br><br>
+        <b>3. Gamble phase 1</b>
+>>>>>>> 0ebbebe6f385895263656444e15d5f006dd73b53
         <br>
-          Here, you will be presented with a spinner. You will be able to spin the spinner up to a 10 times, and each time it returns a number you can either accept that number as the selling price of the stock you will sell, or spin again. But, once you spin again you won't be able to go back to previous results. You will be presented with 50 such trials.
+          Here, you will be presented with a spinner. You will be able to spin the spinner up to a 10 times, and each time it returns a number you can either accept that number as the price of the you will sell, or spin again. But, once you spin again you won't be able to go back to previous results. You will be presented with 50 such trials.
         <br><br>
         <b>3. Gamble phase 2</b>
         <br>
@@ -88,6 +85,7 @@ resize();
         <br><br>
         <br>
         -->
+<br>
                 Please press continue to begin.
 <!--				<b>Training phase 2 </b>
 				<br>

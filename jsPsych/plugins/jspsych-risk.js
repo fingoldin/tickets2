@@ -14,11 +14,11 @@ jsPsych.plugins["risk"] = (function()
         var one_trial = true;
 
         var all_choices = trial.all_choices;
-//        console.log(all_choices);
-        
+        console.log(all_choices);
+
         var trial_num = 0;
         var num_trials = all_choices.length;
-        
+
         display_element.empty();
 
         if(num_trials < 1) {
@@ -31,7 +31,7 @@ jsPsych.plugins["risk"] = (function()
         } else {
             php_site = SITE_PREFIX + "/utils/risk.php";
         }
-        
+
         var post_site = SITE_PREFIX + "/risk.php";
 
         var seq = document.getElementById("risk-seq");
@@ -42,23 +42,23 @@ jsPsych.plugins["risk"] = (function()
 
         display_element.load(php_site, function() {
             display_element.find("#risk-count").html(num_trials);
-            
+
             var progress_bar_wrap;
             var progress_bar;
             progress_bar_wrap = display_element.find("#risk-progress-wrap");
-            progress_bar = display_element.find("#risk-progress"); 
+            progress_bar = display_element.find("#risk-progress");
 
             progress_bar.css("width", (100 / (num_trials)).toFixed(0) + "%");
             progress_bar.html("1/" + (num_trials));
-            
+
             var result = 180;
             var outcome = "";
-            
+
             var canvas = document.getElementById("risk-canvas");
             var low;
 //            low = document.getElementById("risk-low-button");
 //            low.innerHTML = "$" + all_choices[0];
-            
+
             var result_cont = display_element.find("#risk-result");
             var money = display_element.find("#risk-result-money");
             var result_done = document.getElementById("risk-result-done");
@@ -91,7 +91,19 @@ jsPsych.plugins["risk"] = (function()
                     }
                     if(!chose_fixed && trial_num < num_trials) {
                       function cont(p) {
-                        money.html("You earned $" + (parseInt(p) * 0.001).toFixed(3) + ".");
+                        console.log(p);
+                        var prices = all_choices.slice(0);
+                        prices.sort(function(a, b){return a - b});
+                        let out = "";
+
+                        if(all_choices[trial_num - 1] === prices[prices.length - 1]) {
+                            out = "Congratulations! You chose the highest amount in this game!";
+                        }
+                        else {
+                            var diff = prices[prices.length - 1] - all_choices[trial_num - 1];
+                            out = "In this game, you could have made $" + diff.toFixed(0) + " more if you had played differently. ";
+                        }
+                        money.html(out)// + " You earned $" + (parseInt(p) * 0.001).toFixed(3) + " in real money.");
                         result_done.innerHTML = "Ok";
                         result_no.style.display = "none";
                         result_done.onclick = finish;
@@ -99,7 +111,7 @@ jsPsych.plugins["risk"] = (function()
                       if(example) {
                         cont("300");
                       } else {
-                        $.post(post_site, { "ticket": trial_num, "index": trial_idx }, cont);
+                        $.post(post_site, { "ticket": (trial_num - 1), "index": trial_idx }, cont);
                       }
                     } else {
                       finish();
@@ -108,7 +120,7 @@ jsPsych.plugins["risk"] = (function()
                     ang = 0;
                     vel = 0;
                     draw();
-                    var p = (100 * (trial_num + 1) / (num_trials)); 
+                    var p = (100 * (trial_num + 1) / (num_trials));
                     //low.innerHTML = "$" + all_choices[0];
                     progress_bar.html((trial_num + 1) + "/" + (num_trials));
                     progress_bar.css("width", Math.max(p, 5).toFixed(0) + "%");
@@ -120,10 +132,10 @@ jsPsych.plugins["risk"] = (function()
                     });
                 }
             }
-                    
+
             result_done.onclick = function() { result_click(true); }
             result_no.onclick = function() { result_click(false); }
-			
+
             /*low.onclick = function() {
                 if(!valid_click)
                     return;
@@ -146,7 +158,7 @@ jsPsych.plugins["risk"] = (function()
                     $.post(post_site, { "ticket": "fixed", "index": trial_idx }, low_post);
                 }
             };*/
-            
+
             function show(is_spin) {
                 seq.style.opacity = "0";
                 money.html(outcome);
@@ -162,7 +174,7 @@ jsPsych.plugins["risk"] = (function()
                     valid_done_click = true;
                 });
             }
-        
+
             var c = null;
             if(canvas.getContext) {
                 canvas.width = 2 * hw + 2 * pad;
@@ -190,17 +202,28 @@ jsPsych.plugins["risk"] = (function()
 
                 target_ang = parseInt(10000 * (1.0 + frac)); // 10000 corresponds to 2 * PI radians
                 outcome = "The spinner returned $" + result + ".";
-                vel = 100;
+                vel = 200;
                 if(trial_num < num_trials - 1) {
                   outcome += " Would you like to choose this value or spin the wheel again?";
                   spin();
                 } else {
+                    var prices = all_choices.slice(0);
+                    prices.sort(function(a, b){return a - b});
+                    let out = "";
+
+                    if(all_choices[trial_num] === prices[prices.length - 1]) {
+                        out = "Congratulations! You chose the highest amount in this game!";
+                    }
+                    else {
+                        var diff = prices[prices.length - 1] - all_choices[trial_num];
+                        out = "In this game, you could have made $" + diff.toFixed(0) + " more if you had played differently. ";
+                    }
                     if(example) {
-                      outcome += " You earned $0.300.";
+                      outcome += " " + out; //+ " You earned $0.300.";
                       spin();
                     } else {
                       $.post(post_site, { "ticket": trial_num, "index": trial_idx }, (p) => {
-                        outcome += " You earned $" + (parseInt(p) * 0.001).toFixed(3) + ".";
+                        outcome += " " + out;// + " You earned $" + (parseInt(p) * 0.001).toFixed(3) + ".";
                         spin();
                       });
                     }
@@ -221,7 +244,7 @@ jsPsych.plugins["risk"] = (function()
                 c.fill();
             }
 
-            function draw() { 
+            function draw() {
                 if(!c) {
                     return;
                 }
@@ -230,11 +253,11 @@ jsPsych.plugins["risk"] = (function()
 
                 c.strokeStyle = "black";
                 c.lineWidth = 2;
-               
+
                 var spin_vals = spinner;
                 var start_sector_ang = 0.0;
                 var last_sector_ang = start_sector_ang;
-           
+
                 function HSVtoRGB(h, s, v) {
                     var r, g, b, i, f, p, q, t;
                     if (arguments.length === 1) {
@@ -259,7 +282,7 @@ jsPsych.plugins["risk"] = (function()
                         b: Math.round(b * 255)
                     };
                 }
-            
+
                 function getColor(v) {
                   let vmax = 195;
                   let vmin = 125;
@@ -268,16 +291,16 @@ jsPsych.plugins["risk"] = (function()
 
                   return "rgb(" + rgb.r + ", " + rgb.g + ", " + rgb.b + ")";
                 }
-             
+
                 for(var i = 0; i < spin_vals.length; i++) {
                     var d_sector_ang = spin_vals[i].fraction;
                     if(spin_vals[i].show) {
                         var sang = -0.5 * Math.PI + 2.0 * Math.PI * last_sector_ang;
                         var fang = -0.5 * Math.PI + 2.0 * Math.PI * (start_sector_ang + d_sector_ang);
-                        var color_int = parseInt(65535.0 * (fang - sang) / (2.0 * Math.PI)); 
+                        var color_int = parseInt(65535.0 * (fang - sang) / (2.0 * Math.PI));
                         c.fillStyle = getColor(parseInt(spin_vals[i].value));
                         c.beginPath();
-                        c.arc(hw + pad, hw + pad, hw, sang, fang, false); 
+                        c.arc(hw + pad, hw + pad, hw, sang, fang, false);
                         c.lineTo(hw + pad, hw + pad);
                         c.fill();
                         c.stroke();
@@ -286,16 +309,16 @@ jsPsych.plugins["risk"] = (function()
                     }
                     start_sector_ang += d_sector_ang;
                 }
-                
+
                 c.textAlign = "center";
                 c.textBaseline = "middle";
                 c.font = "16px 'Roboto', sans-serif";
                 var rect_w = 50;
                 var rect_h = 32;
                 var rect_r = 5;
-               
+
                 c.lineWidth = 2;
-                
+
                 start_sector_ang = 0.0;
                 for(var i = 0; i < spin_vals.length; i++) {
                     var d_sector_ang = spin_vals[i].fraction * 2.0 * Math.PI;
@@ -308,23 +331,23 @@ jsPsych.plugins["risk"] = (function()
                         c.lineWidth = 2;
                         c.strokeStyle = "black";
                     }
-                   
+
                     c.save();
 
                     c.translate(hw + pad, hw + pad);
                     c.rotate(start_sector_ang + d_sector_ang);
                     c.translate(-hw - pad, -hw - pad);
-                   
+
                     c.beginPath();
                     c.moveTo(hw + pad, pad - hl);
                     c.lineTo(hw + pad, pad + hl);
                     c.stroke();
-                    
+
                     c.restore();
-                    
+
                     start_sector_ang += d_sector_ang;
                 }
-                
+
                 start_sector_ang = -0.5 * Math.PI;
                 for(var i = 0; i < spin_vals.length; i++) {
                     var d_sector_ang = spin_vals[i].fraction * 2.0 * Math.PI;
@@ -348,11 +371,11 @@ jsPsych.plugins["risk"] = (function()
                 }
 
                 c.save();
-                
+
                 c.translate(hw + pad, hw + pad);
                 c.rotate(Math.PI * 2 * (ang / 10000));
                 c.translate(-hw - pad, -hw - pad);
-                
+
                 c.lineWidth = 6;
                 c.lineCap = "round";
                 c.strokeStyle = "white";
@@ -361,14 +384,14 @@ jsPsych.plugins["risk"] = (function()
                 c.moveTo(hw + pad, hw + pad);
                 c.lineTo(hw + pad, 10 + pad);
                 c.stroke();
-                
+
                 c.restore();
 
             }
 
             function spin() {
                 draw();
-                
+
                 if(!c) {
                     show(true);
                     return;
@@ -384,7 +407,7 @@ jsPsych.plugins["risk"] = (function()
                     show(true);
                 }
             }
-           
+
             draw();
         });
 	}
