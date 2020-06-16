@@ -670,7 +670,7 @@ function startSession() {
     $test_blocks = [10];
 
     // Number of sequences in each block
-    $ntest_sequences = 8;
+    $ntest_sequences = 10;
 
     // The max number of points in a sequence
     $_SESSION["max_points_per_seq"] = 30; // in tenths of a cent
@@ -689,6 +689,8 @@ function startSession() {
 
     // Maximum number of points (10th of a cent) that can be earned for all the risk_one trials
     $_SESSION["max_points_risk_one"] = 1500;
+    $_SESSION["max_points_risk"] = 1500;
+    $_SESSION["max_points_main"] = 1500;
     
     // Maximum number of points (10th of a cent) that can be earned per risk trial
     $_SESSION["max_points_risk"] = 30;
@@ -720,7 +722,8 @@ function startSession() {
 
     $_SESSION["risk_choices"] = [];
 
-    $_SESSION["max_points"] = ($_SESSION["max_points_per_seq"] + $_SESSION["max_points_risk"]) * $ntest_sequences * count($test_blocks) * $nphases + $_SESSION["max_points_risk_one"]; // in tenths of a cent
+//    $_SESSION["max_points"] = ($_SESSION["max_points_per_seq"] + $_SESSION["max_points_risk"]) * $ntest_sequences * count($test_blocks) * $nphases + $_SESSION["max_points_risk_one"]; // in tenths of a cent
+    $_SESSION["max_points"] = $_SESSION["max_points_risk_one"] + $_SESSION["max_points_risk"] + $_SESSION["max_points_main"];
 
     $_SESSION["points"] = [];
     $_SESSION["checked"] = [];

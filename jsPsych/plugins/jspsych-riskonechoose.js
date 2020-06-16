@@ -1,4 +1,4 @@
-jsPsych.plugins["riskchoose"] = (function()
+jsPsych.plugins["riskonechoose"] = (function()
 {
 	var plugin = {};
 
@@ -8,7 +8,7 @@ jsPsych.plugins["riskchoose"] = (function()
 
 		display_element.empty();
 
-        $.post(SITE_PREFIX + "/risk_choice.php", function(r) {
+        $.post(SITE_PREFIX + "/risk_one_choice.php", function(r) {
           if(r.substring(0, 4) == "none") {
             jsPsych.finishTrial({ none: true });
           } else {

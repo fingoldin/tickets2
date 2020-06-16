@@ -89,6 +89,8 @@ SITE_PREFIX = "<?= $site_prefix ?>"
 <script src="<?= $site_prefix ?>/jsPsych/plugins/jspsych-points-update.js"></script>
 <script src="<?= $site_prefix ?>/jsPsych/plugins/jspsych-risk.js"></script>
 <script src="<?= $site_prefix ?>/jsPsych/plugins/jspsych-risk2.js"></script>
+<script src="<?= $site_prefix ?>/jsPsych/plugins/jspsych-riskonechoose.js"></script>
+<script src="<?= $site_prefix ?>/jsPsych/plugins/jspsych-mainchoose.js"></script>
 <script src="<?= $site_prefix ?>/jsPsych/plugins/jspsych-riskchoose.js"></script>
 <script src="<?= $site_prefix ?>/jsPsych/plugins/jspsych-survey-multi.js"></script>
 <script src="<?= $site_prefix ?>/utils/general.js"></script>
@@ -320,8 +322,16 @@ var risk_one_example_trial = {
     all_choices: []
 }
 
+var riskonechoose_trial = {
+	type: "riskonechoose"
+}
+
 var riskchoose_trial = {
 	type: "riskchoose"
+}
+
+var mainchoose_trial = {
+	type: "mainchoose"
 }
 
 var final_trial = {
@@ -628,9 +638,10 @@ function init_exp()
 		    });
         }
 
-        timeline.push(points_update_trial);
+//        timeline.push(points_update_trial);
         //timeline.push(training_trial2);
 	}
+  timeline.push(mainchoose_trial);
   /*
 	timeline.push(p2_start_trial);
 
@@ -702,8 +713,13 @@ function init_exp()
 	}
 
     timeline.push(closuresurvey_trial);
-    timeline.push(risksurvey_trial);
- */   timeline.push(risk_example_trial);
+    timeline.push(risksurvey_trial);*/
+    timeline.push(risk3_instructions_trial);
+    timeline.push(risk_one_example_trial);
+    timeline.push(risk_one_midexample_trial);
+    timeline.push(risk_one_trial);
+    timeline.push(riskonechoose_trial);
+    timeline.push(risk_example_trial);
     timeline.push(risk_midexample_trial);
 
       for(var j = 0; j < risk_data.length; j++) {
@@ -716,14 +732,8 @@ function init_exp()
             all_choices: risk_data[j]
         })
       }
-
-    timeline.push(points_update_trial);
-
-    timeline.push(risk3_instructions_trial);
-    timeline.push(risk_one_example_trial);
-    timeline.push(risk_one_midexample_trial);
-    timeline.push(risk_one_trial);
     timeline.push(riskchoose_trial);
+
 
 	//timeline.push(special_sequence_trial);
 
