@@ -626,7 +626,7 @@ function init_exp()
 				prices: testing_data[i][j],
                 sequence_id: j,
                 num_sequences: testing_data[i].length,
-                max_points: <?= $_SESSION["max_points_per_seq"] ?>,
+                max_points: <?= $_SESSION["max_points_main"] ?>,
 				phase: 0,
                 group: i,
                        	        continue_message: "Next sequence",

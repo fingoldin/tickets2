@@ -76,6 +76,7 @@ jsPsych.plugins["risk"] = (function()
             var pad = 40;
 
             var chose_fixed = false;
+            var max_points = 1500;
             
             var canvas_click = function() {
                 if(!valid_click)
@@ -98,15 +99,9 @@ jsPsych.plugins["risk"] = (function()
                   spin();
                 } else {
                     var prices = all_choices.slice(0);
+                    let points = Math.min(max_points, Math.max(0, Math.round(max_points * (all_choices[trial_num] - 125) / (195 - 125))));
                     prices.sort(function(a, b){return a - b});
-                    let out = "";
-                    if(all_choices[trial_num] === prices[prices.length - 1]) {
-                        out = "Congratulations! You chose the highest amount in this game!";
-                    }
-                    else {
-                        var diff = prices[prices.length - 1] - all_choices[trial_num];
-                        out = "In this game, you could have made $" + diff.toFixed(0) + " more if you had played differently. ";
-                    }
+                    let out = "You will win $" + (points / 1000).toFixed(3) + " if this trial is chosen.";
                     if(example) {
                       outcome += " " + out; //+ " You earned $0.300.";
                       spin();
@@ -137,15 +132,9 @@ jsPsych.plugins["risk"] = (function()
                         console.log(p);
                         var prices = all_choices.slice(0);
                         prices.sort(function(a, b){return a - b});
-                        let out = "";
+                        let points = Math.min(max_points, Math.max(0, Math.round(max_points * (all_choices[trial_num - 1] - 125) / (195 - 125))));
 
-                        if(all_choices[trial_num - 1] === prices[prices.length - 1]) {
-                            out = "Congratulations! You chose the highest amount in this game!";
-                        }
-                        else {
-                            var diff = prices[prices.length - 1] - all_choices[trial_num - 1];
-                            out = "In this game, you could have made $" + diff.toFixed(0) + " more if you had played differently. ";
-                        }
+                        let out = "You will win $" + (points / 1000).toFixed(3) + " if this trial is chosen.";
                         money.html(out)// + " You earned $" + (parseInt(p) * 0.001).toFixed(3) + " in real money.");
                         result_done.innerHTML = "Ok";
                         result_no.style.display = "none";

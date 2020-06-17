@@ -25,12 +25,12 @@ if(!isset($_SESSION["risk_data"]) ||
     
     $_SESSION["risk_choices"][$_POST["index"]] = $val;
     
-    $p = get_risk_points(0, 0, (int)$_POST["index"], $val);
-    $_SESSION["points_additional"] += $p;
+//    $p = get_risk_points(0, 0, (int)$_POST["index"], $val);
+//    $_SESSION["points_additional"] += $p;
 
-    echo $p;
+//    echo $p;
 
-    logging("risk.php called successfully with " . $_POST["ticket"] . " and " . $_POST["index"] . ", earned " . $p . " points");
+    logging("risk.php called successfully with " . $_POST["ticket"] . " and " . $_POST["index"]);
 } else {
     logging("risk.php received wonky index: " . $_POST["index"]);
 }

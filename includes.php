@@ -670,7 +670,7 @@ function startSession() {
     $test_blocks = [10];
 
     // Number of sequences in each block
-    $ntest_sequences = 10;
+    $ntest_sequences = 2;
 
     // The max number of points in a sequence
     $_SESSION["max_points_per_seq"] = 30; // in tenths of a cent
@@ -692,9 +692,6 @@ function startSession() {
     $_SESSION["max_points_risk"] = 1500;
     $_SESSION["max_points_main"] = 1500;
     
-    // Maximum number of points (10th of a cent) that can be earned per risk trial
-    $_SESSION["max_points_risk"] = 30;
-
     /****               END PARAMETERS                 ****/
 
     // Points counter for risk trials

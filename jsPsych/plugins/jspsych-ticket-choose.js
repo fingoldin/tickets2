@@ -24,7 +24,7 @@ jsPsych.plugins["ticket-choose"] = (function()
 
 		//console.log("Trial: " + trial.prices);
 
-		console.log(trial.prices);
+//		console.log(trial.prices);
 
 		var num_prices = trial.prices.length;
 		if(!num_prices)
@@ -116,17 +116,8 @@ jsPsych.plugins["ticket-choose"] = (function()
                         below.html("");
 
                         console.log(r);
-                        if(trial.prices[price_num] === prices[prices.length - 1]) {
-                            points = trial.max_points;
-                            above.html("Congratulations! You chose the highest price!");
-                        }
-                        else {
-                            points = Math.round(trial.max_points * (trial.prices[price_num] - prices[0]) / (prices[prices.length - 1] - prices[0]));
-
-                            var diff = prices[prices.length - 1] - trial.prices[price_num];
-
-                            above.html("You could have made $" + diff.toFixed(0) + " more if had you chosen a different offer");
-                        }
+                        points = Math.min(trial.max_points, Math.max(0, Math.round(trial.max_points * (trial.prices[price_num] - 125) / (195 - 125))));
+                        above.html("You will win $" + (points / 1000).toFixed(3) + " if this trial is chosen.");
 
                         price.hide();
 

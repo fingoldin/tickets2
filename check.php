@@ -15,8 +15,8 @@ function checkAnswer($phase, $group, $sequence, $answer, $idx)
 		logging("Something not set in checkAnswer");
 	else if(!in_array($sequence, $_SESSION["checked"][$phase][$group]))
 	{
-		$p = get_points($phase, $group, $sequence, $answer);
-        echo $p;
+//		$p = get_points($phase, $group, $sequence, $answer);
+//        echo $p;
 
 		/*$totalp = $_SESSION["points"][$phase] + $p;
 		if($totalp > $_SESSION["max_points"])
@@ -26,14 +26,14 @@ function checkAnswer($phase, $group, $sequence, $answer, $idx)
 			$_SESSION["points"][$phase] = $_SESSION["max_points"];
 		}
 		else*/
-			$_SESSION["points"][$phase] += $p;
+//			$_SESSION["points"][$phase] += $p;
 		//$data["place"] = array_search($a, $arr) + 1;
 
 		logging("checkAnswers called successfully, phase " . $phase . " gained " . $p . " points and now has " . $_SESSION["points"][$phase] . " points");
 
 		array_push($_SESSION["checked"][$phase][$group], $sequence);
 		$_SESSION["checked_assoc"][$phase][$group][$sequence] = [];
-		$_SESSION["checked_assoc"][$phase][$group][$sequence]["points"]= $p;
+//		$_SESSION["checked_assoc"][$phase][$group][$sequence]["points"]= $p;
 		$_SESSION["checked_assoc"][$phase][$group][$sequence]["idx"]= $idx;
 	}
 }

@@ -69,6 +69,7 @@ jsPsych.plugins["risk2"] = (function()
               var valid_done_click = false;
               var choices = [];
               var hw = 200;
+              var max_points = 1500;
               var pad = 60;
 
               var chose_fixed = false;
@@ -110,7 +111,8 @@ jsPsych.plugins["risk2"] = (function()
                   low.disabled = true;
                   function low_post() {
                       result = all_choices[trial_num].fixed;
-                      outcome = "You chose the fixed reward of $" + result + ".";
+                      let points = Math.min(max_points, Math.max(0, Math.round(max_points * (result - 125) / (195 - 125))));
+                      outcome = "You chose the fixed reward of $" + result + ". You will earn $" + (points / 1000).toFixed(3) + " if this trial is chosen.";
                       chose_fixed = true;
                       show(false);
                   }
@@ -169,7 +171,8 @@ jsPsych.plugins["risk2"] = (function()
                       }
 
                       target_ang = parseInt(10000 * (1.0 + frac)); // 10000 corresponds to 2 * PI radians
-                      outcome = "The spinner returned $" + result + ".";
+                      let points = Math.min(max_points, Math.max(0, Math.round(max_points * (result - 125) / (195 - 125))));
+                      outcome = "The spinner returned $" + result + ". You will earn $" + (points / 1000).toFixed(3) + " if this trial is chosen.";
                       vel = max_vel;
                       spin();
                   }
