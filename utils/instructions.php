@@ -24,8 +24,8 @@ resize();
 	<div id="id-check" class="check-main" style="display:none;">
         	<div class="check-head">What do you have to do in the test phase?</div>
         	<div class="check-bot">
-                <button id="c-wrong" class="big-btn">A: Click through all the offers</button>
-                	<button id="c-right" class="big-btn">B: Choose the highest offer</button>
+                <button id="c-wrong" class="big-btn">A: Choose the fastest car</button>
+                	<button id="c-right" class="big-btn">B: Choose the highest price offer</button>
         	</div>
 	</div>
   <div id="id-followup" style="display:none;">
@@ -44,16 +44,16 @@ resize();
                 <h3>Experiment Instructions</h3>
 		<div class="cscroller">
                        	<p>
-        This experiment is devided into 3 tasks.
+        This experiment is divided into 3 tasks.
         <br><br>
         <b>1. Task</b><br>
         In the first task, you are looking to sell a crashed car to a scrapyard for the highest amount you can get.
         <br>
         <b>2. Task</b><br>
-        In the second task, you are at the casino and take spins on a wheel of fortune, with the possibility to spin the wheel repeatetly to improve your gain.
+        In the second task, you are at the casino and take spins on a wheel of fortune.
         <br>
         <b>3. Task</b><br>
-        This task is similar to the second task, but you turn the wheel only once.
+        This task is similar to the second task, but you have the possibility to spin the wheel repeatetly to improve your gain.
         	<br><br>
 
         Let's start with the first task: <br>

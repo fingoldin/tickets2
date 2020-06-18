@@ -7,9 +7,9 @@ $site_prefix = $_SESSION["site_prefix"];
 ?>
 
 <div id="risk-main">
-    <h3 style="text-align: center">3. Task</h3>
+    <h2 style="text-align: center">2. Task</h2>
     <p style="margin: 15px">
-        You have the following choices:<br><br>
+        Remember, you have the following choices:<br><br>
         <b>Option 1</b>: you get the fixed amount of money<br>
         <b>Option 2</b>: You try your luck on the wheel <br><br>
         Be aware that the values on the wheel are changing between the gambles.

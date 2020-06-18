@@ -7,7 +7,7 @@ $site_prefix = $_SESSION["site_prefix"];
 ?>
 
 <div id="risk-main">
-    <h3 style="text-align: center">2.Task</h3>
+    <h3 style="text-align: center">3.Task</h3>
     <p style="margin: 15px">
         Here is a spinner, which you can spin up to <span id="risk-count"></span> times. Each time you spin it, you can either accept the result as a reward, or spin the spinner again in hopes of a higher reward.
       If you choose the outcome at any point, this trial will end and you will proceed to the next trial.
