@@ -9,11 +9,11 @@ $site_prefix = $_SESSION["site_prefix"];
 <div id="risk-main">
     <h2 style="text-align: center">3.Task: Trial run</h2>
     <p style="margin: 15px">
-        Now, consider you're at the casino again and you try your luck.<br>
-        Here is a spinner, as in the 2. Task, however this time, you can spin up to <span id="risk-count"></span> times.
+        Now, consider you're at the casino again and you want to try your luck again.<br>
+        Here is a spinner, as in the 2. Task, however this time, you can spin up to <span id="risk-count"></span> times in each trial.
         Each time you spin it, you can either accept the result as a reward, or spin the spinner again in hopes of a higher reward.<br>
-        This time, the values on the spinner stay same through the whole task.<br>
-        If you choose the outcome at any point, this trial will end and you will proceed to the next trial.
+        This time, the values on the spinner stay the same throughout the whole task.<br>
+        If you choose the outcome at any point, the current trial will end and you will proceed to the next trial.
 
     </p>
     <p style="text-align: center; font-size: 20px">

@@ -11,9 +11,9 @@ $site_prefix = $_SESSION["site_prefix"];
     <p style="margin: 15px">
         Here is the gamble.<br>
         You have two choices in each game: <br> Either you choose a fixed reward (Option 1) or you spin the wheel (Option 2). <br><br>
-        <br> The values on the wheel are not same in every game. <br>
-        So keep an eye on the actual wheel !<br>
-
+        If you spin the wheel of fortune your win depends on where the spinner stops. <br>
+        The numbers on the wheel tell you how much each region of the wheel is worth.
+        You can start the spinner by clicking on it (or the wheel).<br>
         Let's do <span id="risk-count"></span> trial gambles before we start with the real gambles.
     </p>
     <p style="text-align: center; font-size: 20px">
