@@ -611,7 +611,7 @@ function init_exp()
             sequence_id: 0,
             num_sequences: 1,
 			row: -1,
-            max_points: <?= $_SESSION["max_points_per_seq"] ?>,
+            max_points:  <?= $_SESSION["max_points_main"] ?>,
             showpoints: false,
 			prices: [164, 160, 204, 145, 181, 179, 165, 173, 198, 106],
 			continue_mesage: "Finish",

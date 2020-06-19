@@ -95,7 +95,7 @@ jsPsych.plugins["risk"] = (function()
                 outcome = "The spinner returned $" + result + ".";
                 vel = max_vel;
                 if(trial_num < num_trials - 1) {
-                  outcome += " Would you like to choose this value or spin the wheel again?";
+                  outcome += " Would you like to choose this value or continue spinning the wheel?";
                   spin();
                 } else {
                     var prices = all_choices.slice(0);
@@ -136,12 +136,12 @@ jsPsych.plugins["risk"] = (function()
 
                         let out = "You will win $" + (points / 1000).toFixed(3) + " if this trial is chosen.";
                         money.html(out)// + " You earned $" + (parseInt(p) * 0.001).toFixed(3) + " in real money.");
-                        result_done.innerHTML = "Ok";
-                        result_no.style.display = "none";
-                        result_done.onclick = finish;
+                        result_no.innerHTML = "Ok";
+                        result_done.style.display = "none";
+                        result_no.onclick = finish;
                       }
                       if(example) {
-                        cont("300");
+                        cont("1000");
                       } else {
                         $.post(post_site, { "ticket": (trial_num - 1), "index": trial_idx }, cont);
                       }
@@ -200,8 +200,8 @@ jsPsych.plugins["risk"] = (function()
                     result_done.innerHTML = "Choose this";
                     result_no.style.display = "inline-block";
                 } else {
-                    result_done.innerHTML = "Done";
-                    result_no.style.display = "none";
+                    result_no.innerHTML = "Done";
+                    result_done.style.display = "none";
                 }
                 result_cont.css("display", "block").animate({ "opacity": "1" }, 500, function() {
                     valid_done_click = true;
@@ -277,7 +277,7 @@ jsPsych.plugins["risk"] = (function()
                 }
 
                 function getColor(v) {
-                  let vmax = 195;
+                  let vmax = 200;
                   let vmin = 125;
                   let f = (v - vmin) / (vmax - vmin);
                   let rgb = HSVtoRGB(f, 1, 1);

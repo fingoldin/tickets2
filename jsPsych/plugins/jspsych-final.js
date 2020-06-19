@@ -29,7 +29,8 @@ jsPsych.plugins["final"] = (function()
 		bfs(35);
 
         $.post(SITE_PREFIX + "/getpoints.php", function(response) {
-        var points = parseInt(response);
+          console.log(response);
+        var points = JSON.parse(response);
         $(bot).css("opacity", "0").html("The experiment is now over.");
 		$(top).css("opacity", "0").html("Congratulations!").animate({ "opacity": "1" }, 1000, function() {
 			setTimeout(function() {
@@ -47,10 +48,10 @@ jsPsych.plugins["final"] = (function()
 						sbot[3] = " = ";
 						sbot[4] = "$" + ((trial.points[0] + trial.points[1]) * 0.025);*/
 
-                        var money = 0.01 * Math.round(points * 0.1);
+                        var money = points.map(p => 0.01 * Math.round(parseInt(p) * 0.1));
 
-                        top.innerHTML = "You earned $3 + $" + money.toFixed(2) + " =";
-                        bot.innerHTML = "$" + (3 + money).toFixed(2);
+                        top.innerHTML = "You earned $3 + $" + money.map(m => m.toFixed(2)).join(" + $") + " =";
+                        bot.innerHTML = "$" + (3 + money.reduce((total, m) => (total + m), 0)).toFixed(2);
 
 						$(wrap).animate({ "opacity": "1" }, 600, function() {
 							setTimeout(function() {

@@ -5,15 +5,11 @@ require("./includes.php");
 if(!session_id())
 	session_start();
 
-if(isset($_SESSION["points"]) && isset($_SESSION["points_additional"])) {
-    $p = array_sum($_SESSION["points"]) + $_SESSION["points_additional"];
 
-    logging("getpoints.php OK, with " . $p);
+$p = [ $_SESSION["main_points"], $_SESSION["risk_one_points"], $_SESSION["risk_points"] ];
 
-    echo $p;
-} else {
-    logging("Something not set in getpoints.php");
-    echo "0";
-}
+logging("getpoints.php OK, with " . json_encode($p));
+
+echo json_encode($p);
 
 ?>
