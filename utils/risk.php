@@ -37,8 +37,8 @@ $site_prefix = $_SESSION["site_prefix"];
         <div class="risk-result-inner">
             <span id="risk-result-money"></span>
             <br>
-            <button id="risk-result-no" style="display: none; border-color: #F44336;background-color: #F44336">Continue</button>
-            <button id="risk-result-done">Stop</button>
+            <button id="risk-result-done" style="border-color: #F44336;background-color: #F44336">Choose this</button>
+            <button id="risk-result-no" style="margin-top: 10px; display: none">Continue</button>
             <br>
         </div>
     </div>

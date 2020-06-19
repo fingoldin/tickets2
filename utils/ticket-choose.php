@@ -28,7 +28,7 @@ $site_prefix = $_SESSION["site_prefix"];
 		<div class="number-animation-below"></div>
 	</div>
 	<div class="ticket-choose-footer">
-		<button id="ticket-choose-select" style="border-color: #F44336;background-color: #F44336">SELL</button>
-		<button id="ticket-choose-next">CONTINUE</button>
+		<button id="ticket-choose-select" style="border-color: #F44336;background-color: #F44336">Sell</button>
+		<button id="ticket-choose-next">Continue</button>
 	</div>
 </div>

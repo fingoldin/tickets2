@@ -239,7 +239,7 @@ jsPsych.plugins["risk2"] = (function()
             
                 function getColor(v, factor) {
                   console.log(v + " " + factor);
-                  let vmax = 195;
+                  let vmax = 205;
                   let vmin = 125;
                   let f = (((factor + 1) * (v - vmin) / (vmax - vmin)) / 1.6) % 1;
                   let rgb = HSVtoRGB(f, 1, 1);

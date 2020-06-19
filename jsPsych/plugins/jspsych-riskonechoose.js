@@ -9,6 +9,7 @@ jsPsych.plugins["riskonechoose"] = (function()
 		display_element.empty();
 
         $.post(SITE_PREFIX + "/risk_one_choice.php", function(r) {
+          console.log(r);
           if(r.substring(0, 4) == "none") {
             jsPsych.finishTrial({ none: true });
           } else {

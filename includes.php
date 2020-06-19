@@ -631,7 +631,7 @@ function startSession() {
     $ntraining_sequences = 3;
 
     // The number of tickets in one sequence in the training phase
-    $ntraining_tickets = 10;
+    $ntraining_tickets = 2;
 
     // Parameters of skewed normal distribution
     $location = 150;
@@ -670,7 +670,7 @@ function startSession() {
     $test_blocks = [10];
 
     // Number of sequences in each block
-    $ntest_sequences = 10;
+    $ntest_sequences = 2;
 
     // The max number of points in a sequence
     $_SESSION["max_points_per_seq"] = 30; // in tenths of a cent
@@ -883,6 +883,10 @@ function startSession() {
     shuffle($risk_data);
 
     $_SESSION["risk_data"] = $risk_data;
+            
+    $_SESSION["risk_points"] = 0;
+    $_SESSION["risk_one_points"] = 0;
+    $_SESSION["main_points"] = 0;
 }
 
 ?>

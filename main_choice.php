@@ -27,7 +27,7 @@ if(!isset($_SESSION["max_points_main"]) || !isset($_SESSION["points_additional"]
             else if($p < 0) {
                 $p = 0;
             }
-            $_SESSION["points_additional"] += $p;
+            $_SESSION["main_points"] = $p;
 
             $_SESSION["main_paid"] = 1;
             
