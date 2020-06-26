@@ -160,8 +160,8 @@ var animation_trial = {
 
 var training_trial = {
 	type: "bar-choose",
-	instructions: "Imagine you would see MAXVAL more stock prices.",
-	subtitle: "Please drag the bar or type in the input field to determine the number of stock prices <br> that are in the equivalent price range for this trip. <br><br>Press continue when you are sure of your answers.",
+	instructions: "Imagine you would see MAXVAL more price offers.",
+	subtitle: "Please drag the bar or type in the input field to determine the number of price offers <br> that are in the equivalent price range. <br><br>Press continue when you are sure of your answers.",
 //	categories: ["$135 - $150", "$151 - $165", "$166 - 180", "$181 - $195", "$196 - $210", "$211 - $225", "$226 - $240"],
 	min_val: 0,
 	max_val: 20,
@@ -502,7 +502,7 @@ function init_exp()
     risk_one_trial.all_choices = da["risk_one_options"];
     risk_trial.all_choices = da["testing"][0][0];
     risk_trial.spinner = da["risk_options"];
-    
+
     risk_one_example_trial.all_choices = da["risk_one_options"].slice(0, 2);
     risk_example_trial.all_choices = da["risk_options"].slice(0, 1);
 */
@@ -611,7 +611,7 @@ function init_exp()
             sequence_id: 0,
             num_sequences: 1,
 			row: -1,
-            max_points:  <?= $_SESSION["max_points_main"] ?>,
+            max_points: <?= $_SESSION["max_points_main"] ?>,
             showpoints: false,
 			prices: [164, 160, 204, 145, 181, 179, 165, 173, 198, 106],
 			continue_mesage: "Finish",
