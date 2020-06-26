@@ -66,7 +66,7 @@ jsPsych.plugins["risk"] = (function()
 
             var first_box = document.getElementById("risk-first");
 
-            var max_vel = 300;
+            var max_vel = 400;
             var vel = 0;
             var ang = 0;
             var target_ang = 0;
@@ -77,7 +77,7 @@ jsPsych.plugins["risk"] = (function()
 
             var chose_fixed = false;
             var max_points = 1500;
-            
+
             var canvas_click = function() {
                 if(!valid_click)
                     return;
@@ -95,7 +95,7 @@ jsPsych.plugins["risk"] = (function()
                 outcome = "The spinner returned $" + result + ".";
                 vel = max_vel;
                 if(trial_num < num_trials - 1) {
-                  outcome += " Would you like to choose this value or continue spinning the wheel?";
+                  outcome += " Would you like to choose this value or spin the wheel again?";
                   spin();
                 } else {
                     var prices = all_choices.slice(0);
@@ -136,12 +136,12 @@ jsPsych.plugins["risk"] = (function()
 
                         let out = "You will win $" + (points / 1000).toFixed(3) + " if this trial is chosen.";
                         money.html(out)// + " You earned $" + (parseInt(p) * 0.001).toFixed(3) + " in real money.");
-                        result_no.innerHTML = "Ok";
-                        result_done.style.display = "none";
-                        result_no.onclick = finish;
+                        result_done.innerHTML = "Ok";
+                        result_no.style.display = "none";
+                        result_done.onclick = finish;
                       }
                       if(example) {
-                        cont("1000");
+                        cont("300");
                       } else {
                         $.post(post_site, { "ticket": (trial_num - 1), "index": trial_idx }, cont);
                       }
@@ -151,7 +151,6 @@ jsPsych.plugins["risk"] = (function()
                 } else {
                     ang = 0;
                     vel = 0;
-                    draw();
                     var p = (100 * (trial_num + 1) / (num_trials));
                     //low.innerHTML = "$" + all_choices[0];
                     progress_bar.html((trial_num + 1) + "/" + (num_trials));
@@ -159,10 +158,11 @@ jsPsych.plugins["risk"] = (function()
                     seq.style.opacity = "1";
                     valid_click = true;
                     canvas_click();
-                    result_cont.animate({ "opacity": "0" }, 500, function() {
-                        $(this).css("display", "none");
+                    result_cont.animate({ "opacity": "0" }, 50, function() {
+                        result_cont.css("display", "none");
                         //low.disabled = false;
                     });
+                    draw();
                 }
             }
 
@@ -195,15 +195,16 @@ jsPsych.plugins["risk"] = (function()
             function show(is_spin) {
                 seq.style.opacity = "0";
                 money.html(outcome);
+		console.log("show");
 
                 if(is_spin && trial_num < num_trials - 1) {
                     result_done.innerHTML = "Choose this";
                     result_no.style.display = "inline-block";
                 } else {
-                    result_no.innerHTML = "Done";
-                    result_done.style.display = "none";
+                    result_done.innerHTML = "Done";
+                    result_no.style.display = "none";
                 }
-                result_cont.css("display", "block").animate({ "opacity": "1" }, 500, function() {
+                result_cont.css("display", "block").animate({ "opacity": "1" }, 50, function() {
                     valid_done_click = true;
                 });
             }
@@ -277,7 +278,7 @@ jsPsych.plugins["risk"] = (function()
                 }
 
                 function getColor(v) {
-                  let vmax = 200;
+                  let vmax = 195;
                   let vmin = 125;
                   let f = (v - vmin) / (vmax - vmin);
                   let rgb = HSVtoRGB(f, 1, 1);

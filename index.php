@@ -721,7 +721,6 @@ function init_exp()
     timeline.push(riskonechoose_trial);
     timeline.push(risk_example_trial);
     timeline.push(risk_midexample_trial);
-
       for(var j = 0; j < risk_data.length; j++) {
         timeline.push({
             type: "risk",
