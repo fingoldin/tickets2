@@ -158,10 +158,7 @@ jsPsych.plugins["risk"] = (function()
                     seq.style.opacity = "1";
                     valid_click = true;
                     canvas_click();
-                    result_cont.animate({ "opacity": "0" }, 50, function() {
-                        result_cont.css("display", "none");
-                        //low.disabled = false;
-                    });
+			result_cont.css("display", "none");
                     draw();
                 }
             }
@@ -204,9 +201,8 @@ jsPsych.plugins["risk"] = (function()
                     result_done.innerHTML = "Done";
                     result_no.style.display = "none";
                 }
-                result_cont.css("display", "block").animate({ "opacity": "1" }, 50, function() {
-                    valid_done_click = true;
-                });
+                result_cont.css("display", "block");
+	    valid_done_click = true;
             }
 
             var c = null;

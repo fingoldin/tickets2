@@ -93,11 +93,9 @@ jsPsych.plugins["risk2"] = (function()
                       //progress_bar.css("width", Math.max(p, 5).toFixed(0) + "%");
                       seq.style.opacity = "1";
                       seq_num.innerHTML = trial_num + 1;
-                      result_cont.animate({ "opacity": "0" }, 50, function() {
-                          $(this).css("display", "none");
-                          valid_click = true;
-                          low.disabled = false;
-                      });
+		  result_cont.css("display", "none");
+		  valid_click = true;
+		  low.disabled = false;
                   }
               }
 
@@ -133,9 +131,8 @@ jsPsych.plugins["risk2"] = (function()
                   } else {
                       result_done.innerHTML = "Done";
                   }
-                  result_cont.css("display", "block").animate({ "opacity": "1" }, 50, function() {
-                      valid_done_click = true;
-                  });
+                  result_cont.css("display", "block");
+	      valid_done_click = true;
                   $(result_done).focus();
               }
 
