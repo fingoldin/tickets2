@@ -10,7 +10,7 @@ store_url();
 
 //phpinfo();
 
-//grant_bonuses();
+grant_bonuses();
 
 $preview = true;
 
@@ -555,7 +555,7 @@ function init_exp()
     }
 
     var assignment_id = "<?= $_SESSION['assignmentId'] ?>";
-/*    timeline.push(consent_trial);
+    timeline.push(consent_trial);
 	timeline.push(age_trial);
 
 	workerid_trial.on_finish = function(data) {
@@ -618,7 +618,7 @@ function init_exp()
 			sequence: ""
 	});
 	timeline.push(testing_instructions2_trial);
-*/	for(var i = 0; i < testing_data.length; i++)
+	for(var i = 0; i < testing_data.length; i++)
 	{
         for(var j = 0; j < testing_data[i].length; j++)
         {

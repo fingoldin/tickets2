@@ -79,10 +79,10 @@ jsPsych.plugins["risk2"] = (function()
                       return;
 
                   valid_done_click = false;
-                  choices.push({ result: result, fixed: chose_fixed, seq_idx: all_choices[trial_num].seq_idx, choice_idx: all_choices[trial_num].choice_idx });
+                  choices.push({ result: result, fixed: chose_fixed, choice_idx: all_choices[trial_num].choice_idx });
                   trial_num += 1;
                   if(trial_num == num_trials) {
-                      jsPsych.finishTrial({ choices: choices });
+                      jsPsych.finishTrial({ choices: choices, all_choices: all_choices });
                   } else {
                       ang = 0;
                       vel = 0;

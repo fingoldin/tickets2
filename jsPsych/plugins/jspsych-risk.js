@@ -123,7 +123,7 @@ jsPsych.plugins["risk"] = (function()
                 if(trial_num == num_trials || force_end) {
                     function finish() {
                         display_element.empty();
-                        data = { fixed: chose_fixed, result: result };
+                        data = { fixed: chose_fixed, result: result, trial_idx: trial_idx, all_choices: all_choices };
                         console.log(data);
                         jsPsych.finishTrial(data);
                     }
