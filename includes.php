@@ -878,8 +878,13 @@ function startSession() {
         }
     }
 
-
-    $risk_data = $_SESSION["testing_data"][0][0];
+    $risk_data = [];
+    for($i = 0; $i < count($_SESSION["testing_data"][0][0]); $i++) {
+      array_push($risk_data, [
+        "data" => $_SESSION["testing_data"][0][0][$i],
+        "seq_idx" => $i
+      ]);
+    }
     shuffle($risk_data);
 
     $_SESSION["risk_data"] = $risk_data;

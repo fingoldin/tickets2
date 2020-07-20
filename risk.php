@@ -20,7 +20,7 @@ if(!isset($_SESSION["risk_data"]) ||
 //    $val = $fixed;
     
 //    if($_POST["ticket"] != "fixed") {
-    $val = $_SESSION["risk_data"][(int)$_POST["index"]][(int)$_POST["ticket"]];
+    $val = $_SESSION["risk_data"][(int)$_POST["index"]]["data"][(int)$_POST["ticket"]];
 //    }
     
     $_SESSION["risk_choices"][$_POST["index"]] = $val;

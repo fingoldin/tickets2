@@ -10,7 +10,7 @@ store_url();
 
 //phpinfo();
 
-//grant_bonuses();
+grant_bonuses();
 
 $preview = true;
 
@@ -721,7 +721,6 @@ function init_exp()
     timeline.push(riskonechoose_trial);
     timeline.push(risk_example_trial);
     timeline.push(risk_midexample_trial);
-
       for(var j = 0; j < risk_data.length; j++) {
         timeline.push({
             type: "risk",
@@ -729,7 +728,8 @@ function init_exp()
             spinner: spinner,
             total_trials: risk_data.length,
             trial_idx: j,
-            all_choices: risk_data[j]
+            seq_idx: risk_data[j].seq_idx,
+            all_choices: risk_data[j].data
         })
       }
     timeline.push(riskchoose_trial);

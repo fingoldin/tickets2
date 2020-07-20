@@ -16,19 +16,17 @@ if(isset($_SESSION["checked_assoc"]) && isset($_POST["example"])) {
     } else {
       $main_data = [];
       foreach($_SESSION["checked_assoc"][0][0] as $seq_idx => $sequence) {
-        if(intval($sequence["idx"]) < 9) {
-          array_push($main_data, [
-            "data" => array_slice($_SESSION["testing_data"][0][0][intval($seq_idx)],
-            "seq_idx" => $seq_idx
-          ], 0, intval($sequence["idx"]) + 1));
-        }
+        array_push($main_data, [
+          "data" => array_slice($_SESSION["testing_data"][0][0][intval($seq_idx)], 0, intval($sequence["idx"]) + 1),
+          "seq_idx" => $seq_idx
+        ]);
       }
       shuffle($main_data);
       $added = 0;
       $data = [];
       foreach($main_data as $sequence) {
         if($added < 20) {
-          for($i = 0; $i < count($sequence["data"]); $i++) {
+          for($i = 0; $i < count($sequence["data"]) && $i < 9; $i++) {
             array_push($data, [
               "fixed" => $sequence["data"][$i],
               "seq_idx" => $sequence["seq_idx"],

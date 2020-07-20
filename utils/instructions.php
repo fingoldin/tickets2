@@ -62,7 +62,7 @@ resize();
 
         Suppose one day you are driving along, and manage to crash your car, rendering it not usable. Having done this, you now want to sell your car to a scrapyard, obviously for the largest price you can find. But it turns out that there are many scrapyards you could sell it to, and you go out looking for the one that will give you the highest price. Here is your car:
         <img class="logo-img" src="<?= $site_prefix ?>/utils/crashed.jpg"></img>
-        You task is to learn about the distribution of prices that these scrapyards will offer you. However, <b>if you decline an offer from a particular scrapyard you cannot go back and sell it there anymore</b>. Given this, you will have to try to choose the highest price from a sequence of prices.
+        Before you start to sell your car, you first have to learn about the distribution of prices that these scrapyards will offer you. After this, you go from one scrapyard to the next until you accept the price. However, <b>if you decline an offer from a particular scrapyard you cannot go back and sell it there anymore</b>. Given this, you will have to try to choose the highest price from a sequence of prices.
 <!--	        <b>3. Gamble phase 1</b>
 =======
           You will encounter 60 potential prices and we will then check how

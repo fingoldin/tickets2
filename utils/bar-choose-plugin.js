@@ -23,7 +23,7 @@
 
 			var bgmr = document.createElement("DIV");
                         $(bgmr).addClass("bar-graph-main-remaining");
-                        $(bgmr).html("You have <span>" + data.max + "</span> tickets left to distribute");
+                        $(bgmr).html("You have <span>" + data.max + "</span> price offers left to distribute");
                         $(bgg).append(bgmr);
 
 			var bgcow = document.createElement("DIV");
