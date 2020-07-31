@@ -555,7 +555,7 @@ function init_exp()
     }
 
     var assignment_id = "<?= $_SESSION['assignmentId'] ?>";
-    timeline.push(consent_trial);
+/*    timeline.push(consent_trial);
 	timeline.push(age_trial);
 
 	workerid_trial.on_finish = function(data) {
@@ -642,7 +642,7 @@ function init_exp()
         //timeline.push(training_trial2);
 	}
   timeline.push(mainchoose_trial);
-  /*
+  *//*
 	timeline.push(p2_start_trial);
 
     var passed2 = false;
@@ -713,14 +713,14 @@ function init_exp()
 	}
 
     timeline.push(closuresurvey_trial);
-    timeline.push(risksurvey_trial);*/
+    timeline.push(risksurvey_trial);
     timeline.push(risk3_instructions_trial);
     timeline.push(risk_one_example_trial);
     timeline.push(risk_one_midexample_trial);
     timeline.push(risk_one_trial);
     timeline.push(riskonechoose_trial);
     timeline.push(risk_example_trial);
-    timeline.push(risk_midexample_trial);
+    timeline.push(risk_midexample_trial);*/
       for(var j = 0; j < risk_data.length; j++) {
         timeline.push({
             type: "risk",

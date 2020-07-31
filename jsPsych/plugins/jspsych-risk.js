@@ -2,6 +2,12 @@ jsPsych.plugins["risk"] = (function()
 {
 	var plugin = {};
 
+	function gt()
+	{
+		var d = new Date();
+		return d.getTime();
+	}
+
 	plugin.trial = function(display_element, trial)
 	{
 		trial = jsPsych.pluginAPI.evaluateFunctionParameters(trial);
@@ -54,6 +60,8 @@ jsPsych.plugins["risk"] = (function()
 
             var result = 180;
             var outcome = "";
+            var times = [];
+            var startTime = 0;
 
             var canvas = document.getElementById("risk-canvas");
             var low;
@@ -82,6 +90,8 @@ jsPsych.plugins["risk"] = (function()
             var canvas_click = function() {
                 if(!valid_click)
                     return;
+
+                startTime = gt();
 
                 valid_click = false;
                 //low.disabled = true;
@@ -119,12 +129,15 @@ jsPsych.plugins["risk"] = (function()
                 if(!valid_done_click)
                     return;
 
+                times.push(gt() - startTime);
+
                 valid_done_click = false;
                 trial_num += 1;
                 if(trial_num == num_trials || force_end) {
                     function finish() {
                         display_element.empty();
-                        data = { fixed: chose_fixed, result: result, trial_idx: trial_idx, all_choices: all_choices, seq_idx: seq_idx };
+                        console.log(times);
+                        data = { fixed: chose_fixed, result: result, trial_idx: trial_idx, all_choices: all_choices, seq_idx: seq_idx, times: times };
                         console.log(data);
                         jsPsych.finishTrial(data);
                     }
