@@ -21,7 +21,6 @@ jsPsych.plugins["risk"] = (function()
         var one_trial = true;
 
         var all_choices = trial.all_choices;
-        console.log(all_choices);
 
         var trial_num = 0;
         var num_trials = all_choices.length;
@@ -136,14 +135,11 @@ jsPsych.plugins["risk"] = (function()
                 if(trial_num == num_trials || force_end) {
                     function finish() {
                         display_element.empty();
-                        console.log(times);
-                        data = { fixed: chose_fixed, result: result, trial_idx: trial_idx, all_choices: all_choices, seq_idx: seq_idx, times: times };
-                        console.log(data);
+                        data = { fixed: chose_fixed, result: result, trial_idx: trial_idx, all_choices: all_choices, seq_idx: seq_idx, choice_idx: (trial_num - 1), times: times };
                         jsPsych.finishTrial(data);
                     }
                     if(!chose_fixed && trial_num < num_trials) {
                       function cont(p) {
-                        console.log(p);
                         var prices = all_choices.slice(0);
                         prices.sort(function(a, b){return a - b});
                         let points = Math.min(max_points, Math.max(0, Math.round(max_points * (all_choices[trial_num - 1] - 125) / (195 - 125))));
@@ -206,7 +202,6 @@ jsPsych.plugins["risk"] = (function()
             function show(is_spin) {
                 seq.style.opacity = "0";
                 money.html(outcome);
-		console.log("show");
 
                 if(is_spin && trial_num < num_trials - 1) {
                     result_done.innerHTML = "Choose this";

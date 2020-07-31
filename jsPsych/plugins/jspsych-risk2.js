@@ -1,6 +1,12 @@
 jsPsych.plugins["risk2"] = (function()
 {
 	var plugin = {};
+	
+  function gt()
+	{
+		var d = new Date();
+		return d.getTime();
+	}
 
 	plugin.trial = function(display_element, trial)
 	{
@@ -11,7 +17,6 @@ jsPsych.plugins["risk2"] = (function()
 
         $.post(SITE_PREFIX + "/get_risk_one.php", { "example": example }, (res) => {
           var all_choices = JSON.parse(res);
-          console.log(all_choices);
           var trial_num = 0;
           var num_trials = all_choices.length;
 
@@ -71,6 +76,8 @@ jsPsych.plugins["risk2"] = (function()
               var hw = 200;
               var max_points = 1500;
               var pad = 60;
+              var startTime = gt();
+              var times = [];
 
               var chose_fixed = false;
 
@@ -79,10 +86,12 @@ jsPsych.plugins["risk2"] = (function()
                       return;
 
                   valid_done_click = false;
-                  choices.push({ result: result, fixed: chose_fixed, choice_idx: all_choices[trial_num].choice_idx, seq_idx: all_choices[trial_num].seq_idx });
+                  choices.push({ result: result, fixed: chose_fixed, seq_choice_idx: all_choices[trial_num].seq_choice_idx, seq_idx: all_choices[trial_num].seq_idx });
                   trial_num += 1;
                   if(trial_num == num_trials) {
-                      jsPsych.finishTrial({ choices: choices });
+                    console.log(times);
+                    console.log(choices);
+                      jsPsych.finishTrial({ choices: choices, times: times });
                   } else {
                       ang = 0;
                       vel = 0;
@@ -96,6 +105,7 @@ jsPsych.plugins["risk2"] = (function()
 		  result_cont.css("display", "none");
 		  valid_click = true;
 		  low.disabled = false;
+      startTime = gt();
                   }
               }
 
@@ -105,6 +115,7 @@ jsPsych.plugins["risk2"] = (function()
                   if(!valid_click)
                       return;
 
+                  times.push(gt() - startTime);
                   valid_click = false;
                   low.disabled = true;
                   function low_post() {
@@ -118,7 +129,7 @@ jsPsych.plugins["risk2"] = (function()
                   if(example) {
                       low_post();
                   } else {
-                      $.post(post_site, { "choice": "fixed", "index": trial_num, "seq_idx": all_choices[trial_num].seq_idx, "choice_idx": all_choices[trial_num].choice_idx }, low_post);
+                      $.post(post_site, { "choice": "fixed", "index": trial_num, "seq_idx": all_choices[trial_num].seq_idx, "seq_choice_idx": all_choices[trial_num].seq_choice_idx }, low_post);
                   }
               };
 
@@ -152,10 +163,10 @@ jsPsych.plugins["risk2"] = (function()
                   if(!valid_click)
                       return;
 
+                  times.push(gt() - startTime);
                   valid_click = false;
                   low.disabled = true;
                   function canvas_click(r) {
-                      console.log("Here: " + r);
                       var r_idx = parseInt(r);
 
                       var frac;
@@ -177,7 +188,7 @@ jsPsych.plugins["risk2"] = (function()
                   if(example) {
                       canvas_click("40");
                   } else {
-                      $.post(post_site, { "choice": "wheel", "index": trial_num, "seq_idx": all_choices[trial_num].seq_idx, "choice_idx": all_choices[trial_num].choice_idx }, canvas_click);
+                      $.post(post_site, { "choice": "wheel", "index": trial_num, "seq_idx": all_choices[trial_num].seq_idx, "seq_choice_idx": all_choices[trial_num].seq_choice_idx }, canvas_click);
                   }
               };
 
@@ -235,7 +246,6 @@ jsPsych.plugins["risk2"] = (function()
                 }
 
                 function getColor(v, factor) {
-                  console.log(v + " " + factor);
                   let vmax = 195;
                   let vmin = 125;
                   let f = (((factor + 1) * (v - vmin) / (vmax - vmin)) / 1.6) % 1;
@@ -250,7 +260,7 @@ jsPsych.plugins["risk2"] = (function()
                           var sang = -0.5 * Math.PI + 2.0 * Math.PI * last_sector_ang;
                           var fang = -0.5 * Math.PI + 2.0 * Math.PI * (start_sector_ang + d_sector_ang);
                           var color_int = parseInt(65535.0 * (fang - sang) / (2.0 * Math.PI));
-                          c.fillStyle = getColor(parseInt(spin_vals[i].value), all_choices[trial_num].choice_idx);
+                          c.fillStyle = getColor(parseInt(spin_vals[i].value), all_choices[trial_num].seq_choice_idx);
                           c.beginPath();
                           c.arc(hw + pad, hw + pad, hw, sang, fang, false);
                           c.lineTo(hw + pad, hw + pad);

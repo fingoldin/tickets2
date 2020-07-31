@@ -10,8 +10,8 @@ if(isset($_SESSION["checked_assoc"]) && isset($_POST["example"])) {
     $spinners = json_decode(file_get_contents("spinners3.json"));
     if($_POST["example"] == "true") {
       echo json_encode([ 
-        [ "fixed" => 160, "seq_idx" => 0, "spinner" => $spinners[2], "choice_idx" => 1 ],
-        [ "fixed" => 170, "seq_idx" => 1, "spinner" => $spinners[5], "choice_idx" => 2 ]
+        [ "fixed" => 160, "seq_idx" => 0, "spinner" => $spinners[2], "seq_choice_idx" => 1 ],
+        [ "fixed" => 170, "seq_idx" => 1, "spinner" => $spinners[5], "seq_choice_idx" => 2 ]
       ]);
     } else {
       $main_data = [];
@@ -30,7 +30,7 @@ if(isset($_SESSION["checked_assoc"]) && isset($_POST["example"])) {
             array_push($data, [
               "fixed" => $sequence["data"][$i],
               "seq_idx" => $sequence["seq_idx"],
-              "choice_idx" => $i,
+              "seq_choice_idx" => $i,
               "spinner" => $spinners[8 - $i]
             ]);
           }
