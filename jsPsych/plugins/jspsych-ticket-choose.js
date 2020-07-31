@@ -124,7 +124,7 @@ jsPsych.plugins["ticket-choose"] = (function()
                         //$("#ticket-wrap").hide();
 
                         listener = jsPsych.pluginAPI.getKeyboardResponse({
-                                            callback_function: function() { end_trial(points, r, times); },
+                                            callback_function: function() { end_trial(points, r, times, price_num); },
                                             valid_responses: [32],
                                             rt_method: "date",
                                             persist: true,
@@ -132,7 +132,7 @@ jsPsych.plugins["ticket-choose"] = (function()
                                     });
 
                         select.hide();
-                        next.html(trial.continue_message).addClass("big-btn").off("click").click(function() { end_trial(points, r, times); });
+                        next.html(trial.continue_message).addClass("big-btn").off("click").click(function() { end_trial(points, r, times, price_num); });
 
                         selected = true;
 
@@ -186,7 +186,7 @@ jsPsych.plugins["ticket-choose"] = (function()
 				}
 			}
 
-			function end_trial(ps, r, ti)
+			function end_trial(ps, r, ti, pn)
                 	{
 				if(r == -1) {
 					console.log("Whoops! There was an error");
@@ -202,6 +202,7 @@ jsPsych.plugins["ticket-choose"] = (function()
                                 	"result": trial.prices[price_num],
 					"points": ps,
 					"place": r,
+					"choice_idx": pn,
 					"phase": trial.phase,
 					"sequence": trial.sequence_id,
 					"prices": trial.prices,
