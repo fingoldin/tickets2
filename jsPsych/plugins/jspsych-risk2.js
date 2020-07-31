@@ -86,7 +86,7 @@ jsPsych.plugins["risk2"] = (function()
                       return;
 
                   valid_done_click = false;
-                  choices.push({ result: result, fixed: chose_fixed, seq_choice_idx: all_choices[trial_num].seq_choice_idx, seq_idx: all_choices[trial_num].seq_idx });
+                  choices.push({ result: result, chose_fixed: chose_fixed, seq_choice_idx: all_choices[trial_num].seq_choice_idx, seq_idx: all_choices[trial_num].seq_idx });
                   trial_num += 1;
                   if(trial_num == num_trials) {
                     console.log(times);
@@ -118,11 +118,11 @@ jsPsych.plugins["risk2"] = (function()
                   times.push(gt() - startTime);
                   valid_click = false;
                   low.disabled = true;
+                  chose_fixed = true;
                   function low_post() {
                       result = all_choices[trial_num].fixed;
                       //let points = Math.min(max_points, Math.max(0, Math.round(max_points * (result - 125) / (195 - 125))));
                       outcome = "You chose the fixed reward of $" + result + ". You will earn $" + (result / 100).toFixed(3) + " if this trial is chosen.";
-                      chose_fixed = true;
                       show(false);
                   }
 
@@ -166,6 +166,7 @@ jsPsych.plugins["risk2"] = (function()
                   times.push(gt() - startTime);
                   valid_click = false;
                   low.disabled = true;
+                  chose_fixed = false;
                   function canvas_click(r) {
                       var r_idx = parseInt(r);
 

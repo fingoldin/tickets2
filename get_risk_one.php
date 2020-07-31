@@ -25,7 +25,7 @@ if(isset($_SESSION["checked_assoc"]) && isset($_POST["example"])) {
       $added = 0;
       $data = [];
       foreach($main_data as $sequence) {
-        if($added < 20) {
+        if($added < 30) {
           for($i = 0; $i < count($sequence["data"]) && $i < 9; $i++) {
             array_push($data, [
               "fixed" => $sequence["data"][$i],

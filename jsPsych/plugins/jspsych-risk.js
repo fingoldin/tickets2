@@ -135,7 +135,7 @@ jsPsych.plugins["risk"] = (function()
                 if(trial_num == num_trials || force_end) {
                     function finish() {
                         display_element.empty();
-                        data = { fixed: chose_fixed, result: result, trial_idx: trial_idx, all_choices: all_choices, seq_idx: seq_idx, choice_idx: (trial_num - 1), times: times };
+                        data = { result: result, trial_idx: trial_idx, all_choices: all_choices, seq_idx: seq_idx, choice_idx: (trial_num - 1), times: times };
                         jsPsych.finishTrial(data);
                     }
                     if(!chose_fixed && trial_num < num_trials) {
