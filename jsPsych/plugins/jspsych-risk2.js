@@ -17,6 +17,7 @@ jsPsych.plugins["risk2"] = (function()
 
         $.post(SITE_PREFIX + "/get_risk_one.php", { "example": example }, (res) => {
           var all_choices = JSON.parse(res);
+          console.log(all_choices);
           var trial_num = 0;
           var num_trials = all_choices.length;
 

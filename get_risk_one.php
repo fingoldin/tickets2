@@ -14,31 +14,28 @@ if(isset($_SESSION["checked_assoc"]) && isset($_POST["example"])) {
         [ "fixed" => 170, "seq_idx" => 1, "spinner" => $spinners[5], "seq_choice_idx" => 2 ]
       ]);
     } else {
-      $main_data = [];
-      foreach($_SESSION["checked_assoc"][0][0] as $seq_idx => $sequence) {
-        array_push($main_data, [
-          "data" => array_slice($_SESSION["testing_data"][0][0][intval($seq_idx)], 0, intval($sequence["idx"]) + 1),
-          "seq_idx" => $seq_idx
-        ]);
-      }
-      shuffle($main_data);
-      $added = 0;
+      $i_vals = [2, 4, 6, 8];
       $data = [];
-      foreach($main_data as $sequence) {
-        if($added < 30) {
-          for($i = 0; $i < count($sequence["data"]) && $i < 9; $i++) {
-            array_push($data, [
-              "fixed" => $sequence["data"][$i],
-              "seq_idx" => $sequence["seq_idx"],
-              "seq_choice_idx" => $i,
-              "spinner" => $spinners[8 - $i]
-            ]);
+      for($seq_idx = 0; $seq_idx < count($_SESSION["testing_data"][0][0]); $seq_idx++) {
+        $sequence = $_SESSION["testing_data"][0][0][$seq_idx];
+        for($j = 0; $j < count($i_vals); $j++) {
+          if(!isset($data[$j])) {
+            $data[$j] = [];
           }
-          $added += 1;
+          $i = $i_vals[$j];
+          array_push($data[$j], [
+            "fixed" => $sequence[$i],
+            "seq_idx" => $seq_idx,
+            "seq_choice_idx" => $i,
+            "spinner" => $spinners[8 - $i]
+          ]);
         }
       }
+      for($j = 0; $j < count($i_vals); $j++) {
+        shuffle($data[$j]);
+      }
       shuffle($data);
-      echo json_encode($data);
+      echo json_encode(array_merge(...$data));
     }
     logging("get_risk_one.php called successfully");
 } else {

@@ -356,6 +356,18 @@ var risk3_instructions_trial = {
 	cont_btn: "continue"
 }
 
+var risk_instructions_trial = {
+	type: "html",
+	url: "<?= $site_prefix ?>/utils/risk_instructions.html",
+	cont_btn: "continue"
+}
+
+var main_instructions_trial = {
+	type: "html",
+	url: "<?= $site_prefix ?>/utils/main_instructions.html",
+	cont_btn: "continue"
+}
+
 var risk_prompts = ["Admitting that your tastes are different from those of a friend.",
 										"Going camping in the wilderness.",
 										"Betting a day's income at the horse races.",
@@ -495,6 +507,8 @@ function init_exp()
 	animanswers2 = da["answers"][1];
 	training_ranges = da["training_ranges"];
 
+  var phase_order = da["phase_order"];
+
     var training_sort = da["training_sort"];
     var threshold = parseFloat(da["training_threshold"]);
 
@@ -555,21 +569,28 @@ function init_exp()
     }
 
     var assignment_id = "<?= $_SESSION['assignmentId'] ?>";
-    timeline.push(consent_trial);
+/*    timeline.push(consent_trial);
 	timeline.push(age_trial);
 
 	workerid_trial.on_finish = function(data) {
 		$.post("<?= $site_prefix ?>/setworkerid.php", { id : data.worker_id });//, function(d) { console.log(d); });
 	};
   	timeline.push(workerid_trial);
-    timeline.push(instructions_trial);
-    timeline.push(start_trial);
+  */  
+    timeline.push(main_instructions_trial);
+
+    var SET_trials = [];
+    var SPT_trials = [];
+    var SGT_trials = [];
+
+    SET_trials.push(instructions_trial);
+    SET_trials.push(start_trial);
     var passed = false;
   	for(var i = 0; i < animdata.length; i++)
 	{
         for(var j = 0; j < animdata[i].length; j++)
         {
-            timeline.push({
+            SET_trials.push({
                     type: "number-animation",
                     prices: animdata[i][j],
                     phase: 0,
@@ -579,7 +600,7 @@ function init_exp()
                     passed: function() { return passed; }
             });
 
-            timeline.push({
+            SET_trials.push({
                 type: "training_avg",
                 phase: 0,
                 sequence_num: j,
@@ -592,7 +613,7 @@ function init_exp()
             });
         }
 
-        timeline.push(Object.assign({ repeat_num: i,
+        SET_trials.push(Object.assign({ repeat_num: i,
                     passed: function() { return passed; },
                     show_wrong_mes: (i == (animdata.length - 1)),
                     on_finish: function(data) {
@@ -603,10 +624,11 @@ function init_exp()
                     }
         }, training_trial));
     }
-    timeline.push(testing_instructions_trial);
+
+    SET_trials.push(testing_instructions_trial);
 
     // example testing sequence
-	timeline.push({ type: "ticket-choose",
+	SET_trials.push({ type: "ticket-choose",
 			phase: 0,
             sequence_id: 0,
             num_sequences: 1,
@@ -617,12 +639,12 @@ function init_exp()
 			continue_mesage: "Finish",
 			sequence: ""
 	});
-	timeline.push(testing_instructions2_trial);
+	SET_trials.push(testing_instructions2_trial);
 	for(var i = 0; i < testing_data.length; i++)
 	{
         for(var j = 0; j < testing_data[i].length; j++)
         {
-        	timeline.push({ type: "ticket-choose",
+        	SET_trials.push({ type: "ticket-choose",
 				prices: testing_data[i][j],
                 sequence_id: j,
                 num_sequences: testing_data[i].length,
@@ -641,7 +663,7 @@ function init_exp()
 //        timeline.push(points_update_trial);
         //timeline.push(training_trial2);
 	}
-  timeline.push(mainchoose_trial);
+  SET_trials.push(mainchoose_trial);
   /*
 	timeline.push(p2_start_trial);
 
@@ -714,15 +736,17 @@ function init_exp()
 
     timeline.push(closuresurvey_trial);
     timeline.push(risksurvey_trial);
-   */ timeline.push(risk3_instructions_trial);
-    timeline.push(risk_one_example_trial);
-    timeline.push(risk_one_midexample_trial);
-    timeline.push(risk_one_trial);
-    timeline.push(riskonechoose_trial);
-    timeline.push(risk_example_trial);
-    timeline.push(risk_midexample_trial);
+   */ SGT_trials.push(risk3_instructions_trial);
+    SGT_trials.push(risk_one_example_trial);
+    SGT_trials.push(risk_one_midexample_trial);
+    SGT_trials.push(risk_one_trial);
+    SGT_trials.push(riskonechoose_trial);
+
+    SPT_trials.push(risk_instructions_trial);
+    SPT_trials.push(risk_example_trial);
+    SPT_trials.push(risk_midexample_trial);
       for(var j = 0; j < risk_data.length; j++) {
-        timeline.push({
+        SPT_trials.push({
             type: "risk",
             one_trial: true,
             spinner: spinner,
@@ -732,8 +756,14 @@ function init_exp()
             all_choices: risk_data[j].data
         })
       }
-    timeline.push(riskchoose_trial);
+    SPT_trials.push(riskchoose_trial);
 
+
+  if(phase_order == 1) {
+    timeline.push(...SET_trials, ...SGT_trials);
+  } else {
+    timeline.push(...SGT_trials, ...SET_trials);
+  }
 
 	//timeline.push(special_sequence_trial);
 
@@ -745,6 +775,7 @@ function init_exp()
 		timeline: timeline,
 		display_element: $("#jspsych-main"),
 		on_finish: function(data) {
+      console.log(data);
 			$("#jspsych-main").empty().load("<?= $site_prefix ?>/confirmation_code.html");
 			//console.log(worker_id);
 			$.post("<?= $site_prefix ?>/submit.php", { data: JSON.stringify(data), assignment_id: assignment_id }, function(r) {

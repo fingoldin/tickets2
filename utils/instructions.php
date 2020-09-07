@@ -22,7 +22,7 @@ resize();
 </script>
 	<div id="wrong-top" class="top-alert">That was the incorrect answer. Please read the instructions again.</div>
 	<div id="id-check" class="check-main" style="display:none;">
-        	<div class="check-head">What do you have to do in the test phase?</div>
+        	<div class="check-head">What do you have to do in this task?</div>
         	<div class="check-bot">
                 <button id="c-wrong" class="big-btn">A: Choose the fastest car</button>
                 	<button id="c-right" class="big-btn">B: Choose the highest price offer</button>
@@ -41,24 +41,9 @@ resize();
   </div>
 	<div id="id-int">
         <div class="consent-main">
-                <h3>Experiment Instructions</h3>
+                <h3>Next Task</h3>
 		<div class="cscroller">
                        	<p>
-        This experiment is divided into 3 tasks.
-        <br><br>
-        <b>1. Task</b><br>
-        In the first task, you are looking to sell a crashed car to a scrapyard for the highest amount you can get.
-        <br>
-        <b>2. Task</b><br>
-        In the second task, you are at the casino and take spins on a wheel of fortune.
-        <br>
-        <b>3. Task</b><br>
-        This task is similar to the second task, but you have the possibility to spin the wheel repeatetly to improve your gain.
-        	<br><br>
-
-        Let's start with the first task: <br>
-
-        <b> 1. Task</b>	<br>
 
         Suppose one day you are driving along, and manage to crash your car, rendering it not usable. Having done this, you now want to sell your car to a scrapyard, obviously for the largest price you can find. But it turns out that there are many scrapyards you could sell it to, and you go out looking for the one that will give you the highest price. Here is your car:
         <img class="logo-img" src="<?= $site_prefix ?>/utils/crashed.jpg"></img>
@@ -85,7 +70,7 @@ resize();
         <br><br>
         <br>
         -->
-<br>
+<br><br>
                 Please press continue to begin.
 <!--				<b>Training phase 2 </b>
 				<br>

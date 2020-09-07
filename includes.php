@@ -631,7 +631,7 @@ function startSession() {
     $ntraining_sequences = 3;
 
     // The number of tickets in one sequence in the training phase
-    $ntraining_tickets = 20;
+    $ntraining_tickets = 2;
 
     // Parameters of skewed normal distribution
     $location = 150;
@@ -670,12 +670,12 @@ function startSession() {
     $test_blocks = [10];
 
     // Number of sequences in each block
-    $ntest_sequences = 40;
+    $ntest_sequences = 4;
 
     // The max number of points in a sequence
     $_SESSION["max_points_per_seq"] = 30; // in tenths of a cent
 
-    $_SESSION["site_prefix"] = "/christiane/tickets3type";
+    $_SESSION["site_prefix"] = "/christiane/tickets3typedual1";
 
     $_SESSION["training_sort_total"] = [100, 100]; // desired values, this is updated to the actual
 
@@ -888,6 +888,8 @@ function startSession() {
     shuffle($risk_data);
 
     $_SESSION["risk_data"] = $risk_data;
+    $max = mt_getrandmax();
+    $_SESSION["phase_order"] = (int)((mt_rand() / $max) > 0.5);
             
     $_SESSION["risk_points"] = 0;
     $_SESSION["risk_one_points"] = 0;

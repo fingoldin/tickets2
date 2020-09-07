@@ -12,6 +12,7 @@ if(isset($_POST["f7g12d"]) && isset($_SESSION["testing_data"]) && isset($_SESSIO
 	$arr = [
 		"testing" => $_SESSION["testing_data"],
     "risk_data" => $_SESSION["risk_data"],
+    "phase_order" => $_SESSION["phase_order"],
 		"training" => $_SESSION["training_data"],
 		"training_ranges" => $_SESSION["training_avg_ranges"],
 		"answers" => $_SESSION["training_answers"],
