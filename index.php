@@ -760,9 +760,9 @@ function init_exp()
 
 
   if(phase_order == 1) {
-    timeline.push(...SET_trials, ...SGT_trials);
+    timeline.push(...SET_trials, ...SPT_trials);
   } else {
-    timeline.push(...SGT_trials, ...SET_trials);
+    timeline.push(...SPT_trials, ...SET_trials);
   }
 
 	//timeline.push(special_sequence_trial);
