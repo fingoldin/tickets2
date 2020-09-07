@@ -675,7 +675,7 @@ function startSession() {
     // The max number of points in a sequence
     $_SESSION["max_points_per_seq"] = 30; // in tenths of a cent
 
-    $_SESSION["site_prefix"] = "/christiane/tickets3typedual1";
+    $_SESSION["site_prefix"] = "/christiane/tickets3typedual2";
 
     $_SESSION["training_sort_total"] = [100, 100]; // desired values, this is updated to the actual
 
