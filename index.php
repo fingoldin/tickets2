@@ -569,14 +569,14 @@ function init_exp()
     }
 
     var assignment_id = "<?= $_SESSION['assignmentId'] ?>";
-/*    timeline.push(consent_trial);
+    timeline.push(consent_trial);
 	timeline.push(age_trial);
 
 	workerid_trial.on_finish = function(data) {
 		$.post("<?= $site_prefix ?>/setworkerid.php", { id : data.worker_id });//, function(d) { console.log(d); });
 	};
   	timeline.push(workerid_trial);
-  */  
+    
     timeline.push(main_instructions_trial);
 
     var SET_trials = [];
