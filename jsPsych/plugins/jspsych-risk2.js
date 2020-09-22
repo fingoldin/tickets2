@@ -247,22 +247,21 @@ jsPsych.plugins["risk2"] = (function()
                     };
                 }
 
-                function getColor(v, factor) {
+                function getColor(v, vmin, factor) {
                   let vmax = 195;
-                  let vmin = 125;
-                  let f = (((factor + 1) * (v - vmin) / (vmax - vmin)) / 1.6) % 1;
-                  let rgb = HSVtoRGB(f, 1, 1);
+                  let f = (((factor + 1) * (v - vmin) / (vmax - vmin)) / 1.5) % 1;
+                  let rgb = HSVtoRGB(f, 0.5, 1);
 
                   return "rgb(" + rgb.r + ", " + rgb.g + ", " + rgb.b + ")";
                 }
 
                   for(var i = 0; i < spin_vals.length; i++) {
                       var d_sector_ang = spin_vals[i].fraction;
-                      if(spin_vals[i].show) {
+                      if(spin_vals[i].show && spin_vals[i].value >= all_choices[trial_num].min_tick) {
                           var sang = -0.5 * Math.PI + 2.0 * Math.PI * last_sector_ang;
                           var fang = -0.5 * Math.PI + 2.0 * Math.PI * (start_sector_ang + d_sector_ang);
                           var color_int = parseInt(65535.0 * (fang - sang) / (2.0 * Math.PI));
-                          c.fillStyle = getColor(parseInt(spin_vals[i].value), all_choices[trial_num].seq_choice_idx);
+                          c.fillStyle = getColor(parseInt(spin_vals[i].value), all_choices[trial_num].min_tick, 0); //all_choices[trial_num].seq_choice_idx);
                           c.beginPath();
                           c.arc(hw + pad, hw + pad, hw, sang, fang, false);
                           c.lineTo(hw + pad, hw + pad);
@@ -286,15 +285,17 @@ jsPsych.plugins["risk2"] = (function()
                   start_sector_ang = 0.0;
                   last_sector_ang = 0.0;
                   let first = true;
+                  console.log(all_choices[trial_num]);
+                  console.log(spin_vals[0]);
                   for(var i = 0; i < spin_vals.length; i++) {
                       var d_sector_ang = spin_vals[i].fraction * 2.0 * Math.PI;
                       let hl = 5;
-                      if(spin_vals[i].show) {
+                      if(spin_vals[i].show && spin_vals[i].value >= all_choices[trial_num].min_tick) {
                           hl = 10;
                           c.lineWidth = 3;
                           if(i === spin_vals.length - 1 || first) {
-                            c.lineWidth = 8;
-                            hl = 20;
+                            c.lineWidth = 5;
+                            hl = 15;
                           }
                           c.strokeStyle = "black";
                       } else {
@@ -325,7 +326,7 @@ jsPsych.plugins["risk2"] = (function()
                   first = true;
                   for(var i = 0; i < spin_vals.length; i++) {
                       var d_sector_ang = spin_vals[i].fraction * 2.0 * Math.PI;
-                      if(spin_vals[i].show) {
+                      if(spin_vals[i].show && spin_vals[i].value >= all_choices[trial_num].min_tick) {
                           var x = Math.cos(start_sector_ang + d_sector_ang) * (hw + 0.5 * rect_w) + hw + pad;
                           var y = Math.sin(start_sector_ang + d_sector_ang) * (hw + 0.5 * rect_w) + hw + pad;
 
@@ -334,11 +335,13 @@ jsPsych.plugins["risk2"] = (function()
 
                           let add = "";
                           if(i === spin_vals.length - 1) {
-                            add = " $" + spin_vals[0].value;
-                            y -= 12;
+                            //add = " $" + spin_vals[0].value;
+                            x -= 22;
+                          } else if(i === 0) {
+                            x += 15;
                           }
 
-                          if(last_label_ang > 0.1) {
+                          if(last_label_ang > 0.1 || spin_vals[i].value == all_choices[trial_num].min_tick) {
                             c.fillStyle = "black";
                             c.fillText("$" + spin_vals[i].value + add, x, y);
                             last_label_ang = 0.0;

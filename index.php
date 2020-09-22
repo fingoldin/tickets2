@@ -576,9 +576,9 @@ function init_exp()
 		$.post("<?= $site_prefix ?>/setworkerid.php", { id : data.worker_id });//, function(d) { console.log(d); });
 	};
   	timeline.push(workerid_trial);
-  */  
+    
     timeline.push(main_instructions_trial);
-
+*/
     var SET_trials = [];
     var SPT_trials = [];
     var SGT_trials = [];
