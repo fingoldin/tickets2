@@ -18,8 +18,8 @@ if(!isset($_SESSION["max_points_main"]) || !isset($_SESSION["points_additional"]
         } else {
             $val = $_SESSION["testing_data"][0][0][$num][(int)$_SESSION["checked_assoc"][0][0][$num]["idx"]];
 
-            $min = 125;
-            $max = 195;
+            $min = 120;
+            $max = 200;
             $p = $_SESSION["max_points_main"] * ($val - $min) / ($max - $min);
             if($p > $_SESSION["max_points_main"]) {
                 $p = $_SESSION["max_points_main"];

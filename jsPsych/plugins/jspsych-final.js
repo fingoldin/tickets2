@@ -50,7 +50,7 @@ jsPsych.plugins["final"] = (function()
 
                         var money = points.map(p => 0.01 * Math.round(parseInt(p) * 0.1));
 
-                        top.innerHTML = "You earned $3 + $" + money.map(m => m.toFixed(2)).join(" + $") + " =";
+                        top.innerHTML = "You earned $3 + $" + money.filter(m != 0).map(m => m.toFixed(2)).join(" + $") + " =";
                         bot.innerHTML = "$" + (3 + money.reduce((total, m) => (total + m), 0)).toFixed(2);
 
 						$(wrap).animate({ "opacity": "1" }, 600, function() {

@@ -651,8 +651,8 @@ function startSession() {
     $dist = 'normal';
 
     // Minimum and maximum values for the deviates in case we get a really unlikely one
-    $min = 125;
-    $max = 195;
+    $min = 120;
+    $max = 200;
 
     $_SESSION["training_max_repeats"] = 2;
     $_SESSION["training_threshold"] = 0.25;
@@ -688,7 +688,7 @@ function startSession() {
     $_SESSION["num_risk_one"] = 1;
 
     // Maximum number of points (10th of a cent) that can be earned for all the risk_one trials
-    $_SESSION["max_points_risk_one"] = 1950;
+    $_SESSION["max_points_risk_one"] = $max * 10;
     $_SESSION["max_points_risk"] = 1500;
     $_SESSION["max_points_main"] = 1500;
     
