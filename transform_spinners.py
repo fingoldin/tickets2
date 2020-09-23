@@ -16,6 +16,6 @@ for spinner in spinners:
   output.append([])
   for i in range(len(spinner)):
     frac = float(spinner[i])
-    output[-1].append({ "fraction": (frac), "value": 125 + i, "show": bool(i % 5 == 0) })
+    output[-1].append({ "fraction": (frac), "value": 125 + i, "show": bool(i % 10 == 0) })
 
 open("spinners3.json", "w").write(json.dumps(output))

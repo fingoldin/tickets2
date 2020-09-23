@@ -323,12 +323,12 @@ jsPsych.plugins["risk"] = (function()
                     var d_sector_ang = spin_vals[i].fraction * 2.0 * Math.PI;
                     var hl = 5;
                     if(spin_vals[i].show) {
-                        hl = 10;
-                        c.lineWidth = 3;
-                        c.strokeStyle = "white";
+                        hl = 12;
+                        c.lineWidth = 5;
+                        c.strokeStyle = "black";
                     } else {
                         c.lineWidth = 2;
-                        c.strokeStyle = "black";
+                        c.strokeStyle = "white";
                     }
 
                     c.save();
@@ -353,18 +353,19 @@ jsPsych.plugins["risk"] = (function()
                     if(spin_vals[i].show) {
                         var x = Math.cos(start_sector_ang + d_sector_ang) * (hw + 0.5 * rect_w) + hw + pad;
                         var y = Math.sin(start_sector_ang + d_sector_ang) * (hw + 0.5 * rect_w) + hw + pad;
+                        var add = "";
                         if(i == spin_vals.length - 1) {
-                          x -= 23;
+                          add += " $120";
                         }
                         else if(i == 0) {
                           x += 23;
                         }
 
                         c.fillStyle = "black";
-                        roundedRect(x - 0.5 * rect_w, y - 0.5 * rect_h, rect_w, rect_h, rect_r);
+//                        roundedRect(x - 0.5 * rect_w, y - 0.5 * rect_h, rect_w, rect_h, rect_r);
 
-                        c.fillStyle = "white";
-                        c.fillText("$" + spin_vals[i].value, x, y);
+//                        c.fillStyle = "white";
+                        c.fillText("$" + spin_vals[i].value + add, x, y);
                     }
                     start_sector_ang += d_sector_ang;
                 }

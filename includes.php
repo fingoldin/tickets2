@@ -458,15 +458,21 @@ function sn_cdf($x, $location, $scale, $shape)
     return ($f - 2 * $t);
 }
 
-function normal_generate_deviate($mean, $stddev)
+function normal_generate_deviate($mean, $stddev, $min, $max)
 {
     // Generate two random uniformly distributed numbers between 0 and 1
-    $max = mt_getrandmax();
-    $x1 = mt_rand() / $max;
-    $x2 = mt_rand() / $max;
+    $y = $min;
+    $mt_max = mt_getrandmax();
+    while(true) {
+      $x1 = mt_rand() / $mt_max;
+      $x2 = mt_rand() / $mt_max;
 
-    // Generate one random number on the normal distribution using the Box-Muller transform
-    $y = $stddev * sqrt(-2 * log($x1)) * cos(2 * M_PI * $x2) + $mean;
+      // Generate one random number on the normal distribution using the Box-Muller transform
+      $y = $stddev * sqrt(-2 * log($x1)) * cos(2 * M_PI * $x2) + $mean;
+      if($y >= $min && $y <= $max) {
+        break;
+      }
+    }
 
     return $y;
 }
@@ -771,7 +777,7 @@ function startSession() {
                         if($dist == 'ln')
                             $v = (int)round(ln_generate_deviate($mean, $stddevs[$h]));
                         else if($dist == 'normal')
-                            $v = (int)round(normal_generate_deviate($mean, $stddevs[$h]));
+                            $v = (int)round(normal_generate_deviate($mean, $stddevs[$h], $min, $max));
                         else
                             $v = (int)round(sn_generate_deviate($location, $scale, $shape));
 
@@ -863,7 +869,7 @@ function startSession() {
                     else if($dist == 'ln')
                         $v = (int)round(ln_generate_deviate($mean, $stddevs[$p]));
                     else if($dist == 'normal')
-                        $v = (int)round(normal_generate_deviate($mean, $stddevs[$p]));
+                        $v = (int)round(normal_generate_deviate($mean, $stddevs[$p], $min, $max));
                     else
                         $v = (int)round(sn_generate_deviate($location, $scale, $shape));
 
