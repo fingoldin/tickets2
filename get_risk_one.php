@@ -7,14 +7,13 @@ if(!session_id())
     session_start();
 
 if(isset($_SESSION["checked_assoc"]) && isset($_POST["example"])) {
-    $spinners = json_decode(file_get_contents("spinners3.json"));
-    $spinners[0] = json_decode(file_get_contents("risk.json"));
+    $spinners = json_decode(file_get_contents("spinners4.json"));
     if($_POST["example"] == "true") {
       echo json_encode([ 
-        [ "fixed" => 160, "seq_idx" => 0, "spinner" => $spinners[6], "seq_choice_idx" => 1, "min_tick" => 164 ],
-        [ "fixed" => 170, "seq_idx" => 1, "spinner" => $spinners[4], "seq_choice_idx" => 2, "min_tick" => 155 ],
-        [ "fixed" => 180, "seq_idx" => 2, "spinner" => $spinners[2], "seq_choice_idx" => 3, "min_tick" => 145 ],
-        [ "fixed" => 170, "seq_idx" => 3, "spinner" => $spinners[0], "seq_choice_idx" => 4, "min_tick" => 125 ]
+        [ "fixed" => 160, "seq_idx" => 0, "spinner" => $spinners[3], "seq_choice_idx" => 8, "min_tick" => 120 ],
+        [ "fixed" => 170, "seq_idx" => 1, "spinner" => $spinners[2], "seq_choice_idx" => 6, "min_tick" => 150 ],
+/*        [ "fixed" => 180, "seq_idx" => 2, "spinner" => $spinners[1], "seq_choice_idx" => 4, "min_tick" => 160 ],
+        [ "fixed" => 170, "seq_idx" => 3, "spinner" => $spinners[0], "seq_choice_idx" => 2, "min_tick" => 170 ]*/
       ]);
     } else {
       $i_vals = [2, 4, 6, 8];
@@ -26,16 +25,16 @@ if(isset($_SESSION["checked_assoc"]) && isset($_POST["example"])) {
             $data[$j] = [];
           }
           $i = $i_vals[$j];
-          $min_tick = -$j * 10 + 165;
+          $min_tick = -$j * 10 + 170;
           if($j == count($i_vals) - 1) {
-            $min_tick = 125;
+            $min_tick = 120;
           }
           array_push($data[$j], [
             "fixed" => $sequence[$i],
             "seq_idx" => $seq_idx,
             "seq_choice_idx" => $i,
             "min_tick" => $min_tick, 
-            "spinner" => $spinners[8 - $i]
+            "spinner" => $spinners[$j]
           ]);
         }
       }

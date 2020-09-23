@@ -248,7 +248,7 @@ jsPsych.plugins["risk2"] = (function()
                 }
 
                 function getColor(v, vmin, factor) {
-                  let vmax = 195;
+                  let vmax = 200;
                   let f = (((factor + 1) * (v - vmin) / (vmax - vmin)) / 1.5) % 1;
                   let rgb = HSVtoRGB(f, 0.5, 1);
 
@@ -334,11 +334,11 @@ jsPsych.plugins["risk2"] = (function()
 //                          roundedRect(x - 0.5 * rect_w, y - 0.5 * rect_h, rect_w, rect_h, rect_r);
 
                           let add = "";
-                          if(i === spin_vals.length - 1) {
+                          if(i === spin_vals.length - 1 && all_choices[trial_num].seq_choice_idx === 8) {
                             //add = " $" + spin_vals[0].value;
-                            x -= 22;
+                            x -= 16;
                           } else if(i === 0) {
-                            x += 15;
+                            x += 18;
                           }
 
                           if(last_label_ang > 0.1 || spin_vals[i].value == all_choices[trial_num].min_tick) {

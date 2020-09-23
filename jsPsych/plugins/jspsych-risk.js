@@ -95,7 +95,7 @@ jsPsych.plugins["risk"] = (function()
                 valid_click = false;
                 //low.disabled = true;
                 result = all_choices[trial_num];
-                var r_idx = result - 125;
+                var r_idx = result - 120;
 
                 var frac = spinner[r_idx].fraction;
                 var sliced= spinner.slice(0, r_idx);
@@ -109,7 +109,7 @@ jsPsych.plugins["risk"] = (function()
                   spin();
                 } else {
                     var prices = all_choices.slice(0);
-                    let points = Math.min(max_points, Math.max(0, Math.round(max_points * (all_choices[trial_num] - 125) / (195 - 125))));
+                    let points = Math.min(max_points, Math.max(0, Math.round(max_points * (all_choices[trial_num] - 120) / (200 - 120))));
                     prices.sort(function(a, b){return a - b});
                     let out = "You will win $" + (points / 1000).toFixed(3) + " if this trial is chosen.";
                     if(example) {
@@ -142,7 +142,7 @@ jsPsych.plugins["risk"] = (function()
                       function cont(p) {
                         var prices = all_choices.slice(0);
                         prices.sort(function(a, b){return a - b});
-                        let points = Math.min(max_points, Math.max(0, Math.round(max_points * (all_choices[trial_num - 1] - 125) / (195 - 125))));
+                        let points = Math.min(max_points, Math.max(0, Math.round(max_points * (all_choices[trial_num - 1] - 120) / (200 - 120))));
 
                         let out = "You will win $" + (points / 1000).toFixed(3) + " if this trial is chosen.";
                         money.html(out)// + " You earned $" + (parseInt(p) * 0.001).toFixed(3) + " in real money.");
@@ -283,8 +283,8 @@ jsPsych.plugins["risk"] = (function()
                 }
 
                 function getColor(v) {
-                  let vmax = 195;
-                  let vmin = 125;
+                  let vmax = 200;
+                  let vmin = 120;
                   let f = (v - vmin) / (vmax - vmin);
                   let rgb = HSVtoRGB(f, 1, 1);
 
