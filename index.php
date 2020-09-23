@@ -569,7 +569,7 @@ function init_exp()
     }
 
     var assignment_id = "<?= $_SESSION['assignmentId'] ?>";
-/*    timeline.push(consent_trial);
+    timeline.push(consent_trial);
 	timeline.push(age_trial);
 
 	workerid_trial.on_finish = function(data) {
@@ -578,7 +578,7 @@ function init_exp()
   	timeline.push(workerid_trial);
     
     timeline.push(main_instructions_trial);
-*/
+
     var SET_trials = [];
     var SPT_trials = [];
     var SGT_trials = [];
