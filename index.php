@@ -569,7 +569,7 @@ function init_exp()
     }
 
     var assignment_id = "<?= $_SESSION['assignmentId'] ?>";
-/*    timeline.push(consent_trial);
+    timeline.push(consent_trial);
 	timeline.push(age_trial);
 
 	workerid_trial.on_finish = function(data) {
@@ -578,7 +578,7 @@ function init_exp()
   	timeline.push(workerid_trial);
     
     timeline.push(main_instructions_trial);
-*/
+
     var SET_trials = [];
     var SPT_trials = [];
     var SGT_trials = [];
@@ -635,7 +635,7 @@ function init_exp()
 			row: -1,
             max_points: <?= $_SESSION["max_points_main"] ?>,
             showpoints: false,
-			prices: [164, 160, 204, 145, 181, 179, 165, 173, 198, 106],
+			prices: [164, 160, 199, 145, 181, 179, 165, 173, 198, 106],
 			continue_mesage: "Finish",
 			sequence: ""
 	});
