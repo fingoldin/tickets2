@@ -635,7 +635,7 @@ function init_exp()
 			row: -1,
             max_points: <?= $_SESSION["max_points_main"] ?>,
             showpoints: false,
-			prices: [164, 160, 204, 145, 181, 179, 165, 173, 198, 106],
+			prices: [164, 160, 199, 145, 181, 179, 165, 173, 198, 106],
 			continue_mesage: "Finish",
 			sequence: ""
 	});
