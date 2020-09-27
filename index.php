@@ -631,11 +631,22 @@ function init_exp()
 	SET_trials.push({ type: "ticket-choose",
 			phase: 0,
             sequence_id: 0,
-            num_sequences: 1,
+            num_sequences: 2,
 			row: -1,
             max_points: <?= $_SESSION["max_points_main"] ?>,
             showpoints: false,
 			prices: [164, 160, 199, 145, 181, 179, 165, 173, 198, 106],
+			continue_mesage: "Finish",
+			sequence: ""
+	});
+	SET_trials.push({ type: "ticket-choose",
+			phase: 0,
+            sequence_id: 1,
+            num_sequences: 2,
+			row: -1,
+            max_points: <?= $_SESSION["max_points_main"] ?>,
+            showpoints: false,
+			prices: [189, 134, 170, 160, 161, 168, 145, 150, 198, 120],
 			continue_mesage: "Finish",
 			sequence: ""
 	});
