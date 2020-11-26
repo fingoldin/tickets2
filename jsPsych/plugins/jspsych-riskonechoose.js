@@ -7,8 +7,12 @@ jsPsych.plugins["riskonechoose"] = (function()
 		trial = jsPsych.pluginAPI.evaluateFunctionParameters(trial);
 
 		display_element.empty();
+        var load_site = "/risk_one_choice.php";
+        if(trial.fixed_order) {
+          load_site = "/risk_one_fixed_choice.php";
+        }
 
-        $.post(SITE_PREFIX + "/risk_one_choice.php", function(r) {
+        $.post(SITE_PREFIX + load_site, function(r) {
           console.log(r);
           if(r.substring(0, 4) == "none") {
             jsPsych.finishTrial({ none: true });

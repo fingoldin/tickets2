@@ -24,7 +24,7 @@ if(isset($_SESSION["start_time"]) && isset($_SESSION["finished"]) && $_SESSION["
 		"assignment_id" => $_POST["assignment_id"],
 		"data" => json_decode($_POST["data"], true),
         "training_sort" => $_SESSION["training_sort_total"],
-		"bonus" => $_SESSION["risk_one_points"] + $_SESSION["risk_points"] + $_SESSION["main_points"], // in tenths of a cent
+		"bonus" => $_SESSION["risk_one_fixed_points"] + $_SESSION["risk_one_points"] + $_SESSION["risk_points"] + $_SESSION["main_points"], // in tenths of a cent
         "stddevs" => $_SESSION["stddevs"],
         "risk_options" => $_SESSION["risk_options"]
 	];

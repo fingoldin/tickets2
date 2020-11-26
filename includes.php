@@ -636,7 +636,7 @@ function startSession() {
     $ntraining_sequences = 3;
 
     // The number of tickets in one sequence in the training phase
-    $ntraining_tickets = 20;
+    $ntraining_tickets = 2;  // 20
 
     // Parameters of skewed normal distribution
     $location = 150;
@@ -675,12 +675,12 @@ function startSession() {
     $test_blocks = [10];
 
     // Number of sequences in each block
-    $ntest_sequences = 40;
+    $ntest_sequences = 2; // 40;
 
     // The max number of points in a sequence
     $_SESSION["max_points_per_seq"] = 30; // in tenths of a cent
 
-    $_SESSION["site_prefix"] = "/christiane/tickets3typedual2";
+    $_SESSION["site_prefix"] = "/christiane/tickets3typedual3";
 
     $_SESSION["training_sort_total"] = [100, 100]; // desired values, this is updated to the actual
 
@@ -694,6 +694,7 @@ function startSession() {
 
     // Maximum number of points (10th of a cent) that can be earned for all the risk_one trials
     $_SESSION["max_points_risk_one"] = $max * 10;
+    $_SESSION["max_points_risk_one_fixed"] = $max * 10;
     $_SESSION["max_points_risk"] = 1500;
     $_SESSION["max_points_main"] = 1500;
     
@@ -709,6 +710,7 @@ function startSession() {
     //$_SESSION["risk_one_options"] = array_fill(0, $_SESSION["num_risk_one"], $risk_one_json);
 
     $_SESSION["risk_one_choices"] = [];
+    $_SESSION["risk_one_fixed_choices"] = [];
     
     $tmp = range(0, count($stddevs_unsorted) - 1);
     // UNCOMMMENT TO SHUFFLE STANDARD DEVIATIONS
@@ -725,7 +727,7 @@ function startSession() {
     $_SESSION["risk_choices"] = [];
 
 //    $_SESSION["max_points"] = ($_SESSION["max_points_per_seq"] + $_SESSION["max_points_risk"]) * $ntest_sequences * count($test_blocks) * $nphases + $_SESSION["max_points_risk_one"]; // in tenths of a cent
-    $_SESSION["max_points"] = $_SESSION["max_points_risk_one"] + $_SESSION["max_points_risk"] + $_SESSION["max_points_main"];
+    $_SESSION["max_points"] = $_SESSION["max_points_risk_one"] + $_SESSION["max_points_risk_one_fixed"] + $_SESSION["max_points_risk"] + $_SESSION["max_points_main"];
 
     $_SESSION["points"] = [];
     $_SESSION["checked"] = [];
@@ -898,6 +900,7 @@ function startSession() {
             
     $_SESSION["risk_points"] = 0;
     $_SESSION["risk_one_points"] = 0;
+    $_SESSION["risk_one_fixed_points"] = 0;
     $_SESSION["main_points"] = 0;
 }
 

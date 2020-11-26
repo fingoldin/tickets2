@@ -305,6 +305,13 @@ var risk_one_trial = {
     all_choices: []
 }
 
+var risk_one_fixed_trial = {
+    type: "risk2",
+    fixed_order: true,
+    one_trial: true,
+    all_choices: []
+}
+
 var risk_example_trial = {
     type: "risk",
     example: true,
@@ -324,6 +331,11 @@ var risk_one_example_trial = {
 
 var riskonechoose_trial = {
 	type: "riskonechoose"
+}
+
+var riskonefixedchoose_trial = {
+	type: "riskonechoose",
+  fixed_order: true
 }
 
 var riskchoose_trial = {
@@ -353,6 +365,12 @@ var risk_one_midexample_trial = {
 var risk3_instructions_trial = {
 	type: "html",
 	url: "<?= $site_prefix ?>/utils/risk3_instructions.html",
+	cont_btn: "continue"
+}
+
+var risk_fixed_instructions_trial = {
+	type: "html",
+	url: "<?= $site_prefix ?>/utils/risk_fixed_instructions.html",
 	cont_btn: "continue"
 }
 
@@ -569,7 +587,7 @@ function init_exp()
     }
 
     var assignment_id = "<?= $_SESSION['assignmentId'] ?>";
-    timeline.push(consent_trial);
+/*    timeline.push(consent_trial);
 	timeline.push(age_trial);
 
 	workerid_trial.on_finish = function(data) {
@@ -578,7 +596,7 @@ function init_exp()
   	timeline.push(workerid_trial);
     
     timeline.push(main_instructions_trial);
-
+*/
     var SET_trials = [];
     var SPT_trials = [];
     var SGT_trials = [];
@@ -750,8 +768,11 @@ function init_exp()
    */ SGT_trials.push(risk3_instructions_trial);
     SGT_trials.push(risk_one_example_trial);
     SGT_trials.push(risk_one_midexample_trial);
-    SGT_trials.push(risk_one_trial);
+//    SGT_trials.push(risk_one_trial);
     SGT_trials.push(riskonechoose_trial);
+    SGT_trials.push(risk_fixed_instructions_trial);
+    SGT_trials.push(risk_one_fixed_trial);
+    SGT_trials.push(riskonefixedchoose_trial);
 
     SPT_trials.push(risk_instructions_trial);
     SPT_trials.push(risk_example_trial);

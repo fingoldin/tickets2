@@ -14,8 +14,10 @@ jsPsych.plugins["risk2"] = (function()
 
         // Is this an example trial (doesn't count for money?)
         var example = trial.example || false;
+        var fixed_order = trial.fixed_order || false;
+        fixed_order = (fixed_order ? "true" : "false");
 
-        $.post(SITE_PREFIX + "/get_risk_one.php", { "example": example }, (res) => {
+        $.post(SITE_PREFIX + "/get_risk_one.php", { "example": example, "fixed_order": fixed_order }, (res) => {
           var all_choices = JSON.parse(res);
           console.log(all_choices);
           var trial_num = 0;
@@ -130,7 +132,7 @@ jsPsych.plugins["risk2"] = (function()
                   if(example) {
                       low_post();
                   } else {
-                      $.post(post_site, { "choice": "fixed", "index": trial_num, "seq_idx": all_choices[trial_num].seq_idx, "seq_choice_idx": all_choices[trial_num].seq_choice_idx }, low_post);
+                      $.post(post_site, { "choice": "fixed", "index": trial_num, "seq_idx": all_choices[trial_num].seq_idx, "seq_choice_idx": all_choices[trial_num].seq_choice_idx, "fixed_order": fixed_order }, low_post);
                   }
               };
 
@@ -190,7 +192,7 @@ jsPsych.plugins["risk2"] = (function()
                   if(example) {
                       canvas_click("40");
                   } else {
-                      $.post(post_site, { "choice": "wheel", "index": trial_num, "seq_idx": all_choices[trial_num].seq_idx, "seq_choice_idx": all_choices[trial_num].seq_choice_idx }, canvas_click);
+                      $.post(post_site, { "choice": "wheel", "index": trial_num, "seq_idx": all_choices[trial_num].seq_idx, "seq_choice_idx": all_choices[trial_num].seq_choice_idx, "fixed_order": fixed_order }, canvas_click);
                   }
               };
 
