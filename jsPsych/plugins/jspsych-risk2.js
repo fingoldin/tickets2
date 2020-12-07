@@ -305,7 +305,7 @@ jsPsych.plugins["risk2"] = (function()
                           c.lineWidth = 2;
                           c.strokeStyle = "white";
                       }
-                      if(first || start_sector_ang > 0.06) {
+//                      if(first || start_sector_ang > 0.06) {
                         if(first) first = false;
                         c.save();
 
@@ -319,7 +319,7 @@ jsPsych.plugins["risk2"] = (function()
                         c.stroke();
 
                         c.restore();
-                      }
+  //                    }
 
                       start_sector_ang += d_sector_ang;
                   }
@@ -327,9 +327,10 @@ jsPsych.plugins["risk2"] = (function()
                   start_sector_ang = -0.5 * Math.PI;
                   let last_label_ang = 0.0;
                   first = true;
+                  let zero_so_far = true;
                   for(var i = 0; i < spin_vals.length; i++) {
                       var d_sector_ang = spin_vals[i].fraction * 2.0 * Math.PI;
-                      if(spin_vals[i].show && spin_vals[i].value >= all_choices[trial_num].min_tick) {
+                      if(spin_vals[i].show && (zero_so_far || spin_vals[i].value >= all_choices[trial_num].min_tick)) {
                           var x = Math.cos(start_sector_ang + d_sector_ang) * (hw + 0.5 * rect_w) + hw + pad;
                           var y = Math.sin(start_sector_ang + d_sector_ang) * (hw + 0.5 * rect_w) + hw + pad;
 
@@ -337,14 +338,18 @@ jsPsych.plugins["risk2"] = (function()
 //                          roundedRect(x - 0.5 * rect_w, y - 0.5 * rect_h, rect_w, rect_h, rect_r);
 
                           let add = "";
-                          if(i === spin_vals.length - 1 && all_choices[trial_num].seq_choice_idx === 8) {
+                          let first_nonzero = (zero_so_far && spin_vals[i].fraction != 0.0);
+                          if(first_nonzero) {
+                            zero_so_far = false;
+                          }
+                          if(i === spin_vals.length - 1) {
                             //add = " $" + spin_vals[0].value;
-                            x -= 16;
-                          } else if(i === 0) {
-                            x += 18;
+                            x -= 20;
+                          } else if(i === 0 || spin_vals[i].value == all_choices[trial_num].min_tick) {
+                            x += 20;
                           }
 
-                          if(last_label_ang > 0.1 || spin_vals[i].value == all_choices[trial_num].min_tick) {
+                          if(first_nonzero || last_label_ang > 0.1 || spin_vals[i].value == all_choices[trial_num].min_tick) {
                             c.fillStyle = "black";
                             c.fillText("$" + spin_vals[i].value + add, x, y);
                             last_label_ang = 0.0;

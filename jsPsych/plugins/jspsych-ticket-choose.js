@@ -116,7 +116,7 @@ jsPsych.plugins["ticket-choose"] = (function()
                         below.html("");
 
                         console.log(r);
-                        points = Math.min(trial.max_points, Math.max(0, Math.round(trial.max_points * (trial.prices[price_num] - 120) / (200 - 120))));
+                        points = trial.prices[price_num] * 10; //Math.min(trial.max_points, Math.max(0, Math.round(trial.max_points * (trial.prices[price_num] - 120) / (200 - 120))));
                         above.html("You will win $" + (points / 1000).toFixed(3) + " if this trial is chosen.");
 
                         price.hide();

@@ -7,17 +7,18 @@ if(!session_id())
     session_start();
 
 if(isset($_SESSION["checked_assoc"]) && isset($_POST["example"])) {
-    $spinners = json_decode(file_get_contents("spinners4.json"));
+    $spinners = json_decode(file_get_contents("spinners5.json"));
     $fixed_outcomes = [];
     $fixed_fp = fopen("fixed_outcome.csv", "r");
     while(($row = fgetcsv($fixed_fp, 1000, ",")) !== FALSE) {
       array_push($fixed_outcomes, $row);
     }
     fclose($fixed_fp);
+    $min_ticks = [160, 160, 150, 120];
     if($_POST["example"] == "true") {
       echo json_encode([ 
-        [ "fixed" => 160, "seq_idx" => 0, "spinner" => $spinners[3], "seq_choice_idx" => 8, "min_tick" => 120 ],
-        [ "fixed" => 170, "seq_idx" => 1, "spinner" => $spinners[2], "seq_choice_idx" => 6, "min_tick" => 150 ],
+        [ "fixed" => 160, "seq_idx" => 0, "spinner" => $spinners[3], "seq_choice_idx" => 8, "min_tick" => $min_ticks[3] ],
+        [ "fixed" => 170, "seq_idx" => 1, "spinner" => $spinners[2], "seq_choice_idx" => 6, "min_tick" => $min_ticks[2] ],
 /*        [ "fixed" => 180, "seq_idx" => 2, "spinner" => $spinners[1], "seq_choice_idx" => 4, "min_tick" => 160 ],
         [ "fixed" => 170, "seq_idx" => 3, "spinner" => $spinners[0], "seq_choice_idx" => 2, "min_tick" => 170 ]*/
       ]);
@@ -35,10 +36,7 @@ if(isset($_SESSION["checked_assoc"]) && isset($_POST["example"])) {
             $data[$j] = [];
           }
           $i = $i_vals[$j];
-          $min_tick = -$j * 10 + 170;
-          if($j == count($i_vals) - 1) {
-            $min_tick = 120;
-          }
+          $min_tick = $min_ticks[$j];
           $fixed = $sequence[$i];
           if($_POST["fixed_order"] == "true") {
             $fixed = $fixed_outcomes[$j + 1][$seq_idx + 2];

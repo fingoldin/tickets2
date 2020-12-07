@@ -20,7 +20,8 @@ if(!isset($_SESSION["max_points_main"]) || !isset($_SESSION["points_additional"]
 
             $min = 120;
             $max = 200;
-            $p = $_SESSION["max_points_main"] * ($val - $min) / ($max - $min);
+            //$p = $_SESSION["max_points_main"] * ($val - $min) / ($max - $min);
+            $p = intval($val * 10);
             if($p > $_SESSION["max_points_main"]) {
                 $p = $_SESSION["max_points_main"];
             }

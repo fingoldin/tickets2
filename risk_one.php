@@ -32,7 +32,7 @@ if(!isset($_POST["seq_idx"]) || !isset($_POST["index"]) || !isset($_SESSION["max
     }
 
     if($_POST["choice"] == "wheel") {
-      $spinners = json_decode(file_get_contents("spinners4.json"));
+      $spinners = json_decode(file_get_contents("spinners5.json"));
       $weights = $spinners[intval(intval($_POST["seq_choice_idx"]) / 2) - 1];
       
       $idx = random_weighted(array_map("spinner_weight", $weights));

@@ -329,6 +329,14 @@ var risk_one_example_trial = {
     all_choices: []
 }
 
+var risk_one_fixed_example_trial = {
+    type: "risk2",
+    one_trial: true,
+    fixed_order: true,
+    example: true,
+    all_choices: []
+}
+
 var riskonechoose_trial = {
 	type: "riskonechoose"
 }
@@ -359,6 +367,12 @@ var risk_midexample_trial = {
 var risk_one_midexample_trial = {
 	type: "html",
 	url: "<?= $site_prefix ?>/utils/risk_one_midexample.html",
+	cont_btn: "continue"
+}
+
+var risk_one_fixed_midexample_trial = {
+	type: "html",
+	url: "<?= $site_prefix ?>/utils/risk_one_fixed_midexample.html",
 	cont_btn: "continue"
 }
 
@@ -600,6 +614,7 @@ function init_exp()
     var SET_trials = [];
     var SPT_trials = [];
     var SGT_trials = [];
+    var RGT_trials = [];
 
     SET_trials.push(instructions_trial);
     SET_trials.push(start_trial);
@@ -765,14 +780,17 @@ function init_exp()
 
     timeline.push(closuresurvey_trial);
     timeline.push(risksurvey_trial);
-   */ SGT_trials.push(risk3_instructions_trial);
+   */
+    SGT_trials.push(risk3_instructions_trial);
     SGT_trials.push(risk_one_example_trial);
     SGT_trials.push(risk_one_midexample_trial);
-//    SGT_trials.push(risk_one_trial);
+    SGT_trials.push(risk_one_trial);
     SGT_trials.push(riskonechoose_trial);
-    SGT_trials.push(risk_fixed_instructions_trial);
-    SGT_trials.push(risk_one_fixed_trial);
-    SGT_trials.push(riskonefixedchoose_trial);
+    RGT_trials.push(risk_fixed_instructions_trial);
+    RGT_trials.push(risk_one_fixed_example_trial);
+    RGT_trials.push(risk_one_fixed_midexample_trial);
+    RGT_trials.push(risk_one_fixed_trial);
+    RGT_trials.push(riskonefixedchoose_trial);
 
     SPT_trials.push(risk_instructions_trial);
     SPT_trials.push(risk_example_trial);
@@ -792,9 +810,9 @@ function init_exp()
 
 
   if(phase_order == 1) {
-    timeline.push(...SET_trials, ...SGT_trials);
+    timeline.push(...RGT_trials, ...SET_trials, ...SGT_trials);
   } else {
-    timeline.push(...SGT_trials, ...SET_trials);
+    timeline.push(...SGT_trials, ...SET_trials, ...RGT_trials);
   }
 
 	//timeline.push(special_sequence_trial);

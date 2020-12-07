@@ -694,9 +694,9 @@ function startSession() {
 
     // Maximum number of points (10th of a cent) that can be earned for all the risk_one trials
     $_SESSION["max_points_risk_one"] = $max * 10;
-    $_SESSION["max_points_risk_one_fixed"] = $max * 10;
+    $_SESSION["max_points_risk_one_fixed"] = $max * 5;
     $_SESSION["max_points_risk"] = 1500;
-    $_SESSION["max_points_main"] = 1500;
+    $_SESSION["max_points_main"] = $max * 10;
     
     /****               END PARAMETERS                 ****/
 
