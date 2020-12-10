@@ -809,11 +809,11 @@ function init_exp()
     SPT_trials.push(riskchoose_trial);
 
 
-//  if(phase_order == 1) {
+  if(phase_order == 1) {
     timeline.push(...RGT_trials, ...SET_trials, ...SGT_trials);
-//  } else {
-//    timeline.push(...SGT_trials, ...SET_trials, ...RGT_trials);
-//  }
+  } else {
+    timeline.push(...SGT_trials, ...SET_trials, ...RGT_trials);
+  }
 
 	//timeline.push(special_sequence_trial);
 
