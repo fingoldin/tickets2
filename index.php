@@ -10,7 +10,7 @@ store_url();
 
 //phpinfo();
 
-grant_bonuses();
+//grant_bonuses();
 
 $preview = true;
 
@@ -601,16 +601,16 @@ function init_exp()
     }
 
     var assignment_id = "<?= $_SESSION['assignmentId'] ?>";
+    workerid_trial.on_finish = function(data) {
+      $.post("<?= $site_prefix ?>/setworkerid.php", { id : data.worker_id });//, function(d) { console.log(d); });
+    };
 /*    timeline.push(consent_trial);
 	timeline.push(age_trial);
-
-	workerid_trial.on_finish = function(data) {
-		$.post("<?= $site_prefix ?>/setworkerid.php", { id : data.worker_id });//, function(d) { console.log(d); });
-	};
+*/
   	timeline.push(workerid_trial);
     
-    timeline.push(main_instructions_trial);
-*/
+//    timeline.push(main_instructions_trial);
+
     var SET_trials = [];
     var SPT_trials = [];
     var SGT_trials = [];
@@ -808,7 +808,8 @@ function init_exp()
       }
     SPT_trials.push(riskchoose_trial);
 
-
+  
+  console.log("Phase order: " + phase_order);
   if(phase_order == 1) {
     timeline.push(...RGT_trials, ...SET_trials, ...SGT_trials);
   } else {

@@ -1,6 +1,6 @@
 <?php
 
-require("../aws/aws-autoloader.php");
+require("../../../aws/aws-autoloader.php");
 
 function random_weighted_cmp($a, $b)
 {
@@ -69,8 +69,8 @@ function logging($mes)
 
 function bonus_log($mes, $opt)
 {
-    f_logging($mes . $opt . "\n\n", "../bonus_log_long.txt");
-    f_logging($mes, "../bonus_log.txt");
+    f_logging($mes . $opt . "\n\n", "../../../bonus_log_long.txt");
+    f_logging($mes, "../../../bonus_log.txt");
 }
 
 function store_url()
@@ -144,7 +144,7 @@ function get_bonus($p)
 }
 
 function get_mturk_credentials() {
-    $data = json_decode(file_get_contents("../mturk_credentials.json"), true);
+    $data = json_decode(file_get_contents("../../../mturk_credentials.json"), true);
     
     return new Aws\Credentials\Credentials($data["key"], $data["secret"]);
 }
@@ -259,15 +259,9 @@ function mysql_save_response($arr)
 {
 	$conn = dbConnect();
 
-	$result = dbQuery($conn, "INSERT INTO responses SET bonus_paid=FALSE, start_time=:start_time, end_time=:end_time, age=:age, gender=:gender, tries=:tries, during=:during, points_phase0=:points_phase0, points_phase1=:points_phase1, worker_id=:worker_id, assignment_id=:assignment_id, bonus=:bonus", [
+	$result = dbQuery($conn, "INSERT INTO responses SET bonus_paid=FALSE, start_time=:start_time, end_time=:end_time, worker_id=:worker_id, assignment_id=:assignment_id, bonus=:bonus", [
 			"start_time" => $arr["start_time"],
 			"end_time" => $arr["end_time"],
-                	"age" => $arr["age"],
-                	"gender" => $arr["gender"],
-                	"tries" => $arr["tries"],
-                	"during" => $arr["during"],
-			"points_phase0" => $arr["points_phase0"],
-			"points_phase1" => $arr["points_phase1"],
 			"worker_id" => $arr["worker_id"],
 			"assignment_id" => $arr["assignment_id"],
 			"bonus" => $arr["bonus"]

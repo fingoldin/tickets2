@@ -36,3 +36,11 @@ $site_prefix = $_SESSION["site_prefix"];
         </div>
     </div>
 </div>
+<div id="midpage" style="display:none;">
+  <h3 style="margin: 15px; text-align: center; font-weight: normal">
+    Now the spinner values will change.
+  </h3>
+  <div style="margin: 20px">
+    <button id="midpage-cont">Ok</button>
+  </div>
+</div>

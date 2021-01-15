@@ -15,9 +15,10 @@ jsPsych.plugins["risk2"] = (function()
         // Is this an example trial (doesn't count for money?)
         var example = trial.example || false;
         var fixed_order = trial.fixed_order || false;
-        fixed_order = (fixed_order ? "true" : "false");
+        console.log("Fixed order:");
+        console.log(fixed_order);
 
-        $.post(SITE_PREFIX + "/get_risk_one.php", { "example": example, "fixed_order": fixed_order }, (res) => {
+        $.post(SITE_PREFIX + "/get_risk_one.php", { "example": example, "fixed_order": (fixed_order ? "true" : "false") }, (res) => {
           var all_choices = JSON.parse(res);
           console.log(all_choices);
           var trial_num = 0;
@@ -84,6 +85,30 @@ jsPsych.plugins["risk2"] = (function()
 
               var chose_fixed = false;
 
+                function setup() {
+                  if(!example && fixed_order) {
+                    $("#midpage").css("display", "none");
+                    $("#risk-main").css("display", "block");
+                  }
+                  ang = 0;
+                  vel = 0;
+                  draw();
+                  var p = (100 * (trial_num + 1) / num_trials);
+                  low.innerHTML = "$" + all_choices[trial_num].fixed;
+                  //progress_bar.html((trial_num + 1) + "/" + num_trials);
+                  //progress_bar.css("width", Math.max(p, 5).toFixed(0) + "%");
+                  seq.style.opacity = "1";
+                  seq_num.innerHTML = trial_num + 1;
+  result_cont.css("display", "none");
+  valid_click = true;
+  low.disabled = false;
+  startTime = gt();
+                }
+
+              if(!example && fixed_order) {
+                $("#midpage-cont").click(setup);
+              }
+
               function result_click() {
                   if(!valid_done_click)
                       return;
@@ -96,19 +121,12 @@ jsPsych.plugins["risk2"] = (function()
                     console.log(choices);
                       jsPsych.finishTrial({ choices: choices, times: times });
                   } else {
-                      ang = 0;
-                      vel = 0;
-                      draw();
-                      var p = (100 * (trial_num + 1) / num_trials);
-                      low.innerHTML = "$" + all_choices[trial_num].fixed;
-                      //progress_bar.html((trial_num + 1) + "/" + num_trials);
-                      //progress_bar.css("width", Math.max(p, 5).toFixed(0) + "%");
-                      seq.style.opacity = "1";
-                      seq_num.innerHTML = trial_num + 1;
-		  result_cont.css("display", "none");
-		  valid_click = true;
-		  low.disabled = false;
-      startTime = gt();
+                      if(!example && fixed_order && trial_num % (num_trials / 4) == 0) {
+                        $("#midpage").css("display", "block");
+                        $("#risk-main").css("display", "none");
+                      } else {
+                        setup();
+                      }
                   }
               }
 
@@ -132,7 +150,7 @@ jsPsych.plugins["risk2"] = (function()
                   if(example) {
                       low_post();
                   } else {
-                      $.post(post_site, { "choice": "fixed", "index": trial_num, "seq_idx": all_choices[trial_num].seq_idx, "seq_choice_idx": all_choices[trial_num].seq_choice_idx, "fixed_order": fixed_order }, low_post);
+                      $.post(post_site, { "choice": "fixed", "index": trial_num, "seq_idx": all_choices[trial_num].seq_idx, "seq_choice_idx": all_choices[trial_num].seq_choice_idx, "fixed_order": (fixed_order ? "true" : "false") }, low_post);
                   }
               };
 
@@ -192,7 +210,7 @@ jsPsych.plugins["risk2"] = (function()
                   if(example) {
                       canvas_click("40");
                   } else {
-                      $.post(post_site, { "choice": "wheel", "index": trial_num, "seq_idx": all_choices[trial_num].seq_idx, "seq_choice_idx": all_choices[trial_num].seq_choice_idx, "fixed_order": fixed_order }, canvas_click);
+                      $.post(post_site, { "choice": "wheel", "index": trial_num, "seq_idx": all_choices[trial_num].seq_idx, "seq_choice_idx": all_choices[trial_num].seq_choice_idx, "fixed_order": (fixed_order ? "true" : "false") }, canvas_click);
                   }
               };
 
